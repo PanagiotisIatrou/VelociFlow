@@ -1,0 +1,259 @@
+#include "Node.hpp"
+#include "../../common.hpp"
+
+#include "../Faces/Boundary/BoundaryFace.hpp"
+#include "../Faces/Interior/InteriorFace.hpp"
+
+std::array<double, 6> Node::get_diffusion_effects(const VelocityComponent velocity_component) const {
+    double source = 0.0;
+    double a_P = 0.0;
+    double a_W = 0.0;
+    double a_E = 0.0;
+    double a_S = 0.0;
+    double a_N = 0.0;
+
+    // a_W
+    Face *face_w = get_neighbouring_face(Direction::West);
+    if (face_w->get_type() != FaceType::Boundary) {
+        const double extra_a_W = face_w->get_viscosity() * m_dy / m_dx;
+        a_W += extra_a_W;
+        a_P += extra_a_W;
+    } else {
+        double face_velocity_w;
+        BoundaryFace *boundary_face_w = static_cast<BoundaryFace *>(face_w);
+        if (velocity_component == VelocityComponent::U) {
+            face_velocity_w = boundary_face_w->get_velocity_u();
+        }
+        else {
+            face_velocity_w = boundary_face_w->get_velocity_v();
+        }
+        double extra_a_P = 2.0 * face_w->get_viscosity() * m_dy / m_dx;
+        a_P += extra_a_P;
+        source += face_velocity_w * extra_a_P;
+    }
+
+    // a_E
+    Face *face_e = get_neighbouring_face(Direction::East);
+    if (face_e->get_type() != FaceType::Boundary) {
+        const double extra_a_E = face_e->get_viscosity() * m_dy / m_dx;
+        a_E += extra_a_E;
+        a_P += extra_a_E;
+    } else {
+        double face_velocity_e;
+        BoundaryFace *boundary_face_e = static_cast<BoundaryFace *>(face_e);
+        if (velocity_component == VelocityComponent::U) {
+            face_velocity_e = boundary_face_e->get_velocity_u();
+        }
+        else {
+            face_velocity_e = boundary_face_e->get_velocity_v();
+        }
+        double extra_a_P = 2.0 * face_e->get_viscosity() * m_dy / m_dx;
+        a_P += extra_a_P;
+        source += face_velocity_e * extra_a_P;
+    }
+
+    // a_S
+    Face *face_s = get_neighbouring_face(Direction::South);
+    if (face_s->get_type() != FaceType::Boundary) {
+        const double extra_a_S = face_s->get_viscosity() * m_dx / m_dy;
+        a_S += extra_a_S;
+        a_P += extra_a_S;
+    } else {
+        double face_velocity_s;
+        BoundaryFace *boundary_face_s = static_cast<BoundaryFace *>(face_s);
+        if (velocity_component == VelocityComponent::U) {
+            face_velocity_s = boundary_face_s->get_velocity_u();
+        }
+        else {
+            face_velocity_s = boundary_face_s->get_velocity_v();
+        }
+        double extra_a_P = 2.0 * face_s->get_viscosity() * m_dx / m_dy;
+        a_P += extra_a_P;
+        source += face_velocity_s * extra_a_P;
+    }
+
+    // a_N
+    Face *face_n = get_neighbouring_face(Direction::North);
+    if (face_n->get_type() != FaceType::Boundary) {
+        const double extra_a_N = face_n->get_viscosity() * m_dx / m_dy;
+        a_N += extra_a_N;
+        a_P += extra_a_N;
+    } else {
+        double face_velocity_n;
+        BoundaryFace *boundary_face_n = static_cast<BoundaryFace *>(face_n);
+        if (velocity_component == VelocityComponent::U) {
+            face_velocity_n = boundary_face_n->get_velocity_u();
+        }
+        else {
+            face_velocity_n = boundary_face_n->get_velocity_v();
+        }
+        double extra_a_P = 2.0 * face_n->get_viscosity() * m_dx / m_dy;
+        a_P += extra_a_P;
+        source += face_velocity_n * extra_a_P;
+    }
+
+    return {a_P, source, a_W, a_E, a_S, a_N};
+}
+
+std::array<double, 6> Node::get_convection_effects(VelocityComponent velocity_component) const {
+    double source = 0.0;
+    double a_P = 0.0;
+    double a_W = 0.0;
+    double a_E = 0.0;
+    double a_S = 0.0;
+    double a_N = 0.0;
+
+    // a_W
+    Face *face_w = get_neighbouring_face(Direction::West);
+    if (face_w->get_type() != FaceType::Boundary) {
+        const double face_velocity_u_w = static_cast<InteriorFace *>(face_w)->get_velocity();
+        const double extra_a_W = m_density * m_dy * std::max(face_velocity_u_w, 0.0);
+        a_W += extra_a_W;
+        a_P += extra_a_W - m_density * m_dy * face_velocity_u_w;
+    } else {
+        double face_velocity_w;
+        BoundaryFace *boundary_face_w = static_cast<BoundaryFace *>(face_w);
+        if (velocity_component == VelocityComponent::U) {
+            face_velocity_w = boundary_face_w->get_velocity_u();
+        }
+        else {
+            face_velocity_w = boundary_face_w->get_velocity_v();
+        }
+        source += m_density * m_dy * boundary_face_w->get_velocity_u() * face_velocity_w;
+    }
+
+    // a_E
+    Face *face_e = get_neighbouring_face(Direction::East);
+    if (face_e->get_type() != FaceType::Boundary) {
+        const double face_velocity_u_e = static_cast<InteriorFace *>(face_e)->get_velocity();
+        const double extra_a_E = m_density * m_dy * std::max(-face_velocity_u_e, 0.0);
+        a_E += extra_a_E;
+        a_P += extra_a_E + m_density * m_dy * face_velocity_u_e;
+    } else {
+        double face_velocity_e;
+        BoundaryFace *boundary_face_e = static_cast<BoundaryFace *>(face_e);
+        if (velocity_component == VelocityComponent::U) {
+            face_velocity_e = boundary_face_e->get_velocity_u();
+        }
+        else {
+            face_velocity_e = boundary_face_e->get_velocity_v();
+        }
+        source += -m_density * m_dy * boundary_face_e->get_velocity_u() * face_velocity_e;
+    }
+
+    // a_S
+    Face *face_s = get_neighbouring_face(Direction::South);
+    if (face_s->get_type() != FaceType::Boundary) {
+        const double face_velocity_v_s = static_cast<InteriorFace *>(face_s)->get_velocity();
+        const double extra_a_S = m_density * m_dx * std::max(face_velocity_v_s, 0.0);
+        a_S += extra_a_S;
+        a_P += extra_a_S - m_density * m_dx * face_velocity_v_s;
+    } else {
+        double face_velocity_s;
+        BoundaryFace *boundary_face_s = static_cast<BoundaryFace *>(face_s);
+        if (velocity_component == VelocityComponent::U) {
+            face_velocity_s = boundary_face_s->get_velocity_u();
+        }
+        else {
+            face_velocity_s = boundary_face_s->get_velocity_v();
+        }
+        source += m_density * m_dx * boundary_face_s->get_velocity_v() * face_velocity_s;
+    }
+
+    // a_N
+    Face *face_n = get_neighbouring_face(Direction::North);
+    if (face_n->get_type() != FaceType::Boundary) {
+        const double face_velocity_v_n = static_cast<InteriorFace *>(face_n)->get_velocity();
+        const double extra_a_N = m_density * m_dx * std::max(-face_velocity_v_n, 0.0);
+        a_N += extra_a_N;
+        a_P += extra_a_N + m_density * m_dx * face_velocity_v_n;
+    } else {
+        double face_velocity_n;
+        BoundaryFace *boundary_face_n = static_cast<BoundaryFace *>(face_n);
+        if (velocity_component == VelocityComponent::U) {
+            face_velocity_n = boundary_face_n->get_velocity_u();
+        }
+        else {
+            face_velocity_n = boundary_face_n->get_velocity_v();
+        }
+        source += -m_density * m_dx * boundary_face_n->get_velocity_v() * face_velocity_n;
+    }
+
+    return {a_P, source, a_W, a_E, a_S, a_N};
+}
+
+std::array<double, 6> Node::get_pressure_effects(const VelocityComponent velocity_component) const {
+    double source = 0.0;
+    double a_P = 0.0;
+    double a_W = 0.0;
+    double a_E = 0.0;
+    double a_S = 0.0;
+    double a_N = 0.0;
+
+    if (velocity_component == VelocityComponent::U) {
+        Face *face_w = get_neighbouring_face(Direction::West);
+        Face *face_e = get_neighbouring_face(Direction::East);
+
+        source += m_dy * (face_w->get_pressure() - face_e->get_pressure());
+    }
+    else {
+        Face *face_s = get_neighbouring_face(Direction::South);
+        Face *face_n = get_neighbouring_face(Direction::North);
+
+        source += m_dx * (face_s->get_pressure() - face_n->get_pressure());
+    }
+
+    return {a_P, source, a_W, a_E, a_S, a_N};
+}
+
+void Node::calculate_momentum_coefficients(const VelocityComponent velocity_component) {
+    // Diffusion
+    const std::array<double, 6> diffusion_coefficients = get_diffusion_effects(velocity_component);
+
+    // Convection
+    const std::array<double, 6> convection_coefficients = get_convection_effects(velocity_component);
+
+    // Pressure
+    const std::array<double, 6> pressure_coefficients = get_pressure_effects(velocity_component);
+
+    // Sum the coefficients
+    double a_P = diffusion_coefficients[0] + convection_coefficients[0] + pressure_coefficients[0];
+    double source = diffusion_coefficients[1] + convection_coefficients[1] + pressure_coefficients[1];
+    const double a_W = diffusion_coefficients[2] + convection_coefficients[2] + pressure_coefficients[2];
+    const double a_E = diffusion_coefficients[3] + convection_coefficients[3] + pressure_coefficients[3];
+    const double a_S = diffusion_coefficients[4] + convection_coefficients[4] + pressure_coefficients[4];
+    const double a_N = diffusion_coefficients[5] + convection_coefficients[5] + pressure_coefficients[5];
+
+    if (velocity_component == VelocityComponent::U) {
+        // Under-relaxation
+        a_P /= velocity_u_relaxation;
+        source += (1 -  velocity_u_relaxation) * a_P * get_velocity_u();
+
+        m_momentum_u_coefficients = {a_P, source, a_W, a_E, a_S, a_N};
+    }
+    else {
+        // Under-relaxation
+        a_P /= velocity_v_relaxation;
+        source += (1 -  velocity_v_relaxation) * a_P * get_velocity_v();
+
+        m_momentum_v_coefficients = {a_P, source, a_W, a_E, a_S, a_N};
+    }
+}
+
+double Node::get_momentum_coefficient(const CoefficientType type, const VelocityComponent velocity_component) const {
+    if (velocity_component == VelocityComponent::U) {
+        return m_momentum_u_coefficients[static_cast<int>(type)];
+    }
+    else {
+        return m_momentum_v_coefficients[static_cast<int>(type)];
+    }
+}
+
+std::array<double, 6> Node::get_momentum_coefficients(const VelocityComponent velocity_component) const {
+    if (velocity_component == VelocityComponent::U) {
+        return m_momentum_u_coefficients;
+    }
+    else {
+        return m_momentum_v_coefficients;
+    }
+}

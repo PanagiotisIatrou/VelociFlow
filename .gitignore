@@ -1,0 +1,6 @@
+.idea
+Visualization/venv
+cmake-build-debug
+cmake-build-release
+Results/Steady/*
+Results/Unsteady/*

@@ -1,0 +1,56 @@
+cmake_minimum_required(VERSION 3.28)
+project(Simulation)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# Directory root for the simulation
+set(SIMULATION_PATH src)
+
+# Directory root for the tests
+set(TESTS_PATH tests)
+
+add_executable(Simulation
+        ${SIMULATION_PATH}/main.cpp
+        ${SIMULATION_PATH}/MeshExamples.hpp
+
+        ${SIMULATION_PATH}/Simulation/SteadySimulation.cpp
+        ${SIMULATION_PATH}/Simulation/SteadySimulation.hpp
+        ${SIMULATION_PATH}/Simulation/common.hpp
+
+        ${SIMULATION_PATH}/Simulation/Utilities/Timer.cpp
+        ${SIMULATION_PATH}/Simulation/Utilities/Timer.h
+
+        ${SIMULATION_PATH}/Simulation/Meshing/Mesh.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Mesh.hpp
+
+        ${SIMULATION_PATH}/Simulation/Meshing/Nodes/Node.hpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Nodes/Node.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Nodes/MomentumCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Nodes/PressureCoefficients.cpp
+
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Face.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Face.hpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/BoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/BoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFace.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFace.hpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFaceX.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFaceY.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FixedVelocityBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FixedVelocityBoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FixedPressureBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FixedPressureBoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FreeBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FreeBoundaryFace.hpp
+
+        ${TESTS_PATH}/tests.hpp
+        ${TESTS_PATH}/helper.hpp
+        src/Simulation/Utilities/Saver.cpp
+        src/Simulation/Utilities/Saver.h
+        src/Simulation/BulkNodeOperations.cpp
+        src/Simulation/BulkNodeOperations.h
+        src/Simulation/BulkFaceOperations.cpp
+        src/Simulation/BulkFaceOperations.h
+)
