@@ -1,0 +1,8 @@
+{
+  "filename": "output.txt",
+  "blur": false,
+  "showQuiver": false,
+  "showStreamlines": true,
+  "streamlineDensityFactor": 1.3,
+  "streamlineColor": "black"
+}

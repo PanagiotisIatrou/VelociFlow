@@ -1,42 +1,20 @@
 import math
 import os
-
+import json
 import numpy as np
 import matplotlib.pyplot as plt
 
-# lid-driven-cavity-re200.txt
-# lid-driven-cavity-re500.txt
-# lid-driven-cavity-re5000.txt
+# Load settings
+settings_file = os.path.join(os.path.dirname(__file__), "settings.json")
+with open(settings_file, "r") as f:
+    data = json.load(f)
 
-# double-lid-driven-cavity-re200.txt
-
-# pipe-re20.txt
-# pipe-re200.txt
-
-# pipe-obstacles-re10.txt
-# pipe-obstacles-re50.txt
-# pipe-obstacles-re50.txt
-
-# box-re10.txt
-# box-re20.txt
-# box-re200.txt
-
-# container-re200.txt
-# container-left-re200.txt
-
-# circle-free-5-15.txt
-
-# circle-box-5-5.txt
-# circle-box-5-15.txt
-# circle-box-5-30.txt
-
-# Settings
-filename = "out-1731339974.txt"
-blur = False
-show_quiver = False
-show_streamlines = True
-streamline_density_factor = 1.3
-streamline_color = "black"
+    filename = data["filename"]
+    blur = data["blur"]
+    show_quiver = data["showQuiver"]
+    show_streamlines = data["showStreamlines"]
+    streamline_density_factor = data["streamlineDensityFactor"]
+    streamline_color = data["streamlineColor"]
 
 def import_data(file):
     with open(file, 'r') as f:
