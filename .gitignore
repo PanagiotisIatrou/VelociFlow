@@ -1,5 +1,6 @@
 .idea
 Visualization/venv
+Visualization/settings.json
 cmake-build-debug
 cmake-build-release
 Results/Steady/*
