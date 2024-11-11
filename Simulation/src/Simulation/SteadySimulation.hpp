@@ -46,8 +46,4 @@ public:
     void solve();
 
     void save_results(const std::string &path) const;
-
-    void calculate_momentum_coefficients(VelocityComponent velocity_component) const;
-
-    void calculate_pressure_coefficients() const;
 };

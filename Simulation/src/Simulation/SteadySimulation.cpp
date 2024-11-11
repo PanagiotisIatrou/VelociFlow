@@ -64,8 +64,8 @@ void SteadySimulation::solve() {
 
 void SteadySimulation::iterate() {
     // Calculate the momentum coefficients
-    calculate_momentum_coefficients(VelocityComponent::U);
-    calculate_momentum_coefficients(VelocityComponent::V);
+    m_bulk_node_operations->calculate_momentum_coefficients(VelocityComponent::U);
+    m_bulk_node_operations->calculate_momentum_coefficients(VelocityComponent::V);
 
     // Solve X and Y momentum equations
     solve_x_momentum();
@@ -79,7 +79,7 @@ void SteadySimulation::iterate() {
     // m_mass_imbalance = 0.0;
 
     // Calculate the pressure correction coefficients
-    calculate_pressure_coefficients();
+    m_bulk_node_operations->calculate_pressure_coefficients();
 
     // Calculate the mass imbalance
     calculate_mass_imbalance();
@@ -533,34 +533,4 @@ void SteadySimulation::solve_pressure_correction() const {
 
 void SteadySimulation::save_results(const std::string &path) const {
     Saver::save_mesh_data(path, m_time_taken, m_mesh);
-}
-
-void SteadySimulation::calculate_momentum_coefficients(const VelocityComponent velocity_component) const {
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            // Nothing to calculate for an empty node
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            node_P->calculate_momentum_coefficients(velocity_component);
-        }
-    }
-}
-
-void SteadySimulation::calculate_pressure_coefficients() const {
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            // Nothing to calculate for an empty node
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            node_P->calculate_pressure_coefficients();
-        }
-    }
 }

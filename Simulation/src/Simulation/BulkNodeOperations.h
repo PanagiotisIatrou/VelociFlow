@@ -7,9 +7,19 @@ private:
 public:
     BulkNodeOperations(Mesh *mesh);
 
-    void correct_node_pressure() const;
+    // Velocity
 
     void correct_node_velocity_u() const;
 
     void correct_node_velocity_v() const;
+
+    // Pressure
+
+    void correct_node_pressure() const;
+
+    // Coefficients
+
+    void calculate_momentum_coefficients(VelocityComponent velocity_component) const;
+
+    void calculate_pressure_coefficients() const;
 };
