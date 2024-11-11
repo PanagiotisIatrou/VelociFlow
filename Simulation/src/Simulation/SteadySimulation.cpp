@@ -235,38 +235,6 @@ void SteadySimulation::iterate() {
 }
 
 void SteadySimulation::solve_x_momentum() {
-    // Calculate the residual scaling factor
-    double velocity_u_mean = 0.0;
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            velocity_u_mean += node_P->get_velocity_u();
-        }
-    }
-    velocity_u_mean /= m_active_cells_count;
-    double representative_difference = 0.0;
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            representative_difference += std::abs(node_P->get_velocity_u() - velocity_u_mean);
-        }
-    }
-    representative_difference /= m_active_cells_count;
-
-    if (m_outer_iterations_count == 0) {
-        representative_difference = 1.0;
-    }
-
     double tol = 0.0;
     double momentum_x_error = 1.0;
     int iterations_count = 0;
@@ -317,17 +285,25 @@ void SteadySimulation::solve_x_momentum() {
                     velocity_u_P += a_N * node_N->get_velocity_u();
                 }
 
-                // if (iterations_count == 0)
-                double residual = (velocity_u_P - a_P * node_P->get_velocity_u()) / (a_P * representative_difference);
+                double residual = velocity_u_P - a_P * node_P->get_velocity_u();
                 momentum_x_error += std::pow(residual, 2);
                 velocity_u_P /= a_P;
 
-                // if (iterations_count > 0)
-                    // velocity_u_error += std::pow(velocity_u_P - node_P->get_velocity_u(), 2);
                 node_P->set_velocity_u(velocity_u_P);
             }
         }
         momentum_x_error = std::sqrt(momentum_x_error / m_active_cells_count);
+
+        // Update the residual normalization factor
+        if (iterations_count == 0 && m_outer_iterations_count < residual_normalization_iterations) {
+            m_momentum_x_residual_normalization_factor = std::max(m_momentum_x_residual_normalization_factor, momentum_x_error);
+        }
+
+        // Apply the normalization to the residual
+        if (m_momentum_x_residual_normalization_factor != 0.0) {
+            momentum_x_error /= m_momentum_x_residual_normalization_factor;
+        }
+
         if (iterations_count == 0) {
             m_momentum_x_error = momentum_x_error;
             tol = m_momentum_x_error / 1e1; // 1 orders of magnitude
@@ -337,38 +313,6 @@ void SteadySimulation::solve_x_momentum() {
 }
 
 void SteadySimulation::solve_y_momentum() {
-    // Calculate the residual scaling factor
-    double velocity_v_mean = 0.0;
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            velocity_v_mean += node_P->get_velocity_v();
-        }
-    }
-    velocity_v_mean /= m_active_cells_count;
-    double representative_difference = 0.0;
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            representative_difference += std::abs(node_P->get_velocity_v() - velocity_v_mean);
-        }
-    }
-    representative_difference /= m_active_cells_count;
-
-    if (m_outer_iterations_count == 0) {
-        representative_difference = 1.0;
-    }
-
     double tol = 0.0;
     double momentum_y_error = 1.0;
     int iterations_count = 0;
@@ -419,17 +363,25 @@ void SteadySimulation::solve_y_momentum() {
                     velocity_v_P += a_N * node_N->get_velocity_v();
                 }
 
-                // if (iterations_count == 0)
-                double residual = (velocity_v_P - a_P * node_P->get_velocity_v()) / (a_P * representative_difference);
+                double residual = velocity_v_P - a_P * node_P->get_velocity_v();
                 momentum_y_error += std::pow(residual, 2);
                 velocity_v_P /= a_P;
 
-                // if (iterations_count > 0)
-                    // velocity_v_error += std::pow(velocity_v_P - node_P->get_velocity_v(), 2);
                 node_P->set_velocity_v(velocity_v_P);
             }
         }
         momentum_y_error = std::sqrt(momentum_y_error / m_active_cells_count);
+
+        // Update the residual normalization factor
+        if (iterations_count == 0 && m_outer_iterations_count < residual_normalization_iterations) {
+            m_momentum_y_residual_normalization_factor = std::max(m_momentum_y_residual_normalization_factor, momentum_y_error);
+        }
+
+        // Apply the normalization to the residual
+        if (m_momentum_y_residual_normalization_factor != 0.0) {
+            momentum_y_error /= m_momentum_y_residual_normalization_factor;
+        }
+
         if (iterations_count == 0) {
             m_momentum_y_error = momentum_y_error;
             tol = m_momentum_y_error / 1e1; // 1 orders of magnitude
@@ -455,6 +407,16 @@ void SteadySimulation::calculate_mass_imbalance() {
         }
     }
     m_mass_imbalance = std::sqrt(m_mass_imbalance / m_active_cells_count);
+
+    // Update the residual normalization factor
+    if (m_outer_iterations_count < residual_normalization_iterations) {
+        m_mass_imbalance_residual_normalization_factor = std::max(m_mass_imbalance_residual_normalization_factor, m_mass_imbalance);
+    }
+
+    // Apply the normalization to the residual
+    if (m_mass_imbalance_residual_normalization_factor != 0.0) {
+        m_mass_imbalance /= m_mass_imbalance_residual_normalization_factor;
+    }
 }
 
 void SteadySimulation::solve_pressure_correction() const {

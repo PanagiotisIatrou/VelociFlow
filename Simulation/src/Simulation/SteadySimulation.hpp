@@ -23,8 +23,15 @@ private:
     int m_active_cells_count = 0;
     int m_outer_iterations_count = 0;
 
+    // Timer
     std::unique_ptr<Timer> m_timer;
     double m_time_taken = 0.0;
+
+    // Residual normalization
+    const int residual_normalization_iterations = 5;
+    double m_momentum_x_residual_normalization_factor = 0.0;
+    double m_momentum_y_residual_normalization_factor = 0.0;
+    double m_mass_imbalance_residual_normalization_factor = 0.0;
 
     void calculate_active_cells_count();
 
