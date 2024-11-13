@@ -437,7 +437,7 @@ void SteadySimulation::solve_pressure_correction() const {
     }
 
     // Solve pressure correction equation
-    const double tol = 1e-3; // 2 orders of magnitude
+    const double tol = 1e-3; // 3 orders of magnitude
     double pressure_correction_error = 1.0;
     while (pressure_correction_error > tol) {
         pressure_correction_error = 0.0;

@@ -61,6 +61,10 @@ void Node::calculate_pressure_coefficients() {
         const double extra_a_W = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_W) * m_dy * m_dy;
         a_W += extra_a_W;
         a_P += extra_a_W;
+    } else if (static_cast<BoundaryFace *>(face_w)->get_boundary_type() == BoundaryType::FixedPressure) {
+        const double extra = 0.5 * m_dy * m_dy / momentum_u_a_P;
+        a_E -= extra;
+        a_P += extra;
     }
 
     // a_E
@@ -69,6 +73,10 @@ void Node::calculate_pressure_coefficients() {
         const double extra_a_E = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_E) * m_dy * m_dy;
         a_E += extra_a_E;
         a_P += extra_a_E;
+    } else if (static_cast<BoundaryFace *>(face_e)->get_boundary_type() == BoundaryType::FixedPressure) {
+        const double extra = 0.5 * m_dy * m_dy / momentum_u_a_P;
+        a_W -= extra;
+        a_P += extra;
     }
 
     // a_S
@@ -77,6 +85,10 @@ void Node::calculate_pressure_coefficients() {
         const double extra_a_S = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_S) * m_dx * m_dx;
         a_S += extra_a_S;
         a_P += extra_a_S;
+    } else if (static_cast<BoundaryFace *>(face_w)->get_boundary_type() == BoundaryType::FixedPressure) {
+        const double extra = 0.5 * m_dx * m_dx / momentum_v_a_P;
+        a_N -= extra;
+        a_P += extra;
     }
 
     // a_N
@@ -85,6 +97,10 @@ void Node::calculate_pressure_coefficients() {
         const double extra_a_N = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_N) * m_dx * m_dx;
         a_N += extra_a_N;
         a_P += extra_a_N;
+    } else if (static_cast<BoundaryFace *>(face_w)->get_boundary_type() == BoundaryType::FixedPressure) {
+        const double extra = 0.5 * m_dx * m_dx / momentum_v_a_P;
+        a_S -= extra;
+        a_P += extra;
     }
 
     m_pressure_coefficients = {a_P, source, a_W, a_E, a_S, a_N};
