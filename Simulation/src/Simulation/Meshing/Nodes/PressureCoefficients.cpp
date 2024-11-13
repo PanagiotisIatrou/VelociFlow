@@ -19,7 +19,7 @@ void Node::calculate_pressure_coefficients() {
 
     // Velocity w
     double velocity_w;
-    if (face_w->get_type() == FaceType::Boundary) {
+    if (face_w->get_face_type() == FaceType::Boundary) {
         velocity_w = static_cast<BoundaryFace *>(face_w)->get_velocity_u();
     } else {
         velocity_w = static_cast<InteriorFace *>(face_w)->get_velocity();
@@ -27,7 +27,7 @@ void Node::calculate_pressure_coefficients() {
 
     // Velocity e
     double velocity_e;
-    if (face_e->get_type() == FaceType::Boundary) {
+    if (face_e->get_face_type() == FaceType::Boundary) {
         velocity_e = static_cast<BoundaryFace *>(face_e)->get_velocity_u();
     } else {
         velocity_e = static_cast<InteriorFace *>(face_e)->get_velocity();
@@ -35,7 +35,7 @@ void Node::calculate_pressure_coefficients() {
 
     // Velocity s
     double velocity_s;
-    if (face_s->get_type() == FaceType::Boundary) {
+    if (face_s->get_face_type() == FaceType::Boundary) {
         velocity_s = static_cast<BoundaryFace *>(face_s)->get_velocity_v();
     } else {
         velocity_s = static_cast<InteriorFace *>(face_s)->get_velocity();
@@ -43,7 +43,7 @@ void Node::calculate_pressure_coefficients() {
 
     // Velocity n
     double velocity_n;
-    if (face_n->get_type() == FaceType::Boundary) {
+    if (face_n->get_face_type() == FaceType::Boundary) {
         velocity_n = static_cast<BoundaryFace *>(face_n)->get_velocity_v();
     } else {
         velocity_n = static_cast<InteriorFace *>(face_n)->get_velocity();
@@ -56,7 +56,7 @@ void Node::calculate_pressure_coefficients() {
     const double momentum_v_a_P = get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
 
     // a_W
-    if (face_w->get_type() != FaceType::Boundary) {
+    if (face_w->get_face_type() != FaceType::Boundary) {
         const double momentum_u_a_W = get_neighbouring_node(Direction::West)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
         const double extra_a_W = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_W) * m_dy * m_dy;
         a_W += extra_a_W;
@@ -64,7 +64,7 @@ void Node::calculate_pressure_coefficients() {
     }
 
     // a_E
-    if (face_e->get_type() != FaceType::Boundary) {
+    if (face_e->get_face_type() != FaceType::Boundary) {
         const double momentum_u_a_E = get_neighbouring_node(Direction::East)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
         const double extra_a_E = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_E) * m_dy * m_dy;
         a_E += extra_a_E;
@@ -72,7 +72,7 @@ void Node::calculate_pressure_coefficients() {
     }
 
     // a_S
-    if (face_s->get_type() != FaceType::Boundary) {
+    if (face_s->get_face_type() != FaceType::Boundary) {
         const double momentum_v_a_S = get_neighbouring_node(Direction::South)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
         const double extra_a_S = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_S) * m_dx * m_dx;
         a_S += extra_a_S;
@@ -80,7 +80,7 @@ void Node::calculate_pressure_coefficients() {
     }
 
     // a_N
-    if (face_n->get_type() != FaceType::Boundary) {
+    if (face_n->get_face_type() != FaceType::Boundary) {
         const double momentum_v_a_N = get_neighbouring_node(Direction::North)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
         const double extra_a_N = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_N) * m_dx * m_dx;
         a_N += extra_a_N;

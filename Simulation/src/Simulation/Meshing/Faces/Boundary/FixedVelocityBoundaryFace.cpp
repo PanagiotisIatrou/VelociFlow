@@ -2,7 +2,7 @@
 
 #include "../../Nodes/Node.hpp"
 
-FixedVelocityBoundaryFace::FixedVelocityBoundaryFace(const double viscosity, const double velocity_u, const double velocity_v) : BoundaryFace(viscosity) {
+FixedVelocityBoundaryFace::FixedVelocityBoundaryFace(const double viscosity, const double velocity_u, const double velocity_v) : BoundaryFace(BoundaryType::FixedVelocity, viscosity) {
     m_velocity_u = velocity_u;
     m_velocity_v = velocity_v;
 }

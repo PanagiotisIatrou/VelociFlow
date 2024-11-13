@@ -14,7 +14,7 @@ std::array<double, 6> Node::get_diffusion_effects(const VelocityComponent veloci
 
     // a_W
     Face *face_w = get_neighbouring_face(Direction::West);
-    if (face_w->get_type() != FaceType::Boundary) {
+    if (face_w->get_face_type() != FaceType::Boundary) {
         const double extra_a_W = face_w->get_viscosity() * m_dy / m_dx;
         a_W += extra_a_W;
         a_P += extra_a_W;
@@ -34,7 +34,7 @@ std::array<double, 6> Node::get_diffusion_effects(const VelocityComponent veloci
 
     // a_E
     Face *face_e = get_neighbouring_face(Direction::East);
-    if (face_e->get_type() != FaceType::Boundary) {
+    if (face_e->get_face_type() != FaceType::Boundary) {
         const double extra_a_E = face_e->get_viscosity() * m_dy / m_dx;
         a_E += extra_a_E;
         a_P += extra_a_E;
@@ -54,7 +54,7 @@ std::array<double, 6> Node::get_diffusion_effects(const VelocityComponent veloci
 
     // a_S
     Face *face_s = get_neighbouring_face(Direction::South);
-    if (face_s->get_type() != FaceType::Boundary) {
+    if (face_s->get_face_type() != FaceType::Boundary) {
         const double extra_a_S = face_s->get_viscosity() * m_dx / m_dy;
         a_S += extra_a_S;
         a_P += extra_a_S;
@@ -74,7 +74,7 @@ std::array<double, 6> Node::get_diffusion_effects(const VelocityComponent veloci
 
     // a_N
     Face *face_n = get_neighbouring_face(Direction::North);
-    if (face_n->get_type() != FaceType::Boundary) {
+    if (face_n->get_face_type() != FaceType::Boundary) {
         const double extra_a_N = face_n->get_viscosity() * m_dx / m_dy;
         a_N += extra_a_N;
         a_P += extra_a_N;
@@ -105,7 +105,7 @@ std::array<double, 6> Node::get_convection_effects(VelocityComponent velocity_co
 
     // a_W
     Face *face_w = get_neighbouring_face(Direction::West);
-    if (face_w->get_type() != FaceType::Boundary) {
+    if (face_w->get_face_type() != FaceType::Boundary) {
         const double face_velocity_u_w = static_cast<InteriorFace *>(face_w)->get_velocity();
         const double extra_a_W = m_density * m_dy * std::max(face_velocity_u_w, 0.0);
         a_W += extra_a_W;
@@ -124,7 +124,7 @@ std::array<double, 6> Node::get_convection_effects(VelocityComponent velocity_co
 
     // a_E
     Face *face_e = get_neighbouring_face(Direction::East);
-    if (face_e->get_type() != FaceType::Boundary) {
+    if (face_e->get_face_type() != FaceType::Boundary) {
         const double face_velocity_u_e = static_cast<InteriorFace *>(face_e)->get_velocity();
         const double extra_a_E = m_density * m_dy * std::max(-face_velocity_u_e, 0.0);
         a_E += extra_a_E;
@@ -143,7 +143,7 @@ std::array<double, 6> Node::get_convection_effects(VelocityComponent velocity_co
 
     // a_S
     Face *face_s = get_neighbouring_face(Direction::South);
-    if (face_s->get_type() != FaceType::Boundary) {
+    if (face_s->get_face_type() != FaceType::Boundary) {
         const double face_velocity_v_s = static_cast<InteriorFace *>(face_s)->get_velocity();
         const double extra_a_S = m_density * m_dx * std::max(face_velocity_v_s, 0.0);
         a_S += extra_a_S;
@@ -162,7 +162,7 @@ std::array<double, 6> Node::get_convection_effects(VelocityComponent velocity_co
 
     // a_N
     Face *face_n = get_neighbouring_face(Direction::North);
-    if (face_n->get_type() != FaceType::Boundary) {
+    if (face_n->get_face_type() != FaceType::Boundary) {
         const double face_velocity_v_n = static_cast<InteriorFace *>(face_n)->get_velocity();
         const double extra_a_N = m_density * m_dx * std::max(-face_velocity_v_n, 0.0);
         a_N += extra_a_N;

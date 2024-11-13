@@ -172,7 +172,7 @@ void Mesh::link_nodes_faces(const double viscosity) {
                 face_w = get_face_x(i, j);
             }
             node->set_neighbouring_face(face_w, Direction::West);
-            if (face_w->get_type() == FaceType::Boundary) {
+            if (face_w->get_face_type() == FaceType::Boundary) {
                 static_cast<BoundaryFace *>(face_w)->set_node_neighbour(node);
             } else {
                 static_cast<InteriorFaceX *>(face_w)->set_node_neighbour(node, FaceXSide::East);
@@ -189,7 +189,7 @@ void Mesh::link_nodes_faces(const double viscosity) {
                 face_e = get_face_x(i + 1, j);
             }
             node->set_neighbouring_face(face_e, Direction::East);
-            if (face_e->get_type() == FaceType::Boundary) {
+            if (face_e->get_face_type() == FaceType::Boundary) {
                 static_cast<BoundaryFace *>(face_e)->set_node_neighbour(node);
             } else {
                 static_cast<InteriorFaceX *>(face_e)->set_node_neighbour(node, FaceXSide::West);
@@ -206,7 +206,7 @@ void Mesh::link_nodes_faces(const double viscosity) {
                 face_s = get_face_y(i, j);
             }
             node->set_neighbouring_face(face_s, Direction::South);
-            if (face_s->get_type() == FaceType::Boundary) {
+            if (face_s->get_face_type() == FaceType::Boundary) {
                 static_cast<BoundaryFace *>(face_s)->set_node_neighbour(node);
             } else {
                 static_cast<InteriorFaceY *>(face_s)->set_node_neighbour(node, FaceYSide::North);
@@ -223,7 +223,7 @@ void Mesh::link_nodes_faces(const double viscosity) {
                 face_n = get_face_y(i, j + 1);
             }
             node->set_neighbouring_face(face_n, Direction::North);
-            if (face_n->get_type() == FaceType::Boundary) {
+            if (face_n->get_face_type() == FaceType::Boundary) {
                 static_cast<BoundaryFace *>(face_n)->set_node_neighbour(node);
             } else {
                 static_cast<InteriorFaceY *>(face_n)->set_node_neighbour(node, FaceYSide::South);

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 
+#include "common.hpp"
 #include "Meshing/Faces/Boundary/BoundaryFace.hpp"
 #include "Meshing/Faces/Interior/InteriorFace.hpp"
 #include "Utilities/Saver.h"
@@ -158,7 +159,7 @@ void SteadySimulation::iterate() {
     m_bulk_face_operations->correct_face_x_velocity();
     m_bulk_face_operations->correct_face_y_velocity();
 
-    // bool found = false;
+    // int cell_mass_imbalance_increase_count = 0;
     // double w2 = 0.0;
     // for (int i = 0; i < m_mesh->get_size_x(); i++) {
     //     for (int j = 0; j < m_mesh->get_size_y(); j++) {
@@ -214,13 +215,13 @@ void SteadySimulation::iterate() {
     //
     //         w2 += imbalance;
     //
-    //         if (imbalance > imb[i][j] && !found) {
-    //             found = true;
-    //             std::cerr << "1. Imbalance increased from " << imb[i][j] << " to " << imbalance << std::endl;
+    //         if (imbalance > imb[i][j]) {
+    //             cell_mass_imbalance_increase_count++;
     //         }
     //     }
     // }
     // w2 = std::sqrt(w2);
+    // std::cout << 100.0 * (static_cast<double>(cell_mass_imbalance_increase_count) / m_active_cells_count) << "%" << std::endl;
     //
     // if (w2 > w1) {
     //     std::cerr << "2. Imbalance increased from " << w1 << " to " << w2 << std::endl;
@@ -262,25 +263,25 @@ void SteadySimulation::solve_x_momentum() {
                 double velocity_u_P = source;
 
                 Face *face_w = node_P->get_neighbouring_face(Direction::West);
-                if (face_w->get_type() != FaceType::Boundary) {
+                if (face_w->get_face_type() != FaceType::Boundary) {
                     Node *node_W = m_mesh->get_node(i - 1, j);
                     velocity_u_P += a_W * node_W->get_velocity_u();
                 }
 
                 Face *face_e = node_P->get_neighbouring_face(Direction::East);
-                if (face_e->get_type() != FaceType::Boundary) {
+                if (face_e->get_face_type() != FaceType::Boundary) {
                     Node *node_E = m_mesh->get_node(i + 1, j);
                     velocity_u_P += a_E * node_E->get_velocity_u();
                 }
 
                 Face *face_s = node_P->get_neighbouring_face(Direction::South);
-                if (face_s->get_type() != FaceType::Boundary) {
+                if (face_s->get_face_type() != FaceType::Boundary) {
                     Node *node_S = m_mesh->get_node(i, j - 1);
                     velocity_u_P += a_S * node_S->get_velocity_u();
                 }
 
                 Face *face_n = node_P->get_neighbouring_face(Direction::North);
-                if (face_n->get_type() != FaceType::Boundary) {
+                if (face_n->get_face_type() != FaceType::Boundary) {
                     Node *node_N = m_mesh->get_node(i, j + 1);
                     velocity_u_P += a_N * node_N->get_velocity_u();
                 }
@@ -306,8 +307,9 @@ void SteadySimulation::solve_x_momentum() {
 
         if (iterations_count == 0) {
             m_momentum_x_error = momentum_x_error;
-            tol = m_momentum_x_error / 1e1; // 1 orders of magnitude
+            tol = m_momentum_x_error / 1e2; // 2 orders of magnitude
         }
+        // std::cout << "Mom x " << momentum_x_error << " vs tol " << tol << std::endl << "Tsekare ontws an ephreazei to mass imbalance ana cell" << std::endl;
         iterations_count++;
     }
 }
@@ -340,25 +342,25 @@ void SteadySimulation::solve_y_momentum() {
                 double velocity_v_P = source;
 
                 Face *face_w = node_P->get_neighbouring_face(Direction::West);
-                if (face_w->get_type() != FaceType::Boundary) {
+                if (face_w->get_face_type() != FaceType::Boundary) {
                     Node *node_W = m_mesh->get_node(i - 1, j);
                     velocity_v_P += a_W * node_W->get_velocity_v();
                 }
 
                 Face *face_e = node_P->get_neighbouring_face(Direction::East);
-                if (face_e->get_type() != FaceType::Boundary) {
+                if (face_e->get_face_type() != FaceType::Boundary) {
                     Node *node_E = m_mesh->get_node(i + 1, j);
                     velocity_v_P += a_E * node_E->get_velocity_v();
                 }
 
                 Face *face_s = node_P->get_neighbouring_face(Direction::South);
-                if (face_s->get_type() != FaceType::Boundary) {
+                if (face_s->get_face_type() != FaceType::Boundary) {
                     Node *node_S = m_mesh->get_node(i, j - 1);
                     velocity_v_P += a_S * node_S->get_velocity_v();
                 }
 
                 Face *face_n = node_P->get_neighbouring_face(Direction::North);
-                if (face_n->get_type() != FaceType::Boundary) {
+                if (face_n->get_face_type() != FaceType::Boundary) {
                     Node *node_N = m_mesh->get_node(i, j + 1);
                     velocity_v_P += a_N * node_N->get_velocity_v();
                 }
@@ -384,7 +386,7 @@ void SteadySimulation::solve_y_momentum() {
 
         if (iterations_count == 0) {
             m_momentum_y_error = momentum_y_error;
-            tol = m_momentum_y_error / 1e1; // 1 orders of magnitude
+            tol = m_momentum_y_error / 1e2; // 2 orders of magnitude
         }
         iterations_count++;
     }
@@ -435,7 +437,7 @@ void SteadySimulation::solve_pressure_correction() const {
     }
 
     // Solve pressure correction equation
-    const double tol = 1e-2; // 2 orders of magnitude
+    const double tol = 1e-3; // 2 orders of magnitude
     double pressure_correction_error = 1.0;
     while (pressure_correction_error > tol) {
         pressure_correction_error = 0.0;
@@ -461,25 +463,25 @@ void SteadySimulation::solve_pressure_correction() const {
                 double pressure_correction_P = source;
 
                 const Face *face_w = node_P->get_neighbouring_face(Direction::West);
-                if (face_w->get_type() != FaceType::Boundary) {
+                if (face_w->get_face_type() != FaceType::Boundary) {
                     pressure_correction_P += a_W * node_P->get_neighbouring_node(Direction::West)->
                             get_pressure_correction();
                 }
 
                 const Face *face_e = node_P->get_neighbouring_face(Direction::East);
-                if (face_e->get_type() != FaceType::Boundary) {
+                if (face_e->get_face_type() != FaceType::Boundary) {
                     pressure_correction_P += a_E * node_P->get_neighbouring_node(Direction::East)->
                             get_pressure_correction();
                 }
 
                 const Face *face_s = node_P->get_neighbouring_face(Direction::South);
-                if (face_s->get_type() != FaceType::Boundary) {
+                if (face_s->get_face_type() != FaceType::Boundary) {
                     pressure_correction_P += a_S * node_P->get_neighbouring_node(Direction::South)->
                             get_pressure_correction();
                 }
 
                 const Face *face_n = node_P->get_neighbouring_face(Direction::North);
-                if (face_n->get_type() != FaceType::Boundary) {
+                if (face_n->get_face_type() != FaceType::Boundary) {
                     pressure_correction_P += a_N * node_P->get_neighbouring_node(Direction::North)->
                             get_pressure_correction();
                 }

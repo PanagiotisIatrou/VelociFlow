@@ -1,15 +1,19 @@
 #pragma once
 
 #include "../Face.hpp"
+#include "../../Nodes/Node.hpp"
 
-class Node;
+enum class BoundaryType { FixedVelocity, FixedPressure, Free };
 
 class BoundaryFace : public Face {
 protected:
+    BoundaryType m_boundary_type;
     Node *m_node_neighbour = nullptr;
 
 public:
-    BoundaryFace(double viscosity);
+    BoundaryFace(BoundaryType boundary_type, double viscosity);
+
+    BoundaryType get_boundary_type() const;
 
     void set_node_neighbour(Node *node);
 

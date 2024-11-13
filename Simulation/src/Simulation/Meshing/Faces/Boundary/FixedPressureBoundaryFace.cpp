@@ -2,7 +2,7 @@
 
 #include "../../Nodes/Node.hpp"
 
-FixedPressureBoundaryFace::FixedPressureBoundaryFace(double viscosity, double pressure) : BoundaryFace(viscosity) {
+FixedPressureBoundaryFace::FixedPressureBoundaryFace(double viscosity, double pressure) : BoundaryFace(BoundaryType::FixedPressure, viscosity) {
     m_pressure = pressure;
 }
 

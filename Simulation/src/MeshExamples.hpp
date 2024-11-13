@@ -128,10 +128,10 @@ inline Mesh *create_double_lid_driven_cavity_mesh(const double velocity, const d
 
 inline Mesh *create_pipe_mesh(double velocity, double viscosity) {
     // Domain
-    const int N = 500;
+    const int N = 200;
     const int M = 50;
-    const double domain_size_x = 0.5;
-    const double domain_size_y = 0.05;
+    const double domain_size_x = 4.0;
+    const double domain_size_y = 1.0;
     const double density = 1.0;
 
     Mesh *mesh = new Mesh(N, M, domain_size_x, domain_size_y, density);

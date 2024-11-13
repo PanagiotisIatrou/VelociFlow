@@ -23,7 +23,7 @@ inline void test_node_face_connections() {
 
             // West node
             Face *face_w = node_P->get_neighbouring_face(Direction::West);
-            if (face_w->get_type() == FaceType::Boundary) {
+            if (face_w->get_face_type() == FaceType::Boundary) {
                 node = static_cast<BoundaryFace *>(face_w)->get_node_neighbour();
                 boundary_faces_x_count++;
             } else {
@@ -33,7 +33,7 @@ inline void test_node_face_connections() {
 
             // East node
             Face *face_e = node_P->get_neighbouring_face(Direction::East);
-            if (face_e->get_type() == FaceType::Boundary) {
+            if (face_e->get_face_type() == FaceType::Boundary) {
                 node = static_cast<BoundaryFace *>(face_e)->get_node_neighbour();
                 boundary_faces_x_count++;
             } else {
@@ -43,7 +43,7 @@ inline void test_node_face_connections() {
 
             // South node
             Face *face_s = node_P->get_neighbouring_face(Direction::South);
-            if (face_s->get_type() == FaceType::Boundary) {
+            if (face_s->get_face_type() == FaceType::Boundary) {
                 node = static_cast<BoundaryFace *>(face_s)->get_node_neighbour();
                 boundary_faces_y_count++;
             } else {
@@ -53,7 +53,7 @@ inline void test_node_face_connections() {
 
             // South node
             Face *face_n = node_P->get_neighbouring_face(Direction::North);
-            if (face_n->get_type() == FaceType::Boundary) {
+            if (face_n->get_face_type() == FaceType::Boundary) {
                 node = static_cast<BoundaryFace *>(face_n)->get_node_neighbour();
                 boundary_faces_y_count++;
             } else {

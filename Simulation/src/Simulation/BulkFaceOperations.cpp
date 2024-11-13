@@ -14,7 +14,7 @@ void BulkFaceOperations::correct_face_x_velocity() const {
             Face *face = m_mesh->get_face_x(i, j);
 
             // Nothing to calculate for a boundary face
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -29,7 +29,7 @@ void BulkFaceOperations::correct_face_y_velocity() const {
             Face *face = m_mesh->get_face_y(i, j);
 
             // Nothing to calculate for a boundary face
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -44,7 +44,7 @@ void BulkFaceOperations::update_face_x_velocities_distance_weighted() const {
             Face *face = m_mesh->get_face_x(i, j);
 
             // Nothing to calculate for boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -59,7 +59,7 @@ void BulkFaceOperations::update_face_y_velocities_distance_weighted() const {
             Face *face = m_mesh->get_face_y(i, j);
 
             // Nothing to calculate for boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -74,7 +74,7 @@ void BulkFaceOperations::update_face_x_velocities_rhie_chow() const {
             Face *face = m_mesh->get_face_x(i, j);
 
             // Nothing to calculate for boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -89,7 +89,7 @@ void BulkFaceOperations::update_face_y_velocities_rhie_chow() const {
             Face *face = m_mesh->get_face_y(i, j);
 
             // Nothing to calculate for boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -106,7 +106,7 @@ void BulkFaceOperations::update_face_x_viscosities() const {
             Face *face = m_mesh->get_face_x(i, j);
 
             // Nothing to calculate on boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -121,7 +121,7 @@ void BulkFaceOperations::update_face_y_viscosities() const {
             Face *face = m_mesh->get_face_y(i, j);
 
             // Nothing to calculate on boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -138,7 +138,7 @@ void BulkFaceOperations::update_face_x_pressures() const {
             Face *face = m_mesh->get_face_x(i, j);
 
             // Nothing to calculate on boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -153,7 +153,7 @@ void BulkFaceOperations::update_face_y_pressures() const {
             Face *face = m_mesh->get_face_y(i, j);
 
             // Nothing to calculate on boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -170,7 +170,7 @@ void BulkFaceOperations::update_face_x_pressure_corrections() const {
             Face *face = m_mesh->get_face_x(i, j);
 
             // Nothing to calculate on boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 
@@ -185,7 +185,7 @@ void BulkFaceOperations::update_face_y_pressure_corrections() const {
             Face *face = m_mesh->get_face_y(i, j);
 
             // Nothing to calculate on boundary faces
-            if (face == nullptr || face->get_type() == FaceType::Boundary) {
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
                 continue;
             }
 

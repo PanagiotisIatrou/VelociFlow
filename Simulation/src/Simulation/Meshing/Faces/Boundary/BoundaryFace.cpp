@@ -1,7 +1,12 @@
 #include "BoundaryFace.hpp"
 
-BoundaryFace::BoundaryFace(const double viscosity) : Face(FaceType::Boundary) {
+BoundaryFace::BoundaryFace(const BoundaryType boundary_type, const double viscosity) : Face(FaceType::Boundary) {
+    m_boundary_type = boundary_type;
     m_viscosity = viscosity;
+}
+
+BoundaryType BoundaryFace::get_boundary_type() const {
+    return m_boundary_type;
 }
 
 void BoundaryFace::set_node_neighbour(Node *node) {
