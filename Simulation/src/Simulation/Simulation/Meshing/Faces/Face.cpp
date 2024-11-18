@@ -7,7 +7,3 @@ Face::Face(const FaceType type) {
 FaceType Face::get_face_type() const {
     return m_face_type;
 }
-
-double Face::get_viscosity() const {
-    return m_viscosity;
-}

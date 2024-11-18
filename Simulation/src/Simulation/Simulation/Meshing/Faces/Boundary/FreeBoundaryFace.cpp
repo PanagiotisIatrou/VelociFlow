@@ -2,7 +2,7 @@
 
 #include "../../Nodes/Node.hpp"
 
-FreeBoundaryFace::FreeBoundaryFace(const double viscosity) : BoundaryFace(BoundaryType::Free, viscosity) {
+FreeBoundaryFace::FreeBoundaryFace() : BoundaryFace(BoundaryType::Free) {
 }
 
 double FreeBoundaryFace::get_velocity_u() const {

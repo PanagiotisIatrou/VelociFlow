@@ -24,7 +24,7 @@ inline Mesh *create_test_mesh() {
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(1.0);
+    mesh->link_nodes_faces();
 
     return mesh;
 }

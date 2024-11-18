@@ -7,7 +7,7 @@ private:
     double m_pressure;
 
 public:
-    FixedPressureBoundaryFace(double viscosity, double pressure);
+    FixedPressureBoundaryFace(double pressure);
 
     double get_velocity_u() const override;
 

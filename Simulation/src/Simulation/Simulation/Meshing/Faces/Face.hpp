@@ -5,7 +5,6 @@ enum class FaceType { Interior, Boundary };
 class Face {
 protected:
     FaceType m_face_type;
-    double m_viscosity = 0.0;
 public:
     Face(FaceType type);
 
@@ -13,7 +12,7 @@ public:
 
     FaceType get_face_type() const;
 
-    double get_viscosity() const;
+    virtual double get_viscosity() const = 0;
 
     virtual double get_pressure() const = 0;
 

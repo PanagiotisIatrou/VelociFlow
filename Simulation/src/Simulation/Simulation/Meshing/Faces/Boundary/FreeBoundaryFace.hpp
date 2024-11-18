@@ -4,7 +4,7 @@
 
 class FreeBoundaryFace : public BoundaryFace {
 public:
-    FreeBoundaryFace(double viscosity);
+    FreeBoundaryFace();
 
     double get_velocity_u() const override;
 

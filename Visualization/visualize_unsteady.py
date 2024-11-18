@@ -142,7 +142,7 @@ for k in range(timesteps):
 
     fig.canvas.draw_idle()
     fig.suptitle(f'Time: {k * dt:.5f}')
-    plt.pause(0.01)
+    plt.pause(0.1)
 
 # Plot
 plt.ioff()

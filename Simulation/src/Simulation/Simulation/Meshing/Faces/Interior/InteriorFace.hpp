@@ -12,6 +12,7 @@ protected:
     double m_velocity = 0.0;
     double m_pressure = 0.0;
     double m_pressure_correction = 0.0;
+    double m_viscosity = 0.0;
     double m_dx; // TODO: Remove this in the future
     double m_dy; // TODO: Remove this in the future
     double m_dt = 1.0;
@@ -30,6 +31,8 @@ public:
     virtual void update_velocity_rhie_chow() = 0;
 
     void update_viscosity();
+
+    double get_viscosity() const override;
 
     double get_pressure() const override;
 

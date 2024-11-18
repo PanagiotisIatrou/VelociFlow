@@ -11,7 +11,7 @@ protected:
     Node *m_node_neighbour = nullptr;
 
 public:
-    BoundaryFace(BoundaryType boundary_type, double viscosity);
+    BoundaryFace(BoundaryType boundary_type);
 
     BoundaryType get_boundary_type() const;
 
@@ -26,4 +26,6 @@ public:
     double get_pressure_correction() const override = 0;
 
     double get_pressure() const override = 0;
+
+    double get_viscosity() const override;
 };

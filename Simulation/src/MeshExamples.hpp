@@ -30,10 +30,10 @@ inline Mesh *create_adv_diff_mesh(const double velocity, const double viscosity)
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M + 1; j++) {
             if (j == 0) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, -velocity, -velocity, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, -velocity, -velocity);
             }
             if (j == M) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, velocity, -velocity, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, velocity, -velocity);
             }
         }
     }
@@ -42,15 +42,15 @@ inline Mesh *create_adv_diff_mesh(const double velocity, const double viscosity)
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(viscosity);
+    mesh->link_nodes_faces();
 
     return mesh;
 }
 
 inline Mesh *create_lid_driven_cavity_mesh(const double velocity, const double viscosity) {
     // Domain
-    const int N = 50;
-    const int M = 50;
+    const int N = 100;
+    const int M = 100;
     const double domain_size_x = 1.0;
     const double domain_size_y = 1.0;
     const double density = 1.0;
@@ -73,7 +73,7 @@ inline Mesh *create_lid_driven_cavity_mesh(const double velocity, const double v
         for (int j = 0; j < M + 1; j++) {
             if (j == M) {
                 // double vel = std::sin((static_cast<double>(i) / N) * M_PI) * velocity;
-                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, velocity, 0.0, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, velocity, 0.0);
             }
         }
     }
@@ -82,7 +82,7 @@ inline Mesh *create_lid_driven_cavity_mesh(const double velocity, const double v
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(viscosity);
+    mesh->link_nodes_faces();
 
     return mesh;
 }
@@ -112,7 +112,7 @@ inline Mesh *create_double_lid_driven_cavity_mesh(const double velocity, const d
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M + 1; j++) {
             if (j == M) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, velocity, 0.0, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, velocity, 0.0);
             }
         }
     }
@@ -121,7 +121,7 @@ inline Mesh *create_double_lid_driven_cavity_mesh(const double velocity, const d
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(viscosity);
+    mesh->link_nodes_faces();
 
     return mesh;
 }
@@ -151,9 +151,9 @@ inline Mesh *create_pipe_mesh(double velocity, double viscosity) {
     for (int i = 0; i < N + 1; i++) {
         for (int j = 0; j < M; j++) {
             if (i == 0) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity, 0.0, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity, 0.0);
             } else if (i == N) {
-                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0, viscosity);
+                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
             }
         }
     }
@@ -162,15 +162,15 @@ inline Mesh *create_pipe_mesh(double velocity, double viscosity) {
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(viscosity);
+    mesh->link_nodes_faces();
 
     return mesh;
 }
 
 inline Mesh *create_pipe_obstacles_mesh(double velocity, double viscosity) {
     // Domain
-    const int N = 200;
-    const int M = 50;
+    const int N = 160;
+    const int M = 40;
     const double domain_size_x = 4.0;
     const double domain_size_y = 1.0;
     const double density = 1.0;
@@ -199,9 +199,9 @@ inline Mesh *create_pipe_obstacles_mesh(double velocity, double viscosity) {
     for (int i = 0; i < N + 1; i++) {
         for (int j = 0; j < M; j++) {
             if (i == 0) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity, 0.0, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity, 0.0);
             } else if (i == N) {
-                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0, viscosity);
+                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
             }
         }
     }
@@ -210,7 +210,7 @@ inline Mesh *create_pipe_obstacles_mesh(double velocity, double viscosity) {
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(viscosity);
+    mesh->link_nodes_faces();
 
     return mesh;
 }
@@ -245,9 +245,9 @@ inline Mesh *create_box_mesh(const double velocity, const double viscosity) {
     for (int i = 0; i < N + 1; i++) {
         for (int j = 0; j < M; j++) {
             if (i == 0 && j >= M / 2) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity, 0.0, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity, 0.0);
             } else if (i == N) {
-                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0, viscosity);
+                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
             }
         }
     }
@@ -256,7 +256,7 @@ inline Mesh *create_box_mesh(const double velocity, const double viscosity) {
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(viscosity);
+    mesh->link_nodes_faces();
 
     return mesh;
 }
@@ -286,7 +286,7 @@ inline Mesh *create_container_mesh(const double velocity, const double viscosity
     for (int i = 0; i < N + 1; i++) {
         for (int j = 0; j < M; j++) {
             if (i == 0 && j > M / 2 - 5 && j < M / 2 + 5) {
-                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0, viscosity);
+                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
             }
         }
     }
@@ -295,7 +295,7 @@ inline Mesh *create_container_mesh(const double velocity, const double viscosity
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M + 1; j++) {
             if (i > N / 2 - 5 && i < N / 2 + 5 && j == N) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, 0.0, -velocity, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, 0.0, -velocity);
             }
         }
     }
@@ -304,7 +304,7 @@ inline Mesh *create_container_mesh(const double velocity, const double viscosity
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(viscosity);
+    mesh->link_nodes_faces();
 
     return mesh;
 }
@@ -344,10 +344,10 @@ inline Mesh *create_circle_box_mesh(const double velocity_inlet, const double vi
     for (int i = 0; i < N + 1; i++) {
         for (int j = 0; j < M; j++) {
             if (i == 0) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity_inlet, 0.0, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity_inlet, 0.0);
             }
             else if (i == N) {
-                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0, viscosity);
+                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
             }
         }
     }
@@ -356,7 +356,7 @@ inline Mesh *create_circle_box_mesh(const double velocity_inlet, const double vi
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(viscosity);
+    mesh->link_nodes_faces();
 
     return mesh;
 }
@@ -388,7 +388,7 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
                 if (distance > radius) {
                     const double velocity_x = local_y * (1 / radius) * velocity_circle;
                     const double velocity_y = -local_x * (1 / radius) * velocity_circle;
-                    mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity_x, velocity_y, viscosity);
+                    mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity_x, velocity_y);
                 }
 
                 // East face
@@ -398,7 +398,7 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
                 if (distance > radius) {
                     const double velocity_x = local_y * (1 / radius) * velocity_circle;
                     const double velocity_y = -local_x * (1 / radius) * velocity_circle;
-                    mesh->set_boundary_fixed_velocity_face(FaceSide::X, i + 1, j, velocity_x, velocity_y, viscosity);
+                    mesh->set_boundary_fixed_velocity_face(FaceSide::X, i + 1, j, velocity_x, velocity_y);
                 }
 
                 // South face
@@ -408,7 +408,7 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
                 if (distance > radius) {
                     const double velocity_x = local_y * (1 / radius) * velocity_circle;
                     const double velocity_y = -local_x * (1 / radius) * velocity_circle;
-                    mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, velocity_x, velocity_y, viscosity);
+                    mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, velocity_x, velocity_y);
                 }
 
                 // North face
@@ -418,7 +418,7 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
                 if (distance > radius) {
                     const double velocity_x = local_y * (1 / radius) * velocity_circle;
                     const double velocity_y = -local_x * (1 / radius) * velocity_circle;
-                    mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 1, velocity_x, velocity_y, viscosity);
+                    mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 1, velocity_x, velocity_y);
                 }
 
                 continue;
@@ -436,10 +436,10 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
     for (int i = 0; i < N + 1; i++) {
         for (int j = 0; j < M; j++) {
             if (i == 0) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity_inlet, 0.0, viscosity);
+                mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity_inlet, 0.0);
             }
             else if (i == N) {
-                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0, viscosity);
+                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
             }
         }
     }
@@ -448,7 +448,7 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
     mesh->link_nodes();
 
     // Link the faces to their neighbouring nodes (and the opposite)
-    mesh->link_nodes_faces(viscosity);
+    mesh->link_nodes_faces();
 
     return mesh;
 }

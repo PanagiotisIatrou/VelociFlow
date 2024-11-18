@@ -96,9 +96,8 @@ void Mesh::set_interior_face(const FaceSide side, const int i, const int j) {
 }
 
 void Mesh::set_boundary_fixed_velocity_face(const FaceSide side, const int i, const int j,
-                                            const double velocity_u, const double velocity_v,
-                                            const double viscosity) {
-    std::unique_ptr<FixedVelocityBoundaryFace> face = std::make_unique<FixedVelocityBoundaryFace>(viscosity, velocity_u, velocity_v);
+                                            const double velocity_u, const double velocity_v) {
+    std::unique_ptr<FixedVelocityBoundaryFace> face = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v);
     if (side == FaceSide::X) {
         m_faces_x[i][j] = std::move(face);
     } else {
@@ -106,9 +105,8 @@ void Mesh::set_boundary_fixed_velocity_face(const FaceSide side, const int i, co
     }
 }
 
-void Mesh::set_boundary_fixed_pressure_face(const FaceSide side, const int i, const int j, const double pressure,
-                                            const double viscosity) {
-    std::unique_ptr<FixedPressureBoundaryFace> face = std::make_unique<FixedPressureBoundaryFace>(viscosity, pressure);
+void Mesh::set_boundary_fixed_pressure_face(const FaceSide side, const int i, const int j, const double pressure) {
+    std::unique_ptr<FixedPressureBoundaryFace> face = std::make_unique<FixedPressureBoundaryFace>(pressure);
     if (side == FaceSide::X) {
         m_faces_x[i][j] = std::move(face);
     } else {
@@ -116,8 +114,8 @@ void Mesh::set_boundary_fixed_pressure_face(const FaceSide side, const int i, co
     }
 }
 
-void Mesh::set_boundary_free_face(const FaceSide side, const int i, const int j, const double viscosity) {
-    std::unique_ptr<FreeBoundaryFace> face = std::make_unique<FreeBoundaryFace>(viscosity);
+void Mesh::set_boundary_free_face(const FaceSide side, const int i, const int j) {
+    std::unique_ptr<FreeBoundaryFace> face = std::make_unique<FreeBoundaryFace>();
     if (side == FaceSide::X) {
         m_faces_x[i][j] = std::move(face);
     } else {
@@ -160,7 +158,7 @@ void Mesh::link_nodes() const {
     }
 }
 
-void Mesh::link_nodes_faces(const double viscosity) {
+void Mesh::link_nodes_faces() {
     for (int i = 0; i < get_size_x(); i++) {
         for (int j = 0; j < get_size_y(); j++) {
             Node *node = get_node(i, j);
@@ -173,7 +171,7 @@ void Mesh::link_nodes_faces(const double viscosity) {
             Face *face_w = get_face_x(i, j);
             if (face_w == nullptr) {
                 if (node->get_neighbouring_node(Direction::West) == nullptr) {
-                    set_boundary_fixed_velocity_face(FaceSide::X, i, j, 0.0, 0.0, viscosity);
+                    set_boundary_fixed_velocity_face(FaceSide::X, i, j, 0.0, 0.0);
                 } else {
                     set_interior_face(FaceSide::X, i, j);
                 }
@@ -190,7 +188,7 @@ void Mesh::link_nodes_faces(const double viscosity) {
             Face *face_e = get_face_x(i + 1, j);
             if (face_e == nullptr) {
                 if (node->get_neighbouring_node(Direction::East) == nullptr) {
-                    set_boundary_fixed_velocity_face(FaceSide::X, i + 1, j, 0.0, 0.0, viscosity);
+                    set_boundary_fixed_velocity_face(FaceSide::X, i + 1, j, 0.0, 0.0);
                 } else {
                     set_interior_face(FaceSide::X, i + 1, j);
                 }
@@ -207,7 +205,7 @@ void Mesh::link_nodes_faces(const double viscosity) {
             Face *face_s = get_face_y(i, j);
             if (face_s == nullptr) {
                 if (node->get_neighbouring_node(Direction::South) == nullptr) {
-                    set_boundary_fixed_velocity_face(FaceSide::Y, i, j, 0.0, 0.0, viscosity);
+                    set_boundary_fixed_velocity_face(FaceSide::Y, i, j, 0.0, 0.0);
                 } else {
                     set_interior_face(FaceSide::Y, i, j);
                 }
@@ -224,7 +222,7 @@ void Mesh::link_nodes_faces(const double viscosity) {
             Face *face_n = get_face_y(i, j + 1);
             if (face_n == nullptr) {
                 if (node->get_neighbouring_node(Direction::North) == nullptr) {
-                    set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 1, 0.0, 0.0, viscosity);
+                    set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 1, 0.0, 0.0);
                 } else {
                     set_interior_face(FaceSide::Y, i, j + 1);
                 }

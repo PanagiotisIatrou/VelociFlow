@@ -54,15 +54,15 @@ public:
 
     void set_interior_face(FaceSide side, int i, int j);
 
-    void set_boundary_fixed_velocity_face(FaceSide side, int i, int j, double velocity_u, double velocity_v, double viscosity);
+    void set_boundary_fixed_velocity_face(FaceSide side, int i, int j, double velocity_u, double velocity_v);
 
-    void set_boundary_fixed_pressure_face(FaceSide side, int i, int j, double pressure, double viscosity);
+    void set_boundary_fixed_pressure_face(FaceSide side, int i, int j, double pressure);
 
-    void set_boundary_free_face(FaceSide side, int i, int j, double viscosity);
+    void set_boundary_free_face(FaceSide side, int i, int j);
 
     // Linking
 
     void link_nodes() const;
 
-    void link_nodes_faces(double viscosity);
+    void link_nodes_faces();
 };

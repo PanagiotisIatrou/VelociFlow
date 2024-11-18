@@ -21,6 +21,10 @@ void InteriorFace::update_viscosity() {
     m_viscosity = 0.5 * (m_node_neighbours[0]->get_viscosity() + m_node_neighbours[1]->get_viscosity());
 }
 
+double InteriorFace::get_viscosity() const {
+    return m_viscosity;
+}
+
 double InteriorFace::get_pressure() const {
     return m_pressure;
 }
