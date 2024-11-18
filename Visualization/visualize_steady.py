@@ -100,7 +100,7 @@ ax.set_aspect('equal')
 cmap = plt.get_cmap('jet')
 cmap.set_bad(color='black')
 c1 = ax.pcolormesh(x, y, np.array(velocity).T, cmap=cmap, shading="gouraud" if blur else "auto")
-c1.set_clim(vmin=np.nanmin(velocity), vmax=np.nanmax(velocity))
+c1.set_clim(vmin=0.0, vmax=np.nanmax(velocity))
 plt.colorbar(c1, ax=ax, label="Magnitude")
 ax.set_title("Velocity")
 

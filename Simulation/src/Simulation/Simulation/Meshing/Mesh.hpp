@@ -16,6 +16,7 @@ private:
     double m_density;
     double m_dx;
     double m_dy;
+    double m_dt;
     std::vector<std::vector<std::unique_ptr<Node>>> m_nodes;
     std::vector<std::vector<std::unique_ptr<Face>>> m_faces_x;
     std::vector<std::vector<std::unique_ptr<Face>>> m_faces_y;
@@ -30,6 +31,10 @@ public:
     double get_dx() const;
 
     double get_dy() const;
+
+    void set_dt(double dt);
+
+    double get_dt() const;
 
     double get_density() const;
 

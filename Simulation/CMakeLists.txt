@@ -13,44 +13,49 @@ add_executable(Simulation
         ${SIMULATION_PATH}/main.cpp
         ${SIMULATION_PATH}/MeshExamples.hpp
 
+        ${SIMULATION_PATH}/Simulation/common.hpp
         ${SIMULATION_PATH}/Simulation/SteadySimulation.cpp
         ${SIMULATION_PATH}/Simulation/SteadySimulation.hpp
-        ${SIMULATION_PATH}/Simulation/common.hpp
+        ${SIMULATION_PATH}/Simulation/UnsteadySimulation.cpp
+        ${SIMULATION_PATH}/Simulation/UnsteadySimulation.hpp
 
-        ${SIMULATION_PATH}/Simulation/Utilities/Timer.cpp
-        ${SIMULATION_PATH}/Simulation/Utilities/Timer.h
+        ${SIMULATION_PATH}/Simulation/Simulation/Simulation.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Simulation.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/BulkNodeOperations.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/BulkNodeOperations.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/BulkFaceOperations.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/BulkFaceOperations.hpp
 
-        ${SIMULATION_PATH}/Simulation/Meshing/Mesh.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Mesh.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Utilities/Timer.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Utilities/Timer.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Utilities/Saver.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Utilities/Saver.hpp
 
-        ${SIMULATION_PATH}/Simulation/Meshing/Nodes/Node.hpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Nodes/Node.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Nodes/MomentumCoefficients.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Nodes/PressureCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Mesh.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Mesh.hpp
 
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Face.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Face.hpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/BoundaryFace.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/BoundaryFace.hpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFace.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFace.hpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFaceX.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Interior/InteriorFaceY.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FixedVelocityBoundaryFace.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FixedVelocityBoundaryFace.hpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FixedPressureBoundaryFace.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FixedPressureBoundaryFace.hpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FreeBoundaryFace.cpp
-        ${SIMULATION_PATH}/Simulation/Meshing/Faces/Boundary/FreeBoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Node.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Node.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/MomentumCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/PressureCoefficients.cpp
+
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Face.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Face.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/BoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/BoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Interior/InteriorFace.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Interior/InteriorFace.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceX.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceY.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FixedVelocityBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FixedVelocityBoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FixedPressureBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FixedPressureBoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FreeBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FreeBoundaryFace.hpp
 
         ${TESTS_PATH}/tests.hpp
         ${TESTS_PATH}/helper.hpp
-        src/Simulation/Utilities/Saver.cpp
-        src/Simulation/Utilities/Saver.h
-        src/Simulation/BulkNodeOperations.cpp
-        src/Simulation/BulkNodeOperations.h
-        src/Simulation/BulkFaceOperations.cpp
-        src/Simulation/BulkFaceOperations.h
 )

@@ -39,4 +39,10 @@ public:
     void update_face_x_pressure_corrections() const;
 
     void update_face_y_pressure_corrections() const;
+
+    // Time
+
+    void set_face_x_dt(double dt) const;
+
+    void set_face_y_dt(double dt) const;
 };

@@ -2,12 +2,13 @@
 
 #include <cassert>
 
-# include "helper.hpp"
+#include "helper.hpp"
 
+#include "../src/Simulation/common.hpp"
 #include "../src/MeshExamples.hpp"
-#include "../src/Simulation/Meshing/Faces/Boundary/BoundaryFace.hpp"
-#include "../src/Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp"
-#include "../src/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp"
+#include "../src/Simulation/Simulation/Meshing/Faces/Boundary/BoundaryFace.hpp"
+#include "../src/Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp"
+#include "../src/Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp"
 
 inline void test_node_face_connections() {
     Mesh *mesh = create_test_mesh();
@@ -112,17 +113,17 @@ inline void test_rhie_chow() {
     Node* node_N = mesh->get_node(0, 1);
     InteriorFaceY* face_n = static_cast<InteriorFaceY *>(node_P->get_neighbouring_face(Direction::North));
 
-    node_P->calculate_momentum_coefficients(VelocityComponent::U);
-    node_P->calculate_momentum_coefficients(VelocityComponent::V);
+    node_P->calculate_momentum_coefficients(VelocityComponent::U, SimulationType::Steady);
+    node_P->calculate_momentum_coefficients(VelocityComponent::V, SimulationType::Steady);
     node_P->set_velocity_u(1.0);
     node_P->set_velocity_v(1.0);
     node_P->set_pressure(0.0);
 
-    node_E->calculate_momentum_coefficients(VelocityComponent::U);
+    node_E->calculate_momentum_coefficients(VelocityComponent::U, SimulationType::Steady);
     node_E->set_velocity_u(2.0);
     node_E->set_pressure(0.0);
 
-    node_N->calculate_momentum_coefficients(VelocityComponent::V);
+    node_N->calculate_momentum_coefficients(VelocityComponent::V, SimulationType::Steady);
     node_N->set_velocity_v(2.0);
     node_N->set_pressure(0.0);
 

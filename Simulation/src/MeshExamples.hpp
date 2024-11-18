@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "Simulation/Meshing/Mesh.hpp"
+#include "Simulation/Simulation/Meshing/Mesh.hpp"
 
 inline Mesh *create_adv_diff_mesh(const double velocity, const double viscosity) {
     // Domain
@@ -49,8 +49,8 @@ inline Mesh *create_adv_diff_mesh(const double velocity, const double viscosity)
 
 inline Mesh *create_lid_driven_cavity_mesh(const double velocity, const double viscosity) {
     // Domain
-    const int N = 100;
-    const int M = 100;
+    const int N = 50;
+    const int M = 50;
     const double domain_size_x = 1.0;
     const double domain_size_y = 1.0;
     const double density = 1.0;
@@ -309,16 +309,16 @@ inline Mesh *create_container_mesh(const double velocity, const double viscosity
     return mesh;
 }
 
-inline Mesh *create_circle_box_mesh(const double velocity_inlet, const double velocity_circle, const double viscosity) {
+inline Mesh *create_circle_box_mesh(const double velocity_inlet, const double viscosity) {
     // Domain
-    const int N = 250;
-    const int M = 100;
-    const double domain_size_x = 2.5;
+    const int N = 240;
+    const int M = 60;
+    const double domain_size_x = 4.0;
     const double domain_size_y = 1.0;
     const double density = 1.0;
 
-    const double radius = 10.0;
-    const double centerX = static_cast<double>(N) / 3;
+    const double radius = 4.0;
+    const double centerX = static_cast<double>(N) / 6;
     const double centerY = static_cast<double>(M) / 2;
 
     Mesh *mesh = new Mesh(N, M, domain_size_x, domain_size_y, density);
@@ -329,46 +329,6 @@ inline Mesh *create_circle_box_mesh(const double velocity_inlet, const double ve
             // Form circle
             double distance = std::sqrt(std::pow(i - centerX, 2) + std::pow(j - centerY, 2));
             if (distance <= radius) {
-                // West face
-                double local_x = i - 1 - centerX;
-                double local_y = j - centerY;
-                distance = std::sqrt(std::pow(local_x, 2) + std::pow(local_y, 2));
-                if (distance > radius) {
-                    const double velocity_x = local_y * (1 / radius) * velocity_circle;
-                    const double velocity_y = -local_x * (1 / radius) * velocity_circle;
-                    mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity_x, velocity_y, viscosity);
-                }
-
-                // East face
-                local_x = i + 1 - centerX;
-                local_y = j - centerY;
-                distance = std::sqrt(std::pow(local_x, 2) + std::pow(local_y, 2));
-                if (distance > radius) {
-                    const double velocity_x = local_y * (1 / radius) * velocity_circle;
-                    const double velocity_y = -local_x * (1 / radius) * velocity_circle;
-                    mesh->set_boundary_fixed_velocity_face(FaceSide::X, i + 1, j, velocity_x, velocity_y, viscosity);
-                }
-
-                // South face
-                local_x = i - centerX;
-                local_y = j - 1 - centerY;
-                distance = std::sqrt(std::pow(local_x, 2) + std::pow(local_y, 2));
-                if (distance > radius) {
-                    const double velocity_x = local_y * (1 / radius) * velocity_circle;
-                    const double velocity_y = -local_x * (1 / radius) * velocity_circle;
-                    mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, velocity_x, velocity_y, viscosity);
-                }
-
-                // North face
-                local_x = i - centerX;
-                local_y = j + 1 - centerY;
-                distance = std::sqrt(std::pow(local_x, 2) + std::pow(local_y, 2));
-                if (distance > radius) {
-                    const double velocity_x = local_y * (1 / radius) * velocity_circle;
-                    const double velocity_y = -local_x * (1 / radius) * velocity_circle;
-                    mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 1, velocity_x, velocity_y, viscosity);
-                }
-
                 continue;
             }
 
@@ -388,15 +348,6 @@ inline Mesh *create_circle_box_mesh(const double velocity_inlet, const double ve
             }
             else if (i == N) {
                 mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0, viscosity);
-            }
-        }
-    }
-
-    // Add inlet and the outlet
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M + 1; j++) {
-            if (j == 0 || j == M) {
-                mesh->set_boundary_fixed_velocity_face(FaceSide::Y, i, j, 0.0, 0.0, viscosity);
             }
         }
     }
@@ -410,7 +361,7 @@ inline Mesh *create_circle_box_mesh(const double velocity_inlet, const double ve
     return mesh;
 }
 
-inline Mesh *create_circle_mesh(const double velocity_inlet, const double velocity_circle, const double viscosity) {
+inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const double velocity_circle, const double viscosity) {
     // Domain
     const int N = 250;
     const int M = 100;
@@ -489,15 +440,6 @@ inline Mesh *create_circle_mesh(const double velocity_inlet, const double veloci
             }
             else if (i == N) {
                 mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0, viscosity);
-            }
-        }
-    }
-
-    // Add inlet and the outlet
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M + 1; j++) {
-            if (j == 0 || j == M) {
-                mesh->set_boundary_fixed_pressure_face(FaceSide::Y, i, j, 0.0, viscosity);
             }
         }
     }

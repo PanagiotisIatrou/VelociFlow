@@ -1,6 +1,8 @@
 #pragma once
 
 #include <array>
+
+#include "../../../common.hpp"
 #include "../Faces/Face.hpp"
 
 enum class Direction { West = 0, East = 1, South = 2, North = 3 };
@@ -14,12 +16,16 @@ class PressureCoefficients;
 class Node {
 protected:
     double m_velocity_u = 0.0;
+    double m_previous_timestep_velocity_u;
     double m_velocity_v = 0.0;
+    double m_previous_timestep_velocity_v;
     double m_pressure = 0.0;
+    double m_previous_timestep_pressure;
     double m_viscosity = 0.0;
     double m_density = 0.0;
     double m_dx = 0.0; // TODO: Remove in the future
     double m_dy = 0.0; // TODO: Remove in the future
+    double m_dt = 1.0;
     double m_pressure_correction = 0.0;
 
     std::array<Face *, 4> m_neighbouring_faces = {nullptr, nullptr, nullptr, nullptr};
@@ -35,6 +41,8 @@ protected:
 
     std::array<double, 6> get_pressure_effects(VelocityComponent velocity_component) const;
 
+    std::array<double, 6> get_time_effects(VelocityComponent velocity_component) const;
+
 public:
     Node(double density, double viscosity, double dx, double dy);
 
@@ -42,13 +50,27 @@ public:
 
     double get_velocity_u() const;
 
+    void set_previous_timestep_velocity_u(double velocity);
+
+    double get_previous_timestep_velocity_u() const;
+
     void set_velocity_v(double velocity_v);
 
     double get_velocity_v() const;
 
+    void set_previous_timestep_velocity_v(double velocity);
+
+    double get_previous_timestep_velocity_v() const;
+
     void set_pressure(double pressure);
 
     double get_pressure() const;
+
+    void set_previous_timestep_pressure(double pressure);
+
+    double get_previous_timestep_pressure() const;
+
+    void set_dt(double dt);
 
     double get_viscosity() const;
 
@@ -72,7 +94,7 @@ public:
 
     void set_neighbouring_node(Node *node, Direction direction);
 
-    void calculate_momentum_coefficients(VelocityComponent velocity_component);
+    void calculate_momentum_coefficients(VelocityComponent velocity_component, SimulationType simulation_type);
 
     double get_momentum_coefficient(CoefficientType type, VelocityComponent velocity_component) const;
 

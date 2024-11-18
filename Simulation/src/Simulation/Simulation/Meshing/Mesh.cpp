@@ -55,6 +55,14 @@ double Mesh::get_dy() const {
     return m_dy;
 }
 
+double Mesh::get_dt() const {
+    return m_dt;
+}
+
+void Mesh::set_dt(const double dt) {
+    m_dt = dt;
+}
+
 double Mesh::get_density() const {
     return m_density;
 }

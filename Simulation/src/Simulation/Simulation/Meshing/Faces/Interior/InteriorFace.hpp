@@ -14,6 +14,7 @@ protected:
     double m_pressure_correction = 0.0;
     double m_dx; // TODO: Remove this in the future
     double m_dy; // TODO: Remove this in the future
+    double m_dt = 1.0;
     std::array<Node *, 2> m_node_neighbours = {nullptr, nullptr};
 public:
     InteriorFace(double dx, double dy);
@@ -21,6 +22,8 @@ public:
     double get_velocity() const;
 
     void set_velocity(double velocity);
+
+    void set_dt(double dt);
 
     virtual void update_velocity_distance_weighted() = 0;
 

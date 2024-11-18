@@ -13,6 +13,10 @@ void InteriorFace::set_velocity(const double velocity) {
     m_velocity = velocity;
 }
 
+void InteriorFace::set_dt(const double dt) {
+    m_dt = dt;
+}
+
 void InteriorFace::update_viscosity() {
     m_viscosity = 0.5 * (m_node_neighbours[0]->get_viscosity() + m_node_neighbours[1]->get_viscosity());
 }

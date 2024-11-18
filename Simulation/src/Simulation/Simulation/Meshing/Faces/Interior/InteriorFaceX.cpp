@@ -1,6 +1,5 @@
 #include "InteriorFaceX.hpp"
 
-#include "../../../common.hpp"
 #include "../../Nodes/Node.hpp"
 
 InteriorFaceX::InteriorFaceX(const double dx, const double dy) : InteriorFace(dx, dy) {
@@ -40,7 +39,7 @@ void InteriorFaceX::update_velocity_rhie_chow() {
     const Face *face_ee = node_E->get_neighbouring_face(Direction::East);
     const double pressure_ee = face_ee->get_pressure();
 
-    const double velocity_u_e = 0.5 * (velocity_u_P + velocity_u_E) + 0.5 * m_dy * (
+    const double velocity_u_e = 0.5 * (velocity_u_P + velocity_u_E) + 0.5 * m_dt * m_dy * (
                                     (pressure_e - pressure_w) / momentum_u_a_P
                                     + (pressure_ee - pressure_e) / momentum_u_a_E
                                     - (1 / momentum_u_a_P + 1 / momentum_u_a_E) * (pressure_E - pressure_P)
@@ -54,7 +53,7 @@ void InteriorFaceX::correct_velocity() {
 
     const double momentum_u_a_P = node_P->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
     const double momentum_u_a_E = node_E->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
-    const double correction = 0.5 * m_dy
+    const double correction = 0.5 * m_dt * m_dy
                       * (1 / momentum_u_a_P + 1 / momentum_u_a_E)
                       * (node_P->get_pressure_correction() - node_E->get_pressure_correction());
 

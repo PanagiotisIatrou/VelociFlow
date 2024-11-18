@@ -4,9 +4,13 @@
 #include <fstream>
 
 #include "MeshExamples.hpp"
-#include "Simulation/Meshing/Mesh.hpp"
-#include "Simulation/SteadySimulation.hpp"
+#include "Simulation/Simulation/Meshing/Mesh.hpp"
 #include "../tests/tests.hpp"
+#include "Simulation/SteadySimulation.hpp"
+#include "Simulation/UnsteadySimulation.hpp"
+
+// TODO: What about convergence on Unsteady? Normalization of residuals ok?
+// TODO: Create an unsteady simulation class
 
 bool run_tests = false;
 bool run_simulation = true;
@@ -21,27 +25,30 @@ int main() {
     }
 
     // Mesh *mesh = create_adv_diff_mesh(5.0, 1.0);
-    Mesh *mesh = create_lid_driven_cavity_mesh(10.0, 0.05);
+    // Mesh *mesh = create_lid_driven_cavity_mesh(10.0, 0.05);
     // Mesh *mesh = create_double_lid_driven_cavity_mesh(10.0, 0.05);
     // Mesh *mesh = create_pipe_mesh(0.5, 0.05);
     // Mesh *mesh = create_pipe_obstacles_mesh(0.5, 0.05);
     // Mesh *mesh = create_box_mesh(1.0, 0.05);
     // Mesh *mesh = create_container_mesh(1.0, 0.05);
-    // Mesh *mesh = create_circle_mesh(5.0, 15.0, 0.05);
-    // Mesh *mesh = create_circle_box_mesh(5.0, 5.0, 0.05);
+    Mesh *mesh = create_circle_box_mesh(1.0, 0.01);
+    // Mesh *mesh = create_rotating_circle_box_mesh(5.0, 5.0, 0.05);
 
-    const double tol = 1e-4;
-    SteadySimulation simulation(mesh, tol, tol, tol);
+    // Create the path for the output file
+    // const std::string folder = "../../Results/Steady/";
+    const std::string folder = "../../Results/Unsteady/";
+    const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
+    const std::string path = folder + filename;
+
+    const double tol = 1e-6;
+    // SteadySimulation simulation(mesh, tol, tol, tol, path);
+    const double dt = 0.25;
+    const int timesteps = 2000;
+    UnsteadySimulation simulation(mesh, dt, timesteps, tol, tol, tol, path);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();
     std::cout << "Finished in " << time_taken << " s" << std::endl;
-
-    // Save the results
-    const std::string folder = "../../Results/Steady/";
-    const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
-    const std::string path = folder + filename;
-    simulation.save_results(path);
     std::cout << "Saved output to file " << filename << std::endl;
 
     return 0;
