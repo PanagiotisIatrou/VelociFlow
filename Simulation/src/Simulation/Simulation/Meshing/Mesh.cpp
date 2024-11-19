@@ -9,13 +9,11 @@
 #include "Faces/Interior/InteriorFaceX.hpp"
 #include "Faces/Interior/InteriorFaceY.hpp"
 
-Mesh::Mesh(const int size_x, const int size_y, const double domain_size_x, const double domain_size_y,
-           const double density) {
+Mesh::Mesh(const int size_x, const int size_y, const double domain_size_x, const double domain_size_y) {
     m_size_x = size_x;
     m_size_y = size_y;
     m_domain_size_x = domain_size_x;
     m_domain_size_y = domain_size_y;
-    m_density = density;
 
     m_dx = domain_size_x / size_x;
     m_dy = domain_size_y / size_y;
@@ -63,10 +61,6 @@ void Mesh::set_dt(const double dt) {
     m_dt = dt;
 }
 
-double Mesh::get_density() const {
-    return m_density;
-}
-
 double Mesh::get_domain_size_x() const {
     return m_domain_size_x;
 }
@@ -77,8 +71,8 @@ double Mesh::get_domain_size_y() const {
 
 // Nodes
 
-void Mesh::set_node(const int i, const int j, const double viscosity) {
-    m_nodes[i][j] = std::make_unique<Node>(m_density, viscosity, m_dx, m_dy);
+void Mesh::set_node(const int i, const int j, const double viscosity, const double density) {
+    m_nodes[i][j] = std::make_unique<Node>(viscosity, density, m_dx, m_dy);
 }
 
 Node *Mesh::get_node(const int i, const int j) const {

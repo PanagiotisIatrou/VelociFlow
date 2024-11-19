@@ -28,6 +28,12 @@ public:
 
     void update_face_y_viscosities() const;
 
+    // Face densities
+
+    void update_face_x_densities() const;
+
+    void update_face_y_densities() const;
+
     // Face pressures
 
     void update_face_x_pressures() const;

@@ -13,7 +13,6 @@ private:
     int m_size_y;
     double m_domain_size_x;
     double m_domain_size_y;
-    double m_density;
     double m_dx;
     double m_dy;
     double m_dt;
@@ -22,7 +21,7 @@ private:
     std::vector<std::vector<std::unique_ptr<Face>>> m_faces_y;
 
 public:
-    Mesh(int size_x, int size_y, double domain_size_x, double domain_size_y, double density);
+    Mesh(int size_x, int size_y, double domain_size_x, double domain_size_y);
 
     int get_size_x() const;
 
@@ -36,13 +35,11 @@ public:
 
     double get_dt() const;
 
-    double get_density() const;
-
     double get_domain_size_x() const;
 
     double get_domain_size_y() const;
 
-    void set_node(int i, int j, double viscosity);
+    void set_node(int i, int j, double viscosity, double density);
 
     Node *get_node(int i, int j) const;
 

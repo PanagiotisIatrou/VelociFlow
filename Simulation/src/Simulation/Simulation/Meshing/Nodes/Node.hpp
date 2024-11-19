@@ -44,7 +44,7 @@ protected:
     std::array<double, 6> get_time_effects(VelocityComponent velocity_component) const;
 
 public:
-    Node(double density, double viscosity, double dx, double dy);
+    Node(double viscosity, double density, double dx, double dy);
 
     void set_velocity_u(double velocity_u);
 

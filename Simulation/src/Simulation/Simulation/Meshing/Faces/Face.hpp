@@ -14,6 +14,8 @@ public:
 
     virtual double get_viscosity() const = 0;
 
+    virtual double get_density() const = 0;
+
     virtual double get_pressure() const = 0;
 
     virtual double get_pressure_correction() const = 0;

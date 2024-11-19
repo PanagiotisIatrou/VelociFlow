@@ -28,4 +28,6 @@ public:
     double get_pressure() const override = 0;
 
     double get_viscosity() const override;
+
+    double get_density() const override;
 };

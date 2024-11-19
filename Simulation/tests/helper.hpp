@@ -7,7 +7,7 @@ inline Mesh *create_test_mesh() {
     const double domain_size_y = 1.0;
     const double density = 1.0;
 
-    Mesh *mesh = new Mesh(N, M, domain_size_x, domain_size_y, density);
+    Mesh *mesh = new Mesh(N, M, domain_size_x, domain_size_y);
 
     // Add the nodes
     for (int i = 0; i < N; i++) {
@@ -16,7 +16,7 @@ inline Mesh *create_test_mesh() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 1.0);
+            mesh->set_node(i, j, 1.0, density);
         }
     }
 

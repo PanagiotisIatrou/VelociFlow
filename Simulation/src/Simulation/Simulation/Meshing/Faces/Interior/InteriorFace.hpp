@@ -13,6 +13,7 @@ protected:
     double m_pressure = 0.0;
     double m_pressure_correction = 0.0;
     double m_viscosity = 0.0;
+    double m_density = 0.0;
     double m_dx; // TODO: Remove this in the future
     double m_dy; // TODO: Remove this in the future
     double m_dt = 1.0;
@@ -33,6 +34,10 @@ public:
     void update_viscosity();
 
     double get_viscosity() const override;
+
+    void update_density();
+
+    double get_density() const override;
 
     double get_pressure() const override;
 

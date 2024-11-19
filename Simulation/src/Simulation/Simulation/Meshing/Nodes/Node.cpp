@@ -1,14 +1,16 @@
 #include "Node.hpp"
 
-#include <iostream>
-
 #include "../../../common.hpp"
 
-Node::Node(const double density, const double viscosity, const double dx, const double dy) {
+Node::Node(const double viscosity, const double density, const double dx, const double dy) {
     m_viscosity = viscosity;
     m_density = density;
     m_dx = dx;
     m_dy = dy;
+
+    m_previous_timestep_velocity_u = m_velocity_u;
+    m_previous_timestep_velocity_v = m_velocity_v;
+    m_previous_timestep_pressure = m_pressure;
 }
 
 void Node::set_velocity_u(const double velocity_u) {

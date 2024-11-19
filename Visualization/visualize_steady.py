@@ -116,7 +116,4 @@ if show_streamlines:
 # Leave no margin (caused from the streamplot
 plt.margins(0)
 
-# Open in maximized
-mng = plt.get_current_fig_manager()
-mng.window.state('zoomed')
 plt.show()

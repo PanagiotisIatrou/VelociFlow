@@ -24,6 +24,8 @@ void UnsteadySimulation::solve() {
     m_bulk_face_operations->update_face_y_velocities_distance_weighted();
     m_bulk_face_operations->update_face_x_viscosities();
     m_bulk_face_operations->update_face_y_viscosities();
+    m_bulk_face_operations->update_face_x_densities();
+    m_bulk_face_operations->update_face_y_densities();
     m_bulk_face_operations->update_face_x_pressures();
     m_bulk_face_operations->update_face_y_pressures();
 

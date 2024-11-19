@@ -19,3 +19,7 @@ Node *BoundaryFace::get_node_neighbour() const {
 double BoundaryFace::get_viscosity() const {
     return m_node_neighbour->get_viscosity();
 }
+
+double BoundaryFace::get_density() const {
+    return m_node_neighbour->get_density();
+}
