@@ -1,8 +1,10 @@
 import math
 import os
+from copy import copy
 import json
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import animation, colormaps
 
 # Load settings
 settings_file = os.path.join(os.path.dirname(__file__), "settings.json")
@@ -16,6 +18,7 @@ with open(settings_file, "r") as f:
     show_streamlines = data["showStreamlines"]
     streamline_density_factor = data["streamlineDensityFactor"]
     streamline_color = data["streamlineColor"]
+
 
 def import_data(file):
     velocity_timesteps_u = []
@@ -79,9 +82,11 @@ def import_data(file):
 
     return N, M, domain_size_x, domain_size_y, dt, timesteps, execution_time, velocity_timesteps_u, velocity_timesteps_v, pressure_timesteps
 
+
 # Import the simulation data
 file = os.path.join(os.path.dirname(__file__), f"../Results/Unsteady/{filename}")
-N, M, domain_size_x, domain_size_y, dt, timesteps, execution_time, velocity_timesteps_u, velocity_timesteps_v, pressure_timesteps = import_data(file)
+N, M, domain_size_x, domain_size_y, dt, timesteps, execution_time, velocity_timesteps_u, velocity_timesteps_v, pressure_timesteps = import_data(
+    file)
 dx = domain_size_x / N
 dy = domain_size_y / M
 x = np.linspace(dx / 2, domain_size_x - dx / 2, N)
@@ -92,19 +97,20 @@ smallest_side = min(N, M)
 streamplot_density = streamline_density_factor * smallest_side / 50.0
 
 # Print information about the simulation
-print("Domain size: ", (domain_size_x, domain_size_y))
-print("Grid size: ", (N, M))
-print("dx: ", dx)
-print("dy: ", dy)
-print("dt: ", dt)
-print("Timesteps: ", timesteps)
-print("Simulation time: ", timesteps * dt)
-print("Execution time: ", execution_time, "s")
+print("Domain size:", (domain_size_x, domain_size_y))
+print("Grid size:", (N, M))
+print("dx:", dx)
+print("dy:", dy)
+print("dt:", dt)
+print("Timesteps:", timesteps)
+print("Simulation time:", timesteps * dt, "s")
+print("Execution time:", execution_time, "s")
 
 # Calculate the velocity magnitude
 velocity_timesteps = []
 for k in range(timesteps):
     velocity_timesteps.append(np.sqrt(velocity_timesteps_u[k] ** 2 + velocity_timesteps_v[k] ** 2))
+
 
 def normalize_vectors(u, v):
     magnitude = np.sqrt(u ** 2 + v ** 2)
@@ -112,11 +118,20 @@ def normalize_vectors(u, v):
     v_normalized = np.divide(v, magnitude, where=magnitude != 0)
     return u_normalized, v_normalized
 
+
 plt.ion()
 fig, ax = plt.subplots(1, 1, figsize=(13, 5))
-pcolor1 = ax.pcolormesh(x, y, np.array(velocity_timesteps[0]).T, cmap='jet', shading="gouraud" if blur else "auto")
-quiver1 = ax.quiver(x, y, velocity_timesteps[0].T, velocity_timesteps[0].T, color="#00000000" if not show_quiver else "black",
-                       scale=35)
+
+# Set color map
+cmap = copy(colormaps.get_cmap("jet"))
+cmap.set_bad(color='black')
+plt.set_cmap(cmap)
+
+# Create the pcolormesh and the quiver
+pcolor1 = ax.pcolormesh(x, y, np.array(velocity_timesteps[0]).T, cmap=cmap, shading="gouraud" if blur else "auto")
+quiver1 = ax.quiver(x, y, velocity_timesteps[0].T, velocity_timesteps[0].T,
+                    color="#00000000" if not show_quiver else "black",
+                    scale=35)
 fig.colorbar(pcolor1, ax=ax)
 ax.set_xlabel('x')
 ax.set_ylabel('y')
@@ -129,21 +144,43 @@ ax.set_aspect('equal')
 # Remove left, right and middle margins
 plt.subplots_adjust(left=0.05, right=0.95, top=0.85, bottom=0.05, wspace=0.0)
 
-# Play the animation
-for k in range(timesteps):
+# # Play the animation
+# for k in range(timesteps):
+#     # Velocity
+#     pcolor1.set_array(np.array(velocity_timesteps[k]).T.ravel())
+#     pcolor1.set_clim(vmin=0.0, vmax=np.nanmax(velocity_timesteps[k]))
+#
+#     # Quiver
+#     if normalize_quiver:
+#         velocity_timesteps_u[k], velocity_timesteps_v[k] = normalize_vectors(velocity_timesteps_u[k],
+#                                                                              velocity_timesteps_v[k])
+#     quiver1.set_UVC(velocity_timesteps_u[k].T, velocity_timesteps_v[k].T)
+#
+#     fig.canvas.draw_idle()
+#     fig.suptitle(f'Time: {k * dt:.5f}')
+#     plt.pause(0.001)
+
+# Plot
+plt.ioff()
+
+
+# plt.show()
+
+def animate(k):
     # Velocity
     pcolor1.set_array(np.array(velocity_timesteps[k]).T.ravel())
     pcolor1.set_clim(vmin=0.0, vmax=np.nanmax(velocity_timesteps[k]))
 
     # Quiver
     if normalize_quiver:
-        velocity_timesteps_u[k], velocity_timesteps_v[k] = normalize_vectors(velocity_timesteps_u[k], velocity_timesteps_v[k])
+        velocity_timesteps_u[k], velocity_timesteps_v[k] = normalize_vectors(velocity_timesteps_u[k],
+                                                                             velocity_timesteps_v[k])
     quiver1.set_UVC(velocity_timesteps_u[k].T, velocity_timesteps_v[k].T)
 
     fig.canvas.draw_idle()
     fig.suptitle(f'Time: {k * dt:.5f}')
-    plt.pause(0.001)
 
-# Plot
-plt.ioff()
-plt.show()
+
+anim = animation.FuncAnimation(fig, animate, interval=10, frames=timesteps - 1)
+# anim.save('anim.gif')
+anim.save('video.mp4')

@@ -25,15 +25,15 @@ int main() {
     }
 
     // Mesh *mesh = create_adv_diff_mesh(5.0, 1.0);
-    Mesh *mesh = create_lid_driven_cavity_mesh(32.0, 0.01);
+    // Mesh *mesh = create_lid_driven_cavity_mesh(32.0, 0.01);
     // Mesh *mesh = create_double_lid_driven_cavity_mesh(10.0, 0.05);
     // Mesh *mesh = create_pipe_mesh(0.5, 0.05);
     // Mesh *mesh = create_pipe_obstacles_mesh(0.5, 0.05);
     // Mesh *mesh = create_box_mesh(1.0, 0.05);
     // Mesh *mesh = create_container_mesh(1.0, 0.05);
     // Mesh *mesh = create_circle_box_mesh(1.0, 0.01);
-    // Mesh *mesh = create_rotating_circle_box_mesh(5.0, 5.0, 0.05);
-    // Mesh *mesh = create_vok_karman_mesh(1.0, 0.005);
+    // Mesh *mesh = create_rotating_circle_box_mesh(1.0, 0.5, 0.005);
+    Mesh *mesh = create_vok_karman_mesh(1.0, 0.0005);
     // Mesh *mesh = create_kelvin_helmholtz_mesh(1.0, 0.001);
 
     // Create the path for the output file
@@ -42,10 +42,10 @@ int main() {
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 
-    const double tol = 1e-4;
+    const double tol = 1e-5;
     // SteadySimulation simulation(mesh, tol, tol, tol, path);
     const double dt = 0.01;
-    const int timesteps = 500;
+    const int timesteps = 5000;
     UnsteadySimulation simulation(mesh, dt, timesteps, tol, tol, tol, path);
     simulation.solve();
 

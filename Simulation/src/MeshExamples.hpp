@@ -363,14 +363,14 @@ inline Mesh *create_circle_box_mesh(const double velocity_inlet, const double vi
 
 inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const double velocity_circle, const double viscosity) {
     // Domain
-    const int N = 250;
-    const int M = 100;
+    const int N = 200;
+    const int M = 80;
     const double domain_size_x = 2.5;
     const double domain_size_y = 1.0;
     const double density = 1.0;
 
-    const double radius = 10.0;
-    const double centerX = static_cast<double>(N) / 3;
+    const double radius = 8.0;
+    const double centerX = static_cast<double>(N) / 5;
     const double centerY = static_cast<double>(M) / 2;
 
     Mesh *mesh = new Mesh(N, M, domain_size_x, domain_size_y);
@@ -456,14 +456,14 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
 inline Mesh *create_vok_karman_mesh(const double velocity_inlet, const double viscosity) {
     // Domain
     const int N = 160;
-    const int M = 40;
-    const double domain_size_x = 4.0;
-    const double domain_size_y = 1.0;
+    const int M = 80;
+    const double domain_size_x = 2.0;
+    const double domain_size_y = 1;
     const double density = 1.0;
 
-    const double length = 6.0;
-    const double centerX = static_cast<double>(N) / 6;
-    const double centerY = static_cast<double>(M) / 2;
+    const double length = 8.0;
+    const double centerX = 30;
+    const double centerY = 40;
 
     Mesh *mesh = new Mesh(N, M, domain_size_x, domain_size_y);
 
