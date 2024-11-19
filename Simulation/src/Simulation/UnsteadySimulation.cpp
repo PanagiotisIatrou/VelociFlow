@@ -37,7 +37,6 @@ void UnsteadySimulation::solve() {
     m_saver->write_grid_size();
     m_saver->write_timesteps_count(m_timesteps);
     m_saver->write_dt();
-    m_saver->write_execution_time(m_timer->get_elapsed_time());
     m_saver->close_file();
 
     for (int k = 0; k < m_timesteps; k++) {
@@ -68,4 +67,9 @@ void UnsteadySimulation::solve() {
     }
 
     m_time_taken = m_timer->get_elapsed_time();
+
+    // Save the time took to calculate
+    m_saver->open_append_file();
+    m_saver->write_execution_time(m_time_taken);
+    m_saver->close_file();
 }
