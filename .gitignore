@@ -8,3 +8,5 @@ Results/Unsteady/*
 *.mp4
 *.gif
 *.png
+**/__pycache__/ 
+*.pyc

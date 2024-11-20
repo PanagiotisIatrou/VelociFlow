@@ -28,6 +28,10 @@ class UnsteadyPlotter(Plotter):
         if self.settings.show_quiver:
             quiver = self.create_quiver(velocity_u, velocity_v)
 
+        # Plot the streamlines
+        if self.settings.show_streamlines:
+            streamplot = self.create_streamlines(velocity_u, velocity_v)
+
         def animate(k):
             # Calculate the velocity magnitude
             velocity_u = np.array(self.data.velocity_timesteps_u[k])
@@ -40,6 +44,10 @@ class UnsteadyPlotter(Plotter):
             # Update the quiver
             if self.settings.show_quiver:
                 self.update_quiver(quiver, velocity_u, velocity_v)
+
+            # Update the streamlines
+            if self.settings.show_streamlines:
+                self.update_streamlines(streamplot, velocity_u, velocity_v)
 
             # Update the time
             decimals_count = str(self.data.dt)[::-1].find('.')

@@ -1,6 +1,8 @@
 {
   "transient": true,
-  "filename": "von_karmen-re200.txt",
+  "filename": "von_karman-re200.txt",
   "realTime": true,
-  "colorMap": "jet"
+  "colorMap": "jet",
+  "showStreamlines": true,
+  "streamlineDensity": 1.0
 }
