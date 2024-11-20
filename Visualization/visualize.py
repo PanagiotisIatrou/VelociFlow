@@ -9,14 +9,16 @@ root_path = os.path.dirname(__file__)
 
 # Load the settings
 settings_file = os.path.join(root_path, "settings_steady.json")
+# settings_file = os.path.join(root_path, "settings_unsteady.json")
 plot_settings = PlotSettings()
 plot_settings.import_file(settings_file)
 
 # Import the data from the simulation
 if plot_settings.transient:
-    data_file = os.path.join(root_path, f"../Results/Unsteady/{plot_settings.filename}")
+    folder = "Unsteady"
 else:
-    data_file = os.path.join(root_path, f"../Results/Steady/{plot_settings.filename}")
+    folder = "Steady"
+data_file = os.path.join(root_path, f"../Results/{folder}/{plot_settings.filename}")
 simulation_data = SimulationData()
 simulation_data.import_file(data_file)
 
