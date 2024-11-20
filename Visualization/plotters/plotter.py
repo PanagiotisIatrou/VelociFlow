@@ -111,11 +111,4 @@ class Plotter(ABC):
             patch.remove()
 
         # Create the new streamplot
-        streamplot = plt.streamplot(
-            self.x,
-            self.y,
-            velocity_u.T,
-            velocity_v.T,
-            color=self.settings.streamline_color,
-            density=self.settings.streamline_density_factor
-        )
+        return self.create_streamlines(velocity_u, velocity_v)
