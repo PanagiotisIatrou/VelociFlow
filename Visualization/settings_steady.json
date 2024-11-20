@@ -1,0 +1,7 @@
+{
+  "transient": false,
+  "filename": "lid-driven-cavity-re3200-100x100.txt",
+  "colorMap": "jet",
+  "showStreamlines": true,
+  "streamlineDensityFactor": 1.0
+}

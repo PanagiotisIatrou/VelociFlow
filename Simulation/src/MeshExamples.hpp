@@ -49,8 +49,8 @@ inline Mesh *create_adv_diff_mesh(const double velocity, const double viscosity)
 
 inline Mesh *create_lid_driven_cavity_mesh(const double velocity, const double viscosity) {
     // Domain
-    const int N = 100;
-    const int M = 100;
+    const int N = 50;
+    const int M = 50;
     const double domain_size_x = 1.0;
     const double domain_size_y = 1.0;
     const double density = 1.0;
