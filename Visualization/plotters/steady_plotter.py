@@ -9,10 +9,7 @@ class SteadyPlotter(Plotter):
     def __init__(self, data, settings):
         super().__init__(data, settings)
 
-    def velocity(self, show=True, save=False, filename="steady.png"):
-        if not show and not save:
-            raise Exception("You must either show the plot or save it (or both)")
-
+    def __velocity(self):
         # Initialize the plot
         self.create_plot()
 
@@ -32,11 +29,20 @@ class SteadyPlotter(Plotter):
         if self.settings.show_streamlines:
             self.create_streamlines(velocity_u, velocity_v)
 
-        if save:
-            plt.savefig(filename)
+    def plot_velocity(self):
+        print("Plotting...")
+        self.__velocity()
+        plt.show()
 
-        if show:
-            plt.show()
+    def save_velocity(self, filename="steady.png"):
+        print("Saving...")
+        self.__velocity()
+        plt.savefig(filename)
+        plt.close()
 
-        if not show and save:
-            plt.close()
+    def plot_and_save_velocity(self, filename="steady.png"):
+        self.__velocity()
+        print("Saving...")
+        plt.savefig(filename)
+        print("Plotting...")
+        plt.show()

@@ -22,10 +22,9 @@ data_file = os.path.join(root_path, f"../Results/{folder}/{plot_settings.filenam
 simulation_data = SimulationData()
 simulation_data.import_file(data_file)
 
-print("Plotting...")
 if plot_settings.transient:
     plotter = UnsteadyPlotter(simulation_data, plot_settings)
     plotter.save_velocity()
 else:
     plotter = SteadyPlotter(simulation_data, plot_settings)
-    plotter.velocity()
+    plotter.plot_and_save_velocity()
