@@ -25,7 +25,8 @@ int main() {
     }
 
     // Mesh *mesh = create_adv_diff_mesh(5.0, 1.0);
-    Mesh *mesh = create_lid_driven_cavity_mesh(32.0, 0.01);
+    Mesh *mesh = create_lid_driven_cavity_mesh(32.0, 0.01, 1.0, 1.0);
+    // Mesh *mesh = create_lid_driven_cavity_mesh(0.03211, 0.0010016, 998.2, 0.1);
     // Mesh *mesh = create_double_lid_driven_cavity_mesh(10.0, 0.05);
     // Mesh *mesh = create_pipe_mesh(0.5, 0.05);
     // Mesh *mesh = create_pipe_obstacles_mesh(0.5, 0.05);

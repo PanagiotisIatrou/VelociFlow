@@ -200,9 +200,6 @@ void Simulation::solve_y_momentum() {
 
             const double residual = std::abs(a_P * node_P->get_velocity_v() - velocity_v_P);
             m_momentum_y_error = std::max(m_momentum_y_error, residual);
-
-            velocity_v_P /= a_P;
-            node_P->set_velocity_v(velocity_v_P);
         }
     }
 
