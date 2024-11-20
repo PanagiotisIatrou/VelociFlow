@@ -11,11 +11,11 @@ algorithm for pressure-velocity coupling. The code is written in C++.
 ## Equations
 
 The following system of equations are discretized and solved using the finite volume method (FVM):  
-$\nabla \cdot (\vec{\rho v}) = 0$  
-$\rho \cdot [\frac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla)\vec{v}] = -\nabla p + \mu \cdot \nabla^2\vec{v}$
+$\LARGE \nabla \cdot (\vec{\rho v}) = 0$  
+$\LARGE \rho \cdot [\frac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla)\vec{v}] = -\nabla p + \mu \cdot \nabla^2\vec{v}$
 
 Expanding the equations in 2D gives the following system of 3 equations:
 
-$\frac{\partial(\rho u)}{\partial x} + \frac{\partial(\rho v)}{\partial y} = 0$  
-$\frac{\partial(\rho u)}{\partial t} + \frac{\partial(\rho u^2)}{\partial x} + \frac{\partial(\rho uv)}{\partial y} = -\frac{\partial p}{\partial x} + \frac{\partial}{\partial x}(\mu\frac{\partial u}{\partial x})$  
-$\frac{\partial(\rho v)}{\partial t} + \frac{\partial(\rho u v)}{\partial x} + \frac{\partial(\rho v^2)}{\partial y} = -\frac{\partial p}{\partial y} + \frac{\partial}{\partial y}(\mu\frac{\partial v}{\partial y})$
+$\LARGE \frac{\partial(\rho u)}{\partial x} + \frac{\partial(\rho v)}{\partial y} = 0$  
+$\LARGE \frac{\partial(\rho u)}{\partial t} + \frac{\partial(\rho u^2)}{\partial x} + \frac{\partial(\rho uv)}{\partial y} = -\frac{\partial p}{\partial x} + \frac{\partial}{\partial x}(\mu\frac{\partial u}{\partial x})$  
+$\LARGE \frac{\partial(\rho v)}{\partial t} + \frac{\partial(\rho u v)}{\partial x} + \frac{\partial(\rho v^2)}{\partial y} = -\frac{\partial p}{\partial y} + \frac{\partial}{\partial y}(\mu\frac{\partial v}{\partial y})$
