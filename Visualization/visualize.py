@@ -8,8 +8,8 @@ from Visualization.plotters.unsteady_plotter import UnsteadyPlotter
 root_path = os.path.dirname(__file__)
 
 # Load the settings
-# settings_file = os.path.join(root_path, "settings_steady.json")
-settings_file = os.path.join(root_path, "settings_unsteady.json")
+settings_file = os.path.join(root_path, "settings_steady.json")
+# settings_file = os.path.join(root_path, "settings_unsteady.json")
 plot_settings = PlotSettings()
 plot_settings.import_file(settings_file)
 
