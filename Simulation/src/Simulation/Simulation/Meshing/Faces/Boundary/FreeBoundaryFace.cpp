@@ -2,7 +2,7 @@
 
 #include "../../Nodes/Node.hpp"
 
-FreeBoundaryFace::FreeBoundaryFace() : BoundaryFace(BoundaryType::Free) {
+FreeBoundaryFace::FreeBoundaryFace(const Orientation orientation) : BoundaryFace(BoundaryType::Free, orientation) {
 }
 
 double FreeBoundaryFace::get_velocity_u() const {

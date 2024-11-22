@@ -2,7 +2,7 @@
 
 #include "../../Nodes/Node.hpp"
 
-InteriorFaceY::InteriorFaceY(const double dx, const double dy) : InteriorFace(dx, dy) {
+InteriorFaceY::InteriorFaceY(const double dx, const double dy) : InteriorFace(dx, dy, Orientation::Vertical) {
 }
 
 void InteriorFaceY::set_node_neighbour(Node *node, const FaceYSide side) {

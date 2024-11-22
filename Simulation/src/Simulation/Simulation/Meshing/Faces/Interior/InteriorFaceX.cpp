@@ -2,7 +2,7 @@
 
 #include "../../Nodes/Node.hpp"
 
-InteriorFaceX::InteriorFaceX(const double dx, const double dy) : InteriorFace(dx, dy) {
+InteriorFaceX::InteriorFaceX(const double dx, const double dy) : InteriorFace(dx, dy, Orientation::Horizontal) {
 }
 
 void InteriorFaceX::set_node_neighbour(Node *node, const FaceXSide side) {

@@ -7,7 +7,7 @@ private:
     double m_pressure;
 
 public:
-    FixedPressureBoundaryFace(double pressure);
+    FixedPressureBoundaryFace(double pressure, Orientation orientation);
 
     double get_velocity_u() const override;
 

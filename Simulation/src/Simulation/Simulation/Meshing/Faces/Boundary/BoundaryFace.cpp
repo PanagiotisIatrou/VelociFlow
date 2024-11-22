@@ -1,6 +1,6 @@
 #include "BoundaryFace.hpp"
 
-BoundaryFace::BoundaryFace(const BoundaryType boundary_type) : Face(FaceType::Boundary) {
+BoundaryFace::BoundaryFace(const BoundaryType boundary_type, const Orientation orientation) : Face(FaceType::Boundary, orientation) {
     m_boundary_type = boundary_type;
 }
 

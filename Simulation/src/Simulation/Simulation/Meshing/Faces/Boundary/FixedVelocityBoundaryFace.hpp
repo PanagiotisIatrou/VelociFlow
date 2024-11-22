@@ -8,7 +8,7 @@ private:
     double m_velocity_v;
 
 public:
-    FixedVelocityBoundaryFace(double velocity_u, double velocity_v);
+    FixedVelocityBoundaryFace(double velocity_u, double velocity_v, Orientation orientation);
 
     double get_velocity_u() const override;
 

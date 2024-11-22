@@ -2,7 +2,7 @@
 
 #include "../../Nodes/Node.hpp"
 
-FixedPressureBoundaryFace::FixedPressureBoundaryFace(const double pressure) : BoundaryFace(BoundaryType::FixedPressure) {
+FixedPressureBoundaryFace::FixedPressureBoundaryFace(const double pressure, const Orientation orientation) : BoundaryFace(BoundaryType::FixedPressure, orientation) {
     m_pressure = pressure;
 }
 

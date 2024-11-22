@@ -1,6 +1,6 @@
 #include "InteriorFace.hpp"
 
-InteriorFace::InteriorFace(const double dx, const double dy) : Face(FaceType::Interior) {
+InteriorFace::InteriorFace(const double dx, const double dy, const Orientation orientation) : Face(FaceType::Interior, orientation) {
     m_dx = dx;
     m_dy = dy;
 }

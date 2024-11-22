@@ -19,7 +19,7 @@ protected:
     double m_dt = 1.0;
     std::array<Node *, 2> m_node_neighbours = {nullptr, nullptr};
 public:
-    InteriorFace(double dx, double dy);
+    InteriorFace(double dx, double dy, Orientation orientation);
 
     double get_velocity() const;
 

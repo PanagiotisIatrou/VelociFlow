@@ -4,7 +4,7 @@
 
 class FreeBoundaryFace : public BoundaryFace {
 public:
-    FreeBoundaryFace();
+    FreeBoundaryFace(Orientation orientation);
 
     double get_velocity_u() const override;
 

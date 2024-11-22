@@ -91,29 +91,26 @@ void Mesh::set_interior_face(const FaceSide side, const int i, const int j) {
 
 void Mesh::set_boundary_fixed_velocity_face(const FaceSide side, const int i, const int j,
                                             const double velocity_u, const double velocity_v) {
-    std::unique_ptr<FixedVelocityBoundaryFace> face = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v);
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::move(face);
+        m_faces_x[i][j] = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::move(face);
+        m_faces_y[i][j] = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v, Orientation::Vertical);
     }
 }
 
 void Mesh::set_boundary_fixed_pressure_face(const FaceSide side, const int i, const int j, const double pressure) {
-    std::unique_ptr<FixedPressureBoundaryFace> face = std::make_unique<FixedPressureBoundaryFace>(pressure);
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::move(face);
+        m_faces_x[i][j] = std::make_unique<FixedPressureBoundaryFace>(pressure, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::move(face);
+        m_faces_y[i][j] = std::make_unique<FixedPressureBoundaryFace>(pressure, Orientation::Vertical);
     }
 }
 
 void Mesh::set_boundary_free_face(const FaceSide side, const int i, const int j) {
-    std::unique_ptr<FreeBoundaryFace> face = std::make_unique<FreeBoundaryFace>();
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::move(face);
+        m_faces_x[i][j] = std::make_unique<FreeBoundaryFace>(Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::move(face);
+        m_faces_y[i][j] = std::make_unique<FreeBoundaryFace>(Orientation::Vertical);
     }
 }
 

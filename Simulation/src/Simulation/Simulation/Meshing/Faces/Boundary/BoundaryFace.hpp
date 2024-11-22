@@ -11,7 +11,7 @@ protected:
     Node *m_node_neighbour = nullptr;
 
 public:
-    BoundaryFace(BoundaryType boundary_type);
+    BoundaryFace(BoundaryType boundary_type, Orientation orientation);
 
     BoundaryType get_boundary_type() const;
 
