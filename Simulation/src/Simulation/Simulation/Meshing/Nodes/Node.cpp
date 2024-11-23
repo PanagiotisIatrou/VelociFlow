@@ -11,6 +11,7 @@ Node::Node(const double viscosity, const double density, const double dx, const 
     m_dy = dy;
 
     m_momentum_coefficients = std::make_unique<MomentumCoefficients>(this);
+    m_pressure_coefficients = std::make_unique<PressureCoefficients>(this);
 
     m_previous_timestep_velocity_u = m_velocity_u;
     m_previous_timestep_velocity_v = m_velocity_v;
@@ -133,4 +134,16 @@ double Node::get_momentum_coefficient(const CoefficientType type, const Velocity
 
 std::array<double, 6> Node::get_momentum_coefficients(const VelocityComponent velocity_component) const {
     return m_momentum_coefficients->get_momentum_coefficients(velocity_component);
+}
+
+void Node::calculate_pressure_coefficients() const {
+    m_pressure_coefficients->calculate_pressure_coefficients();
+}
+
+std::array<double, 6> Node::get_pressure_coefficients() const {
+    return m_pressure_coefficients->get_pressure_coefficients();
+}
+
+double Node::get_pressure_coefficient(CoefficientType type) const {
+    return m_pressure_coefficients->get_pressure_coefficient(type);
 }

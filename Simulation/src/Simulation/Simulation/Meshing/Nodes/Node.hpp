@@ -6,6 +6,7 @@
 #include "../../../common.hpp"
 #include "../Faces/Face.hpp"
 #include "MomentumCoefficients/MomentumCoefficients.hpp"
+#include "PressureCoefficients/PressureCoefficients.hpp"
 
 enum class Direction { West = 0, East = 1, South = 2, North = 3 };
 
@@ -16,13 +17,14 @@ enum class CoefficientType { Center = 0, Source = 1, West = 2, East = 3, South =
 class Node {
 private:
     friend class MomentumCoefficients;
+    friend class PressureCoefficients;
     friend class DiscretizationSchemes;
 protected:
     double m_velocity_u = 0.0;
-    double m_previous_timestep_velocity_u;
     double m_velocity_v = 0.0;
-    double m_previous_timestep_velocity_v;
     double m_pressure = 0.0;
+    double m_previous_timestep_velocity_u;
+    double m_previous_timestep_velocity_v;
     double m_previous_timestep_pressure;
     double m_viscosity = 0.0;
     double m_density = 0.0;
@@ -32,8 +34,7 @@ protected:
     double m_pressure_correction = 0.0;
 
     std::unique_ptr<MomentumCoefficients> m_momentum_coefficients;
-
-    std::array<double, 6> m_pressure_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    std::unique_ptr<PressureCoefficients> m_pressure_coefficients;
 
     std::array<Face *, 4> m_neighbouring_faces = {nullptr, nullptr, nullptr, nullptr};
     std::array<Node *, 4> m_neighbouring_nodes = {nullptr, nullptr, nullptr, nullptr};
@@ -95,7 +96,7 @@ public:
 
     std::array<double, 6> get_momentum_coefficients(VelocityComponent velocity_component) const;
 
-    void calculate_pressure_coefficients();
+    void calculate_pressure_coefficients() const;
 
     std::array<double, 6> get_pressure_coefficients() const;
 

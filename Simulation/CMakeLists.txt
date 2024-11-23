@@ -36,7 +36,7 @@ add_executable(Simulation
 
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Node.hpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Node.cpp
-        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/PressureCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/PressureCoefficients/PressureCoefficients.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/MomentumCoefficients/MomentumCoefficients.hpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/MomentumCoefficients/MomentumCoefficients.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/MomentumCoefficients/DiscretizationSchemes.cpp
@@ -61,4 +61,5 @@ add_executable(Simulation
 
         ${TESTS_PATH}/tests.hpp
         ${TESTS_PATH}/helper.hpp
+        src/Simulation/Simulation/Meshing/Nodes/PressureCoefficients/PressureCoefficients.hpp
 )
