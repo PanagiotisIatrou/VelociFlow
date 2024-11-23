@@ -1,5 +1,7 @@
 #include "Node.hpp"
 
+#include <memory>
+
 #include "../../../common.hpp"
 
 Node::Node(const double viscosity, const double density, const double dx, const double dy) {
@@ -7,6 +9,8 @@ Node::Node(const double viscosity, const double density, const double dx, const 
     m_density = density;
     m_dx = dx;
     m_dy = dy;
+
+    m_momentum_coefficients = std::make_unique<MomentumCoefficients>(this);
 
     m_previous_timestep_velocity_u = m_velocity_u;
     m_previous_timestep_velocity_v = m_velocity_v;
@@ -117,4 +121,16 @@ Node *Node::get_neighbouring_node(Direction direction) const {
 
 void Node::set_neighbouring_node(Node *node, Direction direction) {
     m_neighbouring_nodes[static_cast<int>(direction)] = node;
+}
+
+void Node::calculate_momentum_coefficients(const VelocityComponent velocity_component, const SimulationType simulation_type) const {
+    m_momentum_coefficients->calculate_momentum_coefficients(velocity_component, simulation_type);
+}
+
+double Node::get_momentum_coefficient(const CoefficientType type, const VelocityComponent velocity_component) const {
+    return m_momentum_coefficients->get_momentum_coefficient(type, velocity_component);
+}
+
+std::array<double, 6> Node::get_momentum_coefficients(const VelocityComponent velocity_component) const {
+    return m_momentum_coefficients->get_momentum_coefficients(velocity_component);
 }

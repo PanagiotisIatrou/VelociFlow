@@ -1,9 +1,11 @@
 #pragma once
 
 #include <array>
+#include <memory>
 
 #include "../../../common.hpp"
 #include "../Faces/Face.hpp"
+#include "MomentumCoefficients/MomentumCoefficients.hpp"
 
 enum class Direction { West = 0, East = 1, South = 2, North = 3 };
 
@@ -11,9 +13,10 @@ enum class VelocityComponent { U, V };
 
 enum class CoefficientType { Center = 0, Source = 1, West = 2, East = 3, South = 4, North = 5 };
 
-class PressureCoefficients;
-
 class Node {
+private:
+    friend class MomentumCoefficients;
+    friend class DiscretizationSchemes;
 protected:
     double m_velocity_u = 0.0;
     double m_previous_timestep_velocity_u;
@@ -28,20 +31,12 @@ protected:
     double m_dt = 1.0;
     double m_pressure_correction = 0.0;
 
-    std::array<Face *, 4> m_neighbouring_faces = {nullptr, nullptr, nullptr, nullptr};
-    std::array<Node *, 4> m_neighbouring_nodes = {nullptr, nullptr, nullptr, nullptr};
+    std::unique_ptr<MomentumCoefficients> m_momentum_coefficients;
 
-    std::array<double, 6> m_momentum_u_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-    std::array<double, 6> m_momentum_v_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     std::array<double, 6> m_pressure_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
-    std::array<double, 6> get_diffusion_effects(VelocityComponent velocity_component) const;
-
-    std::array<double, 6> get_convection_effects(VelocityComponent velocity_component) const;
-
-    std::array<double, 6> get_pressure_effects(VelocityComponent velocity_component) const;
-
-    std::array<double, 6> get_time_effects(VelocityComponent velocity_component) const;
+    std::array<Face *, 4> m_neighbouring_faces = {nullptr, nullptr, nullptr, nullptr};
+    std::array<Node *, 4> m_neighbouring_nodes = {nullptr, nullptr, nullptr, nullptr};
 
 public:
     Node(double viscosity, double density, double dx, double dy);
@@ -94,7 +89,7 @@ public:
 
     void set_neighbouring_node(Node *node, Direction direction);
 
-    void calculate_momentum_coefficients(VelocityComponent velocity_component, SimulationType simulation_type);
+    void calculate_momentum_coefficients(VelocityComponent velocity_component, SimulationType simulation_type) const;
 
     double get_momentum_coefficient(CoefficientType type, VelocityComponent velocity_component) const;
 

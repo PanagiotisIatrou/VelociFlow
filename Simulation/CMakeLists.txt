@@ -36,8 +36,11 @@ add_executable(Simulation
 
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Node.hpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Node.cpp
-        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/MomentumCoefficients.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/PressureCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/MomentumCoefficients/MomentumCoefficients.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/MomentumCoefficients/MomentumCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/MomentumCoefficients/DiscretizationSchemes.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/MomentumCoefficients/DiscretizationSchemes.hpp
 
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Face.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Face.hpp
