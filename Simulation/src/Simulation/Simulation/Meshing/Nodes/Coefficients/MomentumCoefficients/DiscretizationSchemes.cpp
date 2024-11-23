@@ -2,8 +2,8 @@
 
 #include <cmath>
 
-#include "../Node.hpp"
-#include "../../Faces/Boundary/BoundaryFace.hpp"
+#include "../../Node.hpp"
+#include "../../../Faces/Boundary/BoundaryFace.hpp"
 
 DiscretizationSchemes::DiscretizationSchemes(Node *node) {
     m_node = node;

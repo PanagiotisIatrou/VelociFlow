@@ -1,18 +1,15 @@
-#include <iostream>
+#include "MomentumCoefficients.hpp"
 
-#include "../Node.hpp"
-#include "../../../../common.hpp"
-#include "../../../Simulation.hpp"
-
-#include "../../Faces/Boundary/BoundaryFace.hpp"
-#include "../../Faces/Interior/InteriorFace.hpp"
+#include "../../Node.hpp"
+#include "../../../../../common.hpp"
+#include "../../../Faces/Boundary/BoundaryFace.hpp"
 
 MomentumCoefficients::MomentumCoefficients(Node *node) {
     m_node = node;
     m_discretization_schemes = std::make_unique<DiscretizationSchemes>(node);
 }
 
-std::array<double, 6> MomentumCoefficients::get_diffusion_effects(const VelocityComponent velocity_component) const {
+Coefficients MomentumCoefficients::get_diffusion_effects(const VelocityComponent velocity_component) const {
     double source = 0.0;
     double a_P = 0.0;
     double a_W = 0.0;
@@ -99,7 +96,7 @@ std::array<double, 6> MomentumCoefficients::get_diffusion_effects(const Velocity
     return {a_P, source, a_W, a_E, a_S, a_N};
 }
 
-std::array<double, 6> MomentumCoefficients::get_convection_effects(const VelocityComponent velocity_component) const {
+Coefficients MomentumCoefficients::get_convection_effects(const VelocityComponent velocity_component) const {
     double source = 0.0;
     double a_P = 0.0;
     double a_W = 0.0;
@@ -207,7 +204,7 @@ std::array<double, 6> MomentumCoefficients::get_convection_effects(const Velocit
     // return {a_P, source, a_W, a_E, a_S, a_N};
 }
 
-std::array<double, 6> MomentumCoefficients::get_pressure_effects(const VelocityComponent velocity_component) const {
+Coefficients MomentumCoefficients::get_pressure_effects(const VelocityComponent velocity_component) const {
     double source = 0.0;
     double a_P = 0.0;
     double a_W = 0.0;
@@ -230,7 +227,7 @@ std::array<double, 6> MomentumCoefficients::get_pressure_effects(const VelocityC
     return {a_P, source, a_W, a_E, a_S, a_N};
 }
 
-std::array<double, 6> MomentumCoefficients::get_time_effects(const VelocityComponent velocity_component) const {
+Coefficients MomentumCoefficients::get_time_effects(const VelocityComponent velocity_component) const {
     double source = 0.0;
     double a_P = 0.0;
     double a_W = 0.0;
@@ -255,58 +252,47 @@ std::array<double, 6> MomentumCoefficients::get_time_effects(const VelocityCompo
 void MomentumCoefficients::calculate_momentum_coefficients(const VelocityComponent velocity_component,
                                            const SimulationType simulation_type) {
     // Diffusion
-    const std::array<double, 6> diffusion_coefficients = get_diffusion_effects(velocity_component);
+    const Coefficients diffusion_coefficients = get_diffusion_effects(velocity_component);
 
     // Convection
-    const std::array<double, 6> convection_coefficients = get_convection_effects(velocity_component);
+    const Coefficients convection_coefficients = get_convection_effects(velocity_component);
 
     // Pressure
-    const std::array<double, 6> pressure_coefficients = get_pressure_effects(velocity_component);
+    const Coefficients pressure_coefficients = get_pressure_effects(velocity_component);
 
     // Time
-    std::array<double, 6> time_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    Coefficients time_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     if (simulation_type == SimulationType::Unsteady) {
         time_coefficients = get_time_effects(velocity_component);
     }
 
     // Sum the coefficients
-    double a_P = diffusion_coefficients[0] + convection_coefficients[0] + pressure_coefficients[0] + time_coefficients[
-                     0];
-    double source = diffusion_coefficients[1] + convection_coefficients[1] + pressure_coefficients[1] +
-                    time_coefficients[1];
-    const double a_W = diffusion_coefficients[2] + convection_coefficients[2] + pressure_coefficients[2] +
-                       time_coefficients[2];
-    const double a_E = diffusion_coefficients[3] + convection_coefficients[3] + pressure_coefficients[3] +
-                       time_coefficients[3];
-    const double a_S = diffusion_coefficients[4] + convection_coefficients[4] + pressure_coefficients[4] +
-                       time_coefficients[4];
-    const double a_N = diffusion_coefficients[5] + convection_coefficients[5] + pressure_coefficients[5] +
-                       time_coefficients[5];
+    Coefficients coefficients = diffusion_coefficients + convection_coefficients + pressure_coefficients + time_coefficients;
 
     if (velocity_component == VelocityComponent::U) {
         // Under-relaxation
-        a_P /= velocity_u_relaxation;
-        source += (1 - velocity_u_relaxation) * a_P * m_node->get_velocity_u();
+        coefficients.center /= velocity_u_relaxation;
+        coefficients.source += (1 - velocity_u_relaxation) * coefficients.center * m_node->get_velocity_u();
 
-        m_momentum_u_coefficients = {a_P, source, a_W, a_E, a_S, a_N};
+        m_momentum_u_coefficients = coefficients;
     } else {
         // Under-relaxation
-        a_P /= velocity_v_relaxation;
-        source += (1 - velocity_v_relaxation) * a_P * m_node->get_velocity_v();
+        coefficients.center /= velocity_v_relaxation;
+        coefficients.source += (1 - velocity_v_relaxation) * coefficients.center * m_node->get_velocity_v();
 
-        m_momentum_v_coefficients = {a_P, source, a_W, a_E, a_S, a_N};
+        m_momentum_v_coefficients = coefficients;
     }
 }
 
 double MomentumCoefficients::get_momentum_coefficient(const CoefficientType type, const VelocityComponent velocity_component) const {
     if (velocity_component == VelocityComponent::U) {
-        return m_momentum_u_coefficients[static_cast<int>(type)];
+        return m_momentum_u_coefficients.get_coefficient(type);
     } else {
-        return m_momentum_v_coefficients[static_cast<int>(type)];
+        return m_momentum_v_coefficients.get_coefficient(type);
     }
 }
 
-std::array<double, 6> MomentumCoefficients::get_momentum_coefficients(const VelocityComponent velocity_component) const {
+Coefficients MomentumCoefficients::get_momentum_coefficients(const VelocityComponent velocity_component) const {
     if (velocity_component == VelocityComponent::U) {
         return m_momentum_u_coefficients;
     } else {

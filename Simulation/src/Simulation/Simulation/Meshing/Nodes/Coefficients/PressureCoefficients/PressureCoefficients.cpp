@@ -1,7 +1,7 @@
-#include "../Node.hpp"
+#include "../../Node.hpp"
 
-#include "../../Faces/Boundary/BoundaryFace.hpp"
-#include "../../Faces/Interior/InteriorFace.hpp"
+#include "../../../Faces/Boundary/BoundaryFace.hpp"
+#include "../../../Faces/Interior/InteriorFace.hpp"
 
 PressureCoefficients::PressureCoefficients(Node *node) {
     m_node = node;
@@ -134,10 +134,10 @@ void PressureCoefficients::calculate_pressure_coefficients() {
     m_pressure_coefficients = {a_P, source, a_W, a_E, a_S, a_N};
 }
 
-std::array<double, 6> PressureCoefficients::get_pressure_coefficients() const {
+Coefficients PressureCoefficients::get_pressure_coefficients() const {
     return m_pressure_coefficients;
 }
 
 double PressureCoefficients::get_pressure_coefficient(const CoefficientType type) const {
-    return m_pressure_coefficients[static_cast<int>(type)];
+    return m_pressure_coefficients.get_coefficient(type);
 }

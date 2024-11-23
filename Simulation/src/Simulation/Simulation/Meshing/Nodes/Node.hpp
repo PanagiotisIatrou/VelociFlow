@@ -5,14 +5,8 @@
 
 #include "../../../common.hpp"
 #include "../Faces/Face.hpp"
-#include "MomentumCoefficients/MomentumCoefficients.hpp"
-#include "PressureCoefficients/PressureCoefficients.hpp"
-
-enum class Direction { West = 0, East = 1, South = 2, North = 3 };
-
-enum class VelocityComponent { U, V };
-
-enum class CoefficientType { Center = 0, Source = 1, West = 2, East = 3, South = 4, North = 5 };
+#include "Coefficients/MomentumCoefficients/MomentumCoefficients.hpp"
+#include "Coefficients/PressureCoefficients/PressureCoefficients.hpp"
 
 class Node {
 private:
@@ -94,11 +88,11 @@ public:
 
     double get_momentum_coefficient(CoefficientType type, VelocityComponent velocity_component) const;
 
-    std::array<double, 6> get_momentum_coefficients(VelocityComponent velocity_component) const;
+    Coefficients get_momentum_coefficients(VelocityComponent velocity_component) const;
 
     void calculate_pressure_coefficients() const;
 
-    std::array<double, 6> get_pressure_coefficients() const;
+    Coefficients get_pressure_coefficients() const;
 
     double get_pressure_coefficient(CoefficientType type) const;
 };

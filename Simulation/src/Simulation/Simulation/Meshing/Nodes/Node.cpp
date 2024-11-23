@@ -132,7 +132,7 @@ double Node::get_momentum_coefficient(const CoefficientType type, const Velocity
     return m_momentum_coefficients->get_momentum_coefficient(type, velocity_component);
 }
 
-std::array<double, 6> Node::get_momentum_coefficients(const VelocityComponent velocity_component) const {
+Coefficients Node::get_momentum_coefficients(const VelocityComponent velocity_component) const {
     return m_momentum_coefficients->get_momentum_coefficients(velocity_component);
 }
 
@@ -140,7 +140,7 @@ void Node::calculate_pressure_coefficients() const {
     m_pressure_coefficients->calculate_pressure_coefficients();
 }
 
-std::array<double, 6> Node::get_pressure_coefficients() const {
+Coefficients Node::get_pressure_coefficients() const {
     return m_pressure_coefficients->get_pressure_coefficients();
 }
 
