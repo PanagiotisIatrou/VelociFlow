@@ -37,8 +37,7 @@ void Simulation::calculate_active_cells_count() {
     }
 }
 
-void Simulation::solve_x_momentum() {
-    // Calculate the initial residual
+void Simulation::calculate_momentum_x_imbalance() {
     m_momentum_x_error = 0.0;
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
@@ -83,7 +82,9 @@ void Simulation::solve_x_momentum() {
             m_momentum_x_error = std::max(m_momentum_x_error, residual);
         }
     }
+}
 
+void Simulation::solve_x_momentum() {
     // Solve x momentum
     double tol = m_momentum_x_error / 1e2;
     double momentum_x_error = 1.0;
@@ -138,8 +139,7 @@ void Simulation::solve_x_momentum() {
     }
 }
 
-void Simulation::solve_y_momentum() {
-    // Calculate initial residual
+void Simulation::calculate_momentum_y_imbalance() {
     m_momentum_y_error = 0.0;
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
@@ -184,7 +184,9 @@ void Simulation::solve_y_momentum() {
             m_momentum_y_error = std::max(m_momentum_y_error, residual);
         }
     }
+}
 
+void Simulation::solve_y_momentum() {
     // Solve y momentum
     double tol = m_momentum_y_error / 1e2;
     double momentum_y_error = 1.0;
@@ -341,6 +343,10 @@ void Simulation::simple_iterate(const SimulationType simulation_type) {
     // Calculate the momentum coefficients
     m_bulk_node_operations->calculate_momentum_coefficients(VelocityComponent::U, simulation_type);
     m_bulk_node_operations->calculate_momentum_coefficients(VelocityComponent::V, simulation_type);
+
+    // Calculate the momentum imbalance
+    calculate_momentum_x_imbalance();
+    calculate_momentum_y_imbalance();
 
     // Solve X and Y momentum equations
     solve_x_momentum();

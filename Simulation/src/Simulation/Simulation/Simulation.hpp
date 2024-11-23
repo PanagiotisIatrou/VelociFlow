@@ -39,7 +39,11 @@ protected:
 
     void simple_iterate(SimulationType simulation_type);
 
+    void calculate_momentum_x_imbalance();
+
     void solve_x_momentum();
+
+    void calculate_momentum_y_imbalance();
 
     void solve_y_momentum();
 
