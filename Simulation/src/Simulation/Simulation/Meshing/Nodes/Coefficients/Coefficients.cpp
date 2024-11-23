@@ -16,3 +16,16 @@ double Coefficients::get_coefficient(const CoefficientType type) const {
             return north;
     }
 }
+
+double Coefficients::get_coefficient(const Direction direction) const {
+    switch (direction) {
+        case Direction::West:
+            return west;
+        case Direction::East:
+            return east;
+        case Direction::South:
+            return south;
+        case Direction::North:
+            return north;
+    }
+}

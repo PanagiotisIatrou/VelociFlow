@@ -53,29 +53,13 @@ void Simulation::calculate_momentum_x_imbalance() {
 
             // Solve for velocity_u_P
             double velocity_u_P = c.source;
-
-            Face *face_w = node_P->get_neighbouring_face(Direction::West);
-            if (face_w->get_face_type() != FaceType::Boundary) {
-                Node *node_W = m_mesh->get_node(i - 1, j);
-                velocity_u_P += c.west * node_W->get_velocity_u();
-            }
-
-            Face *face_e = node_P->get_neighbouring_face(Direction::East);
-            if (face_e->get_face_type() != FaceType::Boundary) {
-                Node *node_E = m_mesh->get_node(i + 1, j);
-                velocity_u_P += c.east * node_E->get_velocity_u();
-            }
-
-            Face *face_s = node_P->get_neighbouring_face(Direction::South);
-            if (face_s->get_face_type() != FaceType::Boundary) {
-                Node *node_S = m_mesh->get_node(i, j - 1);
-                velocity_u_P += c.south * node_S->get_velocity_u();
-            }
-
-            Face *face_n = node_P->get_neighbouring_face(Direction::North);
-            if (face_n->get_face_type() != FaceType::Boundary) {
-                Node *node_N = m_mesh->get_node(i, j + 1);
-                velocity_u_P += c.north * node_N->get_velocity_u();
+            for (int dir = direction_start; dir < direction_end; dir++) {
+                const Direction direction = static_cast<Direction>(dir);
+                Face *face = node_P->get_neighbouring_face(direction);
+                if (face->get_face_type() != FaceType::Boundary) {
+                    const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                    velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
+                }
             }
 
             const double residual = std::abs(c.center * node_P->get_velocity_u() - velocity_u_P);
@@ -104,29 +88,13 @@ void Simulation::solve_x_momentum() {
 
                 // Solve for velocity_u_P
                 double velocity_u_P = c.source;
-
-                Face *face_w = node_P->get_neighbouring_face(Direction::West);
-                if (face_w->get_face_type() != FaceType::Boundary) {
-                    Node *node_W = m_mesh->get_node(i - 1, j);
-                    velocity_u_P += c.west * node_W->get_velocity_u();
-                }
-
-                Face *face_e = node_P->get_neighbouring_face(Direction::East);
-                if (face_e->get_face_type() != FaceType::Boundary) {
-                    Node *node_E = m_mesh->get_node(i + 1, j);
-                    velocity_u_P += c.east * node_E->get_velocity_u();
-                }
-
-                Face *face_s = node_P->get_neighbouring_face(Direction::South);
-                if (face_s->get_face_type() != FaceType::Boundary) {
-                    Node *node_S = m_mesh->get_node(i, j - 1);
-                    velocity_u_P += c.south * node_S->get_velocity_u();
-                }
-
-                Face *face_n = node_P->get_neighbouring_face(Direction::North);
-                if (face_n->get_face_type() != FaceType::Boundary) {
-                    Node *node_N = m_mesh->get_node(i, j + 1);
-                    velocity_u_P += c.north * node_N->get_velocity_u();
+                for (int dir = direction_start; dir < direction_end; dir++) {
+                    const Direction direction = static_cast<Direction>(dir);
+                    Face *face = node_P->get_neighbouring_face(direction);
+                    if (face->get_face_type() != FaceType::Boundary) {
+                        const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                        velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
+                    }
                 }
 
                 const double residual = std::abs(c.center * node_P->get_velocity_u() - velocity_u_P);
@@ -155,29 +123,13 @@ void Simulation::calculate_momentum_y_imbalance() {
 
             // Solve for velocity_v_P
             double velocity_v_P = c.source;
-
-            Face *face_w = node_P->get_neighbouring_face(Direction::West);
-            if (face_w->get_face_type() != FaceType::Boundary) {
-                Node *node_W = m_mesh->get_node(i - 1, j);
-                velocity_v_P += c.west * node_W->get_velocity_v();
-            }
-
-            Face *face_e = node_P->get_neighbouring_face(Direction::East);
-            if (face_e->get_face_type() != FaceType::Boundary) {
-                Node *node_E = m_mesh->get_node(i + 1, j);
-                velocity_v_P += c.east * node_E->get_velocity_v();
-            }
-
-            Face *face_s = node_P->get_neighbouring_face(Direction::South);
-            if (face_s->get_face_type() != FaceType::Boundary) {
-                Node *node_S = m_mesh->get_node(i, j - 1);
-                velocity_v_P += c.south * node_S->get_velocity_v();
-            }
-
-            Face *face_n = node_P->get_neighbouring_face(Direction::North);
-            if (face_n->get_face_type() != FaceType::Boundary) {
-                Node *node_N = m_mesh->get_node(i, j + 1);
-                velocity_v_P += c.north * node_N->get_velocity_v();
+            for (int dir = direction_start; dir < direction_end; dir++) {
+                const Direction direction = static_cast<Direction>(dir);
+                Face *face = node_P->get_neighbouring_face(direction);
+                if (face->get_face_type() != FaceType::Boundary) {
+                    const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                    velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
+                }
             }
 
             const double residual = std::abs(c.center * node_P->get_velocity_v() - velocity_v_P);
@@ -206,29 +158,13 @@ void Simulation::solve_y_momentum() {
 
                 // Solve for velocity_v_P
                 double velocity_v_P = c.source;
-
-                Face *face_w = node_P->get_neighbouring_face(Direction::West);
-                if (face_w->get_face_type() != FaceType::Boundary) {
-                    Node *node_W = m_mesh->get_node(i - 1, j);
-                    velocity_v_P += c.west * node_W->get_velocity_v();
-                }
-
-                Face *face_e = node_P->get_neighbouring_face(Direction::East);
-                if (face_e->get_face_type() != FaceType::Boundary) {
-                    Node *node_E = m_mesh->get_node(i + 1, j);
-                    velocity_v_P += c.east * node_E->get_velocity_v();
-                }
-
-                Face *face_s = node_P->get_neighbouring_face(Direction::South);
-                if (face_s->get_face_type() != FaceType::Boundary) {
-                    Node *node_S = m_mesh->get_node(i, j - 1);
-                    velocity_v_P += c.south * node_S->get_velocity_v();
-                }
-
-                Face *face_n = node_P->get_neighbouring_face(Direction::North);
-                if (face_n->get_face_type() != FaceType::Boundary) {
-                    Node *node_N = m_mesh->get_node(i, j + 1);
-                    velocity_v_P += c.north * node_N->get_velocity_v();
+                for (int dir = direction_start; dir < direction_end; dir++) {
+                    const Direction direction = static_cast<Direction>(dir);
+                    Face *face = node_P->get_neighbouring_face(direction);
+                    if (face->get_face_type() != FaceType::Boundary) {
+                        const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                        velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
+                    }
                 }
 
                 const double residual = std::abs(c.center * node_P->get_velocity_v() - velocity_v_P);
@@ -303,29 +239,13 @@ void Simulation::solve_pressure_correction() const {
 
                 // Solve for pressure_correction_P
                 double pressure_correction_P = c.source;
-
-                const Face *face_w = node_P->get_neighbouring_face(Direction::West);
-                if (face_w->get_face_type() != FaceType::Boundary) {
-                    pressure_correction_P += c.west * node_P->get_neighbouring_node(Direction::West)->
-                            get_pressure_correction();
-                }
-
-                const Face *face_e = node_P->get_neighbouring_face(Direction::East);
-                if (face_e->get_face_type() != FaceType::Boundary) {
-                    pressure_correction_P += c.east * node_P->get_neighbouring_node(Direction::East)->
-                            get_pressure_correction();
-                }
-
-                const Face *face_s = node_P->get_neighbouring_face(Direction::South);
-                if (face_s->get_face_type() != FaceType::Boundary) {
-                    pressure_correction_P += c.south * node_P->get_neighbouring_node(Direction::South)->
-                            get_pressure_correction();
-                }
-
-                const Face *face_n = node_P->get_neighbouring_face(Direction::North);
-                if (face_n->get_face_type() != FaceType::Boundary) {
-                    pressure_correction_P += c.north * node_P->get_neighbouring_node(Direction::North)->
-                            get_pressure_correction();
+                for (int dir = direction_start; dir < direction_end; dir++) {
+                    const Direction direction = static_cast<Direction>(dir);
+                    const Face *face = node_P->get_neighbouring_face(direction);
+                    if (face->get_face_type() != FaceType::Boundary) {
+                        const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                        pressure_correction_P += c.get_coefficient(direction) * neighbouring_node->get_pressure_correction();
+                    }
                 }
 
                 const double residual = std::abs(c.center * node_P->get_pressure_correction() - pressure_correction_P);
