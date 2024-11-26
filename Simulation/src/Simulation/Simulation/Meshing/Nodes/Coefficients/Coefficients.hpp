@@ -2,7 +2,7 @@
 
 #include "../../../../common.hpp"
 
-enum class CoefficientType { Center = 0, Source = 1, West = 2, East = 3, South = 4, North = 5 };
+enum class CoefficientType { Center = 0, Source = 1, West = 2, East = 3, South = 4, North = 5, WestWest = 6, EastEast = 7, SouthSouth = 8, NorthNorth = 9 };
 
 class Coefficients {
 public:
@@ -12,6 +12,10 @@ public:
     double east = 0.0;
     double south = 0.0;
     double north = 0.0;
+    double west_west = 0.0;
+    double east_east = 0.0;
+    double south_south = 0.0;
+    double north_north = 0.0;
 
     double get_coefficient(CoefficientType type) const;
 

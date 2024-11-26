@@ -48,15 +48,17 @@ void Simulation::calculate_momentum_x_imbalance() {
                 continue;
             }
 
+            // TODO: Check if any modification is required on the DiscretizationSchemes regarding the boundary conditions
+
             // Get the coefficients
             Coefficients c = node_P->get_momentum_coefficients(VelocityComponent::U);
 
             // Solve for velocity_u_P
             double velocity_u_P = c.source;
-            for (int dir = direction_start; dir < direction_end; dir++) {
+            for (int dir = direction_start; dir < direction_all_end; dir++) {
                 const Direction direction = static_cast<Direction>(dir);
                 Face *face = node_P->get_neighbouring_face(direction);
-                if (face->get_face_type() != FaceType::Boundary) {
+                if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                     const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
                     velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
                 }
@@ -88,10 +90,10 @@ void Simulation::solve_x_momentum() {
 
                 // Solve for velocity_u_P
                 double velocity_u_P = c.source;
-                for (int dir = direction_start; dir < direction_end; dir++) {
+                for (int dir = direction_start; dir < direction_all_end; dir++) {
                     const Direction direction = static_cast<Direction>(dir);
                     Face *face = node_P->get_neighbouring_face(direction);
-                    if (face->get_face_type() != FaceType::Boundary) {
+                    if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
                         velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
                     }
@@ -123,10 +125,10 @@ void Simulation::calculate_momentum_y_imbalance() {
 
             // Solve for velocity_v_P
             double velocity_v_P = c.source;
-            for (int dir = direction_start; dir < direction_end; dir++) {
+            for (int dir = direction_start; dir < direction_all_end; dir++) {
                 const Direction direction = static_cast<Direction>(dir);
                 Face *face = node_P->get_neighbouring_face(direction);
-                if (face->get_face_type() != FaceType::Boundary) {
+                if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                     const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
                     velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
                 }
@@ -158,10 +160,10 @@ void Simulation::solve_y_momentum() {
 
                 // Solve for velocity_v_P
                 double velocity_v_P = c.source;
-                for (int dir = direction_start; dir < direction_end; dir++) {
+                for (int dir = direction_start; dir < direction_all_end; dir++) {
                     const Direction direction = static_cast<Direction>(dir);
                     Face *face = node_P->get_neighbouring_face(direction);
-                    if (face->get_face_type() != FaceType::Boundary) {
+                    if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
                         velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
                     }
@@ -239,7 +241,7 @@ void Simulation::solve_pressure_correction() const {
 
                 // Solve for pressure_correction_P
                 double pressure_correction_P = c.source;
-                for (int dir = direction_start; dir < direction_end; dir++) {
+                for (int dir = direction_start; dir < direction_near_end; dir++) {
                     const Direction direction = static_cast<Direction>(dir);
                     const Face *face = node_P->get_neighbouring_face(direction);
                     if (face->get_face_type() != FaceType::Boundary) {

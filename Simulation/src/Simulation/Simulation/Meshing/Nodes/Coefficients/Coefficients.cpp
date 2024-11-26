@@ -14,6 +14,14 @@ double Coefficients::get_coefficient(const CoefficientType type) const {
             return south;
         case CoefficientType::North:
             return north;
+        case CoefficientType::WestWest:
+            return west_west;
+        case CoefficientType::EastEast:
+            return east_east;
+        case CoefficientType::SouthSouth:
+            return south_south;
+        case CoefficientType::NorthNorth:
+            return north_north;
     }
 }
 
@@ -27,5 +35,13 @@ double Coefficients::get_coefficient(const Direction direction) const {
             return south;
         case Direction::North:
             return north;
+        case Direction::WestWest:
+            return west_west;
+        case Direction::EastEast:
+            return east_east;
+        case Direction::SouthSouth:
+            return south_south;
+        case Direction::NorthNorth:
+            return north_north;
     }
 }

@@ -13,6 +13,7 @@ private:
     friend class MomentumCoefficients;
     friend class PressureCoefficients;
     friend class DiscretizationSchemes;
+
 protected:
     double m_velocity_u = 0.0;
     double m_velocity_v = 0.0;
@@ -30,8 +31,12 @@ protected:
     std::unique_ptr<MomentumCoefficients> m_momentum_coefficients;
     std::unique_ptr<PressureCoefficients> m_pressure_coefficients;
 
-    std::array<Face *, 4> m_neighbouring_faces = {nullptr, nullptr, nullptr, nullptr};
-    std::array<Node *, 4> m_neighbouring_nodes = {nullptr, nullptr, nullptr, nullptr};
+    std::array<Face *, 8> m_neighbouring_faces = {
+        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
+    };
+    std::array<Node *, 8> m_neighbouring_nodes = {
+        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
+    };
 
 public:
     Node(double viscosity, double density, double dx, double dy);
