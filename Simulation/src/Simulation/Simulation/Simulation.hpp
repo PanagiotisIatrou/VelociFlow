@@ -41,11 +41,11 @@ protected:
 
     void calculate_momentum_x_imbalance();
 
-    void solve_x_momentum();
+    void solve_x_momentum() const;
 
     void calculate_momentum_y_imbalance();
 
-    void solve_y_momentum();
+    void solve_y_momentum() const;
 
     void calculate_mass_imbalance();
 
