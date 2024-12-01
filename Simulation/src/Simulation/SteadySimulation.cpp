@@ -27,7 +27,7 @@ void SteadySimulation::solve() {
     while (m_momentum_x_error > m_velocity_u_tolerance || m_momentum_y_error > m_velocity_v_tolerance ||
            m_mass_imbalance > m_pressure_tolerance) {
         simple_iterate(SimulationType::Steady);
-        std::cout << m_momentum_x_error << ", " << m_momentum_y_error << ", " << m_mass_imbalance << std::endl;
+        printf("%-6.d   %.4e   %.4e   %.4e\n", m_outer_iterations_count, m_momentum_x_error, m_momentum_y_error, m_mass_imbalance);
     }
     std::cout << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
 

@@ -46,7 +46,7 @@ void UnsteadySimulation::solve() {
         while (m_momentum_x_error > m_velocity_u_tolerance || m_momentum_y_error > m_velocity_v_tolerance ||
                m_mass_imbalance > m_pressure_tolerance) {
             simple_iterate(SimulationType::Unsteady);
-            // std::cout << m_momentum_x_error << ", " << m_momentum_y_error << ", " << m_mass_imbalance << std::endl;
+            // printf("%.4e   %.4e   %.4e\n", m_momentum_x_error, m_momentum_y_error, m_mass_imbalance);
         }
 
         // Write the current timestep field values
