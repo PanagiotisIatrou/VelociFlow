@@ -48,8 +48,6 @@ void Simulation::calculate_momentum_x_imbalance() {
                 continue;
             }
 
-            // TODO: Check if any modification is required on the DiscretizationSchemes regarding the boundary conditions
-
             // Get the coefficients
             Coefficients c = node_P->get_momentum_coefficients(VelocityComponent::U);
 

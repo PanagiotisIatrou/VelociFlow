@@ -1,10 +1,6 @@
 #pragma once
 
-#include <memory>
-
 #include "../Coefficients.hpp"
-#include "DiscretizationSchemes.hpp"
-
 
 class Node;
 
@@ -14,8 +10,6 @@ private:
 
     Coefficients m_momentum_u_coefficients;
     Coefficients m_momentum_v_coefficients;
-
-    std::unique_ptr<DiscretizationSchemes> m_discretization_schemes;
 
     Coefficients get_diffusion_effects(VelocityComponent velocity_component) const;
 

@@ -21,6 +21,10 @@ public:
 
     double get_coefficient(Direction direction) const;
 
+    void set_coefficient(Direction direction, double value);
+
+    void add_to_coefficient(Direction direction, double value);
+
     Coefficients operator+(const Coefficients &rhs) const {
         return {center + rhs.center, source + rhs.source, west + rhs.west, east + rhs.east, south + rhs.south,
                 north + rhs.north};

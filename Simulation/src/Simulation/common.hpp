@@ -9,6 +9,52 @@ inline extern const int direction_start = 0;
 inline extern const int direction_near_end = 4;
 inline extern const int direction_all_end = 8;
 
+inline Direction extend_direction(const Direction direction) {
+    switch (direction) {
+        case Direction::West: {
+            return Direction::WestWest;
+        }
+        case Direction::East: {
+            return Direction::EastEast;
+        }
+        case Direction::South: {
+            return Direction::SouthSouth;
+        }
+        case Direction::North: {
+            return Direction::NorthNorth;
+        }
+    }
+}
+
+inline Direction get_opposite_direction(const Direction direction) {
+    switch (direction) {
+        case Direction::West: {
+            return Direction::East;
+        }
+        case Direction::East: {
+            return Direction::West;
+        }
+        case Direction::South: {
+            return Direction::North;
+        }
+        case Direction::North: {
+            return Direction::South;
+        }
+        case Direction::WestWest: {
+            return Direction::EastEast;
+        }
+        case Direction::EastEast: {
+            return Direction::WestWest;
+        }
+        case Direction::SouthSouth: {
+            return Direction::NorthNorth;
+        }
+        case Direction::NorthNorth: {
+            return Direction::SouthSouth;
+        }
+    }
+}
+
 enum class VelocityComponent { U, V };
 
 // Relaxation
