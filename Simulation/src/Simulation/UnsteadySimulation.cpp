@@ -29,8 +29,6 @@ void UnsteadySimulation::solve() {
     m_bulk_face_operations->update_face_x_pressures();
     m_bulk_face_operations->update_face_y_pressures();
 
-    // TODO: Set custom initial conditions
-
     // Save the mesh settings
     m_saver->open_and_clear_file();
     m_saver->write_domain_size();

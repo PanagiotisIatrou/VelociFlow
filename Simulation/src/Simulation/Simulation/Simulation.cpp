@@ -275,9 +275,6 @@ void Simulation::simple_iterate(const SimulationType simulation_type) {
     // Calculate the face velocities
     m_bulk_face_operations->update_face_x_velocities_rhie_chow();
     m_bulk_face_operations->update_face_y_velocities_rhie_chow();
-    // m_bulk_face_operations->update_face_x_velocities_distance_weighted();
-    // m_bulk_face_operations->update_face_y_velocities_distance_weighted();
-    // m_mass_imbalance = 0.0;
 
     // Calculate the pressure correction coefficients
     m_bulk_node_operations->calculate_pressure_coefficients();
@@ -296,136 +293,9 @@ void Simulation::simple_iterate(const SimulationType simulation_type) {
     m_bulk_node_operations->correct_node_velocity_u();
     m_bulk_node_operations->correct_node_velocity_v();
 
-    // double imb[100][100];
-    // double w1 = 0.0;
-    // for (int i = 0; i < m_mesh->get_size_x(); i++) {
-    //     for (int j = 0; j < m_mesh->get_size_y(); j++) {
-    //         Node *node_P;
-    //         if (i == m_mesh->get_size_x()) {
-    //             node_P = m_mesh->get_node(m_mesh->get_size_x() - 1, j);
-    //         } else {
-    //             node_P = m_mesh->get_node(i, j);
-    //         }
-    //
-    //         Face *face_w = node_P->get_neighbouring_face(Direction::West);
-    //         Face *face_e = node_P->get_neighbouring_face(Direction::East);
-    //         Face *face_s = node_P->get_neighbouring_face(Direction::South);
-    //         Face *face_n = node_P->get_neighbouring_face(Direction::North);
-    //
-    //         // Velocity w
-    //         double velocity_w;
-    //         if (face_w->get_type() == FaceType::Boundary) {
-    //             velocity_w = static_cast<BoundaryFace *>(face_w)->get_velocity_u();
-    //         } else {
-    //             velocity_w = static_cast<InteriorFace *>(face_w)->get_velocity();
-    //         }
-    //
-    //         // Velocity e
-    //         double velocity_e;
-    //         if (face_e->get_type() == FaceType::Boundary) {
-    //             velocity_e = static_cast<BoundaryFace *>(face_e)->get_velocity_u();
-    //         } else {
-    //             velocity_e = static_cast<InteriorFace *>(face_e)->get_velocity();
-    //         }
-    //
-    //         // Velocity s
-    //         double velocity_s;
-    //         if (face_s->get_type() == FaceType::Boundary) {
-    //             velocity_s = static_cast<BoundaryFace *>(face_s)->get_velocity_v();
-    //         } else {
-    //             velocity_s = static_cast<InteriorFace *>(face_s)->get_velocity();
-    //         }
-    //
-    //         // Velocity n
-    //         double velocity_n;
-    //         if (face_n->get_type() == FaceType::Boundary) {
-    //             velocity_n = static_cast<BoundaryFace *>(face_n)->get_velocity_v();
-    //         } else {
-    //             velocity_n = static_cast<InteriorFace *>(face_n)->get_velocity();
-    //         }
-    //
-    //         imb[i][j] = std::abs(
-    //             velocity_e * m_mesh->get_dy()
-    //             - velocity_w * m_mesh->get_dy()
-    //             + velocity_n * m_mesh->get_dx()
-    //             - velocity_s * m_mesh->get_dx());
-    //
-    //         w1 += imb[i][j];
-    //     }
-    // }
-    // w1 = std::sqrt(w1);
-
     // Correct the face x and y velocities
     m_bulk_face_operations->correct_face_x_velocity();
     m_bulk_face_operations->correct_face_y_velocity();
-
-    // int cell_mass_imbalance_increase_count = 0;
-    // double w2 = 0.0;
-    // for (int i = 0; i < m_mesh->get_size_x(); i++) {
-    //     for (int j = 0; j < m_mesh->get_size_y(); j++) {
-    //         Node *node_P;
-    //         if (i == m_mesh->get_size_x()) {
-    //             node_P = m_mesh->get_node(m_mesh->get_size_x() - 1, j);
-    //         } else {
-    //             node_P = m_mesh->get_node(i, j);
-    //         }
-    //
-    //         Face *face_w = node_P->get_neighbouring_face(Direction::West);
-    //         Face *face_e = node_P->get_neighbouring_face(Direction::East);
-    //         Face *face_s = node_P->get_neighbouring_face(Direction::South);
-    //         Face *face_n = node_P->get_neighbouring_face(Direction::North);
-    //
-    //         // Velocity w
-    //         double velocity_w;
-    //         if (face_w->get_type() == FaceType::Boundary) {
-    //             velocity_w = static_cast<BoundaryFace *>(face_w)->get_velocity_u();
-    //         } else {
-    //             velocity_w = static_cast<InteriorFace *>(face_w)->get_velocity();
-    //         }
-    //
-    //         // Velocity e
-    //         double velocity_e;
-    //         if (face_e->get_type() == FaceType::Boundary) {
-    //             velocity_e = static_cast<BoundaryFace *>(face_e)->get_velocity_u();
-    //         } else {
-    //             velocity_e = static_cast<InteriorFace *>(face_e)->get_velocity();
-    //         }
-    //
-    //         // Velocity s
-    //         double velocity_s;
-    //         if (face_s->get_type() == FaceType::Boundary) {
-    //             velocity_s = static_cast<BoundaryFace *>(face_s)->get_velocity_v();
-    //         } else {
-    //             velocity_s = static_cast<InteriorFace *>(face_s)->get_velocity();
-    //         }
-    //
-    //         // Velocity n
-    //         double velocity_n;
-    //         if (face_n->get_type() == FaceType::Boundary) {
-    //             velocity_n = static_cast<BoundaryFace *>(face_n)->get_velocity_v();
-    //         } else {
-    //             velocity_n = static_cast<InteriorFace *>(face_n)->get_velocity();
-    //         }
-    //
-    //         double imbalance = std::abs(
-    //             velocity_e * m_mesh->get_dy()
-    //             - velocity_w * m_mesh->get_dy()
-    //             + velocity_n * m_mesh->get_dx()
-    //             - velocity_s * m_mesh->get_dx());
-    //
-    //         w2 += imbalance;
-    //
-    //         if (imbalance > imb[i][j]) {
-    //             cell_mass_imbalance_increase_count++;
-    //         }
-    //     }
-    // }
-    // w2 = std::sqrt(w2);
-    // std::cout << 100.0 * (static_cast<double>(cell_mass_imbalance_increase_count) / m_active_cells_count) << "%" << std::endl;
-    //
-    // if (w2 > w1) {
-    //     std::cerr << "2. Imbalance increased from " << w1 << " to " << w2 << std::endl;
-    // }
 
     // Correct the pressure on the nodes
     m_bulk_node_operations->correct_node_pressure();

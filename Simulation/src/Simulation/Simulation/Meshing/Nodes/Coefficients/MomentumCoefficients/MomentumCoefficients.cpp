@@ -223,7 +223,6 @@ Coefficients MomentumCoefficients::get_convection_effects(const VelocityComponen
                     opposite_node_value = opposite_node->get_velocity_v();
                 }
             } else {
-                // TODO: extrapolate or mirror
                 double boundary_value;
                 if (velocity_component == VelocityComponent::U) {
                     boundary_value = static_cast<BoundaryFace *>(opposite_direction_face)->get_velocity_u();
