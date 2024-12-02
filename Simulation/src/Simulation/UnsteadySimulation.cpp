@@ -1,12 +1,13 @@
 #include "UnsteadySimulation.hpp"
 
 #include <iostream>
+#include <cmath>
 
 UnsteadySimulation::UnsteadySimulation(Mesh *mesh, const double dt, const int timesteps,
                                        const double velocity_u_tolerance, const double velocity_v_tolerance,
                                        const double pressure_tolerance, const std::string output_file,
-                                       const bool print_residuals)
-    : Simulation(mesh, velocity_u_tolerance, velocity_v_tolerance, pressure_tolerance, output_file, print_residuals) {
+                                       const VerboseType verbose_type)
+    : Simulation(mesh, velocity_u_tolerance, velocity_v_tolerance, pressure_tolerance, output_file, verbose_type) {
     m_dt = dt;
     m_timesteps = timesteps;
     m_mesh->set_dt(dt);
@@ -44,11 +45,34 @@ void UnsteadySimulation::solve() {
         m_momentum_y_error = 1.0;
         m_mass_imbalance = 1.0;
         m_outer_iterations_count = 0;
+        double first_momentum_x_error;
+        double first_momentum_y_error;
+        double first_mass_imbalance_error;
         while (m_momentum_x_error > m_velocity_u_tolerance || m_momentum_y_error > m_velocity_v_tolerance ||
                m_mass_imbalance > m_pressure_tolerance) {
             simple_iterate(SimulationType::Unsteady);
-            if (m_print_residuals) {
+
+            // First errors
+            if (m_outer_iterations_count < 5) {
+                first_momentum_x_error = m_momentum_x_error;
+                first_momentum_y_error = m_momentum_y_error;
+                first_mass_imbalance_error = m_mass_imbalance;
+            }
+
+            // Printing
+            if (m_verbose_type == VerboseType::Residuals) {
                 printf("%.4e   %.4e   %.4e\n", m_momentum_x_error, m_momentum_y_error, m_mass_imbalance);
+            } else if (m_verbose_type == VerboseType::Percentages) {
+                const double momentum_x_scale = 1 - std::log10(m_momentum_x_error / m_velocity_u_tolerance) / std::log10(first_momentum_x_error / m_velocity_u_tolerance);
+                const int momentum_x_percentage = static_cast<int>(std::floor(momentum_x_scale * 100.0));
+                const double momentum_y_scale = 1 - std::log10(m_momentum_y_error / m_velocity_v_tolerance) / std::log10(first_momentum_y_error / m_velocity_v_tolerance);
+                const int momentum_y_percentage = static_cast<int>(std::floor(momentum_y_scale * 100.0));
+                const double mass_imbalance_scale = 1 - std::log10(m_mass_imbalance / m_pressure_tolerance) / std::log10(first_mass_imbalance_error / m_pressure_tolerance);
+                const int mass_imbalance_percentage = static_cast<int>(std::floor(mass_imbalance_scale * 100.0));
+
+                const int timesteps_digits = m_timesteps > 0 ? (int) log10 ((double) m_timesteps) + 1 : 1;
+                printf("\r[Timesteps: %-*.d / %-*.d Momentum X: %-3.d%%, Momentum Y: %-3.d%%, Continuity: %-3.d%%]", timesteps_digits, k + 1, timesteps_digits, m_timesteps, momentum_x_percentage, momentum_y_percentage, mass_imbalance_percentage);
+                std::cout << std::flush;
             }
         }
 
@@ -63,8 +87,6 @@ void UnsteadySimulation::solve() {
         m_bulk_node_operations->update_node_previous_timestep_velocity_u();
         m_bulk_node_operations->update_node_previous_timestep_velocity_v();
         m_bulk_node_operations->update_node_previous_timestep_pressure();
-
-        std::cout << "\r" << k + 1 << " / " << m_timesteps << std::flush;
     }
 
     m_time_taken = m_timer->get_elapsed_time();
@@ -73,4 +95,6 @@ void UnsteadySimulation::solve() {
     m_saver->open_append_file();
     m_saver->write_execution_time(m_time_taken);
     m_saver->close_file();
+
+    std::cout << std::endl;
 }

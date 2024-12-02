@@ -7,13 +7,13 @@
 #include "Meshing/Faces/Interior/InteriorFace.hpp"
 
 Simulation::Simulation(Mesh *mesh, const double velocity_u_tolerance, const double velocity_v_tolerance,
-                       const double pressure_tolerance, const std::string output_file, const bool print_residuals) {
+                       const double pressure_tolerance, const std::string output_file, const VerboseType verbose_type) {
     m_mesh = mesh;
     m_bulk_node_operations = std::make_unique<BulkNodeOperations>(mesh);
     m_bulk_face_operations = std::make_unique<BulkFaceOperations>(mesh);
     m_timer = std::make_unique<Timer>();
     m_saver = std::make_unique<Saver>(mesh, output_file);
-    m_print_residuals = print_residuals;
+    m_verbose_type = verbose_type;
 
     m_velocity_u_tolerance = velocity_u_tolerance;
     m_velocity_v_tolerance = velocity_v_tolerance;

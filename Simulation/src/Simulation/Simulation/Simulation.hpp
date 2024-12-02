@@ -9,6 +9,8 @@
 #include "Utilities/Saver.hpp"
 #include "Utilities/Timer.hpp"
 
+enum class VerboseType {None, Percentages, Residuals};
+
 class Simulation {
 protected:
     Mesh *m_mesh;
@@ -37,7 +39,7 @@ protected:
     double m_mass_imbalance_residual_normalization_factor = 0.0;
 
     // Verbosity
-    bool m_print_residuals;
+    VerboseType m_verbose_type;
 
     void calculate_active_cells_count();
 
@@ -56,7 +58,7 @@ protected:
     void solve_pressure_correction() const;
 
 public:
-    Simulation(Mesh *mesh, double velocity_u_tolerance, double velocity_v_tolerance, double pressure_tolerance, std::string output_file, bool print_residuals);
+    Simulation(Mesh *mesh, double velocity_u_tolerance, double velocity_v_tolerance, double pressure_tolerance, std::string output_file, VerboseType verbose_type);
 
     double get_time_taken() const;
 
