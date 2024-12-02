@@ -9,7 +9,6 @@
 #include "Simulation/SteadySimulation.hpp"
 #include "Simulation/UnsteadySimulation.hpp"
 
-// TODO: What about convergence on Unsteady? Normalization of residuals ok?
 // TODO: Create an unsteady simulation class
 
 bool run_tests = false;

@@ -65,7 +65,6 @@ void Simulation::calculate_momentum_x_imbalance() {
             }
 
             const double residual = std::abs(c.center * node_P->get_velocity_u() - velocity_u_P);
-            // m_momentum_x_error = std::max(m_momentum_x_error, residual);
             m_momentum_x_error += residual;
             denom += std::abs(c.center * node_P->get_velocity_u());
         }
@@ -76,7 +75,6 @@ void Simulation::calculate_momentum_x_imbalance() {
 }
 
 void Simulation::solve_x_momentum() const {
-    // Solve x momentum
     double tol = m_momentum_x_error / 1e3;
     double momentum_x_error = 1.0;
     while (momentum_x_error > tol) {
@@ -106,7 +104,6 @@ void Simulation::solve_x_momentum() const {
                 }
 
                 const double residual = std::abs(c.center * node_P->get_velocity_u() - velocity_u_P);
-                // m_momentum_x_error = std::max(m_momentum_x_error, residual);
                 momentum_x_error += residual;
                 denom += std::abs(c.center * node_P->get_velocity_u());
 
@@ -147,7 +144,6 @@ void Simulation::calculate_momentum_y_imbalance() {
             }
 
             const double residual = std::abs(c.center * node_P->get_velocity_v() - velocity_v_P);
-            // m_momentum_y_error = std::max(m_momentum_y_error, residual);
             m_momentum_y_error += residual;
             denom += std::abs(c.center * node_P->get_velocity_v());
         }
@@ -158,7 +154,6 @@ void Simulation::calculate_momentum_y_imbalance() {
 }
 
 void Simulation::solve_y_momentum() const {
-    // Solve y momentum
     double tol = m_momentum_y_error / 1e3;
     double momentum_y_error = 1.0;
     while (momentum_y_error > tol) {
@@ -188,7 +183,6 @@ void Simulation::solve_y_momentum() const {
                 }
 
                 const double residual = std::abs(c.center * node_P->get_velocity_v() - velocity_v_P);
-                // m_momentum_y_error = std::max(m_momentum_y_error, residual);
                 momentum_y_error += residual;
                 denom += std::abs(c.center * node_P->get_velocity_v());
 
@@ -203,7 +197,6 @@ void Simulation::solve_y_momentum() const {
 }
 
 void Simulation::calculate_mass_imbalance() {
-    // Calculate the mass imbalance
     m_mass_imbalance = 0.0;
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
@@ -291,8 +284,6 @@ void Simulation::solve_pressure_correction() const {
         if (denom != 0.0) {
             pressure_correction_error /= denom;
         }
-        // pressure_correction_error /= m_active_cells_count;
-        // std::cout << pressure_correction_error << std::endl;
     }
 }
 
