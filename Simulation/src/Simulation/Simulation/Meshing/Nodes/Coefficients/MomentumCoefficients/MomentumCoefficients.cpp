@@ -101,8 +101,8 @@ Coefficients MomentumCoefficients::get_convection_effects(const VelocityComponen
     //     Face *face = m_node->get_neighbouring_face(direction);
     //     const double area = direction == Direction::West || direction == Direction::East ? m_node->m_dy : m_node->m_dx;
     //     const double flow_rate = face->get_density() * m_node->m_dt * area * face->get_normal_velocity();
+    //     const int dir_sign = direction == Direction::West || direction == Direction::South ? 1 : -1;
     //     if (face->get_face_type() != FaceType::Boundary) {
-    //         const int dir_sign = direction == Direction::West || direction == Direction::South ? 1 : -1;
     //         const double extra = std::max(dir_sign * flow_rate, 0.0);
     //         coefficients.add_to_coefficient(direction, extra);
     //         coefficients.center += extra - dir_sign * flow_rate;
@@ -114,7 +114,7 @@ Coefficients MomentumCoefficients::get_convection_effects(const VelocityComponen
     //         } else {
     //             face_velocity = boundary_face->get_velocity_v();
     //         }
-    //         coefficients.source += flow_rate * face_velocity;
+    //         coefficients.source += dir_sign * flow_rate * face_velocity;
     //     }
     // }
 
@@ -196,8 +196,8 @@ Coefficients MomentumCoefficients::get_convection_effects(const VelocityComponen
         Face *face = m_node->get_neighbouring_face(direction);
         const double area = direction == Direction::West || direction == Direction::East ? m_node->m_dy : m_node->m_dx;
         const double flow_rate = face->get_density() * m_node->m_dt * area * face->get_normal_velocity();
+        const double dir_sign = direction == Direction::West || direction == Direction::South ? 1.0 : -1.0;
         if (face->get_face_type() != FaceType::Boundary) {
-            const double dir_sign = direction == Direction::West || direction == Direction::South ? 1.0 : -1.0;
             const double alpha = flow_rate > 0.0 ? 1.0 : 0.0;
             const double extra = alpha * flow_rate - (direction == Direction::East || direction == Direction::North ? flow_rate : 0);
             coefficients.add_to_coefficient(direction, extra);
@@ -278,7 +278,7 @@ Coefficients MomentumCoefficients::get_convection_effects(const VelocityComponen
             } else {
                 face_velocity = boundary_face->get_velocity_v();
             }
-            coefficients.source += flow_rate * face_velocity;
+            coefficients.source += dir_sign * flow_rate * face_velocity;
         }
     }
 
