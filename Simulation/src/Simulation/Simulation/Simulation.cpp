@@ -284,7 +284,9 @@ void Simulation::solve_pressure_correction() const {
                 node_P->set_pressure_correction(pressure_correction_P);
             }
         }
-        pressure_correction_error /= denom;
+        if (denom != 0.0) {
+            pressure_correction_error /= denom;
+        }
         // pressure_correction_error /= m_active_cells_count;
         // std::cout << pressure_correction_error << std::endl;
     }
