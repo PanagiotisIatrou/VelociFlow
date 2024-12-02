@@ -36,6 +36,9 @@ protected:
     bool can_update_mass_imbalance_residual_normalization_factor = true;
     double m_mass_imbalance_residual_normalization_factor = 0.0;
 
+    // Verbosity
+    bool m_print_residuals;
+
     void calculate_active_cells_count();
 
     void simple_iterate(SimulationType simulation_type);
@@ -53,7 +56,7 @@ protected:
     void solve_pressure_correction() const;
 
 public:
-    Simulation(Mesh *mesh, double velocity_u_tolerance, double velocity_v_tolerance, double pressure_tolerance, std::string output_file);
+    Simulation(Mesh *mesh, double velocity_u_tolerance, double velocity_v_tolerance, double pressure_tolerance, std::string output_file, bool print_residuals);
 
     double get_time_taken() const;
 

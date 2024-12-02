@@ -3,8 +3,9 @@
 #include <iostream>
 
 SteadySimulation::SteadySimulation(Mesh *mesh, const double velocity_u_tolerance, const double velocity_v_tolerance,
-                                   const double pressure_tolerance, const std::string output_file)
-    : Simulation(mesh, velocity_u_tolerance, velocity_v_tolerance, pressure_tolerance, output_file) {
+                                   const double pressure_tolerance, const std::string output_file,
+                                   const bool print_residuals)
+    : Simulation(mesh, velocity_u_tolerance, velocity_v_tolerance, pressure_tolerance, output_file, print_residuals) {
 }
 
 void SteadySimulation::solve() {
@@ -27,7 +28,10 @@ void SteadySimulation::solve() {
     while (m_momentum_x_error > m_velocity_u_tolerance || m_momentum_y_error > m_velocity_v_tolerance ||
            m_mass_imbalance > m_pressure_tolerance) {
         simple_iterate(SimulationType::Steady);
-        printf("%-6.d   %.4e   %.4e   %.4e\n", m_outer_iterations_count, m_momentum_x_error, m_momentum_y_error, m_mass_imbalance);
+        if (m_print_residuals) {
+            printf("%-6.d   %.4e   %.4e   %.4e\n", m_outer_iterations_count, m_momentum_x_error, m_momentum_y_error,
+                   m_mass_imbalance);
+        }
     }
     std::cout << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
 

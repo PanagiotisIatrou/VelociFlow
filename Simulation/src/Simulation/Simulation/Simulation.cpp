@@ -7,12 +7,13 @@
 #include "Meshing/Faces/Interior/InteriorFace.hpp"
 
 Simulation::Simulation(Mesh *mesh, const double velocity_u_tolerance, const double velocity_v_tolerance,
-                                   const double pressure_tolerance, const std::string output_file) {
+                       const double pressure_tolerance, const std::string output_file, const bool print_residuals) {
     m_mesh = mesh;
     m_bulk_node_operations = std::make_unique<BulkNodeOperations>(mesh);
     m_bulk_face_operations = std::make_unique<BulkFaceOperations>(mesh);
     m_timer = std::make_unique<Timer>();
     m_saver = std::make_unique<Saver>(mesh, output_file);
+    m_print_residuals = print_residuals;
 
     m_velocity_u_tolerance = velocity_u_tolerance;
     m_velocity_v_tolerance = velocity_v_tolerance;
@@ -220,7 +221,8 @@ void Simulation::calculate_mass_imbalance() {
 
     // Update the residual normalization factor
     if (can_update_mass_imbalance_residual_normalization_factor) {
-        m_mass_imbalance_residual_normalization_factor = std::max(m_mass_imbalance_residual_normalization_factor, m_mass_imbalance);
+        m_mass_imbalance_residual_normalization_factor = std::max(m_mass_imbalance_residual_normalization_factor,
+                                                                  m_mass_imbalance);
         if (m_outer_iterations_count >= residual_normalization_iterations) {
             can_update_mass_imbalance_residual_normalization_factor = false;
         }
@@ -272,11 +274,13 @@ void Simulation::solve_pressure_correction() const {
                     const Face *face = node_P->get_neighbouring_face(direction);
                     if (face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        pressure_correction_P += c.get_coefficient(direction) * neighbouring_node->get_pressure_correction();
+                        pressure_correction_P += c.get_coefficient(direction) * neighbouring_node->
+                                get_pressure_correction();
                     }
                 }
 
-                const double residual = std::pow(pressure_correction_P - c.center * node_P->get_pressure_correction(), 2);
+                const double residual = std::pow(pressure_correction_P - c.center * node_P->get_pressure_correction(),
+                                                 2);
                 pressure_correction_error += residual;
                 denom += std::pow(pressure_correction_P, 2);
 

@@ -4,8 +4,9 @@
 
 UnsteadySimulation::UnsteadySimulation(Mesh *mesh, const double dt, const int timesteps,
                                        const double velocity_u_tolerance, const double velocity_v_tolerance,
-                                       const double pressure_tolerance, const std::string output_file)
-    : Simulation(mesh, velocity_u_tolerance, velocity_v_tolerance, pressure_tolerance, output_file) {
+                                       const double pressure_tolerance, const std::string output_file,
+                                       const bool print_residuals)
+    : Simulation(mesh, velocity_u_tolerance, velocity_v_tolerance, pressure_tolerance, output_file, print_residuals) {
     m_dt = dt;
     m_timesteps = timesteps;
     m_mesh->set_dt(dt);
@@ -46,7 +47,9 @@ void UnsteadySimulation::solve() {
         while (m_momentum_x_error > m_velocity_u_tolerance || m_momentum_y_error > m_velocity_v_tolerance ||
                m_mass_imbalance > m_pressure_tolerance) {
             simple_iterate(SimulationType::Unsteady);
-            // printf("%.4e   %.4e   %.4e\n", m_momentum_x_error, m_momentum_y_error, m_mass_imbalance);
+            if (m_print_residuals) {
+                printf("%.4e   %.4e   %.4e\n", m_momentum_x_error, m_momentum_y_error, m_mass_imbalance);
+            }
         }
 
         // Write the current timestep field values

@@ -6,8 +6,10 @@ class UnsteadySimulation : public Simulation {
 private:
     double m_dt;
     int m_timesteps;
+
 public:
-    UnsteadySimulation(Mesh *mesh, double dt, int timesteps, double velocity_u_tolerance, double velocity_v_tolerance, double pressure_tolerance, std::string output_file);
+    UnsteadySimulation(Mesh *mesh, double dt, int timesteps, double velocity_u_tolerance, double velocity_v_tolerance,
+                       double pressure_tolerance, std::string output_file, bool print_residuals);
 
     void solve() override;
 };

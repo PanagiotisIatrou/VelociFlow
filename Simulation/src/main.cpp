@@ -44,10 +44,10 @@ int main() {
     const std::string path = folder + filename;
 
     const double tol = 1e-5;
-    SteadySimulation simulation(mesh, tol, tol, tol, path);
-    const double dt = 0.1;
-    const int timesteps = 50;
-    // UnsteadySimulation simulation(mesh, dt, timesteps, tol, tol, tol, path);
+    // SteadySimulation simulation(mesh, tol, tol, tol, path, true);
+    const double dt = 0.01;
+    const int timesteps = 5000;
+    UnsteadySimulation simulation(mesh, dt, timesteps, tol, tol, tol, path, false);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();
