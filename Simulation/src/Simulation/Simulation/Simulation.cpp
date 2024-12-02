@@ -219,8 +219,11 @@ void Simulation::calculate_mass_imbalance() {
     }
 
     // Update the residual normalization factor
-    if (m_outer_iterations_count < residual_normalization_iterations) {
+    if (can_update_mass_imbalance_residual_normalization_factor) {
         m_mass_imbalance_residual_normalization_factor = std::max(m_mass_imbalance_residual_normalization_factor, m_mass_imbalance);
+        if (m_outer_iterations_count >= residual_normalization_iterations) {
+            can_update_mass_imbalance_residual_normalization_factor = false;
+        }
     }
 
     // Apply the normalization to the residual

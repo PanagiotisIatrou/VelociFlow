@@ -37,11 +37,11 @@ void UnsteadySimulation::solve() {
     m_saver->write_dt();
     m_saver->close_file();
 
+    m_mass_imbalance_residual_normalization_factor = 0.0;
     for (int k = 0; k < m_timesteps; k++) {
         m_momentum_x_error = 1.0;
         m_momentum_y_error = 1.0;
         m_mass_imbalance = 1.0;
-        m_mass_imbalance_residual_normalization_factor = 0.0;
         m_outer_iterations_count = 0;
         while (m_momentum_x_error > m_velocity_u_tolerance || m_momentum_y_error > m_velocity_v_tolerance ||
                m_mass_imbalance > m_pressure_tolerance) {

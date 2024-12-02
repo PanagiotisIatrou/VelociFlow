@@ -33,6 +33,7 @@ protected:
 
     // Residual normalization
     const int residual_normalization_iterations = 5;
+    bool can_update_mass_imbalance_residual_normalization_factor = true;
     double m_mass_imbalance_residual_normalization_factor = 0.0;
 
     void calculate_active_cells_count();
