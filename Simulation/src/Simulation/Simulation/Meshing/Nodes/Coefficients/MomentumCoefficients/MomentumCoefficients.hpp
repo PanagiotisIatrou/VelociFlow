@@ -21,11 +21,11 @@ private:
 
     Coefficients get_convection_effects(VelocityComponent velocity_component, ConvectionSchemes convection_scheme) const;
 
-    Coefficients get_upwind_effects(Direction direction, VelocityComponent velocity_component) const;
+    Coefficients get_upwind_convection_effects(Direction direction, VelocityComponent velocity_component) const;
 
-    Coefficients get_central_differencing_effects(Direction direction, VelocityComponent velocity_component) const;
+    Coefficients get_central_differencing_convection_effects(Direction direction, VelocityComponent velocity_component) const;
 
-    Coefficients get_quick_hayase_effects(Direction direction, VelocityComponent velocity_component) const;
+    Coefficients get_quick_hayase_convection_effects(Direction direction, VelocityComponent velocity_component) const;
 
     // Pressure
 

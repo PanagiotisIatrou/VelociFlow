@@ -99,15 +99,15 @@ Coefficients MomentumCoefficients::get_convection_effects(const VelocityComponen
         Coefficients direction_coefficients;
         switch (convection_scheme) {
             case ConvectionSchemes::Upwind: {
-                direction_coefficients = get_upwind_effects(direction, velocity_component);
+                direction_coefficients = get_upwind_convection_effects(direction, velocity_component);
                 break;
             }
             case ConvectionSchemes::CentralDifferencing: {
-                direction_coefficients = get_central_differencing_effects(direction, velocity_component);
+                direction_coefficients = get_central_differencing_convection_effects(direction, velocity_component);
                 break;
             }
             case ConvectionSchemes::QuickHayase: {
-                direction_coefficients = get_quick_hayase_effects(direction, velocity_component);
+                direction_coefficients = get_quick_hayase_convection_effects(direction, velocity_component);
                 break;
             }
         }

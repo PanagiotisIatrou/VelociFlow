@@ -5,7 +5,7 @@
 
 class Face;
 
-Coefficients MomentumCoefficients::get_upwind_effects(const Direction direction, const VelocityComponent velocity_component) const {
+Coefficients MomentumCoefficients::get_upwind_convection_effects(const Direction direction, const VelocityComponent velocity_component) const {
     Coefficients coefficients;
 
     Face *face = m_node->get_neighbouring_face(direction);
@@ -30,7 +30,7 @@ Coefficients MomentumCoefficients::get_upwind_effects(const Direction direction,
     return coefficients;
 }
 
-Coefficients MomentumCoefficients::get_central_differencing_effects(const Direction direction, const VelocityComponent velocity_component) const {
+Coefficients MomentumCoefficients::get_central_differencing_convection_effects(const Direction direction, const VelocityComponent velocity_component) const {
     Coefficients coefficients;
 
     Face *face = m_node->get_neighbouring_face(direction);
@@ -55,7 +55,7 @@ Coefficients MomentumCoefficients::get_central_differencing_effects(const Direct
     return coefficients;
 }
 
-Coefficients MomentumCoefficients::get_quick_hayase_effects(const Direction direction, const VelocityComponent velocity_component) const {
+Coefficients MomentumCoefficients::get_quick_hayase_convection_effects(const Direction direction, const VelocityComponent velocity_component) const {
     Coefficients coefficients;
 
     Face *face = m_node->get_neighbouring_face(direction);
