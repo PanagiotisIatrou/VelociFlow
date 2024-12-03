@@ -11,6 +11,7 @@ class PlotSettings:
         # Optional fields
         self.blur = False
         self.real_time = False
+        self.only_last_frame = False
         self.fps = None
         self.show_quiver = False
         self.quiver_density_factor = 1.0
@@ -38,6 +39,8 @@ class PlotSettings:
                 self.blur = data["blur"]
             if "realTime" in data:
                 self.real_time = data["realTime"]
+            if "onlyLastFrame" in data:
+                self.only_last_frame = data["onlyLastFrame"]
             if "fps" in data:
                 self.fps = data["fps"]
             if "showQuiver" in data:
