@@ -9,7 +9,6 @@
 #include "Simulation/SteadySimulation.hpp"
 #include "Simulation/UnsteadySimulation.hpp"
 
-// TODO: Create an unsteady simulation class
 
 bool run_tests = false;
 bool run_simulation = true;
