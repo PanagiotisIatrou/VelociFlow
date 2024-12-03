@@ -16,7 +16,10 @@ class Plotter(ABC):
         self.x = np.linspace(self.data.dx / 2, self.data.domain_size_x - self.data.dx / 2, self.data.grid_size_x)
         self.y = np.linspace(self.data.dy / 2, self.data.domain_size_y - self.data.dy / 2, self.data.grid_size_y)
 
+        self.set_min_max_velocity()
+
     def create_plot(self):
+        plt.figure(figsize=(16, 9))
         plt.gca().set_aspect('equal', adjustable='box')
         plt.title("Velocity field")
         plt.xlabel("x")
@@ -32,7 +35,7 @@ class Plotter(ABC):
             np.array(field).T,
             cmap=color_map,
             shading="gouraud" if self.settings.blur else "auto",
-            clim=(0.0, np.nanmax(field)),
+            clim=(self.min_velocity, self.max_velocity),
         )
         plt.colorbar(label="Magnitude")
 
@@ -40,7 +43,14 @@ class Plotter(ABC):
 
     def update_color_mesh(self, color_mesh, field):
         color_mesh.set_array(np.array(field).T.ravel())
-        color_mesh.set_clim(vmin=0.0, vmax=np.nanmax(field))
+
+    def set_min_max_velocity(self):
+        # Find the min and max velocity (from all the timesteps
+        velocity_u = np.array(self.data.velocity_timesteps_u)
+        velocity_v = np.array(self.data.velocity_timesteps_v)
+        velocity = np.sqrt(velocity_u ** 2 + velocity_v ** 2)
+        self.min_velocity = np.nanmin(velocity)
+        self.max_velocity = np.nanmax(velocity)
 
     def create_quiver(self, velocity_u, velocity_v):
         # Normalize the quiver if specified
