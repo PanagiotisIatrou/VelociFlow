@@ -20,9 +20,9 @@ else:
     folder = "Steady"
 data_file = os.path.join(root_path, f"../Results/{folder}/{plot_settings.filename}")
 simulation_data = SimulationData()
-simulation_data.import_file(data_file)
+simulation_data.import_file(data_file, only_last_frame=plot_settings.only_last_frame)
 
-if plot_settings.transient:
+if plot_settings.transient and not plot_settings.only_last_frame:
     plotter = UnsteadyPlotter(simulation_data, plot_settings)
     plotter.save_velocity()
 else:
