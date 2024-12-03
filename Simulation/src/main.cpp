@@ -9,7 +9,6 @@
 #include "Simulation/SteadySimulation.hpp"
 #include "Simulation/UnsteadySimulation.hpp"
 
-
 bool run_tests = false;
 bool run_simulation = true;
 
