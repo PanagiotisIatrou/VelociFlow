@@ -31,7 +31,7 @@ int main() {
     // Mesh *mesh = create_container_mesh(1.0, 0.05);
     // Mesh *mesh = create_circle_box_mesh(1.0, 0.01);
     // Mesh *mesh = create_rotating_circle_box_mesh(1.0, 0.5, 0.005);
-    // Mesh *mesh = create_vok_karman_mesh(1.0, 0.0005);
+    // Mesh *mesh = create_von_karman_mesh(1.0, 0.0002); // 500 - 0.0002, 200 - 0.0005, 120 - 0.000835, 65 - 0.00168
     // Mesh *mesh = create_kelvin_helmholtz_mesh(1.0, 0.001);
 
     // Create the path for the output file

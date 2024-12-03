@@ -452,7 +452,7 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
     return mesh;
 }
 
-inline Mesh *create_vok_karman_mesh(const double velocity_inlet, const double viscosity) {
+inline Mesh *create_von_karman_mesh(const double velocity_inlet, const double viscosity) {
     // Domain
     const int N = 160;
     const int M = 80;
