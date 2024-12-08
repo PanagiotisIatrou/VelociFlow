@@ -16,7 +16,7 @@ inline Mesh *create_test_mesh() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 1.0, density);
+            mesh->set_node(i, j, 1.0, density, 0.0, 0.0);
         }
     }
 

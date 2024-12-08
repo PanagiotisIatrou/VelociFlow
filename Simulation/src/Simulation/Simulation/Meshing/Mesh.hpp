@@ -39,7 +39,7 @@ public:
 
     double get_domain_size_y() const;
 
-    void set_node(int i, int j, double viscosity, double density);
+    void set_node(int i, int j, double viscosity, double density, double velocity_u, double velocity_v);
 
     Node *get_node(int i, int j) const;
 

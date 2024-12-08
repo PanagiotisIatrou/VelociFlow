@@ -4,11 +4,14 @@
 
 #include "../../../common.hpp"
 
-Node::Node(const double viscosity, const double density, const double dx, const double dy) {
+Node::Node(const double viscosity, const double density, const double dx, const double dy, const double velocity_u,
+           const double velocity_v) {
     m_viscosity = viscosity;
     m_density = density;
     m_dx = dx;
     m_dy = dy;
+    m_velocity_u = velocity_u;
+    m_velocity_v = velocity_v;
 
     m_momentum_coefficients = std::make_unique<MomentumCoefficients>(this);
     m_pressure_coefficients = std::make_unique<PressureCoefficients>(this);
@@ -124,7 +127,8 @@ void Node::set_neighbouring_node(Node *node, Direction direction) {
     m_neighbouring_nodes[static_cast<int>(direction)] = node;
 }
 
-void Node::calculate_momentum_coefficients(const VelocityComponent velocity_component, const SimulationType simulation_type) const {
+void Node::calculate_momentum_coefficients(const VelocityComponent velocity_component,
+                                           const SimulationType simulation_type) const {
     m_momentum_coefficients->calculate_momentum_coefficients(velocity_component, simulation_type);
 }
 

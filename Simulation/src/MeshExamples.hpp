@@ -22,7 +22,7 @@ inline Mesh *create_adv_diff_mesh(const double velocity, const double viscosity)
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -49,8 +49,8 @@ inline Mesh *create_adv_diff_mesh(const double velocity, const double viscosity)
 
 inline Mesh *create_lid_driven_cavity_mesh(const double velocity, const double viscosity, const double density, const double size) {
     // Domain
-    const int N = 50;
-    const int M = 50;
+    const int N = 100;
+    const int M = 100;
     const double domain_size_x = size;
     const double domain_size_y = size;
 
@@ -63,7 +63,7 @@ inline Mesh *create_lid_driven_cavity_mesh(const double velocity, const double v
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -103,7 +103,7 @@ inline Mesh *create_double_lid_driven_cavity_mesh(const double velocity, const d
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -127,9 +127,9 @@ inline Mesh *create_double_lid_driven_cavity_mesh(const double velocity, const d
 
 inline Mesh *create_pipe_mesh(double velocity, double viscosity) {
     // Domain
-    const int N = 200;
+    const int N = 150;
     const int M = 50;
-    const double domain_size_x = 4.0;
+    const double domain_size_x = 3.0;
     const double domain_size_y = 1.0;
     const double density = 1.0;
 
@@ -142,7 +142,7 @@ inline Mesh *create_pipe_mesh(double velocity, double viscosity) {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -190,7 +190,7 @@ inline Mesh *create_pipe_obstacles_mesh(double velocity, double viscosity) {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -236,7 +236,7 @@ inline Mesh *create_box_mesh(const double velocity, const double viscosity) {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -277,7 +277,7 @@ inline Mesh *create_container_mesh(const double velocity, const double viscosity
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -335,7 +335,7 @@ inline Mesh *create_circle_box_mesh(const double velocity_inlet, const double vi
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -427,7 +427,7 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -454,15 +454,15 @@ inline Mesh *create_rotating_circle_box_mesh(const double velocity_inlet, const 
 
 inline Mesh *create_von_karman_mesh(const double velocity_inlet, const double viscosity) {
     // Domain
-    const int N = 160;
-    const int M = 80;
+    const int N = 300;
+    const int M = 150;
     const double domain_size_x = 2.0;
     const double domain_size_y = 1;
     const double density = 1.0;
 
-    const double length = 8.0;
-    const double centerX = 30;
-    const double centerY = 40;
+    const double length = 15.0;
+    const double centerX = N / 5;
+    const double centerY = M / 2;
 
     Mesh *mesh = new Mesh(N, M, domain_size_x, domain_size_y);
 
@@ -470,7 +470,7 @@ inline Mesh *create_von_karman_mesh(const double velocity_inlet, const double vi
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
             // Form box
-            if (i > centerX - length / 2.0 && i < centerX + length / 2.0 &&
+            if (i > static_cast<int>(centerX) - 1 && i < static_cast<int>(centerX) + 2 &&
                 j > centerY - length / 2.0 && j < centerY + length / 2.0) {
                 continue;
             }
@@ -479,7 +479,7 @@ inline Mesh *create_von_karman_mesh(const double velocity_inlet, const double vi
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0);
         }
     }
 
@@ -506,13 +506,13 @@ inline Mesh *create_von_karman_mesh(const double velocity_inlet, const double vi
 
 inline Mesh *create_kelvin_helmholtz_mesh(const double velocity_inlet, const double viscosity) {
     // Domain
-    const int N = 75;
-    const int M = 75;
+    const int N = 50;
+    const int M = 50;
     const double domain_size_x = 1.0;
     const double domain_size_y = 1.0;
     const double density = 1.0;
 
-    const double height = 30.0;
+    const double height = 20.0;
 
     Mesh *mesh = new Mesh(N, M, domain_size_x, domain_size_y);
 
@@ -523,18 +523,24 @@ inline Mesh *create_kelvin_helmholtz_mesh(const double velocity_inlet, const dou
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, viscosity, density);
+            double velocity_u;
+            if (j > M / 2 - height / 2 && j < M / 2 + height / 2) {
+                velocity_u = -velocity_inlet;
+            } else {
+                velocity_u = velocity_inlet;
+            }
+            mesh->set_node(i, j, viscosity, density, velocity_u, 0.0);
         }
     }
 
     // Add inlet and the outlet
-    double side_height = (M - height) / 2.0;
+    const double side_height = (M - height) / 2.0;
     for (int i = 0; i < N + 1; i++) {
         for (int j = 0; j < M; j++) {
             if (i == 0 && j > side_height && j < M - side_height) {
                 mesh->set_boundary_fixed_velocity_face(FaceSide::X, i, j, velocity_inlet, 0.0);
             }
-            else if (i == N && j > side_height && j < M - side_height) {
+            else if (i == N /*&& j > side_height && j < M - side_height*/) {
                 mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
             }
         }

@@ -15,8 +15,8 @@ private:
     friend class DiscretizationSchemes;
 
 protected:
-    double m_velocity_u = 0.0;
-    double m_velocity_v = 0.0;
+    double m_velocity_u;
+    double m_velocity_v;
     double m_pressure = 0.0;
     double m_previous_timestep_velocity_u;
     double m_previous_timestep_velocity_v;
@@ -39,7 +39,7 @@ protected:
     };
 
 public:
-    Node(double viscosity, double density, double dx, double dy);
+    Node(double viscosity, double density, double dx, double dy, double velocity_u, double velocity_v);
 
     void set_velocity_u(double velocity_u);
 
