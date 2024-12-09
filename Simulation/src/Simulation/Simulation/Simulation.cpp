@@ -75,7 +75,7 @@ void Simulation::calculate_momentum_x_imbalance() {
 }
 
 void Simulation::solve_x_momentum() const {
-    double tol = m_momentum_x_error / 1e3;
+    double tol = std::max(m_momentum_x_error / 1e3, 1e-10);
     double momentum_x_error = 1.0;
     while (momentum_x_error > tol) {
         momentum_x_error = 0.0;
@@ -154,7 +154,7 @@ void Simulation::calculate_momentum_y_imbalance() {
 }
 
 void Simulation::solve_y_momentum() const {
-    double tol = m_momentum_y_error / 1e3;
+    double tol = std::max(m_momentum_y_error / 1e3, 1e-10);
     double momentum_y_error = 1.0;
     while (momentum_y_error > tol) {
         momentum_y_error = 0.0;
