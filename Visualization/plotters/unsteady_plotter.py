@@ -54,7 +54,7 @@ class UnsteadyPlotter(Plotter):
             plt.suptitle(f"Time: {k * self.data.dt:.{decimals_count}f}")
 
         # Calculate the frame rate
-        anim = animation.FuncAnimation(plt.gcf(), animate, frames=self.data.timesteps - 1, repeat=False)
+        anim = animation.FuncAnimation(plt.gcf(), animate, frames=self.data.timesteps, repeat=False)
         animation_fps = None
         if self.settings.real_time:
             animation_fps = 1.0 / self.data.dt
@@ -63,7 +63,7 @@ class UnsteadyPlotter(Plotter):
 
         # Save the animation
         print("Saving the animation...")
-        with tqdm(total=self.data.timesteps - 1, bar_format="Frames {l_bar}{bar:10}{r_bar} Elapsed: {elapsed}") as progress_bar:
+        with tqdm(total=self.data.timesteps, bar_format="Making animation {l_bar}{bar:10}| Elapsed: {elapsed}") as progress_bar:
             def progress_callback(i, n):
                 progress_bar.update(1)
             anim.save(filename, fps=animation_fps, progress_callback=progress_callback)

@@ -12,24 +12,20 @@ class SimulationData:
         self.dx = None
         self.dy = None
         self.dt = None
-        self.timesteps = None
+        self.timesteps = 0
         self.execution_time = None
         self.velocity_timesteps_u = []
         self.velocity_timesteps_v = []
         self.pressure_timesteps = []
 
-    def import_file(self, file, only_last_frame=False):
+    def import_file(self, file):
         # Clear the data
         self.__init__()
 
         # Open the file
         print("Loading simulation data...")
-        with tqdm(total=1, bar_format="Timesteps {l_bar}{bar:10}{r_bar} Elapsed: {elapsed}", ) as progress_bar:
+        with tqdm(total=1, bar_format="Timesteps loaded: {n} | Elapsed: {elapsed}", ) as progress_bar:
             with open(file, 'r') as f:
-                count_velocity_u_timesteps = 0
-                count_velocity_v_timesteps = 0
-                count_pressure_timesteps = 0
-
                 # Read line by line
                 while True:
                     line = f.readline()
@@ -48,59 +44,41 @@ class SimulationData:
                     elif line.startswith("dt"):
                         line = f.readline()
                         self.dt = float(line)
-                    elif line.startswith("timesteps"):
-                        line = f.readline()
-                        self.timesteps = int(line)
-                        progress_bar.total = self.timesteps
                     elif line.startswith("execution_time"):
                         line = f.readline()
                         self.execution_time = float(line)
                     elif line.startswith("velocity_u"):
-                        count_velocity_u_timesteps += 1
-                        if only_last_frame and count_velocity_u_timesteps < self.timesteps:
-                            for i in range(self.grid_size_x * self.grid_size_y):
-                                f.readline()
-                        else:
-                            velocity_u = np.zeros((self.grid_size_x, self.grid_size_y))
-                            for i in range(self.grid_size_x * self.grid_size_y):
-                                line = f.readline()
-                                i, j, value = line.split(",")
-                                if value.strip() == '-':
-                                    velocity_u[int(i), int(j)] = math.nan
-                                else:
-                                    velocity_u[int(i), int(j)] = float(value.strip())
-                            self.velocity_timesteps_u.append(np.array(velocity_u))
+                        self.timesteps += 1
+                        velocity_u = np.zeros((self.grid_size_x, self.grid_size_y))
+                        for i in range(self.grid_size_x * self.grid_size_y):
+                            line = f.readline()
+                            i, j, value = line.split(",")
+                            if value.strip() == '-':
+                                velocity_u[int(i), int(j)] = math.nan
+                            else:
+                                velocity_u[int(i), int(j)] = float(value.strip())
+                        self.velocity_timesteps_u.append(np.array(velocity_u))
                         progress_bar.update(1)
                     elif line.startswith("velocity_v"):
-                        count_velocity_v_timesteps += 1
-                        if only_last_frame and count_velocity_v_timesteps < self.timesteps:
-                            for i in range(self.grid_size_x * self.grid_size_y):
-                                f.readline()
-                        else:
-                            velocity_v = np.zeros((self.grid_size_x, self.grid_size_y))
-                            for i in range(self.grid_size_x * self.grid_size_y):
-                                line = f.readline()
-                                i, j, value = line.split(",")
-                                if value.strip() == '-':
-                                    velocity_v[int(i), int(j)] = math.nan
-                                else:
-                                    velocity_v[int(i), int(j)] = float(value.strip())
-                            self.velocity_timesteps_v.append(np.array(velocity_v))
+                        velocity_v = np.zeros((self.grid_size_x, self.grid_size_y))
+                        for i in range(self.grid_size_x * self.grid_size_y):
+                            line = f.readline()
+                            i, j, value = line.split(",")
+                            if value.strip() == '-':
+                                velocity_v[int(i), int(j)] = math.nan
+                            else:
+                                velocity_v[int(i), int(j)] = float(value.strip())
+                        self.velocity_timesteps_v.append(np.array(velocity_v))
                     elif line.startswith("pressure"):
-                        count_pressure_timesteps += 1
-                        if only_last_frame and count_pressure_timesteps < self.timesteps:
-                            for i in range(self.grid_size_x * self.grid_size_y):
-                                f.readline()
-                        else:
-                            pressure = np.zeros((self.grid_size_x, self.grid_size_y))
-                            for i in range(self.grid_size_x * self.grid_size_y):
-                                line = f.readline()
-                                i, j, value = line.split(",")
-                                if value.strip() == '-':
-                                    pressure[int(i), int(j)] = math.nan
-                                else:
-                                    pressure[int(i), int(j)] = float(value.strip())
-                            self.pressure_timesteps.append(np.array(pressure))
+                        pressure = np.zeros((self.grid_size_x, self.grid_size_y))
+                        for i in range(self.grid_size_x * self.grid_size_y):
+                            line = f.readline()
+                            i, j, value = line.split(",")
+                            if value.strip() == '-':
+                                pressure[int(i), int(j)] = math.nan
+                            else:
+                                pressure[int(i), int(j)] = float(value.strip())
+                        self.pressure_timesteps.append(np.array(pressure))
 
             self.dx = self.domain_size_x / self.grid_size_x
             self.dy = self.domain_size_y / self.grid_size_y

@@ -9,6 +9,10 @@ class SteadyPlotter(Plotter):
     def __init__(self, data, settings):
         super().__init__(data, settings)
 
+        # Keep only the last timestep (in case of multiple timesteps)
+        self.data.velocity_timesteps_u = [self.data.velocity_timesteps_u[-1]]
+        self.data.velocity_timesteps_v = [self.data.velocity_timesteps_v[-1]]
+
     def __velocity(self):
         # Initialize the plot
         self.create_plot()

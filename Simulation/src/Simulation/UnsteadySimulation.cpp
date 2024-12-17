@@ -35,8 +35,10 @@ void UnsteadySimulation::solve() {
     m_saver->open_and_clear_file();
     m_saver->write_domain_size();
     m_saver->write_grid_size();
-    m_saver->write_timesteps_count(m_timesteps);
     m_saver->write_dt();
+    m_saver->write_field(Field::VelocityU);
+    m_saver->write_field(Field::VelocityV);
+    m_saver->write_field(Field::Pressure);
     m_saver->close_file();
 
     m_mass_imbalance_residual_normalization_factor = 0.0;
