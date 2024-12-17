@@ -71,8 +71,8 @@ double Mesh::get_domain_size_y() const {
 
 // Nodes
 
-void Mesh::set_node(const int i, const int j, const double viscosity, const double density, const double velocity_u, const double velocity_v) {
-    m_nodes[i][j] = std::make_unique<Node>(viscosity, density, m_dx, m_dy, velocity_u, velocity_v);
+void Mesh::set_node(const int i, const int j, const double viscosity, const double density, const double velocity_u, const double velocity_v, const double pressure) {
+    m_nodes[i][j] = std::make_unique<Node>(viscosity, density, m_dx, m_dy, velocity_u, velocity_v, pressure);
 }
 
 Node *Mesh::get_node(const int i, const int j) const {

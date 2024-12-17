@@ -5,13 +5,14 @@
 #include "../../../common.hpp"
 
 Node::Node(const double viscosity, const double density, const double dx, const double dy, const double velocity_u,
-           const double velocity_v) {
+           const double velocity_v, const double pressure) {
     m_viscosity = viscosity;
     m_density = density;
     m_dx = dx;
     m_dy = dy;
     m_velocity_u = velocity_u;
     m_velocity_v = velocity_v;
+    m_pressure = pressure;
 
     m_momentum_coefficients = std::make_unique<MomentumCoefficients>(this);
     m_pressure_coefficients = std::make_unique<PressureCoefficients>(this);

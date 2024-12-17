@@ -17,7 +17,7 @@ private:
 protected:
     double m_velocity_u;
     double m_velocity_v;
-    double m_pressure = 0.0;
+    double m_pressure;
     double m_previous_timestep_velocity_u;
     double m_previous_timestep_velocity_v;
     double m_previous_timestep_pressure;
@@ -39,7 +39,7 @@ protected:
     };
 
 public:
-    Node(double viscosity, double density, double dx, double dy, double velocity_u, double velocity_v);
+    Node(double viscosity, double density, double dx, double dy, double velocity_u, double velocity_v, double pressure);
 
     void set_velocity_u(double velocity_u);
 
