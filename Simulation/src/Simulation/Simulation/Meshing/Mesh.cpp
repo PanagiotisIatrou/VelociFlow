@@ -28,12 +28,18 @@ Mesh::Mesh(const int size_x, const int size_y, const double domain_size_x, const
     m_faces_x.reserve(size_x + 1);
     for (int i = 0; i < size_x + 1; i++) {
         m_faces_x[i].reserve(size_y);
+        for (int j = 0; j < size_y; j++) {
+            m_faces_x[i][j] = nullptr;
+        }
     }
 
     // Initialize all the y faces to nullptr
     m_faces_y.reserve(size_x);
     for (int i = 0; i < size_x; i++) {
         m_faces_y[i].reserve(size_y + 1);
+        for (int j = 0; j < size_y + 1; j++) {
+            m_faces_y[i][j] = nullptr;
+        }
     }
 }
 
