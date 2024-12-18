@@ -13,11 +13,11 @@ C++, while the visualizations are conducted in Python.
 
 The following system of equations are discretized and solved using the finite volume method (FVM):
 
-- $\nabla \cdot \vec{v} = 0 $
-- $\rho \bigg[ \dfrac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla)\vec{v} \bigg] = -\nabla p + \mu \, \nabla^2\vec{v}$
+- $\large \nabla \cdot \vec{v} = 0 $
+- $\large \rho \bigg[ \dfrac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla)\vec{v} \bigg] = -\nabla p + \mu \, \nabla^2\vec{v}$
 
 Expanding the equations in 2D gives the following system of 3 equations:
 
-- $\dfrac{\partial u}{\partial x} + \dfrac{\partial v}{\partial y} = 0$
-- $\dfrac{\partial(\rho u)}{\partial t} + \dfrac{\partial(\rho uu)}{\partial x} + \dfrac{\partial(\rho vu)}{\partial y} = -\dfrac{\partial p}{\partial x} + \dfrac{\partial}{\partial x}\bigg(\mu\dfrac{\partial u}{\partial x}\bigg) + \dfrac{\partial}{\partial y}\bigg(\mu\dfrac{\partial u}{\partial y}\bigg)$
-- $\dfrac{\partial(\rho v)}{\partial t} + \dfrac{\partial(\rho uv)}{\partial x} + \dfrac{\partial(\rho vv)}{\partial y} = -\dfrac{\partial p}{\partial y} + \dfrac{\partial}{\partial x}\bigg(\mu\dfrac{\partial v}{\partial x}\bigg) + \dfrac{\partial}{\partial y}\bigg(\mu\dfrac{\partial v}{\partial y}\bigg)$
+- $\large \dfrac{\partial u}{\partial x} + \dfrac{\partial v}{\partial y} = 0$
+- $\large \dfrac{\partial(\rho u)}{\partial t} + \dfrac{\partial(\rho uu)}{\partial x} + \dfrac{\partial(\rho vu)}{\partial y} = -\dfrac{\partial p}{\partial x} + \dfrac{\partial}{\partial x}\bigg(\mu\dfrac{\partial u}{\partial x}\bigg) + \dfrac{\partial}{\partial y}\bigg(\mu\dfrac{\partial u}{\partial y}\bigg)$
+- $\large \dfrac{\partial(\rho v)}{\partial t} + \dfrac{\partial(\rho uv)}{\partial x} + \dfrac{\partial(\rho vv)}{\partial y} = -\dfrac{\partial p}{\partial y} + \dfrac{\partial}{\partial x}\bigg(\mu\dfrac{\partial v}{\partial x}\bigg) + \dfrac{\partial}{\partial y}\bigg(\mu\dfrac{\partial v}{\partial y}\bigg)$
