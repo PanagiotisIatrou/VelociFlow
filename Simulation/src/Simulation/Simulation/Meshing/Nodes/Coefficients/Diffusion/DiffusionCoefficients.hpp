@@ -10,11 +10,10 @@ class DiffusionCoefficients {
 private:
     Node *m_node;
 
-    Coefficients get_central_differencing_diffusion_effects(Direction direction,
-                                                            VelocityComponent velocity_component) const;
+    Coefficients get_central_differencing_diffusion_effects(Direction direction, Field field) const;
 
 public:
     DiffusionCoefficients(Node *node);
 
-    Coefficients get_diffusion_effects(VelocityComponent velocity_component, DiffusionSchemes diffusion_scheme) const;
+    Coefficients get_diffusion_effects(Field field, DiffusionSchemes diffusion_scheme) const;
 };

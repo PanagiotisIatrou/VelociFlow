@@ -96,6 +96,21 @@ void BulkNodeOperations::update_node_previous_timestep_pressure() const {
     }
 }
 
+void BulkNodeOperations::update_node_previous_timestep_dye() const {
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            node_P->set_previous_timestep_dye(node_P->get_dye());
+        }
+    }
+}
+
 void BulkNodeOperations::calculate_momentum_coefficients(const VelocityComponent velocity_component, const SimulationType simulation_type) const {
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
@@ -122,6 +137,21 @@ void BulkNodeOperations::calculate_pressure_coefficients() const {
             }
 
             node_P->calculate_pressure_coefficients();
+        }
+    }
+}
+
+void BulkNodeOperations::calculate_dye_coefficients(const SimulationType simulation_type) const {
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            node_P->calculate_dye_coefficients(simulation_type);
         }
     }
 }

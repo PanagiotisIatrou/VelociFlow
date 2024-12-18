@@ -17,6 +17,12 @@ UnsteadySimulation::UnsteadySimulation(Mesh *mesh, const double dt, const int ti
     m_bulk_node_operations->set_dt(dt);
     m_bulk_face_operations->set_face_x_dt(dt);
     m_bulk_face_operations->set_face_y_dt(dt);
+
+    // Save current field values as previous
+    m_bulk_node_operations->update_node_previous_timestep_velocity_u();
+    m_bulk_node_operations->update_node_previous_timestep_velocity_v();
+    m_bulk_node_operations->update_node_previous_timestep_pressure();
+    m_bulk_node_operations->update_node_previous_timestep_dye();
 }
 
 void UnsteadySimulation::solve() {
@@ -31,6 +37,8 @@ void UnsteadySimulation::solve() {
     m_bulk_face_operations->update_face_y_densities();
     m_bulk_face_operations->update_face_x_pressures();
     m_bulk_face_operations->update_face_y_pressures();
+    m_bulk_face_operations->update_face_x_dye();
+    m_bulk_face_operations->update_face_y_dye();
 
     // Save the mesh settings and the initial state
     m_saver->open_and_clear_file();
@@ -40,6 +48,7 @@ void UnsteadySimulation::solve() {
     m_saver->write_field(Field::VelocityU);
     m_saver->write_field(Field::VelocityV);
     m_saver->write_field(Field::Pressure);
+    m_saver->write_field(Field::Dye);
     m_saver->close_file();
 
     m_mass_imbalance_residual_normalization_factor = 0.0;
@@ -99,17 +108,26 @@ void UnsteadySimulation::solve() {
             }
         }
 
+        // Solve the dye equation
+        m_bulk_node_operations->calculate_dye_coefficients(SimulationType::Unsteady);
+        solve_dye();
+
+        m_bulk_face_operations->update_face_x_dye();
+        m_bulk_face_operations->update_face_y_dye();
+
         // Write the current timestep field values
         m_saver->open_append_file();
         m_saver->write_field(Field::VelocityU);
         m_saver->write_field(Field::VelocityV);
         m_saver->write_field(Field::Pressure);
+        m_saver->write_field(Field::Dye);
         m_saver->close_file();
 
         // Save current field values as previous
         m_bulk_node_operations->update_node_previous_timestep_velocity_u();
         m_bulk_node_operations->update_node_previous_timestep_velocity_v();
         m_bulk_node_operations->update_node_previous_timestep_pressure();
+        m_bulk_node_operations->update_node_previous_timestep_dye();
     }
 
     m_time_taken = m_timer->get_elapsed_time();

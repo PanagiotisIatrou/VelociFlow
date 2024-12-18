@@ -21,6 +21,7 @@ class SteadyPlotter(Plotter):
         velocity_u = np.array(self.data.velocity_timesteps_u[0])
         velocity_v = np.array(self.data.velocity_timesteps_v[0])
         velocity = get_vector_field_magnitudes(velocity_u, velocity_v)
+        self.set_min_max_values(velocity)
 
         # Add the color map and the color bar
         self.create_color_mesh(velocity)

@@ -334,3 +334,46 @@ void Simulation::simple_iterate(const SimulationType simulation_type) {
 
     m_outer_iterations_count++;
 }
+
+void Simulation::solve_dye() {
+    double tol = 1e-4;
+    double error = 1.0;
+    while (error > tol) {
+        error = 0.0;
+        double denom = 0.0;
+        for (int i = 0; i < m_mesh->get_size_x(); i++) {
+            for (int j = 0; j < m_mesh->get_size_y(); j++) {
+                Node *node_P = m_mesh->get_node(i, j);
+
+                // Nothing to calculate for an empty node
+                if (node_P == nullptr) {
+                    continue;
+                }
+
+                // Get the coefficients
+                Coefficients c = node_P->get_dye_coefficients();
+
+                // Solve for dye_P
+                double dye_P = c.source;
+                for (int dir = direction_start; dir < direction_all_end; dir++) {
+                    const Direction direction = static_cast<Direction>(dir);
+                    Face *face = node_P->get_neighbouring_face(direction);
+                    if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
+                        const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                        dye_P += c.get_coefficient(direction) * neighbouring_node->get_dye();
+                    }
+                }
+
+                const double residual = std::abs(c.center * node_P->get_dye() - dye_P);
+                error += residual;
+                denom += std::abs(c.center * node_P->get_dye());
+
+                dye_P /= c.center;
+                node_P->set_dye(dye_P);
+            }
+        }
+        if (denom != 0.0) {
+            error /= denom;
+        }
+    }
+}

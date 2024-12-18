@@ -77,8 +77,8 @@ double Mesh::get_domain_size_y() const {
 
 // Nodes
 
-void Mesh::set_node(const int i, const int j, const double viscosity, const double density, const double velocity_u, const double velocity_v, const double pressure) {
-    m_nodes[i][j] = std::make_unique<Node>(viscosity, density, m_dx, m_dy, velocity_u, velocity_v, pressure);
+void Mesh::set_node(const int i, const int j, const double viscosity, const double density, const double velocity_u, const double velocity_v, const double pressure, const double dye) {
+    m_nodes[i][j] = std::make_unique<Node>(viscosity, density, m_dx, m_dy, velocity_u, velocity_v, pressure, dye);
 }
 
 Node *Mesh::get_node(const int i, const int j) const {
@@ -96,11 +96,11 @@ void Mesh::set_interior_face(const FaceSide side, const int i, const int j) {
 }
 
 void Mesh::set_boundary_fixed_velocity_face(const FaceSide side, const int i, const int j,
-                                            const double velocity_u, const double velocity_v) {
+                                            const double velocity_u, const double velocity_v, const double dye) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v, Orientation::Horizontal);
+        m_faces_x[i][j] = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v, dye, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v, Orientation::Vertical);
+        m_faces_y[i][j] = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v, dye, Orientation::Vertical);
     }
 }
 
@@ -177,11 +177,11 @@ void Mesh::link_nodes_faces() {
             }
 
             // West west
-            if (i != 0) {
+            if (node->get_neighbouring_face(Direction::WestWest) == nullptr && i != 0) {
                 Face *face_ww = get_face_x(i - 1, j);
                 if (face_ww == nullptr) {
                     if (node->get_neighbouring_node(Direction::WestWest) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::X, i - 1, j, 0.0, 0.0);
+                        set_boundary_fixed_velocity_face(FaceSide::X, i - 1, j, 0.0, 0.0, 0.0);
                     } else {
                         set_interior_face(FaceSide::X, i - 1, j);
                     }
@@ -191,45 +191,30 @@ void Mesh::link_nodes_faces() {
             }
 
             // West
-            Face *face_w = get_face_x(i, j);
-            if (face_w == nullptr) {
-                if (node->get_neighbouring_node(Direction::West) == nullptr) {
-                    set_boundary_fixed_velocity_face(FaceSide::X, i, j, 0.0, 0.0);
-                } else {
-                    set_interior_face(FaceSide::X, i, j);
+            if (node->get_neighbouring_face(Direction::West) == nullptr) {
+                Face *grid_face_w = get_face_x(i, j);
+                if (grid_face_w == nullptr) {
+                    if (node->get_neighbouring_node(Direction::West) == nullptr) {
+                        set_boundary_fixed_velocity_face(FaceSide::X, i, j, 0.0, 0.0, 0.0);
+                    } else {
+                        set_interior_face(FaceSide::X, i, j);
+                    }
+                    grid_face_w = get_face_x(i, j);
                 }
-                face_w = get_face_x(i, j);
-            }
-            node->set_neighbouring_face(face_w, Direction::West);
-            if (face_w->get_face_type() == FaceType::Boundary) {
-                static_cast<BoundaryFace *>(face_w)->set_node_neighbour(node);
-            } else {
-                static_cast<InteriorFaceX *>(face_w)->set_node_neighbour(node, FaceXSide::East);
-            }
-
-            // East
-            Face *face_e = get_face_x(i + 1, j);
-            if (face_e == nullptr) {
-                if (node->get_neighbouring_node(Direction::East) == nullptr) {
-                    set_boundary_fixed_velocity_face(FaceSide::X, i + 1, j, 0.0, 0.0);
+                node->set_neighbouring_face(grid_face_w, Direction::West);
+                if (grid_face_w->get_face_type() == FaceType::Boundary) {
+                    static_cast<BoundaryFace *>(grid_face_w)->set_node_neighbour(node);
                 } else {
-                    set_interior_face(FaceSide::X, i + 1, j);
+                    static_cast<InteriorFaceX *>(grid_face_w)->set_node_neighbour(node, FaceXSide::East);
                 }
-                face_e = get_face_x(i + 1, j);
-            }
-            node->set_neighbouring_face(face_e, Direction::East);
-            if (face_e->get_face_type() == FaceType::Boundary) {
-                static_cast<BoundaryFace *>(face_e)->set_node_neighbour(node);
-            } else {
-                static_cast<InteriorFaceX *>(face_e)->set_node_neighbour(node, FaceXSide::West);
             }
 
             // East east
-            if (i != get_size_x() - 1) {
+            if (node->get_neighbouring_face(Direction::EastEast) == nullptr && i != get_size_x() - 1) {
                 Face *face_ee = get_face_x(i + 2, j);
                 if (face_ee == nullptr) {
                     if (node->get_neighbouring_node(Direction::EastEast) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::X, i + 2, j, 0.0, 0.0);
+                        set_boundary_fixed_velocity_face(FaceSide::X, i + 2, j, 0.0, 0.0, 0.0);
                     } else {
                         set_interior_face(FaceSide::X, i + 2, j);
                     }
@@ -238,12 +223,31 @@ void Mesh::link_nodes_faces() {
                 node->set_neighbouring_face(face_ee, Direction::EastEast);
             }
 
+            // East
+            if (node->get_neighbouring_face(Direction::East) == nullptr) {
+                Face *grid_face_e = get_face_x(i + 1, j);
+                if (grid_face_e == nullptr) {
+                    if (node->get_neighbouring_node(Direction::East) == nullptr) {
+                        set_boundary_fixed_velocity_face(FaceSide::X, i + 1, j, 0.0, 0.0, 0.0);
+                    } else {
+                        set_interior_face(FaceSide::X, i + 1, j);
+                    }
+                    grid_face_e = get_face_x(i + 1, j);
+                }
+                node->set_neighbouring_face(grid_face_e, Direction::East);
+                if (grid_face_e->get_face_type() == FaceType::Boundary) {
+                    static_cast<BoundaryFace *>(grid_face_e)->set_node_neighbour(node);
+                } else {
+                    static_cast<InteriorFaceX *>(grid_face_e)->set_node_neighbour(node, FaceXSide::West);
+                }
+            }
+
             // South south
-            if (j != 0) {
+            if (node->get_neighbouring_face(Direction::SouthSouth) == nullptr && j != 0) {
                 Face *face_ss = get_face_y(i, j - 1);
                 if (face_ss == nullptr) {
                     if (node->get_neighbouring_node(Direction::SouthSouth) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j - 1, 0.0, 0.0);
+                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j - 1, 0.0, 0.0, 0.0);
                     } else {
                         set_interior_face(FaceSide::Y, i, j - 1);
                     }
@@ -253,51 +257,55 @@ void Mesh::link_nodes_faces() {
             }
 
             // South
-            Face *face_s = get_face_y(i, j);
-            if (face_s == nullptr) {
-                if (node->get_neighbouring_node(Direction::South) == nullptr) {
-                    set_boundary_fixed_velocity_face(FaceSide::Y, i, j, 0.0, 0.0);
-                } else {
-                    set_interior_face(FaceSide::Y, i, j);
+            if (node->get_neighbouring_face(Direction::South) == nullptr) {
+                Face *grid_face_s = get_face_y(i, j);
+                if (grid_face_s == nullptr) {
+                    if (node->get_neighbouring_node(Direction::South) == nullptr) {
+                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j, 0.0, 0.0, 0.0);
+                    } else {
+                        set_interior_face(FaceSide::Y, i, j);
+                    }
+                    grid_face_s = get_face_y(i, j);
                 }
-                face_s = get_face_y(i, j);
-            }
-            node->set_neighbouring_face(face_s, Direction::South);
-            if (face_s->get_face_type() == FaceType::Boundary) {
-                static_cast<BoundaryFace *>(face_s)->set_node_neighbour(node);
-            } else {
-                static_cast<InteriorFaceY *>(face_s)->set_node_neighbour(node, FaceYSide::North);
-            }
-
-            // North
-            Face *face_n = get_face_y(i, j + 1);
-            if (face_n == nullptr) {
-                if (node->get_neighbouring_node(Direction::North) == nullptr) {
-                    set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 1, 0.0, 0.0);
+                node->set_neighbouring_face(grid_face_s, Direction::South);
+                if (grid_face_s->get_face_type() == FaceType::Boundary) {
+                    static_cast<BoundaryFace *>(grid_face_s)->set_node_neighbour(node);
                 } else {
-                    set_interior_face(FaceSide::Y, i, j + 1);
+                    static_cast<InteriorFaceY *>(grid_face_s)->set_node_neighbour(node, FaceYSide::North);
                 }
-                face_n = get_face_y(i, j + 1);
-            }
-            node->set_neighbouring_face(face_n, Direction::North);
-            if (face_n->get_face_type() == FaceType::Boundary) {
-                static_cast<BoundaryFace *>(face_n)->set_node_neighbour(node);
-            } else {
-                static_cast<InteriorFaceY *>(face_n)->set_node_neighbour(node, FaceYSide::South);
             }
 
             // North north
-            if (j != get_size_y() - 1) {
+            if (node->get_neighbouring_face(Direction::NorthNorth) == nullptr && j != get_size_y() - 1) {
                 Face *face_nn = get_face_y(i, j + 2);
                 if (face_nn == nullptr) {
                     if (node->get_neighbouring_node(Direction::NorthNorth) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 2, 0.0, 0.0);
+                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 2, 0.0, 0.0, 0.0);
                     } else {
                         set_interior_face(FaceSide::Y, i, j + 2);
                     }
                     face_nn = get_face_y(i, j + 2);
                 }
                 node->set_neighbouring_face(face_nn, Direction::NorthNorth);
+            }
+
+            // North
+            if (node->get_neighbouring_face(Direction::North) == nullptr) {
+                Face *grid_face_n = get_face_y(i, j + 1);
+                if (grid_face_n == nullptr) {
+                    if (node->get_neighbouring_node(Direction::North) == nullptr) {
+                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 1, 0.0, 0.0, 0.0);
+                    } else {
+                        set_interior_face(FaceSide::Y, i, j + 1);
+                    }
+                    grid_face_n = get_face_y(i, j + 1);
+                }
+                node->set_neighbouring_face(grid_face_n, Direction::North);
+                if (grid_face_n->get_face_type() == FaceType::Boundary) {
+                    static_cast<BoundaryFace *>(grid_face_n)->set_node_neighbour(node);
+                } else {
+                    static_cast<InteriorFaceY *>(grid_face_n)->set_node_neighbour(node, FaceYSide::South);
+                }
             }
         }
     }

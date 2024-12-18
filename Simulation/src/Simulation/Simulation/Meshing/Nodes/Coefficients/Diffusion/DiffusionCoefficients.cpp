@@ -1,5 +1,7 @@
 #include "DiffusionCoefficients.hpp"
 
+#include <iostream>
+
 #include "../../../Faces/Boundary/BoundaryFace.hpp"
 
 class Face;
@@ -8,7 +10,7 @@ DiffusionCoefficients::DiffusionCoefficients(Node *node) {
     m_node = node;
 }
 
-Coefficients DiffusionCoefficients::get_diffusion_effects(const VelocityComponent velocity_component, const DiffusionSchemes diffusion_scheme) const {
+Coefficients DiffusionCoefficients::get_diffusion_effects(const Field field, const DiffusionSchemes diffusion_scheme) const {
     Coefficients coefficients;
 
     for (int dir = 0; dir < direction_near_end; dir++) {
@@ -16,7 +18,7 @@ Coefficients DiffusionCoefficients::get_diffusion_effects(const VelocityComponen
         Coefficients direction_coefficients;
         switch (diffusion_scheme) {
             case DiffusionSchemes::CentralDifferencing: {
-                direction_coefficients = get_central_differencing_diffusion_effects(direction, velocity_component);
+                direction_coefficients = get_central_differencing_diffusion_effects(direction, field);
                 break;
             }
         }
@@ -26,7 +28,7 @@ Coefficients DiffusionCoefficients::get_diffusion_effects(const VelocityComponen
     return coefficients;
 }
 
-Coefficients DiffusionCoefficients::get_central_differencing_diffusion_effects(const Direction direction, const VelocityComponent velocity_component) const {
+Coefficients DiffusionCoefficients::get_central_differencing_diffusion_effects(const Direction direction, const Field field) const {
     Coefficients coefficients;
 
     Face *face = m_node->get_neighbouring_face(direction);
@@ -40,16 +42,21 @@ Coefficients DiffusionCoefficients::get_central_differencing_diffusion_effects(c
         coefficients.add_to_coefficient(direction, flux);
         coefficients.center += flux;
     } else {
-        double face_velocity;
+        double face_value;
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
-        if (velocity_component == VelocityComponent::U) {
-            face_velocity = boundary_face->get_velocity_u();
+        if (field == Field::VelocityU) {
+            face_value = boundary_face->get_velocity_u();
+        } else if (field == Field::VelocityV) {
+            face_value = boundary_face->get_velocity_v();
+        } else if (field == Field::Dye) {
+            face_value = boundary_face->get_dye();
         } else {
-            face_velocity = boundary_face->get_velocity_v();
+            std::cerr << std::endl << "Field not recognised" << std::endl;
+            exit(1);
         }
         const double extra = 2.0 * flux;
         coefficients.center += extra;
-        coefficients.source += face_velocity * extra;
+        coefficients.source += face_value * extra;
     }
 
     return coefficients;

@@ -70,4 +70,6 @@ add_executable(Simulation
 
         ${TESTS_PATH}/tests.hpp
         ${TESTS_PATH}/helper.hpp
+        src/Simulation/Simulation/Meshing/Nodes/Coefficients/DyeCoefficients/DyeCoefficients.cpp
+        src/Simulation/Simulation/Meshing/Nodes/Coefficients/DyeCoefficients/DyeCoefficients.hpp
 )

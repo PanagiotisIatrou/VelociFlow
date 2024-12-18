@@ -13,6 +13,10 @@ double FreeBoundaryFace::get_velocity_v() const {
     return m_node_neighbour->get_velocity_v();
 }
 
+double FreeBoundaryFace::get_dye() const {
+    return m_node_neighbour->get_dye();
+}
+
 double FreeBoundaryFace::get_pressure_correction() const {
     return m_node_neighbour->get_pressure_correction();
 }

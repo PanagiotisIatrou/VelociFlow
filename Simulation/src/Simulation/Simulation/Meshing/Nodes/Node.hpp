@@ -7,6 +7,7 @@
 #include "../Faces/Face.hpp"
 #include "Coefficients/MomentumCoefficients/MomentumCoefficients.hpp"
 #include "Coefficients/PressureCorrectionCoefficients/PressureCorrectionCoefficients.hpp"
+#include "Coefficients/DyeCoefficients/DyeCoefficients.hpp"
 
 class Node {
 protected:
@@ -16,15 +17,18 @@ protected:
     double m_previous_timestep_velocity_u;
     double m_previous_timestep_velocity_v;
     double m_previous_timestep_pressure;
-    double m_viscosity = 0.0;
-    double m_density = 0.0;
-    double m_dx = 0.0; // TODO: Remove in the future
-    double m_dy = 0.0; // TODO: Remove in the future
+    double m_viscosity;
+    double m_density;
+    double m_dye;
+    double m_previous_timestep_dye;
+    double m_dx; // TODO: Remove in the future
+    double m_dy; // TODO: Remove in the future
     double m_dt = 1.0;
     double m_pressure_correction = 0.0;
 
     std::unique_ptr<MomentumCoefficients> m_momentum_coefficients;
     std::unique_ptr<PressureCorrectionCoefficients> m_pressure_correction_coefficients;
+    std::unique_ptr<DyeCoefficients> m_dye_coefficients;
 
     std::array<Face *, 8> m_neighbouring_faces = {
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
@@ -34,7 +38,7 @@ protected:
     };
 
 public:
-    Node(double viscosity, double density, double dx, double dy, double velocity_u, double velocity_v, double pressure);
+    Node(double viscosity, double density, double dx, double dy, double velocity_u, double velocity_v, double pressure, double dye);
 
     void set_velocity_u(double velocity_u);
 
@@ -72,6 +76,14 @@ public:
 
     double get_density() const;
 
+    double get_dye() const;
+
+    void set_dye(double dye);
+
+    void set_previous_timestep_dye(double dye);
+
+    double get_previous_timestep_dye() const;
+
     double get_pressure_correction() const;
 
     void set_pressure_correction(double pressure_correction);
@@ -101,4 +113,10 @@ public:
     Coefficients get_pressure_coefficients() const;
 
     double get_pressure_coefficient(CoefficientType type) const;
+
+    void calculate_dye_coefficients(SimulationType type) const;
+
+    Coefficients get_dye_coefficients() const;
+
+    double get_dye_coefficient(CoefficientType type) const;
 };

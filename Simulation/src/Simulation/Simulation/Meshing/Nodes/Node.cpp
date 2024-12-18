@@ -5,9 +5,10 @@
 #include "../../../common.hpp"
 
 Node::Node(const double viscosity, const double density, const double dx, const double dy, const double velocity_u,
-           const double velocity_v, const double pressure) {
+           const double velocity_v, const double pressure, const double dye) {
     m_viscosity = viscosity;
     m_density = density;
+    m_dye = dye;
     m_dx = dx;
     m_dy = dy;
     m_velocity_u = velocity_u;
@@ -16,6 +17,7 @@ Node::Node(const double viscosity, const double density, const double dx, const 
 
     m_momentum_coefficients = std::make_unique<MomentumCoefficients>(this);
     m_pressure_correction_coefficients = std::make_unique<PressureCorrectionCoefficients>(this);
+    m_dye_coefficients = std::make_unique<DyeCoefficients>(this);
 
     m_previous_timestep_velocity_u = m_velocity_u;
     m_previous_timestep_velocity_v = m_velocity_v;
@@ -94,6 +96,22 @@ double Node::get_density() const {
     return m_density;
 }
 
+double Node::get_dye() const {
+    return m_dye;
+}
+
+void Node::set_dye(const double dye) {
+    m_dye = dye;
+}
+
+void Node::set_previous_timestep_dye(const double dye) {
+    m_previous_timestep_dye = dye;
+}
+
+double Node::get_previous_timestep_dye() const {
+    return m_previous_timestep_dye;
+}
+
 double Node::get_pressure_correction() const {
     return m_pressure_correction;
 }
@@ -161,6 +179,18 @@ Coefficients Node::get_pressure_coefficients() const {
     return m_pressure_correction_coefficients->get_pressure_coefficients();
 }
 
-double Node::get_pressure_coefficient(CoefficientType type) const {
+double Node::get_pressure_coefficient(const CoefficientType type) const {
     return m_pressure_correction_coefficients->get_pressure_coefficient(type);
+}
+
+void Node::calculate_dye_coefficients(const SimulationType type) const {
+    m_dye_coefficients->calculate_coefficients(type);
+}
+
+Coefficients Node::get_dye_coefficients() const {
+    return m_dye_coefficients->get_coefficients();
+}
+
+double Node::get_dye_coefficient(const CoefficientType type) const {
+    return m_dye_coefficients->get_coefficient(type);
 }

@@ -14,13 +14,20 @@ MomentumCoefficients::MomentumCoefficients(Node *node) {
 
 void MomentumCoefficients::calculate_momentum_coefficients(const VelocityComponent velocity_component,
                                                            const SimulationType simulation_type) {
+    Field field;
+    if (velocity_component == VelocityComponent::U) {
+        field = Field::VelocityU;
+    } else {
+        field = Field::VelocityV;
+    }
+
     // Diffusion
     const Coefficients diffusion_coefficients = m_diffusion_coefficients->get_diffusion_effects(
-        velocity_component, DiffusionSchemes::CentralDifferencing);
+        field, DiffusionSchemes::CentralDifferencing);
 
     // Convection
     const Coefficients convection_coefficients = m_convection_coefficients->get_convection_effects(
-        velocity_component, ConvectionSchemes::QuickHayase);
+        field, ConvectionSchemes::QuickHayase);
 
     // Pressure
     const Coefficients pressure_coefficients = m_pressure_coefficients->get_pressure_effects(velocity_component);

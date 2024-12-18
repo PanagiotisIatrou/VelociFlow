@@ -22,6 +22,8 @@ void SteadySimulation::solve() {
     m_bulk_face_operations->update_face_y_densities();
     m_bulk_face_operations->update_face_x_pressures();
     m_bulk_face_operations->update_face_y_pressures();
+    m_bulk_face_operations->update_face_x_dye();
+    m_bulk_face_operations->update_face_y_dye();
 
     m_momentum_x_error = 1.0;
     m_momentum_y_error = 1.0;
@@ -77,6 +79,11 @@ void SteadySimulation::solve() {
             std::cout << std::flush;
         }
     }
+
+    // Solve the dye equation
+    m_bulk_node_operations->calculate_dye_coefficients(SimulationType::Unsteady);
+    solve_dye();
+
     std::cout << std::endl << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
 
     m_time_taken = m_timer->get_elapsed_time();
@@ -91,6 +98,7 @@ void SteadySimulation::solve() {
     m_saver->write_field(Field::VelocityU);
     m_saver->write_field(Field::VelocityV);
     m_saver->write_field(Field::Pressure);
+    m_saver->write_field(Field::Dye);
 
     m_saver->close_file();
 }

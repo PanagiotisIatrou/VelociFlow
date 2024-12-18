@@ -194,6 +194,38 @@ void BulkFaceOperations::update_face_y_pressures() const {
     }
 }
 
+// Face Dye
+
+void BulkFaceOperations::update_face_x_dye() const {
+    for (int i = 0; i < m_mesh->get_size_x() + 1; i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            Face *face = m_mesh->get_face_x(i, j);
+
+            // Nothing to calculate on boundary faces
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
+                continue;
+            }
+
+            static_cast<InteriorFace *>(face)->update_dye();
+        }
+    }
+}
+
+void BulkFaceOperations::update_face_y_dye() const {
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y() + 1; j++) {
+            Face *face = m_mesh->get_face_y(i, j);
+
+            // Nothing to calculate on boundary faces
+            if (face == nullptr || face->get_face_type() == FaceType::Boundary) {
+                continue;
+            }
+
+            static_cast<InteriorFace *>(face)->update_dye();
+        }
+    }
+}
+
 // Face pressure corrections
 
 void BulkFaceOperations::update_face_x_pressure_corrections() const {

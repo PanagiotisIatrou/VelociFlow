@@ -17,6 +17,7 @@ class SimulationData:
         self.velocity_timesteps_u = []
         self.velocity_timesteps_v = []
         self.pressure_timesteps = []
+        self.dye_timesteps = []
 
     def import_file(self, file):
         # Clear the data
@@ -79,6 +80,16 @@ class SimulationData:
                             else:
                                 pressure[int(i), int(j)] = float(value.strip())
                         self.pressure_timesteps.append(np.array(pressure))
+                    elif line.startswith("dye"):
+                        dye = np.zeros((self.grid_size_x, self.grid_size_y))
+                        for i in range(self.grid_size_x * self.grid_size_y):
+                            line = f.readline()
+                            i, j, value = line.split(",")
+                            if value.strip() == '-':
+                                dye[int(i), int(j)] = math.nan
+                            else:
+                                dye[int(i), int(j)] = float(value.strip())
+                        self.dye_timesteps.append(np.array(dye))
 
             self.dx = self.domain_size_x / self.grid_size_x
             self.dy = self.domain_size_y / self.grid_size_y

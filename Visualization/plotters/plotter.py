@@ -16,12 +16,10 @@ class Plotter(ABC):
         self.x = np.linspace(self.data.dx / 2, self.data.domain_size_x - self.data.dx / 2, self.data.grid_size_x)
         self.y = np.linspace(self.data.dy / 2, self.data.domain_size_y - self.data.dy / 2, self.data.grid_size_y)
 
-        self.set_min_max_velocity()
-
     def create_plot(self):
         plt.figure(figsize=(16, 9))
         plt.gca().set_aspect('equal', adjustable='box')
-        plt.title("Velocity field")
+        plt.title("??? field")
         plt.xlabel("x")
         plt.ylabel("y")
 
@@ -35,7 +33,7 @@ class Plotter(ABC):
             np.array(field).T,
             cmap=color_map,
             shading="gouraud" if self.settings.blur else "auto",
-            clim=(self.min_velocity, self.max_velocity),
+            clim=(self.min_value, self.max_value),
         )
         plt.colorbar(label="Magnitude")
 
@@ -44,20 +42,17 @@ class Plotter(ABC):
     def update_color_mesh(self, color_mesh, field):
         color_mesh.set_array(np.array(field).T.ravel())
 
-    def set_min_max_velocity(self):
-        # Find the min and max velocity (from all the timesteps
-        velocity_u = np.array(self.data.velocity_timesteps_u)
-        velocity_v = np.array(self.data.velocity_timesteps_v)
-        velocity = np.sqrt(velocity_u ** 2 + velocity_v ** 2)
-        self.min_velocity = np.nanmin(velocity)
-        self.max_velocity = np.nanmax(velocity)
+    def set_min_max_values(self, field):
+        # Find the min and max velocity (from all the timesteps)
+        self.min_value = np.nanmin(field)
+        self.max_value = np.nanmax(field)
 
-    def create_quiver(self, velocity_u, velocity_v):
+    def create_quiver(self, field1, field2):
         # Normalize the quiver if specified
         if self.settings.normalize_quiver:
-            quiver_velocity_u, quiver_velocity_v = normalize_vectors(velocity_u, velocity_v, 6.5)
+            quiver_field1, quiver_field2 = normalize_vectors(field1, field2, 6.5)
         else:
-            quiver_velocity_u, quiver_velocity_v = velocity_u, velocity_v
+            quiver_field1, quiver_field2 = field1, field2
 
         # Calculate the quiver density based on the smallest side of the domain
         smallest_side = min(self.data.grid_size_x, self.data.grid_size_y)
@@ -68,20 +63,20 @@ class Plotter(ABC):
         quiver = plt.quiver(
             self.x[::step],
             self.y[::step],
-            quiver_velocity_u.T[::step, ::step],
-            quiver_velocity_v.T[::step, ::step],
+            quiver_field1.T[::step, ::step],
+            quiver_field2.T[::step, ::step],
             scale=175,
             color=self.settings.quiver_color
         )
 
         return quiver
 
-    def update_quiver(self, quiver, velocity_u, velocity_v):
+    def update_quiver(self, quiver, field1, field2):
         # Normalize the quiver if specified
         if self.settings.normalize_quiver:
-            quiver_velocity_u, quiver_velocity_v = normalize_vectors(velocity_u, velocity_v, 6.5)
+            quiver_field1, quiver_field2 = normalize_vectors(field1, field2, 6.5)
         else:
-            quiver_velocity_u, quiver_velocity_v = velocity_u, velocity_v
+            quiver_field1, quiver_field2 = field1, field2
 
         # Calculate the quiver density based on the smallest side of the domain
         smallest_side = min(self.data.grid_size_x, self.data.grid_size_y)
@@ -90,11 +85,11 @@ class Plotter(ABC):
 
         # Plot quiver (skip some points for better visualization according to the density)
         quiver.set_UVC(
-            quiver_velocity_u.T[::step, ::step],
-            quiver_velocity_v.T[::step, ::step]
+            quiver_field1.T[::step, ::step],
+            quiver_field2.T[::step, ::step]
         )
 
-    def create_streamlines(self, velocity_u, velocity_v):
+    def create_streamlines(self, field1, field2):
         # Calculate the streamplot density based on the smallest side of the domain
         smallest_side = min(self.data.grid_size_x, self.data.grid_size_y)
         streamplot_density = self.settings.streamline_density_factor * smallest_side / 50.0
@@ -103,15 +98,15 @@ class Plotter(ABC):
         streamplot = plt.streamplot(
             self.x,
             self.y,
-            velocity_u.T,
-            velocity_v.T,
+            field1.T,
+            field2.T,
             color=self.settings.streamline_color,
             density=streamplot_density
         )
 
         return streamplot
 
-    def update_streamlines(self, streamplot, velocity_u, velocity_v):
+    def update_streamlines(self, field1, field2):
         ax = plt.gca()
         for obj in ax.collections:
             if isinstance(obj, matplotlib.collections.LineCollection):
@@ -121,4 +116,4 @@ class Plotter(ABC):
             patch.remove()
 
         # Create the new streamplot
-        return self.create_streamlines(velocity_u, velocity_v)
+        return self.create_streamlines(field1, field2)

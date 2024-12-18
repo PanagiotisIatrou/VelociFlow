@@ -15,20 +15,11 @@ private:
     Coefficients m_momentum_u_coefficients;
     Coefficients m_momentum_v_coefficients;
 
-    // Diffusion
+    // Discretization coefficients
 
     std::unique_ptr<DiffusionCoefficients> m_diffusion_coefficients;
-
-    // Convection
-
     std::unique_ptr<ConvectionCoefficients> m_convection_coefficients;
-
-    // Pressure
-
     std::unique_ptr<PressureCoefficients> m_pressure_coefficients;
-
-    // Time
-
     std::unique_ptr<TimeCoefficients> m_time_coefficients;
 
 public:

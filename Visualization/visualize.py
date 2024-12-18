@@ -24,7 +24,8 @@ simulation_data.import_file(data_file)
 
 if plot_settings.transient and not plot_settings.only_last_frame:
     plotter = UnsteadyPlotter(simulation_data, plot_settings)
-    plotter.save_velocity()
+    # plotter.save_velocity()
+    plotter.save_dye()
 else:
     plotter = SteadyPlotter(simulation_data, plot_settings)
     plotter.plot_and_save_velocity()

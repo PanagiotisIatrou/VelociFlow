@@ -24,11 +24,17 @@ public:
 
     void update_node_previous_timestep_pressure() const;
 
+    // Dye
+
+    void update_node_previous_timestep_dye() const;
+
     // Coefficients
 
     void calculate_momentum_coefficients(VelocityComponent velocity_component, SimulationType simulation_type) const;
 
     void calculate_pressure_coefficients() const;
+
+    void calculate_dye_coefficients(SimulationType simulation_type) const;
 
     // Time
 

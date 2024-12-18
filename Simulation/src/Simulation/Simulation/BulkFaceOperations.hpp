@@ -40,6 +40,12 @@ public:
 
     void update_face_y_pressures() const;
 
+    // Dye
+
+    void update_face_x_dye() const;
+
+    void update_face_y_dye() const;
+
     // Face pressure corrections
 
     void update_face_x_pressure_corrections() const;

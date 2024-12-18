@@ -63,4 +63,6 @@ public:
     double get_time_taken() const;
 
     virtual void solve() = 0;
+
+    void solve_dye();
 };

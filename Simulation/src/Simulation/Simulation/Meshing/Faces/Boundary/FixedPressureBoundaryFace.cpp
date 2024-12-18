@@ -14,6 +14,10 @@ double FixedPressureBoundaryFace::get_velocity_v() const {
     return m_node_neighbour->get_velocity_v();
 }
 
+double FixedPressureBoundaryFace::get_dye() const {
+    return m_node_neighbour->get_dye();
+}
+
 double FixedPressureBoundaryFace::get_pressure_correction() const {
     return 0.0;
 }

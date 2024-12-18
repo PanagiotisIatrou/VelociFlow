@@ -51,8 +51,10 @@ void Saver::write_field(const Field field) const {
         title = "velocity_u";
     } else if (field == Field::VelocityV) {
         title = "velocity_v";
-    } else {
+    } else if (field == Field::Pressure) {
         title = "pressure";
+    } else if (field == Field::Dye) {
+        title = "dye";
     }
     fprintf(m_file, "%s\n", title.c_str());
 
@@ -66,8 +68,10 @@ void Saver::write_field(const Field field) const {
                     value = node_P->get_velocity_u();
                 } else if (field == Field::VelocityV) {
                     value = node_P->get_velocity_v();
-                } else {
+                } else if (field == Field::Pressure) {
                     value = node_P->get_pressure();
+                } else if (field == Field::Dye) {
+                    value = node_P->get_dye();
                 }
                 fprintf(m_file, "%d,%d,%f\n", i, j, value);
             } else {

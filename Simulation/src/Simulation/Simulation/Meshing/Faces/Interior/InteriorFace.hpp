@@ -14,6 +14,7 @@ protected:
     double m_pressure_correction = 0.0;
     double m_viscosity = 0.0;
     double m_density = 0.0;
+    double m_dye = 0.0;
     double m_dx; // TODO: Remove this in the future
     double m_dy; // TODO: Remove this in the future
     double m_dt = 1.0;
@@ -38,6 +39,12 @@ public:
     void update_density();
 
     double get_density() const override;
+
+    double get_dye() const override;
+
+    void set_dye(double dye);
+
+    void update_dye();
 
     double get_pressure() const override;
 
