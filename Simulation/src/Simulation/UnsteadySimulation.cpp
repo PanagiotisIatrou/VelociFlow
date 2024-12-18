@@ -31,7 +31,7 @@ void UnsteadySimulation::solve() {
     m_bulk_face_operations->update_face_x_pressures();
     m_bulk_face_operations->update_face_y_pressures();
 
-    // Save the mesh settings
+    // Save the mesh settings and the initial state
     m_saver->open_and_clear_file();
     m_saver->write_domain_size();
     m_saver->write_grid_size();
