@@ -4,8 +4,11 @@
 
 #include "Faces/Boundary/BoundaryFace.hpp"
 #include "Faces/Boundary/FixedPressureBoundaryFace.hpp"
-#include "Faces/Boundary/FixedVelocityBoundaryFace.hpp"
+#include "Faces/Boundary/InletBoundaryFace.hpp"
 #include "Faces/Boundary/FreeBoundaryFace.hpp"
+#include "Faces/Boundary/MovingWallBoundaryFace.hpp"
+#include "Faces/Boundary/NoSlipBoundaryFace.hpp"
+#include "Faces/Boundary/SlipBoundaryFace.hpp"
 #include "Faces/Interior/InteriorFaceX.hpp"
 #include "Faces/Interior/InteriorFaceY.hpp"
 
@@ -95,12 +98,36 @@ void Mesh::set_interior_face(const FaceSide side, const int i, const int j) {
     }
 }
 
-void Mesh::set_boundary_fixed_velocity_face(const FaceSide side, const int i, const int j,
+void Mesh::set_boundary_inlet_face(const FaceSide side, const int i, const int j,
                                             const double velocity_u, const double velocity_v, const double dye) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v, dye, Orientation::Horizontal);
+        m_faces_x[i][j] = std::make_unique<InletBoundaryFace>(velocity_u, velocity_v, dye, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<FixedVelocityBoundaryFace>(velocity_u, velocity_v, dye, Orientation::Vertical);
+        m_faces_y[i][j] = std::make_unique<InletBoundaryFace>(velocity_u, velocity_v, dye, Orientation::Vertical);
+    }
+}
+
+void Mesh::set_boundary_no_slip_face(const FaceSide side, const int i, const int j) {
+    if (side == FaceSide::X) {
+        m_faces_x[i][j] = std::make_unique<NoSlipBoundaryFace>(Orientation::Horizontal);
+    } else {
+        m_faces_y[i][j] = std::make_unique<NoSlipBoundaryFace>(Orientation::Vertical);
+    }
+}
+
+void Mesh::set_boundary_moving_wall_face(const FaceSide side, const int i, const int j, const double velocity) {
+    if (side == FaceSide::X) {
+        m_faces_x[i][j] = std::make_unique<MovingWallBoundaryFace>(velocity, Orientation::Horizontal);
+    } else {
+        m_faces_y[i][j] = std::make_unique<MovingWallBoundaryFace>(velocity, Orientation::Vertical);
+    }
+}
+
+void Mesh::set_boundary_slip_face(const FaceSide side, const int i, const int j) {
+    if (side == FaceSide::X) {
+        m_faces_x[i][j] = std::make_unique<SlipBoundaryFace>(Orientation::Horizontal);
+    } else {
+        m_faces_y[i][j] = std::make_unique<SlipBoundaryFace>(Orientation::Vertical);
     }
 }
 
@@ -181,7 +208,7 @@ void Mesh::link_nodes_faces() {
                 Face *face_ww = get_face_x(i - 1, j);
                 if (face_ww == nullptr) {
                     if (node->get_neighbouring_node(Direction::WestWest) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::X, i - 1, j, 0.0, 0.0, 0.0);
+                        set_boundary_no_slip_face(FaceSide::X, i - 1, j);
                     } else {
                         set_interior_face(FaceSide::X, i - 1, j);
                     }
@@ -195,7 +222,7 @@ void Mesh::link_nodes_faces() {
                 Face *grid_face_w = get_face_x(i, j);
                 if (grid_face_w == nullptr) {
                     if (node->get_neighbouring_node(Direction::West) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::X, i, j, 0.0, 0.0, 0.0);
+                        set_boundary_no_slip_face(FaceSide::X, i, j);
                     } else {
                         set_interior_face(FaceSide::X, i, j);
                     }
@@ -214,7 +241,7 @@ void Mesh::link_nodes_faces() {
                 Face *face_ee = get_face_x(i + 2, j);
                 if (face_ee == nullptr) {
                     if (node->get_neighbouring_node(Direction::EastEast) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::X, i + 2, j, 0.0, 0.0, 0.0);
+                        set_boundary_no_slip_face(FaceSide::X, i + 2, j);
                     } else {
                         set_interior_face(FaceSide::X, i + 2, j);
                     }
@@ -228,7 +255,7 @@ void Mesh::link_nodes_faces() {
                 Face *grid_face_e = get_face_x(i + 1, j);
                 if (grid_face_e == nullptr) {
                     if (node->get_neighbouring_node(Direction::East) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::X, i + 1, j, 0.0, 0.0, 0.0);
+                        set_boundary_no_slip_face(FaceSide::X, i + 1, j);
                     } else {
                         set_interior_face(FaceSide::X, i + 1, j);
                     }
@@ -247,7 +274,7 @@ void Mesh::link_nodes_faces() {
                 Face *face_ss = get_face_y(i, j - 1);
                 if (face_ss == nullptr) {
                     if (node->get_neighbouring_node(Direction::SouthSouth) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j - 1, 0.0, 0.0, 0.0);
+                        set_boundary_no_slip_face(FaceSide::Y, i, j - 1);
                     } else {
                         set_interior_face(FaceSide::Y, i, j - 1);
                     }
@@ -261,7 +288,7 @@ void Mesh::link_nodes_faces() {
                 Face *grid_face_s = get_face_y(i, j);
                 if (grid_face_s == nullptr) {
                     if (node->get_neighbouring_node(Direction::South) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j, 0.0, 0.0, 0.0);
+                        set_boundary_no_slip_face(FaceSide::Y, i, j);
                     } else {
                         set_interior_face(FaceSide::Y, i, j);
                     }
@@ -280,7 +307,7 @@ void Mesh::link_nodes_faces() {
                 Face *face_nn = get_face_y(i, j + 2);
                 if (face_nn == nullptr) {
                     if (node->get_neighbouring_node(Direction::NorthNorth) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 2, 0.0, 0.0, 0.0);
+                        set_boundary_no_slip_face(FaceSide::Y, i, j + 2);
                     } else {
                         set_interior_face(FaceSide::Y, i, j + 2);
                     }
@@ -294,7 +321,7 @@ void Mesh::link_nodes_faces() {
                 Face *grid_face_n = get_face_y(i, j + 1);
                 if (grid_face_n == nullptr) {
                     if (node->get_neighbouring_node(Direction::North) == nullptr) {
-                        set_boundary_fixed_velocity_face(FaceSide::Y, i, j + 1, 0.0, 0.0, 0.0);
+                        set_boundary_no_slip_face(FaceSide::Y, i, j + 1);
                     } else {
                         set_interior_face(FaceSide::Y, i, j + 1);
                     }

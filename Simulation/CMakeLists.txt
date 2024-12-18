@@ -50,6 +50,8 @@ add_executable(Simulation
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/PressureCorrectionCoefficients/PressureCorrectionCoefficients.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/MomentumCoefficients/MomentumCoefficients.hpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/MomentumCoefficients/MomentumCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/DyeCoefficients/DyeCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/DyeCoefficients/DyeCoefficients.hpp
 
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Face.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Face.hpp
@@ -61,15 +63,19 @@ add_executable(Simulation
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceX.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceY.cpp
-        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FixedVelocityBoundaryFace.cpp
-        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FixedVelocityBoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/InletBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/InletBoundaryFace.hpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FixedPressureBoundaryFace.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FixedPressureBoundaryFace.hpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FreeBoundaryFace.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/FreeBoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/SlipBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/SlipBoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/NoSlipBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/NoSlipBoundaryFace.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/MovingWallBoundaryFace.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Boundary/MovingWallBoundaryFace.hpp
 
         ${TESTS_PATH}/tests.hpp
         ${TESTS_PATH}/helper.hpp
-        src/Simulation/Simulation/Meshing/Nodes/Coefficients/DyeCoefficients/DyeCoefficients.cpp
-        src/Simulation/Simulation/Meshing/Nodes/Coefficients/DyeCoefficients/DyeCoefficients.hpp
 )

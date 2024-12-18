@@ -51,7 +51,13 @@ public:
 
     void set_interior_face(FaceSide side, int i, int j);
 
-    void set_boundary_fixed_velocity_face(FaceSide side, int i, int j, double velocity_u, double velocity_v, double dye);
+    void set_boundary_inlet_face(FaceSide side, int i, int j, double velocity_u, double velocity_v, double dye);
+
+    void set_boundary_no_slip_face(FaceSide side, int i, int j);
+
+    void set_boundary_moving_wall_face(FaceSide side, int i, int j, double velocity);
+
+    void set_boundary_slip_face(FaceSide side, int i, int j);
 
     void set_boundary_fixed_pressure_face(FaceSide side, int i, int j, double pressure);
 

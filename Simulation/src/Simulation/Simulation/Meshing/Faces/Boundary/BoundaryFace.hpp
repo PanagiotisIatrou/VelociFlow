@@ -3,7 +3,7 @@
 #include "../Face.hpp"
 #include "../../Nodes/Node.hpp"
 
-enum class BoundaryType { FixedVelocity, FixedPressure, Free };
+enum class BoundaryType { Inlet, NoSlip, MovingWall, Slip, FixedPressure, Free };
 
 class BoundaryFace : public Face {
 protected:

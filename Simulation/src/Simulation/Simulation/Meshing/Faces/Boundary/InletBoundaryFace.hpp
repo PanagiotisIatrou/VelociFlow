@@ -2,14 +2,14 @@
 
 #include "BoundaryFace.hpp"
 
-class FixedVelocityBoundaryFace : public BoundaryFace {
+class InletBoundaryFace : public BoundaryFace {
 private:
     double m_velocity_u;
     double m_velocity_v;
     double m_dye;
 
 public:
-    FixedVelocityBoundaryFace(double velocity_u, double velocity_v, double dye, Orientation orientation);
+    InletBoundaryFace(double velocity_u, double velocity_v, double dye, Orientation orientation);
 
     double get_velocity_u() const override;
 

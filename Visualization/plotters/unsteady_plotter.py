@@ -17,9 +17,10 @@ class UnsteadyPlotter(Plotter):
         self.create_plot()
 
         # Find the min and max dye (from all the timesteps)
-        all_dyes = np.array(self.data.dye_timesteps)
-        self.set_min_max_values(all_dyes)
-
+        # all_dyes = np.array(self.data.dye_timesteps)
+        # self.set_min_max_values(all_dyes)
+        self.min_value = 0.0
+        self.max_value = 1.0
 
         # Add the color map and the color bar
         dye = np.array(self.data.dye_timesteps[0])
