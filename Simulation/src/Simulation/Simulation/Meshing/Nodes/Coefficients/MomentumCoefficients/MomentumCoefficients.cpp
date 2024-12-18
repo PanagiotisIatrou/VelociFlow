@@ -28,7 +28,13 @@ void MomentumCoefficients::calculate_momentum_coefficients(const VelocityCompone
     // Time
     Coefficients time_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     if (simulation_type == SimulationType::Unsteady) {
-        time_coefficients = m_time_coefficients->get_time_effects(velocity_component);
+        double previous_value;
+        if (velocity_component == VelocityComponent::U) {
+            previous_value = m_node->get_previous_timestep_velocity_u();
+        } else {
+            previous_value = m_node->get_previous_timestep_velocity_v();
+        }
+        time_coefficients = m_time_coefficients->get_time_effects(previous_value);
     }
 
     // Sum the coefficients

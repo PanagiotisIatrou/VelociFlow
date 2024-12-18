@@ -13,5 +13,5 @@ private:
 public:
     TimeCoefficients(Node *node, bool include_density);
 
-    Coefficients get_time_effects(VelocityComponent velocity_component) const;
+    Coefficients get_time_effects(double previous_value) const;
 };
