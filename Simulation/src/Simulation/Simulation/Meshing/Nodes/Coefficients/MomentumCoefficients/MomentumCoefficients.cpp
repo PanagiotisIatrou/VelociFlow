@@ -2,107 +2,33 @@
 
 #include "../../Node.hpp"
 #include "../../../../../common.hpp"
-#include "../../../Faces/Boundary/BoundaryFace.hpp"
-
 
 MomentumCoefficients::MomentumCoefficients(Node *node) {
     m_node = node;
-}
 
-Coefficients MomentumCoefficients::get_diffusion_effects(const VelocityComponent velocity_component, const DiffusionSchemes diffusion_scheme) const {
-    Coefficients coefficients;
-
-    for (int dir = 0; dir < direction_near_end; dir++) {
-        const Direction direction = static_cast<Direction>(dir);
-        Coefficients direction_coefficients;
-        switch (diffusion_scheme) {
-            case DiffusionSchemes::CentralDifferencing: {
-                direction_coefficients = get_central_differencing_diffusion_effects(direction, velocity_component);
-                break;
-            }
-        }
-        coefficients += direction_coefficients;
-    }
-
-    return coefficients;
-}
-
-Coefficients MomentumCoefficients::get_convection_effects(const VelocityComponent velocity_component, const ConvectionSchemes convection_scheme) const {
-    Coefficients coefficients;
-
-    for (int dir = 0; dir < direction_near_end; dir++) {
-        const Direction direction = static_cast<Direction>(dir);
-        Coefficients direction_coefficients;
-        switch (convection_scheme) {
-            case ConvectionSchemes::Upwind: {
-                direction_coefficients = get_upwind_convection_effects(direction, velocity_component);
-                break;
-            }
-            case ConvectionSchemes::CentralDifferencing: {
-                direction_coefficients = get_central_differencing_convection_effects(direction, velocity_component);
-                break;
-            }
-            case ConvectionSchemes::QuickHayase: {
-                direction_coefficients = get_quick_hayase_convection_effects(direction, velocity_component);
-                break;
-            }
-        }
-        coefficients += direction_coefficients;
-    }
-
-    return coefficients;
-}
-
-Coefficients MomentumCoefficients::get_pressure_effects(const VelocityComponent velocity_component) const {
-    Coefficients coefficients;
-
-    if (velocity_component == VelocityComponent::U) {
-        const Face *face_w = m_node->get_neighbouring_face(Direction::West);
-        const Face *face_e = m_node->get_neighbouring_face(Direction::East);
-
-        coefficients.source += m_node->m_dt * m_node->m_dy * (face_w->get_pressure() - face_e->get_pressure());
-    } else {
-        const Face *face_s = m_node->get_neighbouring_face(Direction::South);
-        const Face *face_n = m_node->get_neighbouring_face(Direction::North);
-
-        coefficients.source += m_node->m_dt * m_node->m_dx * (face_s->get_pressure() - face_n->get_pressure());
-    }
-
-    return coefficients;
-}
-
-Coefficients MomentumCoefficients::get_time_effects(const VelocityComponent velocity_component) const {
-    Coefficients coefficients;
-
-    double extra = m_node->m_density * m_node->m_dx * m_node->m_dy;
-
-    coefficients.center += extra;
-
-    if (velocity_component == VelocityComponent::U) {
-        extra *= m_node->get_previous_timestep_velocity_u();
-    } else {
-        extra *= m_node->get_previous_timestep_velocity_v();
-    }
-    coefficients.source += extra;
-
-    return coefficients;
+    m_convection_coefficients = std::make_unique<ConvectionCoefficients>(node, true);
+    m_diffusion_coefficients = std::make_unique<DiffusionCoefficients>(node);
+    m_time_coefficients = std::make_unique<TimeCoefficients>(node, true);
+    m_pressure_coefficients = std::make_unique<PressureCoefficients>(node);
 }
 
 void MomentumCoefficients::calculate_momentum_coefficients(const VelocityComponent velocity_component,
                                                            const SimulationType simulation_type) {
     // Diffusion
-    const Coefficients diffusion_coefficients = get_diffusion_effects(velocity_component, DiffusionSchemes::CentralDifferencing);
+    const Coefficients diffusion_coefficients = m_diffusion_coefficients->get_diffusion_effects(
+        velocity_component, DiffusionSchemes::CentralDifferencing);
 
     // Convection
-    const Coefficients convection_coefficients = get_convection_effects(velocity_component, ConvectionSchemes::QuickHayase);
+    const Coefficients convection_coefficients = m_convection_coefficients->get_convection_effects(
+        velocity_component, ConvectionSchemes::QuickHayase);
 
     // Pressure
-    const Coefficients pressure_coefficients = get_pressure_effects(velocity_component);
+    const Coefficients pressure_coefficients = m_pressure_coefficients->get_pressure_effects(velocity_component);
 
     // Time
     Coefficients time_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     if (simulation_type == SimulationType::Unsteady) {
-        time_coefficients = get_time_effects(velocity_component);
+        time_coefficients = m_time_coefficients->get_time_effects(velocity_component);
     }
 
     // Sum the coefficients

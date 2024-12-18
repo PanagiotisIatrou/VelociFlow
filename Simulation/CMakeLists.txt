@@ -38,12 +38,18 @@ add_executable(Simulation
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Node.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Coefficients.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Coefficients.hpp
-        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/PressureCoefficients/PressureCoefficients.hpp
-        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/PressureCoefficients/PressureCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Convection/ConvectionCoefficients.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Convection/ConvectionCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Diffusion/DiffusionCoefficients.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Diffusion/DiffusionCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Time/TimeCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Time/TimeCoefficients.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Pressure/PressureCoefficients.cpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/Pressure/PressureCoefficients.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/PressureCorrectionCoefficients/PressureCorrectionCoefficients.hpp
+        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/PressureCorrectionCoefficients/PressureCorrectionCoefficients.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/MomentumCoefficients/MomentumCoefficients.hpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/MomentumCoefficients/MomentumCoefficients.cpp
-        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/MomentumCoefficients/ConvectionSchemes.cpp
-        ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Nodes/Coefficients/MomentumCoefficients/DiffusionSchemes.cpp
 
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Face.cpp
         ${SIMULATION_PATH}/Simulation/Simulation/Meshing/Faces/Face.hpp

@@ -3,11 +3,11 @@
 #include "../../../Faces/Boundary/BoundaryFace.hpp"
 #include "../../../Faces/Interior/InteriorFace.hpp"
 
-PressureCoefficients::PressureCoefficients(Node *node) {
+PressureCorrectionCoefficients::PressureCorrectionCoefficients(Node *node) {
     m_node = node;
 }
 
-void PressureCoefficients::calculate_pressure_coefficients() {
+void PressureCorrectionCoefficients::calculate_pressure_coefficients() {
     Face *face_w = m_node->get_neighbouring_face(Direction::West);
     Face *face_e = m_node->get_neighbouring_face(Direction::East);
     Face *face_s = m_node->get_neighbouring_face(Direction::South);
@@ -69,10 +69,10 @@ void PressureCoefficients::calculate_pressure_coefficients() {
 
     // Calculate the mass imbalance (source)
     coefficients.source += -(
-        velocity_e * density_e * m_node->m_dy
-        - velocity_w * density_w * m_node->m_dy
-        + velocity_n * density_n * m_node->m_dx
-        - velocity_s * density_s * m_node->m_dx
+        velocity_e * density_e * m_node->get_dy()
+        - velocity_w * density_w * m_node->get_dy()
+        + velocity_n * density_n * m_node->get_dx()
+        - velocity_s * density_s * m_node->get_dx()
         );
 
     const double momentum_u_a_P = m_node->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
@@ -81,11 +81,11 @@ void PressureCoefficients::calculate_pressure_coefficients() {
     // a_W
     if (face_w->get_face_type() != FaceType::Boundary) {
         const double momentum_u_a_W = m_node->get_neighbouring_node(Direction::West)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
-        const double extra_a_W = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_W) * m_node->m_dt * m_node->m_dy * m_node->m_dy * density_w;
+        const double extra_a_W = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_W) * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_w;
         coefficients.west += extra_a_W;
         coefficients.center += extra_a_W;
     } else if (static_cast<BoundaryFace *>(face_w)->get_boundary_type() == BoundaryType::FixedPressure) {
-        const double extra = 0.5 * m_node->m_dt * m_node->m_dy * m_node->m_dy * density_w / momentum_u_a_P;
+        const double extra = 0.5 * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_w / momentum_u_a_P;
         coefficients.east -= extra;
         coefficients.center += extra;
     }
@@ -93,11 +93,11 @@ void PressureCoefficients::calculate_pressure_coefficients() {
     // a_E
     if (face_e->get_face_type() != FaceType::Boundary) {
         const double momentum_u_a_E = m_node->get_neighbouring_node(Direction::East)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
-        const double extra_a_E = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_E) * m_node->m_dt * m_node->m_dy * m_node->m_dy * density_e;
+        const double extra_a_E = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_E) * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_e;
         coefficients.east += extra_a_E;
         coefficients.center += extra_a_E;
     } else if (static_cast<BoundaryFace *>(face_e)->get_boundary_type() == BoundaryType::FixedPressure) {
-        const double extra = 0.5 * m_node->m_dt * m_node->m_dy * m_node->m_dy * density_e / momentum_u_a_P;
+        const double extra = 0.5 * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_e / momentum_u_a_P;
         coefficients.west -= extra;
         coefficients.center += extra;
     }
@@ -105,11 +105,11 @@ void PressureCoefficients::calculate_pressure_coefficients() {
     // a_S
     if (face_s->get_face_type() != FaceType::Boundary) {
         const double momentum_v_a_S = m_node->get_neighbouring_node(Direction::South)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
-        const double extra_a_S = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_S) * m_node->m_dt * m_node->m_dx * m_node->m_dx * density_s;
+        const double extra_a_S = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_S) * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_s;
         coefficients.south += extra_a_S;
         coefficients.center += extra_a_S;
     } else if (static_cast<BoundaryFace *>(face_s)->get_boundary_type() == BoundaryType::FixedPressure) {
-        const double extra = 0.5 * m_node->m_dt * m_node->m_dx * m_node->m_dx * density_s / momentum_v_a_P;
+        const double extra = 0.5 * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_s / momentum_v_a_P;
         coefficients.north -= extra;
         coefficients.center += extra;
     }
@@ -117,11 +117,11 @@ void PressureCoefficients::calculate_pressure_coefficients() {
     // a_N
     if (face_n->get_face_type() != FaceType::Boundary) {
         const double momentum_v_a_N = m_node->get_neighbouring_node(Direction::North)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
-        const double extra_a_N = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_N) * m_node->m_dt * m_node->m_dx * m_node->m_dx * density_n;
+        const double extra_a_N = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_N) * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_n;
         coefficients.north += extra_a_N;
         coefficients.center += extra_a_N;
     } else if (static_cast<BoundaryFace *>(face_n)->get_boundary_type() == BoundaryType::FixedPressure) {
-        const double extra = 0.5 * m_node->m_dt * m_node->m_dx * m_node->m_dx * density_n / momentum_v_a_P;
+        const double extra = 0.5 * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_n / momentum_v_a_P;
         coefficients.south -= extra;
         coefficients.center += extra;
     }
@@ -129,10 +129,10 @@ void PressureCoefficients::calculate_pressure_coefficients() {
     m_pressure_coefficients = coefficients;
 }
 
-Coefficients PressureCoefficients::get_pressure_coefficients() const {
+Coefficients PressureCorrectionCoefficients::get_pressure_coefficients() const {
     return m_pressure_coefficients;
 }
 
-double PressureCoefficients::get_pressure_coefficient(const CoefficientType type) const {
+double PressureCorrectionCoefficients::get_pressure_coefficient(const CoefficientType type) const {
     return m_pressure_coefficients.get_coefficient(type);
 }

@@ -6,14 +6,9 @@
 #include "../../../common.hpp"
 #include "../Faces/Face.hpp"
 #include "Coefficients/MomentumCoefficients/MomentumCoefficients.hpp"
-#include "Coefficients/PressureCoefficients/PressureCoefficients.hpp"
+#include "Coefficients/PressureCorrectionCoefficients/PressureCorrectionCoefficients.hpp"
 
 class Node {
-private:
-    friend class MomentumCoefficients;
-    friend class PressureCoefficients;
-    friend class DiscretizationSchemes;
-
 protected:
     double m_velocity_u;
     double m_velocity_v;
@@ -29,7 +24,7 @@ protected:
     double m_pressure_correction = 0.0;
 
     std::unique_ptr<MomentumCoefficients> m_momentum_coefficients;
-    std::unique_ptr<PressureCoefficients> m_pressure_coefficients;
+    std::unique_ptr<PressureCorrectionCoefficients> m_pressure_correction_coefficients;
 
     std::array<Face *, 8> m_neighbouring_faces = {
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
@@ -64,6 +59,12 @@ public:
     void set_previous_timestep_pressure(double pressure);
 
     double get_previous_timestep_pressure() const;
+
+    double get_dx() const;
+
+    double get_dy() const;
+
+    double get_dt() const;
 
     void set_dt(double dt);
 

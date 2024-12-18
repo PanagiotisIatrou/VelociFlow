@@ -4,14 +4,14 @@
 
 class Node;
 
-class PressureCoefficients {
+class PressureCorrectionCoefficients {
 private:
     Node *m_node;
 
     Coefficients m_pressure_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 public:
-    PressureCoefficients(Node *node);
+    PressureCorrectionCoefficients(Node *node);
 
     void calculate_pressure_coefficients();
 

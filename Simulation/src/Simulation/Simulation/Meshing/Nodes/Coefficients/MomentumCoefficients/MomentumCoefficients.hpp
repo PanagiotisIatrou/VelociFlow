@@ -1,12 +1,12 @@
 #pragma once
 
+#include <memory>
+
 #include "../Coefficients.hpp"
-
-class Node;
-
-enum class DiffusionSchemes { CentralDifferencing };
-
-enum class ConvectionSchemes { Upwind, CentralDifferencing, QuickHayase };
+#include "../Convection/ConvectionCoefficients.hpp"
+#include "../Diffusion/DiffusionCoefficients.hpp"
+#include "../Time/TimeCoefficients.hpp"
+#include "../Pressure/PressureCoefficients.hpp"
 
 class MomentumCoefficients {
 private:
@@ -17,27 +17,19 @@ private:
 
     // Diffusion
 
-    Coefficients get_diffusion_effects(VelocityComponent velocity_component, DiffusionSchemes diffusion_scheme) const;
-
-    Coefficients get_central_differencing_diffusion_effects(Direction direction, VelocityComponent velocity_component) const;
+    std::unique_ptr<DiffusionCoefficients> m_diffusion_coefficients;
 
     // Convection
 
-    Coefficients get_convection_effects(VelocityComponent velocity_component, ConvectionSchemes convection_scheme) const;
-
-    Coefficients get_upwind_convection_effects(Direction direction, VelocityComponent velocity_component) const;
-
-    Coefficients get_central_differencing_convection_effects(Direction direction, VelocityComponent velocity_component) const;
-
-    Coefficients get_quick_hayase_convection_effects(Direction direction, VelocityComponent velocity_component) const;
+    std::unique_ptr<ConvectionCoefficients> m_convection_coefficients;
 
     // Pressure
 
-    Coefficients get_pressure_effects(VelocityComponent velocity_component) const;
+    std::unique_ptr<PressureCoefficients> m_pressure_coefficients;
 
     // Time
 
-    Coefficients get_time_effects(VelocityComponent velocity_component) const;
+    std::unique_ptr<TimeCoefficients> m_time_coefficients;
 
 public:
     MomentumCoefficients(Node *node);
