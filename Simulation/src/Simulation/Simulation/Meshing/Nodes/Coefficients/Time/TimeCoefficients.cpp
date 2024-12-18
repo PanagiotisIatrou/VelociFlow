@@ -10,7 +10,10 @@ TimeCoefficients::TimeCoefficients(Node *node, const bool include_density) {
 Coefficients TimeCoefficients::get_time_effects(const VelocityComponent velocity_component) const {
     Coefficients coefficients;
 
-    double extra = m_node->get_density() * m_node->get_dx() * m_node->get_dy();
+    double extra = m_node->get_dx() * m_node->get_dy();
+    if (m_include_density) {
+        extra *= m_node->get_density();
+    }
 
     coefficients.center += extra;
 
