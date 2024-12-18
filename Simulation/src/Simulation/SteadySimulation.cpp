@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 
 SteadySimulation::SteadySimulation(Mesh *mesh, const double velocity_u_tolerance, const double velocity_v_tolerance,
                                    const double pressure_tolerance, const std::string output_file,
@@ -45,11 +46,31 @@ void SteadySimulation::solve() {
             printf("%-6.d   %.4e   %.4e   %.4e\n", m_outer_iterations_count, m_momentum_x_error, m_momentum_y_error,
                    m_mass_imbalance);
         } else if (m_verbose_type == VerboseType::Percentages) {
-            const double momentum_x_scale = 1 - std::log10(m_momentum_x_error / m_velocity_u_tolerance) / std::log10(first_momentum_x_error / m_velocity_u_tolerance);
+            double momentum_x_scale;
+            if (first_momentum_x_error <= m_velocity_u_tolerance) {
+                momentum_x_scale = (std::log10(m_velocity_u_tolerance) - std::log10(m_momentum_x_error / m_velocity_u_tolerance)) / std::log10(m_velocity_u_tolerance);
+            } else {
+                momentum_x_scale = std::log10(first_momentum_x_error / m_momentum_x_error) / std::log10(first_momentum_x_error / m_velocity_u_tolerance);
+            }
+            momentum_x_scale = std::clamp(momentum_x_scale, 0.0, 1.0);
             const int momentum_x_percentage = static_cast<int>(std::floor(momentum_x_scale * 100.0));
-            const double momentum_y_scale = 1 - std::log10(m_momentum_y_error / m_velocity_v_tolerance) / std::log10(first_momentum_y_error / m_velocity_v_tolerance);
+
+            double momentum_y_scale;
+            if (first_momentum_y_error <= m_velocity_v_tolerance) {
+                momentum_y_scale = (std::log10(m_velocity_v_tolerance) - std::log10(m_momentum_y_error / m_velocity_v_tolerance)) / std::log10(m_velocity_v_tolerance);
+            } else {
+                momentum_y_scale = std::log10(first_momentum_y_error / m_momentum_y_error) / std::log10(first_momentum_y_error / m_velocity_v_tolerance);
+            }
+            momentum_y_scale = std::clamp(momentum_y_scale, 0.0, 1.0);
             const int momentum_y_percentage = static_cast<int>(std::floor(momentum_y_scale * 100.0));
-            const double mass_imbalance_scale = 1 - std::log10(m_mass_imbalance / m_pressure_tolerance) / std::log10(first_mass_imbalance_error / m_pressure_tolerance);
+
+            double mass_imbalance_scale;
+            if (first_mass_imbalance_error <= m_pressure_tolerance) {
+                mass_imbalance_scale = (std::log10(m_pressure_tolerance) - std::log10(m_momentum_y_error / m_pressure_tolerance)) / std::log10(m_pressure_tolerance);
+            } else {
+                mass_imbalance_scale = std::log10(first_mass_imbalance_error / m_momentum_y_error) / std::log10(first_mass_imbalance_error / m_pressure_tolerance);
+            }
+            mass_imbalance_scale = std::clamp(mass_imbalance_scale, 0.0, 1.0);
             const int mass_imbalance_percentage = static_cast<int>(std::floor(mass_imbalance_scale * 100.0));
 
             printf("\r[Momentum X: %-3.d%%, Momentum Y: %-3.d%%, Continuity: %-3.d%%]", momentum_x_percentage, momentum_y_percentage, mass_imbalance_percentage);
