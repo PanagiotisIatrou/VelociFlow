@@ -51,8 +51,8 @@ inline Mesh *create_adv_diff_mesh(const double velocity, const double viscosity)
 
 inline Mesh *create_lid_driven_cavity_mesh(const double velocity, const double viscosity, const double density, const double size) {
     // Domain
-    const int N = 50;
-    const int M = 50;
+    const int N = 100;
+    const int M = 100;
     const double domain_size_x = size;
     const double domain_size_y = size;
 
@@ -65,10 +65,10 @@ inline Mesh *create_lid_driven_cavity_mesh(const double velocity, const double v
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            if (j > M / 2) {
-                mesh->set_node(i, j, viscosity, density, 0.0, 0.0, 0.0, 0.0);
-            } else {
+            if (j == M - 1 || j == M - 2) {
                 mesh->set_node(i, j, viscosity, density, 0.0, 0.0, 0.0, 1.0);
+            } else {
+                mesh->set_node(i, j, viscosity, density, 0.0, 0.0, 0.0, 0.0);
             }
         }
     }
