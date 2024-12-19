@@ -533,12 +533,13 @@ inline Mesh *create_kelvin_helmholtz_mesh(const double velocity_inlet, const dou
             }
 
             double velocity_u;
-            if (std::abs(j - M / 2.0) / (M / 2.0) < 0.2 + 0.02 * std::sin(2.0 * M_PI * (static_cast<double>(i) / N) * domain_size_x * 10.0)) {
+            if (std::abs(j - M / 2.0) / (M / 2.0) < 0.2 + 0.01 * std::sin(2.0 * M_PI * (static_cast<double>(i) / N) * domain_size_x * 10.0)) {
                 velocity_u = velocity_inlet;
+                mesh->set_node(i, j, viscosity, density, velocity_u, 0.0, 0.0, 1.0);
             } else {
                 velocity_u = -velocity_inlet / 2.0;
+                mesh->set_node(i, j, viscosity, density, velocity_u, 0.0, 0.0, 0.0);
             }
-            mesh->set_node(i, j, viscosity, density, velocity_u, 0.0, 0.0, 0.0);
         }
     }
 
@@ -660,6 +661,51 @@ inline Mesh *create_kelvin_helmholtz_mesh(const double velocity_inlet, const dou
 
         second_node->set_neighbouring_node(last_node, Direction::SouthSouth);
         second_node->set_neighbouring_node(first_node, Direction::South);
+    }
+
+    // Link the nodes to their neighbouring nodes
+    mesh->link_nodes();
+
+    // Link the faces to their neighbouring nodes (and the opposite)
+    mesh->link_nodes_faces();
+
+    return mesh;
+}
+
+inline Mesh *create_reynolds_mesh(double velocity, double viscosity) {
+    // Domain
+    const int N = 300;
+    const int M = 50;
+    const double domain_size_x = 6.0;
+    const double domain_size_y = 1.0;
+    const double density = 1.0;
+
+    Mesh *mesh = new Mesh(N, M, domain_size_x, domain_size_y);
+
+    // Add the nodes
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            if (mesh->get_node(i, j) != nullptr) {
+                std::cout << "! Reallocation !" << std::endl;
+            }
+
+            mesh->set_node(i, j, viscosity, density, 0.0, 0.0, 0.0, 0.0);
+        }
+    }
+
+    // Add the left and right boundaries
+    for (int i = 0; i < N + 1; i++) {
+        for (int j = 0; j < M; j++) {
+            if (i == 0) {
+                if (std::abs(j - M / 2) <= 1) {
+                    mesh->set_boundary_inlet_face(FaceSide::X, i, j, velocity, 0.0, 1.0);
+                } else {
+                    mesh->set_boundary_inlet_face(FaceSide::X, i, j, velocity, 0.0, 0.0);
+                }
+            } else if (i == N) {
+                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
+            }
+        }
     }
 
     // Link the nodes to their neighbouring nodes
