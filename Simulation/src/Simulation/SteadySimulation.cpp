@@ -81,7 +81,7 @@ void SteadySimulation::solve() {
     }
 
     // Solve the dye equation
-    m_bulk_node_operations->calculate_dye_coefficients(SimulationType::Unsteady);
+    m_bulk_node_operations->calculate_dye_coefficients(SimulationType::Steady);
     solve_dye();
 
     std::cout << std::endl << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
