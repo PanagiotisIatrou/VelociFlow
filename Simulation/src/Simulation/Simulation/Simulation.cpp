@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "Meshing/Faces/Boundary/BoundaryFace.hpp"
-#include "Meshing/Faces/Interior/InteriorFace.hpp"
 
 Simulation::Simulation(Mesh *mesh, const double velocity_u_tolerance, const double velocity_v_tolerance,
                        const double pressure_tolerance, const std::string output_file, const VerboseType verbose_type) {
@@ -38,12 +37,12 @@ void Simulation::calculate_active_cells_count() {
     }
 }
 
-void Simulation::calculate_momentum_x_imbalance() {
-    m_momentum_x_error = 0.0;
+double Simulation::get_momentum_x_imbalance() const {
+    double error = 0.0;
     double denom = 0.0;
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
+            const Node *node_P = m_mesh->get_node(i, j);
 
             // Nothing to calculate for an empty node
             if (node_P == nullptr) {
@@ -65,21 +64,21 @@ void Simulation::calculate_momentum_x_imbalance() {
             }
 
             const double residual = std::abs(c.center * node_P->get_velocity_u() - velocity_u_P);
-            m_momentum_x_error += residual;
+            error += residual;
             denom += std::abs(c.center * node_P->get_velocity_u());
         }
     }
     if (denom != 0.0) {
-        m_momentum_x_error /= denom;
+        error /= denom;
     }
+
+    return error;
 }
 
 void Simulation::solve_x_momentum() const {
-    double tol = std::max(m_momentum_x_error / 1e3, 1e-10);
-    double momentum_x_error = 1.0;
-    while (momentum_x_error > tol) {
-        momentum_x_error = 0.0;
-        double denom = 0.0;
+    const double tol = std::max(m_momentum_x_error / 1e3, 1e-10);
+    double error = 1.0;
+    while (error > tol) {
         for (int i = 0; i < m_mesh->get_size_x(); i++) {
             for (int j = 0; j < m_mesh->get_size_y(); j++) {
                 Node *node_P = m_mesh->get_node(i, j);
@@ -103,26 +102,21 @@ void Simulation::solve_x_momentum() const {
                     }
                 }
 
-                const double residual = std::abs(c.center * node_P->get_velocity_u() - velocity_u_P);
-                momentum_x_error += residual;
-                denom += std::abs(c.center * node_P->get_velocity_u());
-
                 velocity_u_P /= c.center;
                 node_P->set_velocity_u(velocity_u_P);
             }
         }
-        if (denom != 0.0) {
-            momentum_x_error /= denom;
-        }
+
+        error = get_momentum_x_imbalance();
     }
 }
 
-void Simulation::calculate_momentum_y_imbalance() {
-    m_momentum_y_error = 0.0;
+double Simulation::get_momentum_y_imbalance() const {
+    double error = 0.0;
     double denom = 0.0;
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
+            const Node *node_P = m_mesh->get_node(i, j);
 
             // Nothing to calculate for an empty node
             if (node_P == nullptr) {
@@ -144,21 +138,21 @@ void Simulation::calculate_momentum_y_imbalance() {
             }
 
             const double residual = std::abs(c.center * node_P->get_velocity_v() - velocity_v_P);
-            m_momentum_y_error += residual;
+            error += residual;
             denom += std::abs(c.center * node_P->get_velocity_v());
         }
     }
     if (denom != 0.0) {
-        m_momentum_y_error /= denom;
+        error /= denom;
     }
+
+    return error;
 }
 
 void Simulation::solve_y_momentum() const {
-    double tol = std::max(m_momentum_y_error / 1e3, 1e-10);
-    double momentum_y_error = 1.0;
-    while (momentum_y_error > tol) {
-        momentum_y_error = 0.0;
-        double denom = 0.0;
+    const double tol = std::max(m_momentum_y_error / 1e3, 1e-10);
+    double error = 1.0;
+    while (error > tol) {
         for (int i = 0; i < m_mesh->get_size_x(); i++) {
             for (int j = 0; j < m_mesh->get_size_y(); j++) {
                 Node *node_P = m_mesh->get_node(i, j);
@@ -182,22 +176,17 @@ void Simulation::solve_y_momentum() const {
                     }
                 }
 
-                const double residual = std::abs(c.center * node_P->get_velocity_v() - velocity_v_P);
-                momentum_y_error += residual;
-                denom += std::abs(c.center * node_P->get_velocity_v());
-
                 velocity_v_P /= c.center;
                 node_P->set_velocity_v(velocity_v_P);
             }
         }
-        if (denom != 0.0) {
-            momentum_y_error /= denom;
-        }
+
+        error = get_momentum_y_imbalance();
     }
 }
 
-void Simulation::calculate_mass_imbalance() {
-    m_mass_imbalance = 0.0;
+double Simulation::calculate_mass_imbalance() {
+    double error = 0.0;
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
             const Node *node_P = m_mesh->get_node(i, j);
@@ -208,14 +197,14 @@ void Simulation::calculate_mass_imbalance() {
             }
 
             const double residual = std::abs(node_P->get_pressure_coefficient(CoefficientType::Source));
-            m_mass_imbalance = std::max(m_mass_imbalance, residual);
+            error = std::max(error, residual);
         }
     }
 
     // Update the residual normalization factor
     if (can_update_mass_imbalance_residual_normalization_factor) {
         m_mass_imbalance_residual_normalization_factor = std::max(m_mass_imbalance_residual_normalization_factor,
-                                                                  m_mass_imbalance);
+                                                                  error);
         if (m_outer_iterations_count >= residual_normalization_iterations) {
             can_update_mass_imbalance_residual_normalization_factor = false;
         }
@@ -223,8 +212,50 @@ void Simulation::calculate_mass_imbalance() {
 
     // Apply the normalization to the residual
     if (m_mass_imbalance_residual_normalization_factor != 0.0) {
-        m_mass_imbalance /= m_mass_imbalance_residual_normalization_factor;
+        error /= m_mass_imbalance_residual_normalization_factor;
     }
+
+    return error;
+}
+
+double Simulation::get_pressure_correction_imbalance() const {
+    double error = 0.0;
+    double denom = 0.0;
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            // Get the coefficients
+            Coefficients c = node_P->get_pressure_coefficients();
+
+            // Solve for pressure_correction_P
+            double pressure_correction_P = c.source;
+            for (int dir = direction_start; dir < direction_near_end; dir++) {
+                const Direction direction = static_cast<Direction>(dir);
+                const Face *face = node_P->get_neighbouring_face(direction);
+                if (face->get_face_type() != FaceType::Boundary) {
+                    const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                    pressure_correction_P += c.get_coefficient(direction) * neighbouring_node->
+                            get_pressure_correction();
+                }
+            }
+
+            const double residual = std::pow(pressure_correction_P - c.center * node_P->get_pressure_correction(),
+                                             2);
+            error += residual;
+            denom += std::pow(pressure_correction_P, 2);
+        }
+    }
+    if (denom != 0.0) {
+        error /= denom;
+    }
+
+    return error;
 }
 
 void Simulation::solve_pressure_correction() const {
@@ -244,10 +275,8 @@ void Simulation::solve_pressure_correction() const {
 
     // Solve pressure correction equation
     const double tol = 1e-4; // 4 orders of magnitude
-    double pressure_correction_error = 1.0;
-    while (pressure_correction_error > tol) {
-        pressure_correction_error = 0.0;
-        double denom = 0.0;
+    double error = 1.0;
+    while (error > tol) {
         for (int i = 0; i < m_mesh->get_size_x(); i++) {
             for (int j = 0; j < m_mesh->get_size_y(); j++) {
                 Node *node_P = m_mesh->get_node(i, j);
@@ -272,18 +301,86 @@ void Simulation::solve_pressure_correction() const {
                     }
                 }
 
-                const double residual = std::pow(pressure_correction_P - c.center * node_P->get_pressure_correction(),
-                                                 2);
-                pressure_correction_error += residual;
-                denom += std::pow(pressure_correction_P, 2);
-
                 pressure_correction_P /= c.center;
                 node_P->set_pressure_correction(pressure_correction_P);
             }
         }
-        if (denom != 0.0) {
-            pressure_correction_error /= denom;
+
+        error = get_pressure_correction_imbalance();
+    }
+}
+
+double Simulation::get_dye_imbalance() const {
+    double error = 0.0;
+    double denom = 0.0;
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            const Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            // Get the coefficients
+            Coefficients c = node_P->get_dye_coefficients();
+
+            // Solve for dye_P
+            double dye_P = c.source;
+            for (int dir = direction_start; dir < direction_all_end; dir++) {
+                const Direction direction = static_cast<Direction>(dir);
+                Face *face = node_P->get_neighbouring_face(direction);
+                if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
+                    const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                    dye_P += c.get_coefficient(direction) * neighbouring_node->get_dye();
+                }
+            }
+
+            const double residual = std::abs(c.center * node_P->get_dye() - dye_P);
+            error += residual;
+            denom += std::abs(c.center * node_P->get_dye());
         }
+    }
+    if (denom != 0.0) {
+        error /= denom;
+    }
+
+    return error;
+}
+
+void Simulation::solve_dye() const {
+    const double tol = 1e-4;
+    double error = 1.0;
+    while (error > tol) {
+        for (int i = 0; i < m_mesh->get_size_x(); i++) {
+            for (int j = 0; j < m_mesh->get_size_y(); j++) {
+                Node *node_P = m_mesh->get_node(i, j);
+
+                // Nothing to calculate for an empty node
+                if (node_P == nullptr) {
+                    continue;
+                }
+
+                // Get the coefficients
+                Coefficients c = node_P->get_dye_coefficients();
+
+                // Solve for dye_P
+                double dye_P = c.source;
+                for (int dir = direction_start; dir < direction_all_end; dir++) {
+                    const Direction direction = static_cast<Direction>(dir);
+                    Face *face = node_P->get_neighbouring_face(direction);
+                    if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
+                        const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                        dye_P += c.get_coefficient(direction) * neighbouring_node->get_dye();
+                    }
+                }
+
+                dye_P /= c.center;
+                node_P->set_dye(dye_P);
+            }
+        }
+
+        error = get_dye_imbalance();
     }
 }
 
@@ -293,8 +390,8 @@ void Simulation::simple_iterate(const SimulationType simulation_type) {
     m_bulk_node_operations->calculate_momentum_coefficients(VelocityComponent::V, simulation_type);
 
     // Calculate the momentum imbalance
-    calculate_momentum_x_imbalance();
-    calculate_momentum_y_imbalance();
+    m_momentum_x_error = get_momentum_x_imbalance();
+    m_momentum_y_error = get_momentum_y_imbalance();
 
     // Solve X and Y momentum equations
     solve_x_momentum();
@@ -308,7 +405,7 @@ void Simulation::simple_iterate(const SimulationType simulation_type) {
     m_bulk_node_operations->calculate_pressure_coefficients();
 
     // Calculate the mass imbalance
-    calculate_mass_imbalance();
+    m_mass_imbalance = calculate_mass_imbalance();
 
     // Solve pressure correction equation (on the nodes)
     solve_pressure_correction();
@@ -333,47 +430,4 @@ void Simulation::simple_iterate(const SimulationType simulation_type) {
     m_bulk_face_operations->update_face_y_pressures();
 
     m_outer_iterations_count++;
-}
-
-void Simulation::solve_dye() {
-    double tol = 1e-4;
-    double error = 1.0;
-    while (error > tol) {
-        error = 0.0;
-        double denom = 0.0;
-        for (int i = 0; i < m_mesh->get_size_x(); i++) {
-            for (int j = 0; j < m_mesh->get_size_y(); j++) {
-                Node *node_P = m_mesh->get_node(i, j);
-
-                // Nothing to calculate for an empty node
-                if (node_P == nullptr) {
-                    continue;
-                }
-
-                // Get the coefficients
-                Coefficients c = node_P->get_dye_coefficients();
-
-                // Solve for dye_P
-                double dye_P = c.source;
-                for (int dir = direction_start; dir < direction_all_end; dir++) {
-                    const Direction direction = static_cast<Direction>(dir);
-                    Face *face = node_P->get_neighbouring_face(direction);
-                    if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
-                        const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        dye_P += c.get_coefficient(direction) * neighbouring_node->get_dye();
-                    }
-                }
-
-                const double residual = std::abs(c.center * node_P->get_dye() - dye_P);
-                error += residual;
-                denom += std::abs(c.center * node_P->get_dye());
-
-                dye_P /= c.center;
-                node_P->set_dye(dye_P);
-            }
-        }
-        if (denom != 0.0) {
-            error /= denom;
-        }
-    }
 }

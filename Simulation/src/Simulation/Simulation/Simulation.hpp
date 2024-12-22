@@ -45,17 +45,21 @@ protected:
 
     void simple_iterate(SimulationType simulation_type);
 
-    void calculate_momentum_x_imbalance();
+    double get_momentum_x_imbalance() const;
 
     void solve_x_momentum() const;
 
-    void calculate_momentum_y_imbalance();
+    double get_momentum_y_imbalance() const;
 
     void solve_y_momentum() const;
 
-    void calculate_mass_imbalance();
+    double calculate_mass_imbalance();
+
+    double get_pressure_correction_imbalance() const;
 
     void solve_pressure_correction() const;
+
+    double get_dye_imbalance() const;
 
 public:
     Simulation(Mesh *mesh, double velocity_u_tolerance, double velocity_v_tolerance, double pressure_tolerance, std::string output_file, VerboseType verbose_type);
@@ -64,5 +68,5 @@ public:
 
     virtual void solve() = 0;
 
-    void solve_dye();
+    void solve_dye() const;
 };
