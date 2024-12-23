@@ -12,8 +12,8 @@ class MomentumCoefficients {
 private:
     Node *m_node;
 
-    Coefficients m_momentum_u_coefficients;
-    Coefficients m_momentum_v_coefficients;
+    Coefficients m_coefficients_u;
+    Coefficients m_coefficients_v;
 
     // Discretization coefficients
 
@@ -25,9 +25,9 @@ private:
 public:
     MomentumCoefficients(Node *node);
 
-    void calculate_momentum_coefficients(VelocityComponent velocity_component, SimulationType simulation_type);
+    void calculate_coefficients(VelocityComponent velocity_component, SimulationType simulation_type);
 
-    double get_momentum_coefficient(CoefficientType type, VelocityComponent velocity_component) const;
+    double get_coefficient(CoefficientType type, VelocityComponent velocity_component) const;
 
-    Coefficients get_momentum_coefficients(VelocityComponent velocity_component) const;
+    Coefficients get_coefficients(VelocityComponent velocity_component) const;
 };

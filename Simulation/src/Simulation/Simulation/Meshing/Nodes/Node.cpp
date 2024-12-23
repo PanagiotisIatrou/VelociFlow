@@ -160,15 +160,15 @@ void Node::set_neighbouring_node(Node *node, Direction direction) {
 
 void Node::calculate_momentum_coefficients(const VelocityComponent velocity_component,
                                            const SimulationType simulation_type) const {
-    m_momentum_coefficients->calculate_momentum_coefficients(velocity_component, simulation_type);
+    m_momentum_coefficients->calculate_coefficients(velocity_component, simulation_type);
 }
 
 double Node::get_momentum_coefficient(const CoefficientType type, const VelocityComponent velocity_component) const {
-    return m_momentum_coefficients->get_momentum_coefficient(type, velocity_component);
+    return m_momentum_coefficients->get_coefficient(type, velocity_component);
 }
 
 Coefficients Node::get_momentum_coefficients(const VelocityComponent velocity_component) const {
-    return m_momentum_coefficients->get_momentum_coefficients(velocity_component);
+    return m_momentum_coefficients->get_coefficients(velocity_component);
 }
 
 void Node::calculate_pressure_coefficients() const {

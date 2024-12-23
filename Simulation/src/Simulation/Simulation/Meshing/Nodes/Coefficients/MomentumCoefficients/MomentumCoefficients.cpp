@@ -12,7 +12,7 @@ MomentumCoefficients::MomentumCoefficients(Node *node) {
     m_pressure_coefficients = std::make_unique<PressureCoefficients>(node);
 }
 
-void MomentumCoefficients::calculate_momentum_coefficients(const VelocityComponent velocity_component,
+void MomentumCoefficients::calculate_coefficients(const VelocityComponent velocity_component,
                                                            const SimulationType simulation_type) {
     Field field;
     if (velocity_component == VelocityComponent::U) {
@@ -53,29 +53,29 @@ void MomentumCoefficients::calculate_momentum_coefficients(const VelocityCompone
         coefficients.center /= velocity_u_relaxation;
         coefficients.source += (1 - velocity_u_relaxation) * coefficients.center * m_node->get_velocity_u();
 
-        m_momentum_u_coefficients = coefficients;
+        m_coefficients_u = coefficients;
     } else {
         // Under-relaxation
         coefficients.center /= velocity_v_relaxation;
         coefficients.source += (1 - velocity_v_relaxation) * coefficients.center * m_node->get_velocity_v();
 
-        m_momentum_v_coefficients = coefficients;
+        m_coefficients_v = coefficients;
     }
 }
 
-double MomentumCoefficients::get_momentum_coefficient(const CoefficientType type,
+double MomentumCoefficients::get_coefficient(const CoefficientType type,
                                                       const VelocityComponent velocity_component) const {
     if (velocity_component == VelocityComponent::U) {
-        return m_momentum_u_coefficients.get_coefficient(type);
+        return m_coefficients_u.get_coefficient(type);
     } else {
-        return m_momentum_v_coefficients.get_coefficient(type);
+        return m_coefficients_v.get_coefficient(type);
     }
 }
 
-Coefficients MomentumCoefficients::get_momentum_coefficients(const VelocityComponent velocity_component) const {
+Coefficients MomentumCoefficients::get_coefficients(const VelocityComponent velocity_component) const {
     if (velocity_component == VelocityComponent::U) {
-        return m_momentum_u_coefficients;
+        return m_coefficients_u;
     } else {
-        return m_momentum_v_coefficients;
+        return m_coefficients_v;
     }
 }
