@@ -9,10 +9,10 @@ from enum import Enum
 from Visualization.utilities.utilities import normalize_vectors
 
 class ScalarFields(Enum):
-    VELOCITY_U = 1
-    VELOCITY_V = 2
-    PRESSURE = 4
-    DYE = 3
+    VELOCITY_X = 1
+    VELOCITY_Y = 2
+    PRESSURE = 3
+    DYE = 4
 
 class VectorFields(Enum):
     VELOCITY_MAGNITUDE = 1

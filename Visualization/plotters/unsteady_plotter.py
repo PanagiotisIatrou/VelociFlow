@@ -73,9 +73,9 @@ class UnsteadyPlotter(Plotter):
         plt.close()
 
     def __save_scalar_field(self, field, filename="unsteady.mp4"):
-        if field == ScalarFields.VELOCITY_U:
+        if field == ScalarFields.VELOCITY_X:
             scalar_field = np.array(self.data.velocity_timesteps_u)
-        elif field == ScalarFields.VELOCITY_V:
+        elif field == ScalarFields.VELOCITY_Y:
             scalar_field = np.array(self.data.velocity_timesteps_v)
         elif field == ScalarFields.PRESSURE:
             scalar_field = np.array(self.data.pressure_timesteps)
@@ -124,5 +124,3 @@ class UnsteadyPlotter(Plotter):
             self.__save_scalar_field(field)
         elif field in VectorFields:
             self.__save_vector_field(field)
-        else:
-            raise ValueError("Field not supported")

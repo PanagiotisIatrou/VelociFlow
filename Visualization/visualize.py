@@ -25,7 +25,7 @@ simulation_data.import_file(data_file)
 
 if plot_settings.state == "unsteady" and not plot_settings.only_last_frame:
     plotter = UnsteadyPlotter(simulation_data, plot_settings)
-    plotter.save_field(VectorFields.VELOCITY_MAGNITUDE)
+    plotter.save_field(plot_settings.field)
 else:
     plotter = SteadyPlotter(simulation_data, plot_settings)
-    plotter.plot_and_save_field(VectorFields.VELOCITY_MAGNITUDE)
+    plotter.plot_and_save_field(plot_settings.field)

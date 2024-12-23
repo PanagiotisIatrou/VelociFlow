@@ -1,5 +1,7 @@
 import json
 
+from Visualization.plotters.plotter import VectorFields, ScalarFields
+
 
 class PlotSettings:
     def __init__(self):
@@ -7,6 +9,7 @@ class PlotSettings:
         self.state = None
         self.filename = None
         self.color_map = None
+        self.field = None
 
         # Optional fields
         self.blur = False
@@ -33,6 +36,20 @@ class PlotSettings:
             self.state = data["state"]
             self.filename = data["filename"]
             self.color_map = data["colorMap"]
+            self.field = data["field"]
+
+            if self.field == "velocity_magnitude":
+                self.field = VectorFields.VELOCITY_MAGNITUDE
+            elif self.field == "velocity_x":
+                self.field = ScalarFields.VELOCITY_X
+            elif self.field == "velocity_y":
+                self.field = ScalarFields.VELOCITY_Y
+            elif self.field == "pressure":
+                self.field = ScalarFields.PRESSURE
+            elif self.field == "dye":
+                self.field = ScalarFields.DYE
+            else:
+                raise Exception("Invalid field")
 
             # Optional fields
             if "blur" in data:

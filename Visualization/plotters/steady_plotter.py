@@ -46,9 +46,9 @@ class SteadyPlotter(Plotter):
             self.create_streamlines(field1, field2)
 
     def __apply_scalar_field(self, field):
-        if field == ScalarFields.VELOCITY_U:
+        if field == ScalarFields.VELOCITY_X:
             self.__scalar_field(self.velocity_u)
-        elif field == ScalarFields.VELOCITY_V:
+        elif field == ScalarFields.VELOCITY_Y:
             self.__scalar_field(self.velocity_v)
         elif field == ScalarFields.PRESSURE:
             self.__scalar_field(self.pressure)
@@ -64,8 +64,6 @@ class SteadyPlotter(Plotter):
             self.__apply_scalar_field(field)
         elif field in VectorFields:
             self.__apply_vector_field(field)
-        else:
-            raise ValueError("Field not supported")
 
     def save_field(self, field, filename="steady.png"):
         self.__apply_plot(field)
