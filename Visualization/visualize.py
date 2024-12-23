@@ -1,5 +1,6 @@
 import os
 
+from Visualization.plotters.plotter import ScalarFields, VectorFields
 from Visualization.utilities.plot_settings import PlotSettings
 from Visualization.utilities.simulation_data import SimulationData
 from Visualization.plotters.steady_plotter import SteadyPlotter
@@ -24,8 +25,7 @@ simulation_data.import_file(data_file)
 
 if plot_settings.transient and not plot_settings.only_last_frame:
     plotter = UnsteadyPlotter(simulation_data, plot_settings)
-    # plotter.save_velocity()
-    plotter.save_dye()
+    plotter.save_field(VectorFields.VELOCITY_MAGNITUDE)
 else:
     plotter = SteadyPlotter(simulation_data, plot_settings)
-    plotter.plot_and_save_velocity()
+    plotter.plot_and_save_field(VectorFields.VELOCITY_MAGNITUDE)
