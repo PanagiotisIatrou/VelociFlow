@@ -8,14 +8,14 @@ class PressureCorrectionCoefficients {
 private:
     Node *m_node;
 
-    Coefficients m_pressure_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    Coefficients m_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 public:
     PressureCorrectionCoefficients(Node *node);
 
-    void calculate_pressure_coefficients();
+    void calculate_coefficients();
 
-    Coefficients get_pressure_coefficients() const;
+    Coefficients get_coefficients() const;
 
-    double get_pressure_coefficient(CoefficientType type) const;
+    double get_coefficient(CoefficientType type) const;
 };

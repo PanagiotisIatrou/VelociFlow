@@ -172,15 +172,15 @@ Coefficients Node::get_momentum_coefficients(const VelocityComponent velocity_co
 }
 
 void Node::calculate_pressure_coefficients() const {
-    m_pressure_correction_coefficients->calculate_pressure_coefficients();
+    m_pressure_correction_coefficients->calculate_coefficients();
 }
 
 Coefficients Node::get_pressure_coefficients() const {
-    return m_pressure_correction_coefficients->get_pressure_coefficients();
+    return m_pressure_correction_coefficients->get_coefficients();
 }
 
 double Node::get_pressure_coefficient(const CoefficientType type) const {
-    return m_pressure_correction_coefficients->get_pressure_coefficient(type);
+    return m_pressure_correction_coefficients->get_coefficient(type);
 }
 
 void Node::calculate_dye_coefficients(const SimulationType type) const {

@@ -7,7 +7,7 @@ PressureCorrectionCoefficients::PressureCorrectionCoefficients(Node *node) {
     m_node = node;
 }
 
-void PressureCorrectionCoefficients::calculate_pressure_coefficients() {
+void PressureCorrectionCoefficients::calculate_coefficients() {
     Face *face_w = m_node->get_neighbouring_face(Direction::West);
     Face *face_e = m_node->get_neighbouring_face(Direction::East);
     Face *face_s = m_node->get_neighbouring_face(Direction::South);
@@ -126,13 +126,13 @@ void PressureCorrectionCoefficients::calculate_pressure_coefficients() {
         coefficients.center += extra;
     }
 
-    m_pressure_coefficients = coefficients;
+    m_coefficients = coefficients;
 }
 
-Coefficients PressureCorrectionCoefficients::get_pressure_coefficients() const {
-    return m_pressure_coefficients;
+Coefficients PressureCorrectionCoefficients::get_coefficients() const {
+    return m_coefficients;
 }
 
-double PressureCorrectionCoefficients::get_pressure_coefficient(const CoefficientType type) const {
-    return m_pressure_coefficients.get_coefficient(type);
+double PressureCorrectionCoefficients::get_coefficient(const CoefficientType type) const {
+    return m_coefficients.get_coefficient(type);
 }
