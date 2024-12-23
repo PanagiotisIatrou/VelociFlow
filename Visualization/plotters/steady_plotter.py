@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from Visualization.plotters.plotter import Plotter
+from Visualization.plotters.plotter import Plotter, ScalarFields, VectorFields
 from Visualization.utilities.utilities import get_vector_field_magnitudes
 
 
@@ -10,17 +10,28 @@ class SteadyPlotter(Plotter):
         super().__init__(data, settings)
 
         # Keep only the last timestep (in case of multiple timesteps)
-        self.data.velocity_timesteps_u = [self.data.velocity_timesteps_u[-1]]
-        self.data.velocity_timesteps_v = [self.data.velocity_timesteps_v[-1]]
+        self.velocity_u = np.array(self.data.velocity_timesteps_u[-1])
+        self.velocity_v = np.array(self.data.velocity_timesteps_v[-1])
+        self.pressure = np.array(self.data.pressure_timesteps[-1])
+        if self.data.dye_timesteps:
+            self.dye = np.array(self.data.dye_timesteps[-1])
 
-    def __velocity(self):
+    def __scalar_field(self, field):
+        # Initialize the plot
+        self.create_plot()
+
+        # Find the min and max velocity (from all the timesteps)
+        self.set_min_max_values(field)
+
+        # Add the color map and the color bar
+        self.create_color_mesh(field)
+
+    def __vector_field(self, field1, field2):
         # Initialize the plot
         self.create_plot()
 
         # Calculate the velocity magnitude
-        velocity_u = np.array(self.data.velocity_timesteps_u[0])
-        velocity_v = np.array(self.data.velocity_timesteps_v[0])
-        velocity = get_vector_field_magnitudes(velocity_u, velocity_v)
+        velocity = get_vector_field_magnitudes(field1, field2)
         self.set_min_max_values(velocity)
 
         # Add the color map and the color bar
@@ -28,25 +39,42 @@ class SteadyPlotter(Plotter):
 
         # Plot quiver
         if self.settings.show_quiver:
-            self.create_quiver(velocity_u, velocity_v)
+            self.create_quiver(field1, field2)
 
         # Plot the streamlines
         if self.settings.show_streamlines:
-            self.create_streamlines(velocity_u, velocity_v)
+            self.create_streamlines(field1, field2)
 
-    def plot_velocity(self):
-        print("Plotting...")
-        self.__velocity()
-        plt.show()
+    def __apply_scalar_field(self, field):
+        if field == ScalarFields.VELOCITY_U:
+            self.__scalar_field(self.velocity_u)
+        elif field == ScalarFields.VELOCITY_V:
+            self.__scalar_field(self.velocity_v)
+        elif field == ScalarFields.PRESSURE:
+            self.__scalar_field(self.pressure)
+        elif field == ScalarFields.DYE:
+            self.__scalar_field(self.dye)
 
-    def save_velocity(self, filename="steady.png"):
+    def __apply_vector_field(self, field):
+        if field == VectorFields.VELOCITY_MAGNITUDE:
+            self.__vector_field(self.velocity_u, self.velocity_v)
+
+    def __apply_plot(self, field):
+        if field in ScalarFields:
+            self.__apply_scalar_field(field)
+        elif field in VectorFields:
+            self.__apply_vector_field(field)
+        else:
+            raise ValueError("Field not supported")
+
+    def save_field(self, field, filename="steady.png"):
+        self.__apply_plot(field)
         print("Saving...")
-        self.__velocity()
         plt.savefig(filename)
         plt.close()
 
-    def plot_and_save_velocity(self, filename="steady.png"):
-        self.__velocity()
+    def plot_and_save_field(self, field, filename="steady.png"):
+        self.__apply_plot(field)
         print("Saving...")
         plt.savefig(filename)
         print("Plotting...")

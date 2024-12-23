@@ -4,9 +4,18 @@ import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 from abc import ABC, abstractmethod
+from enum import Enum
 
 from Visualization.utilities.utilities import normalize_vectors
 
+class ScalarFields(Enum):
+    VELOCITY_U = 1
+    VELOCITY_V = 2
+    PRESSURE = 4
+    DYE = 3
+
+class VectorFields(Enum):
+    VELOCITY_MAGNITUDE = 1
 
 class Plotter(ABC):
     def __init__(self, data, settings):
