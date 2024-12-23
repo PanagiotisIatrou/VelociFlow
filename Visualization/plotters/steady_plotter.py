@@ -9,13 +9,6 @@ class SteadyPlotter(Plotter):
     def __init__(self, data, settings):
         super().__init__(data, settings)
 
-        # Keep only the last timestep (in case of multiple timesteps)
-        self.velocity_u = np.array(self.data.velocity_timesteps_u[-1])
-        self.velocity_v = np.array(self.data.velocity_timesteps_v[-1])
-        self.pressure = np.array(self.data.pressure_timesteps[-1])
-        if self.data.dye_timesteps:
-            self.dye = np.array(self.data.dye_timesteps[-1])
-
     def __scalar_field(self, field):
         # Initialize the plot
         self.create_plot()
@@ -47,12 +40,16 @@ class SteadyPlotter(Plotter):
 
     def __apply_scalar_field(self, field):
         if field == ScalarFields.VELOCITY_X:
+            self.velocity_u = np.array(self.data.velocity_timesteps_u[-1])
             self.__scalar_field(self.velocity_u)
         elif field == ScalarFields.VELOCITY_Y:
+            self.velocity_v = np.array(self.data.velocity_timesteps_v[-1])
             self.__scalar_field(self.velocity_v)
         elif field == ScalarFields.PRESSURE:
+            self.pressure = np.array(self.data.pressure_timesteps[-1])
             self.__scalar_field(self.pressure)
         elif field == ScalarFields.DYE:
+            self.dye = np.array(self.data.dye_timesteps[-1])
             self.__scalar_field(self.dye)
 
     def __apply_vector_field(self, field):
