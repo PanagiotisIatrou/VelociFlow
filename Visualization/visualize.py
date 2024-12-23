@@ -15,7 +15,7 @@ plot_settings = PlotSettings()
 plot_settings.import_file(settings_file)
 
 # Import the data from the simulation
-if plot_settings.transient:
+if plot_settings.state == "unsteady":
     folder = "Unsteady"
 else:
     folder = "Steady"
@@ -23,7 +23,7 @@ data_file = os.path.join(root_path, f"../Results/{folder}/{plot_settings.filenam
 simulation_data = SimulationData()
 simulation_data.import_file(data_file)
 
-if plot_settings.transient and not plot_settings.only_last_frame:
+if plot_settings.state == "unsteady" and not plot_settings.only_last_frame:
     plotter = UnsteadyPlotter(simulation_data, plot_settings)
     plotter.save_field(VectorFields.VELOCITY_MAGNITUDE)
 else:

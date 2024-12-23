@@ -4,7 +4,7 @@ import json
 class PlotSettings:
     def __init__(self):
         # Required fields
-        self.transient = False
+        self.state = None
         self.filename = None
         self.color_map = None
 
@@ -30,7 +30,7 @@ class PlotSettings:
             data = json.load(f)
 
             # Required fields
-            self.transient = data["transient"]
+            self.state = data["state"]
             self.filename = data["filename"]
             self.color_map = data["colorMap"]
 
@@ -59,5 +59,5 @@ class PlotSettings:
                 self.streamline_color = data["streamlineColor"]
 
             # Constraints
-            if self.transient and ((self.fps is None and not self.real_time) or (self.fps is not None and self.real_time)):
+            if self.state == "unsteady" and ((self.fps is None and not self.real_time) or (self.fps is not None and self.real_time)):
                 raise Exception("You must ether specify the frames per second or enable real_time (not both")
