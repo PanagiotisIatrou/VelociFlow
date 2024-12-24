@@ -54,6 +54,8 @@ class SteadyPlotter(Plotter):
 
     def __apply_vector_field(self, field):
         if field == VectorFields.VELOCITY_MAGNITUDE:
+            self.velocity_u = np.array(self.data.velocity_timesteps_u[-1])
+            self.velocity_v = np.array(self.data.velocity_timesteps_v[-1])
             self.__vector_field(self.velocity_u, self.velocity_v)
 
     def __apply_plot(self, field):
