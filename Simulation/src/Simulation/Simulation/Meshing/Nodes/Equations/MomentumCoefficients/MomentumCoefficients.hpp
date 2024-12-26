@@ -2,11 +2,11 @@
 
 #include <memory>
 
-#include "../Coefficients.hpp"
-#include "../Convection/ConvectionCoefficients.hpp"
-#include "../Diffusion/DiffusionCoefficients.hpp"
-#include "../Time/TimeCoefficients.hpp"
-#include "../Pressure/PressureCoefficients.hpp"
+#include "../../Coefficients/Coefficients.hpp"
+#include "../../Coefficients/Convection/ConvectionCoefficients.hpp"
+#include "../../Coefficients/Diffusion/DiffusionCoefficients.hpp"
+#include "../../Coefficients/Time/TimeCoefficients.hpp"
+#include "../../Coefficients/Pressure/PressureCoefficients.hpp"
 
 class MomentumCoefficients {
 private:

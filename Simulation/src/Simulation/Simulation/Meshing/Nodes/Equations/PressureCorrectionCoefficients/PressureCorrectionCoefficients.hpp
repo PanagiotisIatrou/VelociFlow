@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Coefficients.hpp"
+#include "../../Coefficients/Coefficients.hpp"
 
 class Node;
 

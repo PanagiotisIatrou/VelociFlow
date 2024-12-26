@@ -5,9 +5,9 @@
 
 #include "../../../common.hpp"
 #include "../Faces/Face.hpp"
-#include "Coefficients/MomentumCoefficients/MomentumCoefficients.hpp"
-#include "Coefficients/PressureCorrectionCoefficients/PressureCorrectionCoefficients.hpp"
-#include "Coefficients/DyeCoefficients/DyeCoefficients.hpp"
+#include "Equations/MomentumCoefficients/MomentumCoefficients.hpp"
+#include "Equations/PressureCorrectionCoefficients/PressureCorrectionCoefficients.hpp"
+#include "Equations/DyeCoefficients/DyeCoefficients.hpp"
 
 class Node {
 protected:
