@@ -1,6 +1,6 @@
 #include "BulkFaceOperations.hpp"
 
-#include "Meshing/Faces/Interior/InteriorFace.hpp"
+#include "Interior/InteriorFace.hpp"
 
 BulkFaceOperations::BulkFaceOperations(Mesh *mesh) {
     m_mesh = mesh;

@@ -1,6 +1,6 @@
 #include "BulkNodeOperations.hpp"
 
-#include "Simulation.hpp"
+#include "../../Simulation.hpp"
 
 BulkNodeOperations::BulkNodeOperations(Mesh *mesh) {
     m_mesh = mesh;

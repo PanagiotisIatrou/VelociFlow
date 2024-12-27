@@ -3,8 +3,8 @@
 #include <string>
 #include <memory>
 
-#include "BulkFaceOperations.hpp"
-#include "BulkNodeOperations.hpp"
+#include "Meshing/Faces/BulkFaceOperations.hpp"
+#include "Meshing/Nodes/BulkNodeOperations.hpp"
 #include "Meshing/Mesh.hpp"
 #include "Utilities/Saver.hpp"
 #include "Utilities/Timer.hpp"

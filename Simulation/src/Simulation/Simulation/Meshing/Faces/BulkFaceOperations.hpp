@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Meshing/Mesh.hpp"
+#include "../Mesh.hpp"
 
 class BulkFaceOperations {
 private:
