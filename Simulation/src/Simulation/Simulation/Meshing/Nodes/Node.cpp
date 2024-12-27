@@ -18,6 +18,7 @@ Node::Node(const double viscosity, const double density, const double dx, const 
     m_momentum_coefficients = std::make_unique<MomentumCoefficients>(this);
     m_pressure_correction_coefficients = std::make_unique<PressureCorrectionCoefficients>(this);
     m_dye_coefficients = std::make_unique<DyeCoefficients>(this);
+    m_convection_diffusion_coefficients = std::make_unique<ConvectionDiffusionCoefficients>(this);
 
     m_previous_timestep_velocity_u = m_velocity_u;
     m_previous_timestep_velocity_v = m_velocity_v;
@@ -193,4 +194,16 @@ Coefficients Node::get_dye_coefficients() const {
 
 double Node::get_dye_coefficient(const CoefficientType type) const {
     return m_dye_coefficients->get_coefficient(type);
+}
+
+void Node::calculate_convection_diffusion_coefficients(const SimulationType type, const VelocityComponent velocity_component) const {
+    m_convection_diffusion_coefficients->calculate_coefficients(type, velocity_component);
+}
+
+Coefficients Node::get_convection_diffusion_coefficients(const VelocityComponent velocity_component) const {
+    return m_convection_diffusion_coefficients->get_coefficients(velocity_component);
+}
+
+double Node::get_convection_diffusion_coefficient(CoefficientType type, VelocityComponent velocity_component) const {
+    return m_convection_diffusion_coefficients->get_coefficient(type, velocity_component);
 }

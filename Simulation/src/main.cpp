@@ -6,6 +6,7 @@
 #include "MeshExamples.hpp"
 #include "Simulation/Simulation/Meshing/Mesh.hpp"
 #include "../tests/tests.hpp"
+#include "Simulation/SteadyConvectionDiffusionSimulation.hpp"
 #include "Simulation/SteadySimulation.hpp"
 #include "Simulation/UnsteadySimulation.hpp"
 
@@ -21,7 +22,7 @@ int main() {
         return 0;
     }
 
-    // Mesh *mesh = create_adv_diff_mesh(5.0, 1.0);
+    Mesh *mesh = create_adv_diff_mesh(1.0, 1.0);
     // Mesh *mesh = create_lid_driven_cavity_mesh(1.0, 1.0 / 1000.0, 1.0, 1.0);
     // Mesh *mesh = create_lid_driven_cavity_mesh(1.0, 1.0 / 3200.0, 1.0, 1.0);
     // Mesh *mesh = create_lid_driven_cavity_mesh(1.0, 1.0 / 10000, 1.0, 1.0);

@@ -5,6 +5,7 @@
 
 #include "../../../common.hpp"
 #include "../Faces/Face.hpp"
+#include "Equations/ConvectionDiffusionCoefficients/ConvectionDiffusionCoefficients.hpp"
 #include "Equations/MomentumCoefficients/MomentumCoefficients.hpp"
 #include "Equations/PressureCorrectionCoefficients/PressureCorrectionCoefficients.hpp"
 #include "Equations/DyeCoefficients/DyeCoefficients.hpp"
@@ -29,6 +30,7 @@ protected:
     std::unique_ptr<MomentumCoefficients> m_momentum_coefficients;
     std::unique_ptr<PressureCorrectionCoefficients> m_pressure_correction_coefficients;
     std::unique_ptr<DyeCoefficients> m_dye_coefficients;
+    std::unique_ptr<ConvectionDiffusionCoefficients> m_convection_diffusion_coefficients;
 
     std::array<Face *, 8> m_neighbouring_faces = {
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
@@ -119,4 +121,10 @@ public:
     Coefficients get_dye_coefficients() const;
 
     double get_dye_coefficient(CoefficientType type) const;
+
+    void calculate_convection_diffusion_coefficients(SimulationType type, VelocityComponent velocity_component) const;
+
+    Coefficients get_convection_diffusion_coefficients(VelocityComponent velocity_component) const;
+
+    double get_convection_diffusion_coefficient(CoefficientType type, VelocityComponent velocity_component) const;
 };

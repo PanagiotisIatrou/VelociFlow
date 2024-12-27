@@ -384,6 +384,154 @@ void Simulation::solve_dye() const {
     }
 }
 
+double Simulation::get_convection_diffusion_x_imbalance() const {
+    double error = 0.0;
+    double denom = 0.0;
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            const Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            // Get the coefficients
+            Coefficients c = node_P->get_convection_diffusion_coefficients(VelocityComponent::U);
+
+            // Solve for velocity_P
+            double velocity_P = c.source;
+            for (int dir = direction_start; dir < direction_all_end; dir++) {
+                const Direction direction = static_cast<Direction>(dir);
+                Face *face = node_P->get_neighbouring_face(direction);
+                if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
+                    const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                    velocity_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
+                }
+            }
+
+            const double residual = std::abs(c.center * node_P->get_velocity_u() - velocity_P);
+            error += residual;
+            denom += std::abs(c.center * node_P->get_velocity_u());
+        }
+    }
+    if (denom != 0.0) {
+        error /= denom;
+    }
+
+    return error;
+}
+
+void Simulation::solve_convection_diffusion_x() const {
+    const double tol = std::max(m_convection_diffusion_x_error / 1e3, 1e-10);
+    double error = 1.0;
+    while (error > tol) {
+        for (int i = 0; i < m_mesh->get_size_x(); i++) {
+            for (int j = 0; j < m_mesh->get_size_y(); j++) {
+                Node *node_P = m_mesh->get_node(i, j);
+
+                // Nothing to calculate for an empty node
+                if (node_P == nullptr) {
+                    continue;
+                }
+
+                // Get the coefficients
+                Coefficients c = node_P->get_convection_diffusion_coefficients(VelocityComponent::U);
+
+                // Solve for velocity_u_P
+                double velocity_u_P = c.source;
+                for (int dir = direction_start; dir < direction_all_end; dir++) {
+                    const Direction direction = static_cast<Direction>(dir);
+                    Face *face = node_P->get_neighbouring_face(direction);
+                    if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
+                        const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                        velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
+                    }
+                }
+
+                velocity_u_P /= c.center;
+                node_P->set_velocity_u(velocity_u_P);
+            }
+        }
+
+        error = get_convection_diffusion_x_imbalance();
+    }
+}
+
+double Simulation::get_convection_diffusion_y_imbalance() const {
+    double error = 0.0;
+    double denom = 0.0;
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            const Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            // Get the coefficients
+            Coefficients c = node_P->get_convection_diffusion_coefficients(VelocityComponent::V);
+
+            // Solve for velocity_P
+            double velocity_P = c.source;
+            for (int dir = direction_start; dir < direction_all_end; dir++) {
+                const Direction direction = static_cast<Direction>(dir);
+                Face *face = node_P->get_neighbouring_face(direction);
+                if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
+                    const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                    velocity_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
+                }
+            }
+
+            const double residual = std::abs(c.center * node_P->get_velocity_v() - velocity_P);
+            error += residual;
+            denom += std::abs(c.center * node_P->get_velocity_v());
+        }
+    }
+    if (denom != 0.0) {
+        error /= denom;
+    }
+
+    return error;
+}
+
+void Simulation::solve_convection_diffusion_y() const {
+    const double tol = std::max(m_convection_diffusion_y_error / 1e3, 1e-10);
+    double error = 1.0;
+    while (error > tol) {
+        for (int i = 0; i < m_mesh->get_size_x(); i++) {
+            for (int j = 0; j < m_mesh->get_size_y(); j++) {
+                Node *node_P = m_mesh->get_node(i, j);
+
+                // Nothing to calculate for an empty node
+                if (node_P == nullptr) {
+                    continue;
+                }
+
+                // Get the coefficients
+                Coefficients c = node_P->get_convection_diffusion_coefficients(VelocityComponent::V);
+
+                // Solve for velocity_u_P
+                double velocity_v_P = c.source;
+                for (int dir = direction_start; dir < direction_all_end; dir++) {
+                    const Direction direction = static_cast<Direction>(dir);
+                    Face *face = node_P->get_neighbouring_face(direction);
+                    if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
+                        const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
+                        velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
+                    }
+                }
+
+                velocity_v_P /= c.center;
+                node_P->set_velocity_v(velocity_v_P);
+            }
+        }
+
+        error = get_convection_diffusion_y_imbalance();
+    }
+}
+
 void Simulation::simple_iterate(const SimulationType simulation_type) {
     // Calculate the momentum coefficients
     m_bulk_node_operations->calculate_momentum_coefficients(VelocityComponent::U, simulation_type);
@@ -428,6 +576,26 @@ void Simulation::simple_iterate(const SimulationType simulation_type) {
     // Update the pressure on the faces
     m_bulk_face_operations->update_face_x_pressures();
     m_bulk_face_operations->update_face_y_pressures();
+
+    m_outer_iterations_count++;
+}
+
+void Simulation::convection_diffusion_iterate(const SimulationType simulation_type) {
+    // Calculate the coefficients
+    m_bulk_node_operations->calculate_convection_diffusion_coefficients(simulation_type, VelocityComponent::U);
+    m_bulk_node_operations->calculate_convection_diffusion_coefficients(simulation_type, VelocityComponent::V);
+
+    // Calculate the imbalance
+    m_convection_diffusion_x_error = get_convection_diffusion_x_imbalance();
+    m_convection_diffusion_y_error = get_convection_diffusion_y_imbalance();
+
+    // Solve X and Y equations
+    solve_convection_diffusion_x();
+    solve_convection_diffusion_y();
+
+    // Calculate the face velocities
+    m_bulk_face_operations->update_face_x_velocities_distance_weighted();
+    m_bulk_face_operations->update_face_y_velocities_distance_weighted();
 
     m_outer_iterations_count++;
 }

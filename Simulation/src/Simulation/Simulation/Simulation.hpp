@@ -23,6 +23,8 @@ protected:
     double m_momentum_x_error = 0.0;
     double m_momentum_y_error = 0.0;
     double m_mass_imbalance = 0.0;
+    double m_convection_diffusion_x_error = 0.0;
+    double m_convection_diffusion_y_error = 0.0;
     int m_active_cells_count = 0;
     int m_outer_iterations_count = 0;
 
@@ -45,6 +47,8 @@ protected:
 
     void simple_iterate(SimulationType simulation_type);
 
+    void convection_diffusion_iterate(SimulationType simulation_type);
+
     double get_momentum_x_imbalance() const;
 
     void solve_x_momentum() const;
@@ -60,6 +64,14 @@ protected:
     void solve_pressure_correction() const;
 
     double get_dye_imbalance() const;
+
+    double get_convection_diffusion_x_imbalance() const;
+
+    void solve_convection_diffusion_x() const;
+
+    double get_convection_diffusion_y_imbalance() const;
+
+    void solve_convection_diffusion_y() const;
 
 public:
     Simulation(Mesh *mesh, double velocity_u_tolerance, double velocity_v_tolerance, double pressure_tolerance, std::string output_file, VerboseType verbose_type);

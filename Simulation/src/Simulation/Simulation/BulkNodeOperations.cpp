@@ -156,6 +156,21 @@ void BulkNodeOperations::calculate_dye_coefficients(const SimulationType simulat
     }
 }
 
+void BulkNodeOperations::calculate_convection_diffusion_coefficients(const SimulationType simulation_type, const VelocityComponent velocity_component) const {
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            node_P->calculate_convection_diffusion_coefficients(simulation_type, velocity_component);
+        }
+    }
+}
+
 void BulkNodeOperations::set_dt(const double dt) const {
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {

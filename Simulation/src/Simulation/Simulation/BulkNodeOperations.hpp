@@ -36,6 +36,8 @@ public:
 
     void calculate_dye_coefficients(SimulationType simulation_type) const;
 
+    void calculate_convection_diffusion_coefficients(SimulationType simulation_type, VelocityComponent velocity_component) const;
+
     // Time
 
     void set_dt(double dt) const;
