@@ -14,9 +14,9 @@ void ConvectionDiffusionCoefficients::calculate_coefficients(const SimulationTyp
                                                              const VelocityComponent velocity_component) {
     Field field;
     if (velocity_component == VelocityComponent::U) {
-        field = Field::VelocityU;
+        field = Field::VelocityX;
     } else {
-        field = Field::VelocityV;
+        field = Field::VelocityY;
     }
 
     // Diffusion

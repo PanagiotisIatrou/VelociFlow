@@ -70,7 +70,7 @@ void SteadyConvectionDiffusionSimulation::solve() {
     m_saver->write_domain_size();
     m_saver->write_grid_size();
     m_saver->write_execution_time(m_time_taken);
-    m_saver->write_field(Field::VelocityU);
-    m_saver->write_field(Field::VelocityV);
+    m_saver->write_field(Field::VelocityX);
+    m_saver->write_field(Field::VelocityY);
     m_saver->close_file();
 }

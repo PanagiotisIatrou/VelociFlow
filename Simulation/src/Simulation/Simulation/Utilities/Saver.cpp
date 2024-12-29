@@ -47,9 +47,9 @@ void Saver::write_timesteps_count(const int timesteps) const {
 void Saver::write_field(const Field field) const {
     // Write the title of the field
     std::string title;
-    if (field == Field::VelocityU) {
+    if (field == Field::VelocityX) {
         title = "velocity_u";
-    } else if (field == Field::VelocityV) {
+    } else if (field == Field::VelocityY) {
         title = "velocity_v";
     } else if (field == Field::Pressure) {
         title = "pressure";
@@ -64,9 +64,9 @@ void Saver::write_field(const Field field) const {
             const Node *node_P = m_mesh->get_node(i, j);
             if (node_P != nullptr) {
                 double value;
-                if (field == Field::VelocityU) {
+                if (field == Field::VelocityX) {
                     value = node_P->get_velocity_u();
-                } else if (field == Field::VelocityV) {
+                } else if (field == Field::VelocityY) {
                     value = node_P->get_velocity_v();
                 } else if (field == Field::Pressure) {
                     value = node_P->get_pressure();

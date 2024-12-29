@@ -45,8 +45,8 @@ void UnsteadySimulation::solve() {
     m_saver->write_domain_size();
     m_saver->write_grid_size();
     m_saver->write_dt();
-    m_saver->write_field(Field::VelocityU);
-    m_saver->write_field(Field::VelocityV);
+    m_saver->write_field(Field::VelocityX);
+    m_saver->write_field(Field::VelocityY);
     m_saver->write_field(Field::Pressure);
     m_saver->write_field(Field::Dye);
     m_saver->close_file();
@@ -117,8 +117,8 @@ void UnsteadySimulation::solve() {
 
         // Write the current timestep field values
         m_saver->open_append_file();
-        m_saver->write_field(Field::VelocityU);
-        m_saver->write_field(Field::VelocityV);
+        m_saver->write_field(Field::VelocityX);
+        m_saver->write_field(Field::VelocityY);
         m_saver->write_field(Field::Pressure);
         m_saver->write_field(Field::Dye);
         m_saver->close_file();

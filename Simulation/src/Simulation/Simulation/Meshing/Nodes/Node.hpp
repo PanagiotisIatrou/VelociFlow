@@ -90,6 +90,8 @@ public:
 
     void set_pressure_correction(double pressure_correction);
 
+    double get_field_value(Field field) const;
+
     void apply_pressure_correction();
 
     void correct_velocity_u();
