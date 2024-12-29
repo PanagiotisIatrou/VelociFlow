@@ -134,9 +134,9 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
         // Get node value
         double node_value;
         if (field == Field::VelocityX) {
-            node_value = m_node->get_velocity_u();
+            node_value = m_node->get_velocity_x();
         } else if (field == Field::VelocityY) {
-            node_value = m_node->get_velocity_v();
+            node_value = m_node->get_velocity_y();
         } else if (field == Field::Dye) {
             node_value = m_node->get_dye();
         } else {
@@ -151,9 +151,9 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
         if (opposite_direction_face->get_face_type() == FaceType::Interior) {
             const Node *opposite_node = m_node->get_neighbouring_node(opposite_direction);
             if (field == Field::VelocityX) {
-                opposite_node_value = opposite_node->get_velocity_u();
+                opposite_node_value = opposite_node->get_velocity_x();
             } else if (field == Field::VelocityY) {
-                opposite_node_value = opposite_node->get_velocity_v();
+                opposite_node_value = opposite_node->get_velocity_y();
             } else if (field == Field::Dye) {
                 opposite_node_value = opposite_node->get_dye();
             } else {
@@ -180,9 +180,9 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
         double direction_node_value;
         const Node *direction_node = m_node->get_neighbouring_node(direction);
         if (field == Field::VelocityX) {
-            direction_node_value = direction_node->get_velocity_u();
+            direction_node_value = direction_node->get_velocity_x();
         } else if (field == Field::VelocityY) {
-            direction_node_value = direction_node->get_velocity_v();
+            direction_node_value = direction_node->get_velocity_y();
         } else if (field == Field::Dye) {
             direction_node_value = direction_node->get_dye();
         } else {
@@ -197,9 +197,9 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
         if (extended_direction_face->get_face_type() == FaceType::Interior) {
             const Node *extended_node = m_node->get_neighbouring_node(extended_direction);
             if (field == Field::VelocityX) {
-                extended_node_value = extended_node->get_velocity_u();
+                extended_node_value = extended_node->get_velocity_x();
             } else if (field == Field::VelocityY) {
-                extended_node_value = extended_node->get_velocity_v();
+                extended_node_value = extended_node->get_velocity_y();
             } else if (field == Field::Dye) {
                 extended_node_value = extended_node->get_dye();
             } else {

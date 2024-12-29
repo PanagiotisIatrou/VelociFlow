@@ -115,16 +115,16 @@ inline void test_rhie_chow() {
 
     node_P->calculate_momentum_coefficients(VelocityComponent::U, SimulationType::Steady);
     node_P->calculate_momentum_coefficients(VelocityComponent::V, SimulationType::Steady);
-    node_P->set_velocity_u(1.0);
-    node_P->set_velocity_v(1.0);
+    node_P->set_velocity_x(1.0);
+    node_P->set_velocity_y(1.0);
     node_P->set_pressure(0.0);
 
     node_E->calculate_momentum_coefficients(VelocityComponent::U, SimulationType::Steady);
-    node_E->set_velocity_u(2.0);
+    node_E->set_velocity_x(2.0);
     node_E->set_pressure(0.0);
 
     node_N->calculate_momentum_coefficients(VelocityComponent::V, SimulationType::Steady);
-    node_N->set_velocity_v(2.0);
+    node_N->set_velocity_y(2.0);
     node_N->set_pressure(0.0);
 
     face_e->update_velocity_rhie_chow();

@@ -65,9 +65,9 @@ void Saver::write_field(const Field field) const {
             if (node_P != nullptr) {
                 double value;
                 if (field == Field::VelocityX) {
-                    value = node_P->get_velocity_u();
+                    value = node_P->get_velocity_x();
                 } else if (field == Field::VelocityY) {
-                    value = node_P->get_velocity_v();
+                    value = node_P->get_velocity_y();
                 } else if (field == Field::Pressure) {
                     value = node_P->get_pressure();
                 } else if (field == Field::Dye) {

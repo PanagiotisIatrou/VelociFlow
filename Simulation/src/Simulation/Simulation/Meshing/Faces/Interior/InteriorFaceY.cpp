@@ -14,15 +14,15 @@ Node *InteriorFaceY::get_node_neighbour(FaceYSide side) const {
 }
 
 void InteriorFaceY::update_velocity_distance_weighted() {
-    m_velocity = 0.5 * (get_node_neighbour(FaceYSide::South)->get_velocity_v() + get_node_neighbour(FaceYSide::North)->get_velocity_v());
+    m_velocity = 0.5 * (get_node_neighbour(FaceYSide::South)->get_velocity_y() + get_node_neighbour(FaceYSide::North)->get_velocity_y());
 }
 
 void InteriorFaceY::update_velocity_rhie_chow() {
     const Node *node_P = get_node_neighbour(FaceYSide::South);
     const Node *node_N = get_node_neighbour(FaceYSide::North);
 
-    const double velocity_v_P = node_P->get_velocity_v();
-    const double velocity_v_N = node_N->get_velocity_v();
+    const double velocity_v_P = node_P->get_velocity_y();
+    const double velocity_v_N = node_N->get_velocity_y();
 
     const double pressure_P = node_P->get_pressure();
     const double pressure_N = node_N->get_pressure();

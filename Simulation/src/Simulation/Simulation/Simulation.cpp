@@ -59,13 +59,13 @@ double Simulation::get_momentum_x_imbalance() const {
                 Face *face = node_P->get_neighbouring_face(direction);
                 if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                     const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                    velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
+                    velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_x();
                 }
             }
 
-            const double residual = std::abs(c.center * node_P->get_velocity_u() - velocity_u_P);
+            const double residual = std::abs(c.center * node_P->get_velocity_x() - velocity_u_P);
             error += residual;
-            denom += std::abs(c.center * node_P->get_velocity_u());
+            denom += std::abs(c.center * node_P->get_velocity_x());
         }
     }
     if (denom != 0.0) {
@@ -98,12 +98,12 @@ void Simulation::solve_x_momentum() const {
                     Face *face = node_P->get_neighbouring_face(direction);
                     if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
+                        velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_x();
                     }
                 }
 
                 velocity_u_P /= c.center;
-                node_P->set_velocity_u(velocity_u_P);
+                node_P->set_velocity_x(velocity_u_P);
             }
         }
 
@@ -133,13 +133,13 @@ double Simulation::get_momentum_y_imbalance() const {
                 Face *face = node_P->get_neighbouring_face(direction);
                 if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                     const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                    velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
+                    velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_y();
                 }
             }
 
-            const double residual = std::abs(c.center * node_P->get_velocity_v() - velocity_v_P);
+            const double residual = std::abs(c.center * node_P->get_velocity_y() - velocity_v_P);
             error += residual;
-            denom += std::abs(c.center * node_P->get_velocity_v());
+            denom += std::abs(c.center * node_P->get_velocity_y());
         }
     }
     if (denom != 0.0) {
@@ -172,12 +172,12 @@ void Simulation::solve_y_momentum() const {
                     Face *face = node_P->get_neighbouring_face(direction);
                     if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
+                        velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_y();
                     }
                 }
 
                 velocity_v_P /= c.center;
-                node_P->set_velocity_v(velocity_v_P);
+                node_P->set_velocity_y(velocity_v_P);
             }
         }
 
@@ -406,13 +406,13 @@ double Simulation::get_convection_diffusion_x_imbalance() const {
                 Face *face = node_P->get_neighbouring_face(direction);
                 if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                     const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                    velocity_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
+                    velocity_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_x();
                 }
             }
 
-            const double residual = std::abs(c.center * node_P->get_velocity_u() - velocity_P);
+            const double residual = std::abs(c.center * node_P->get_velocity_x() - velocity_P);
             error += residual;
-            denom += std::abs(c.center * node_P->get_velocity_u());
+            denom += std::abs(c.center * node_P->get_velocity_x());
         }
     }
     if (denom != 0.0) {
@@ -445,12 +445,12 @@ void Simulation::solve_convection_diffusion_x() const {
                     Face *face = node_P->get_neighbouring_face(direction);
                     if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_u();
+                        velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_x();
                     }
                 }
 
                 velocity_u_P /= c.center;
-                node_P->set_velocity_u(velocity_u_P);
+                node_P->set_velocity_x(velocity_u_P);
             }
         }
 
@@ -480,13 +480,13 @@ double Simulation::get_convection_diffusion_y_imbalance() const {
                 Face *face = node_P->get_neighbouring_face(direction);
                 if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                     const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                    velocity_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
+                    velocity_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_y();
                 }
             }
 
-            const double residual = std::abs(c.center * node_P->get_velocity_v() - velocity_P);
+            const double residual = std::abs(c.center * node_P->get_velocity_y() - velocity_P);
             error += residual;
-            denom += std::abs(c.center * node_P->get_velocity_v());
+            denom += std::abs(c.center * node_P->get_velocity_y());
         }
     }
     if (denom != 0.0) {
@@ -519,12 +519,12 @@ void Simulation::solve_convection_diffusion_y() const {
                     Face *face = node_P->get_neighbouring_face(direction);
                     if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_v();
+                        velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_velocity_y();
                     }
                 }
 
                 velocity_v_P /= c.center;
-                node_P->set_velocity_v(velocity_v_P);
+                node_P->set_velocity_y(velocity_v_P);
             }
         }
 

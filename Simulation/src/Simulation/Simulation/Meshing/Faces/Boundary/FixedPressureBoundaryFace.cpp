@@ -7,11 +7,11 @@ FixedPressureBoundaryFace::FixedPressureBoundaryFace(const double pressure, cons
 }
 
 double FixedPressureBoundaryFace::get_velocity_u() const {
-    return m_node_neighbour->get_velocity_u();
+    return m_node_neighbour->get_velocity_x();
 }
 
 double FixedPressureBoundaryFace::get_velocity_v() const {
-    return m_node_neighbour->get_velocity_v();
+    return m_node_neighbour->get_velocity_y();
 }
 
 double FixedPressureBoundaryFace::get_dye() const {

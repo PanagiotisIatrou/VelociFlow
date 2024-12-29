@@ -37,9 +37,9 @@ void MomentumCoefficients::calculate_coefficients(const VelocityComponent veloci
     if (simulation_type == SimulationType::Unsteady) {
         double previous_value;
         if (velocity_component == VelocityComponent::U) {
-            previous_value = m_node->get_previous_timestep_velocity_u();
+            previous_value = m_node->get_previous_timestep_velocity_x();
         } else {
-            previous_value = m_node->get_previous_timestep_velocity_v();
+            previous_value = m_node->get_previous_timestep_velocity_y();
         }
         time_coefficients = m_time_coefficients->get_time_effects(previous_value);
     }
@@ -51,13 +51,13 @@ void MomentumCoefficients::calculate_coefficients(const VelocityComponent veloci
     if (velocity_component == VelocityComponent::U) {
         // Under-relaxation
         coefficients.center /= velocity_u_relaxation;
-        coefficients.source += (1 - velocity_u_relaxation) * coefficients.center * m_node->get_velocity_u();
+        coefficients.source += (1 - velocity_u_relaxation) * coefficients.center * m_node->get_velocity_x();
 
         m_coefficients_u = coefficients;
     } else {
         // Under-relaxation
         coefficients.center /= velocity_v_relaxation;
-        coefficients.source += (1 - velocity_v_relaxation) * coefficients.center * m_node->get_velocity_v();
+        coefficients.source += (1 - velocity_v_relaxation) * coefficients.center * m_node->get_velocity_y();
 
         m_coefficients_v = coefficients;
     }

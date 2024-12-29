@@ -6,7 +6,7 @@ double SlipBoundaryFace::get_velocity_u() const {
     if (m_orientation == Orientation::Horizontal) {
         return 0.0;
     } else {
-        return m_node_neighbour->get_velocity_u();
+        return m_node_neighbour->get_velocity_x();
     }
 }
 
@@ -14,7 +14,7 @@ double SlipBoundaryFace::get_velocity_v() const {
     if (m_orientation == Orientation::Vertical) {
         return 0.0;
     } else {
-        return m_node_neighbour->get_velocity_v();
+        return m_node_neighbour->get_velocity_y();
     }
 }
 

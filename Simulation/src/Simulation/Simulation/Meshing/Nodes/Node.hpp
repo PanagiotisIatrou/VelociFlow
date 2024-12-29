@@ -12,11 +12,11 @@
 
 class Node {
 protected:
-    double m_velocity_u;
-    double m_velocity_v;
+    double m_velocity_x;
+    double m_velocity_y;
     double m_pressure;
-    double m_previous_timestep_velocity_u;
-    double m_previous_timestep_velocity_v;
+    double m_previous_timestep_velocity_x;
+    double m_previous_timestep_velocity_y;
     double m_previous_timestep_pressure;
     double m_viscosity;
     double m_density;
@@ -42,21 +42,21 @@ protected:
 public:
     Node(double viscosity, double density, double dx, double dy, double velocity_u, double velocity_v, double pressure, double dye);
 
-    void set_velocity_u(double velocity_u);
+    void set_velocity_x(double velocity_u);
 
-    double get_velocity_u() const;
+    double get_velocity_x() const;
 
-    void set_previous_timestep_velocity_u(double velocity);
+    void set_previous_timestep_velocity_x(double velocity);
 
-    double get_previous_timestep_velocity_u() const;
+    double get_previous_timestep_velocity_x() const;
 
-    void set_velocity_v(double velocity_v);
+    void set_velocity_y(double velocity_v);
 
-    double get_velocity_v() const;
+    double get_velocity_y() const;
 
-    void set_previous_timestep_velocity_v(double velocity);
+    void set_previous_timestep_velocity_y(double velocity);
 
-    double get_previous_timestep_velocity_v() const;
+    double get_previous_timestep_velocity_y() const;
 
     void set_pressure(double pressure);
 

@@ -11,8 +11,8 @@ Node::Node(const double viscosity, const double density, const double dx, const 
     m_dye = dye;
     m_dx = dx;
     m_dy = dy;
-    m_velocity_u = velocity_u;
-    m_velocity_v = velocity_v;
+    m_velocity_x = velocity_u;
+    m_velocity_y = velocity_v;
     m_pressure = pressure;
 
     m_momentum_coefficients = std::make_unique<MomentumCoefficients>(this);
@@ -20,41 +20,41 @@ Node::Node(const double viscosity, const double density, const double dx, const 
     m_dye_coefficients = std::make_unique<DyeCoefficients>(this);
     m_convection_diffusion_coefficients = std::make_unique<ConvectionDiffusionCoefficients>(this);
 
-    m_previous_timestep_velocity_u = m_velocity_u;
-    m_previous_timestep_velocity_v = m_velocity_v;
+    m_previous_timestep_velocity_x = m_velocity_x;
+    m_previous_timestep_velocity_y = m_velocity_y;
     m_previous_timestep_pressure = m_pressure;
 }
 
-void Node::set_velocity_u(const double velocity_u) {
-    m_velocity_u = velocity_u;
+void Node::set_velocity_x(const double velocity_u) {
+    m_velocity_x = velocity_u;
 }
 
-double Node::get_velocity_u() const {
-    return m_velocity_u;
+double Node::get_velocity_x() const {
+    return m_velocity_x;
 }
 
-void Node::set_previous_timestep_velocity_u(const double velocity) {
-    m_previous_timestep_velocity_u = velocity;
+void Node::set_previous_timestep_velocity_x(const double velocity) {
+    m_previous_timestep_velocity_x = velocity;
 }
 
-double Node::get_previous_timestep_velocity_u() const {
-    return m_previous_timestep_velocity_u;
+double Node::get_previous_timestep_velocity_x() const {
+    return m_previous_timestep_velocity_x;
 }
 
-void Node::set_velocity_v(const double velocity_v) {
-    m_velocity_v = velocity_v;
+void Node::set_velocity_y(const double velocity_v) {
+    m_velocity_y = velocity_v;
 }
 
-double Node::get_velocity_v() const {
-    return m_velocity_v;
+double Node::get_velocity_y() const {
+    return m_velocity_y;
 }
 
-void Node::set_previous_timestep_velocity_v(const double velocity) {
-    m_previous_timestep_velocity_v = velocity;
+void Node::set_previous_timestep_velocity_y(const double velocity) {
+    m_previous_timestep_velocity_y = velocity;
 }
 
-double Node::get_previous_timestep_velocity_v() const {
-    return m_previous_timestep_velocity_v;
+double Node::get_previous_timestep_velocity_y() const {
+    return m_previous_timestep_velocity_y;
 }
 
 void Node::set_pressure(const double pressure) {
@@ -131,7 +131,7 @@ void Node::correct_velocity_u() {
     const double momentum_u_a_P = get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
     const double correction = m_dt * m_dy * (pressure_correction_w - pressure_correction_e) / momentum_u_a_P;
 
-    m_velocity_u += correction;
+    m_velocity_x += correction;
 }
 
 void Node::correct_velocity_v() {
@@ -140,7 +140,7 @@ void Node::correct_velocity_v() {
     const double momentum_v_a_P = get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
     const double correction = m_dt * m_dx * (pressure_correction_s - pressure_correction_n) / momentum_v_a_P;
 
-    m_velocity_v += correction;
+    m_velocity_y += correction;
 }
 
 Face *Node::get_neighbouring_face(Direction direction) const {

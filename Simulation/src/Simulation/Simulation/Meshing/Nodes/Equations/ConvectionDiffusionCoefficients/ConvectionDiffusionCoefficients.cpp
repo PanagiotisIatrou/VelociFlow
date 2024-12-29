@@ -32,9 +32,9 @@ void ConvectionDiffusionCoefficients::calculate_coefficients(const SimulationTyp
     if (simulation_type == SimulationType::Unsteady) {
         double previous_value;
         if (velocity_component == VelocityComponent::U) {
-            previous_value = m_node->get_previous_timestep_velocity_u();
+            previous_value = m_node->get_previous_timestep_velocity_x();
         } else {
-            previous_value = m_node->get_previous_timestep_velocity_v();
+            previous_value = m_node->get_previous_timestep_velocity_y();
         }
         time_coefficients = m_time_coefficients->get_time_effects(previous_value);
     }

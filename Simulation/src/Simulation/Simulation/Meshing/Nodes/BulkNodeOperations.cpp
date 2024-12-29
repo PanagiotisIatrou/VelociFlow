@@ -46,7 +46,7 @@ void BulkNodeOperations::update_node_previous_timestep_velocity_u() const {
                 continue;
             }
 
-            node_P->set_previous_timestep_velocity_u(node_P->get_velocity_u());
+            node_P->set_previous_timestep_velocity_x(node_P->get_velocity_x());
         }
     }
 }
@@ -61,7 +61,7 @@ void BulkNodeOperations::update_node_previous_timestep_velocity_v() const {
                 continue;
             }
 
-            node_P->set_previous_timestep_velocity_v(node_P->get_velocity_v());
+            node_P->set_previous_timestep_velocity_y(node_P->get_velocity_y());
         }
     }
 }

@@ -6,11 +6,11 @@ FreeBoundaryFace::FreeBoundaryFace(const Orientation orientation) : BoundaryFace
 }
 
 double FreeBoundaryFace::get_velocity_u() const {
-    return m_node_neighbour->get_velocity_u();
+    return m_node_neighbour->get_velocity_x();
 }
 
 double FreeBoundaryFace::get_velocity_v() const {
-    return m_node_neighbour->get_velocity_v();
+    return m_node_neighbour->get_velocity_y();
 }
 
 double FreeBoundaryFace::get_dye() const {

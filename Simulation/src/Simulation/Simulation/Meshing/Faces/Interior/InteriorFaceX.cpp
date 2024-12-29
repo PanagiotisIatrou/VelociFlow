@@ -14,15 +14,15 @@ Node *InteriorFaceX::get_node_neighbour(FaceXSide side) const {
 }
 
 void InteriorFaceX::update_velocity_distance_weighted() {
-    m_velocity = 0.5 * (get_node_neighbour(FaceXSide::West)->get_velocity_u() + get_node_neighbour(FaceXSide::East)->get_velocity_u());
+    m_velocity = 0.5 * (get_node_neighbour(FaceXSide::West)->get_velocity_x() + get_node_neighbour(FaceXSide::East)->get_velocity_x());
 }
 
 void InteriorFaceX::update_velocity_rhie_chow() {
     const Node *node_P = get_node_neighbour(FaceXSide::West);
     const Node *node_E = get_node_neighbour(FaceXSide::East);
 
-    const double velocity_u_P = node_P->get_velocity_u();
-    const double velocity_u_E = node_E->get_velocity_u();
+    const double velocity_u_P = node_P->get_velocity_x();
+    const double velocity_u_E = node_E->get_velocity_x();
 
     const double pressure_P = node_P->get_pressure();
     const double pressure_E = node_E->get_pressure();
