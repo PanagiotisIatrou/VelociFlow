@@ -4,8 +4,8 @@
 #include <cmath>
 #include <algorithm>
 
-SteadyConvectionDiffusionSimulation::SteadyConvectionDiffusionSimulation(Mesh *mesh, double velocity_u_tolerance, double velocity_v_tolerance,
-                                                                         std::string output_file, VerboseType verbose_type) : Simulation(mesh, velocity_u_tolerance, velocity_v_tolerance, 0.0, output_file, verbose_type) {
+SteadyConvectionDiffusionSimulation::SteadyConvectionDiffusionSimulation(Mesh *mesh, double tolerance_velocity_x, double tolerance_velocity_y,
+                                                                         std::string output_file, VerboseType verbose_type) : Simulation(mesh, tolerance_velocity_x, tolerance_velocity_y, 0.0, output_file, verbose_type) {
 
 }
 
@@ -25,7 +25,7 @@ void SteadyConvectionDiffusionSimulation::solve() {
     m_outer_iterations_count = 0;
     double first_convection_diffusion_x_error;
     double first_convection_diffusion_y_error;
-    while (m_convection_diffusion_x_error > m_velocity_u_tolerance || m_convection_diffusion_y_error > m_velocity_v_tolerance) {
+    while (m_convection_diffusion_x_error > m_tolerance_velocity_x || m_convection_diffusion_y_error > m_tolerance_velocity_y) {
         convection_diffusion_iterate(SimulationType::Steady);
 
         // First errors
@@ -39,19 +39,19 @@ void SteadyConvectionDiffusionSimulation::solve() {
             printf("%-6.d   %.4e   %.4e\n", m_outer_iterations_count, m_convection_diffusion_x_error, m_convection_diffusion_y_error);
         } else if (m_verbose_type == VerboseType::Percentages) {
             double convection_diffusion_x_scale;
-            if (first_convection_diffusion_x_error <= m_velocity_u_tolerance) {
-                convection_diffusion_x_scale = (std::log10(m_velocity_u_tolerance) - std::log10(m_convection_diffusion_x_error / m_velocity_u_tolerance)) / std::log10(m_velocity_u_tolerance);
+            if (first_convection_diffusion_x_error <= m_tolerance_velocity_x) {
+                convection_diffusion_x_scale = (std::log10(m_tolerance_velocity_x) - std::log10(m_convection_diffusion_x_error / m_tolerance_velocity_x)) / std::log10(m_tolerance_velocity_x);
             } else {
-                convection_diffusion_x_scale = std::log10(first_convection_diffusion_x_error / m_convection_diffusion_x_error) / std::log10(first_convection_diffusion_x_error / m_velocity_u_tolerance);
+                convection_diffusion_x_scale = std::log10(first_convection_diffusion_x_error / m_convection_diffusion_x_error) / std::log10(first_convection_diffusion_x_error / m_tolerance_velocity_x);
             }
             convection_diffusion_x_scale = std::clamp(convection_diffusion_x_scale, 0.0, 1.0);
             const int convection_diffusion_x_percentage = static_cast<int>(std::floor(convection_diffusion_x_scale * 100.0));
 
             double convection_diffusion_y_scale;
-            if (first_convection_diffusion_y_error <= m_velocity_v_tolerance) {
-                convection_diffusion_y_scale = (std::log10(m_velocity_v_tolerance) - std::log10(m_convection_diffusion_y_error / m_velocity_v_tolerance)) / std::log10(m_velocity_v_tolerance);
+            if (first_convection_diffusion_y_error <= m_tolerance_velocity_y) {
+                convection_diffusion_y_scale = (std::log10(m_tolerance_velocity_y) - std::log10(m_convection_diffusion_y_error / m_tolerance_velocity_y)) / std::log10(m_tolerance_velocity_y);
             } else {
-                convection_diffusion_y_scale = std::log10(first_convection_diffusion_y_error / m_convection_diffusion_y_error) / std::log10(first_convection_diffusion_y_error / m_velocity_v_tolerance);
+                convection_diffusion_y_scale = std::log10(first_convection_diffusion_y_error / m_convection_diffusion_y_error) / std::log10(first_convection_diffusion_y_error / m_tolerance_velocity_y);
             }
             convection_diffusion_y_scale = std::clamp(convection_diffusion_y_scale, 0.0, 1.0);
             const int convection_diffusion_y_percentage = static_cast<int>(std::floor(convection_diffusion_y_scale * 100.0));

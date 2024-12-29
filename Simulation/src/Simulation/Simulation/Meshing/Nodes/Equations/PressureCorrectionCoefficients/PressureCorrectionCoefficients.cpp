@@ -20,7 +20,7 @@ void PressureCorrectionCoefficients::calculate_coefficients() {
     double density_w;
     if (face_w->get_face_type() == FaceType::Boundary) {
         const BoundaryFace *boundary_face_w = static_cast<BoundaryFace *>(face_w);
-        velocity_w = boundary_face_w->get_velocity_u();
+        velocity_w = boundary_face_w->get_velocity_x();
         density_w = boundary_face_w->get_density();
     } else {
         const InteriorFace *interior_face_w = static_cast<InteriorFace *>(face_w);
@@ -33,7 +33,7 @@ void PressureCorrectionCoefficients::calculate_coefficients() {
     double density_e;
     if (face_e->get_face_type() == FaceType::Boundary) {
         const BoundaryFace *boundary_face_e = static_cast<BoundaryFace *>(face_e);
-        velocity_e = boundary_face_e->get_velocity_u();
+        velocity_e = boundary_face_e->get_velocity_x();
         density_e = boundary_face_e->get_density();
     } else {
         const InteriorFace *interior_face_e = static_cast<InteriorFace *>(face_e);
@@ -46,7 +46,7 @@ void PressureCorrectionCoefficients::calculate_coefficients() {
     double density_s;
     if (face_s->get_face_type() == FaceType::Boundary) {
         const BoundaryFace *boundary_face_s = static_cast<BoundaryFace *>(face_s);
-        velocity_s = boundary_face_s->get_velocity_v();
+        velocity_s = boundary_face_s->get_velocity_y();
         density_s = boundary_face_s->get_density();
     } else {
         const InteriorFace *interior_face_s = static_cast<InteriorFace *>(face_s);
@@ -59,7 +59,7 @@ void PressureCorrectionCoefficients::calculate_coefficients() {
     double density_n;
     if (face_n->get_face_type() == FaceType::Boundary) {
         const BoundaryFace *boundary_face_n = static_cast<BoundaryFace *>(face_n);
-        velocity_n = boundary_face_n->get_velocity_v();
+        velocity_n = boundary_face_n->get_velocity_y();
         density_n = boundary_face_n->get_density();
     } else {
         const InteriorFace *interior_face_n = static_cast<InteriorFace *>(face_n);
@@ -75,53 +75,53 @@ void PressureCorrectionCoefficients::calculate_coefficients() {
         - velocity_s * density_s * m_node->get_dx()
         );
 
-    const double momentum_u_a_P = m_node->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
-    const double momentum_v_a_P = m_node->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
+    const double momentum_x_a_P = m_node->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
+    const double momentum_y_a_P = m_node->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
 
     // a_W
     if (face_w->get_face_type() != FaceType::Boundary) {
-        const double momentum_u_a_W = m_node->get_neighbouring_node(Direction::West)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
-        const double extra_a_W = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_W) * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_w;
+        const double momentum_x_a_W = m_node->get_neighbouring_node(Direction::West)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
+        const double extra_a_W = 0.5 * (1 / momentum_x_a_P + 1 / momentum_x_a_W) * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_w;
         coefficients.west += extra_a_W;
         coefficients.center += extra_a_W;
     } else if (static_cast<BoundaryFace *>(face_w)->get_boundary_type() == BoundaryType::FixedPressure) {
-        const double extra = 0.5 * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_w / momentum_u_a_P;
+        const double extra = 0.5 * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_w / momentum_x_a_P;
         coefficients.east -= extra;
         coefficients.center += extra;
     }
 
     // a_E
     if (face_e->get_face_type() != FaceType::Boundary) {
-        const double momentum_u_a_E = m_node->get_neighbouring_node(Direction::East)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
-        const double extra_a_E = 0.5 * (1 / momentum_u_a_P + 1 / momentum_u_a_E) * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_e;
+        const double momentum_x_a_E = m_node->get_neighbouring_node(Direction::East)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
+        const double extra_a_E = 0.5 * (1 / momentum_x_a_P + 1 / momentum_x_a_E) * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_e;
         coefficients.east += extra_a_E;
         coefficients.center += extra_a_E;
     } else if (static_cast<BoundaryFace *>(face_e)->get_boundary_type() == BoundaryType::FixedPressure) {
-        const double extra = 0.5 * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_e / momentum_u_a_P;
+        const double extra = 0.5 * m_node->get_dt() * m_node->get_dy() * m_node->get_dy() * density_e / momentum_x_a_P;
         coefficients.west -= extra;
         coefficients.center += extra;
     }
 
     // a_S
     if (face_s->get_face_type() != FaceType::Boundary) {
-        const double momentum_v_a_S = m_node->get_neighbouring_node(Direction::South)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
-        const double extra_a_S = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_S) * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_s;
+        const double momentum_y_a_S = m_node->get_neighbouring_node(Direction::South)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
+        const double extra_a_S = 0.5 * (1 / momentum_y_a_P + 1 / momentum_y_a_S) * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_s;
         coefficients.south += extra_a_S;
         coefficients.center += extra_a_S;
     } else if (static_cast<BoundaryFace *>(face_s)->get_boundary_type() == BoundaryType::FixedPressure) {
-        const double extra = 0.5 * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_s / momentum_v_a_P;
+        const double extra = 0.5 * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_s / momentum_y_a_P;
         coefficients.north -= extra;
         coefficients.center += extra;
     }
 
     // a_N
     if (face_n->get_face_type() != FaceType::Boundary) {
-        const double momentum_v_a_N = m_node->get_neighbouring_node(Direction::North)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
-        const double extra_a_N = 0.5 * (1 / momentum_v_a_P + 1 / momentum_v_a_N) * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_n;
+        const double momentum_y_a_N = m_node->get_neighbouring_node(Direction::North)->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
+        const double extra_a_N = 0.5 * (1 / momentum_y_a_P + 1 / momentum_y_a_N) * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_n;
         coefficients.north += extra_a_N;
         coefficients.center += extra_a_N;
     } else if (static_cast<BoundaryFace *>(face_n)->get_boundary_type() == BoundaryType::FixedPressure) {
-        const double extra = 0.5 * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_n / momentum_v_a_P;
+        const double extra = 0.5 * m_node->get_dt() * m_node->get_dx() * m_node->get_dx() * density_n / momentum_y_a_P;
         coefficients.south -= extra;
         coefficients.center += extra;
     }

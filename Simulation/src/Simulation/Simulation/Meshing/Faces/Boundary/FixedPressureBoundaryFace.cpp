@@ -6,11 +6,11 @@ FixedPressureBoundaryFace::FixedPressureBoundaryFace(const double pressure, cons
     m_pressure = pressure;
 }
 
-double FixedPressureBoundaryFace::get_velocity_u() const {
+double FixedPressureBoundaryFace::get_velocity_x() const {
     return m_node_neighbour->get_field_value(Field::VelocityX);
 }
 
-double FixedPressureBoundaryFace::get_velocity_v() const {
+double FixedPressureBoundaryFace::get_velocity_y() const {
     return m_node_neighbour->get_field_value(Field::VelocityY);
 }
 

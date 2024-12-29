@@ -4,7 +4,7 @@ MovingWallBoundaryFace::MovingWallBoundaryFace(const double velocity, const Orie
     m_velocity = velocity;
 }
 
-double MovingWallBoundaryFace::get_velocity_u() const {
+double MovingWallBoundaryFace::get_velocity_x() const {
     if (m_orientation == Orientation::Horizontal) {
         return 0.0;
     } else {
@@ -12,7 +12,7 @@ double MovingWallBoundaryFace::get_velocity_u() const {
     }
 }
 
-double MovingWallBoundaryFace::get_velocity_v() const {
+double MovingWallBoundaryFace::get_velocity_y() const {
     if (m_orientation == Orientation::Vertical) {
         return 0.0;
     } else {

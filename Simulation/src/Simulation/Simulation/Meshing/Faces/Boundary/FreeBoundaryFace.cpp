@@ -5,11 +5,11 @@
 FreeBoundaryFace::FreeBoundaryFace(const Orientation orientation) : BoundaryFace(BoundaryType::Free, orientation) {
 }
 
-double FreeBoundaryFace::get_velocity_u() const {
+double FreeBoundaryFace::get_velocity_x() const {
     return m_node_neighbour->get_field_value(Field::VelocityX);
 }
 
-double FreeBoundaryFace::get_velocity_v() const {
+double FreeBoundaryFace::get_velocity_y() const {
     return m_node_neighbour->get_field_value(Field::VelocityY);
 }
 

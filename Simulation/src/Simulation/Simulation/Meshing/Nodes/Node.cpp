@@ -5,15 +5,15 @@
 
 #include "../../../common.hpp"
 
-Node::Node(const double viscosity, const double density, const double dx, const double dy, const double velocity_u,
-           const double velocity_v, const double pressure, const double dye) {
+Node::Node(const double viscosity, const double density, const double dx, const double dy, const double velocity_x,
+           const double velocity_y, const double pressure, const double dye) {
     m_viscosity = viscosity;
     m_density = density;
     m_dye = dye;
     m_dx = dx;
     m_dy = dy;
-    m_velocity_x = velocity_u;
-    m_velocity_y = velocity_v;
+    m_velocity_x = velocity_x;
+    m_velocity_y = velocity_y;
     m_pressure = pressure;
 
     m_momentum_coefficients = std::make_unique<MomentumCoefficients>(this);
@@ -139,20 +139,20 @@ void Node::apply_pressure_correction() {
     m_pressure += pressure_relaxation * m_pressure_correction;
 }
 
-void Node::correct_velocity_u() {
+void Node::correct_velocity_x() {
     const double pressure_correction_w = get_neighbouring_face(Direction::West)->get_pressure_correction();
     const double pressure_correction_e = get_neighbouring_face(Direction::East)->get_pressure_correction();
-    const double momentum_u_a_P = get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
-    const double correction = m_dt * m_dy * (pressure_correction_w - pressure_correction_e) / momentum_u_a_P;
+    const double momentum_x_a_P = get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
+    const double correction = m_dt * m_dy * (pressure_correction_w - pressure_correction_e) / momentum_x_a_P;
 
     m_velocity_x += correction;
 }
 
-void Node::correct_velocity_v() {
+void Node::correct_velocity_y() {
     const double pressure_correction_s = get_neighbouring_face(Direction::South)->get_pressure_correction();
     const double pressure_correction_n = get_neighbouring_face(Direction::North)->get_pressure_correction();
-    const double momentum_v_a_P = get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
-    const double correction = m_dt * m_dx * (pressure_correction_s - pressure_correction_n) / momentum_v_a_P;
+    const double momentum_y_a_P = get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
+    const double correction = m_dt * m_dx * (pressure_correction_s - pressure_correction_n) / momentum_y_a_P;
 
     m_velocity_y += correction;
 }

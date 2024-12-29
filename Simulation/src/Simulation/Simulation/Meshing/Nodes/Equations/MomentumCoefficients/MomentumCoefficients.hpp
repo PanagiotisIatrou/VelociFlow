@@ -12,8 +12,8 @@ class MomentumCoefficients {
 private:
     Node *m_node;
 
-    Coefficients m_coefficients_u;
-    Coefficients m_coefficients_v;
+    Coefficients m_coefficients_x;
+    Coefficients m_coefficients_y;
 
     // Discretization coefficients
 

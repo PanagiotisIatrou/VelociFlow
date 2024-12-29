@@ -9,8 +9,8 @@
 
 inline Mesh *create_adv_diff_mesh(const double velocity, const double viscosity) {
     // Domain
-    const int N = 100;
-    const int M = 100;
+    const int N = 50;
+    const int M = 50;
     const double domain_size_x = 1.0;
     const double domain_size_y = 1.0;
     const double density = 1.0;
@@ -465,7 +465,7 @@ inline Mesh *create_von_karman_mesh(const double velocity_inlet, const double vi
     const double domain_size_y = 1;
     const double density = 1.0;
 
-    const double length = 5.0;
+    const double length = 15.0;
     const double centerX = N / 5;
     const double centerY = M / 2;
 
@@ -490,7 +490,7 @@ inline Mesh *create_von_karman_mesh(const double velocity_inlet, const double vi
 
     // Add inlet and the outlet
     for (int j = 0; j < M; j++) {
-        if (std::abs(j - M / 2) <= 1) {
+        if (std::abs(j - M / 2) <= 6) {
             mesh->set_boundary_inlet_face(FaceSide::X, 0, j, velocity_inlet, 0.0, 1.0);
         } else {
             mesh->set_boundary_inlet_face(FaceSide::X, 0, j, velocity_inlet, 0.0, 0.0);
@@ -532,13 +532,13 @@ inline Mesh *create_kelvin_helmholtz_mesh(const double velocity_inlet, const dou
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            double velocity_u;
+            double velocity_x;
             if (std::abs(j - M / 2.0) / (M / 2.0) < 0.2 + 0.01 * std::sin(2.0 * M_PI * (static_cast<double>(i) / N) * domain_size_x * 10.0)) {
-                velocity_u = velocity_inlet;
-                mesh->set_node(i, j, viscosity, density, velocity_u, 0.0, 0.0, 1.0);
+                velocity_x = velocity_inlet;
+                mesh->set_node(i, j, viscosity, density, velocity_x, 0.0, 0.0, 1.0);
             } else {
-                velocity_u = -velocity_inlet / 2.0;
-                mesh->set_node(i, j, viscosity, density, velocity_u, 0.0, 0.0, 0.0);
+                velocity_x = -velocity_inlet / 2.0;
+                mesh->set_node(i, j, viscosity, density, velocity_x, 0.0, 0.0, 0.0);
             }
         }
     }

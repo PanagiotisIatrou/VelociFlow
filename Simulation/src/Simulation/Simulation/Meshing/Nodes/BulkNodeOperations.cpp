@@ -6,7 +6,7 @@ BulkNodeOperations::BulkNodeOperations(Mesh *mesh) {
     m_mesh = mesh;
 }
 
-void BulkNodeOperations::correct_node_velocity_u() const {
+void BulkNodeOperations::correct_node_velocity_x() const {
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
             Node *node_P = m_mesh->get_node(i, j);
@@ -16,12 +16,12 @@ void BulkNodeOperations::correct_node_velocity_u() const {
                 continue;
             }
 
-            node_P->correct_velocity_u();
+            node_P->correct_velocity_x();
         }
     }
 }
 
-void BulkNodeOperations::correct_node_velocity_v() const {
+void BulkNodeOperations::correct_node_velocity_y() const {
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
             Node *node_P = m_mesh->get_node(i, j);
@@ -31,12 +31,12 @@ void BulkNodeOperations::correct_node_velocity_v() const {
                 continue;
             }
 
-            node_P->correct_velocity_v();
+            node_P->correct_velocity_y();
         }
     }
 }
 
-void BulkNodeOperations::update_node_previous_timestep_velocity_u() const {
+void BulkNodeOperations::update_node_previous_timestep_velocity_x() const {
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
             Node *node_P = m_mesh->get_node(i, j);
@@ -51,7 +51,7 @@ void BulkNodeOperations::update_node_previous_timestep_velocity_u() const {
     }
 }
 
-void BulkNodeOperations::update_node_previous_timestep_velocity_v() const {
+void BulkNodeOperations::update_node_previous_timestep_velocity_y() const {
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
             Node *node_P = m_mesh->get_node(i, j);

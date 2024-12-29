@@ -5,7 +5,7 @@
 
 #include "Meshing/Faces/Boundary/BoundaryFace.hpp"
 
-Simulation::Simulation(Mesh *mesh, const double velocity_u_tolerance, const double velocity_v_tolerance,
+Simulation::Simulation(Mesh *mesh, const double tolerance_velocity_x, const double tolerance_velocity_y,
                        const double pressure_tolerance, const std::string output_file, const VerboseType verbose_type) {
     m_mesh = mesh;
     m_bulk_node_operations = std::make_unique<BulkNodeOperations>(mesh);
@@ -14,8 +14,8 @@ Simulation::Simulation(Mesh *mesh, const double velocity_u_tolerance, const doub
     m_saver = std::make_unique<Saver>(mesh, output_file);
     m_verbose_type = verbose_type;
 
-    m_velocity_u_tolerance = velocity_u_tolerance;
-    m_velocity_v_tolerance = velocity_v_tolerance;
+    m_tolerance_velocity_x = tolerance_velocity_x;
+    m_tolerance_velocity_y = tolerance_velocity_y;
     m_pressure_tolerance = pressure_tolerance;
 }
 
@@ -52,18 +52,18 @@ double Simulation::get_momentum_x_imbalance() const {
             // Get the coefficients
             Coefficients c = node_P->get_momentum_coefficients(VelocityComponent::U);
 
-            // Solve for velocity_u_P
-            double velocity_u_P = c.source;
+            // Solve for velocity_x_P
+            double velocity_x_P = c.source;
             for (int dir = direction_start; dir < direction_all_end; dir++) {
                 const Direction direction = static_cast<Direction>(dir);
                 Face *face = node_P->get_neighbouring_face(direction);
                 if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                     const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                    velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityX);
+                    velocity_x_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityX);
                 }
             }
 
-            const double residual = std::abs(c.center * node_P->get_field_value(Field::VelocityX) - velocity_u_P);
+            const double residual = std::abs(c.center * node_P->get_field_value(Field::VelocityX) - velocity_x_P);
             error += residual;
             denom += std::abs(c.center * node_P->get_field_value(Field::VelocityX));
         }
@@ -91,19 +91,19 @@ void Simulation::solve_x_momentum() const {
                 // Get the coefficients
                 Coefficients c = node_P->get_momentum_coefficients(VelocityComponent::U);
 
-                // Solve for velocity_u_P
-                double velocity_u_P = c.source;
+                // Solve for velocity_x_P
+                double velocity_x_P = c.source;
                 for (int dir = direction_start; dir < direction_all_end; dir++) {
                     const Direction direction = static_cast<Direction>(dir);
                     Face *face = node_P->get_neighbouring_face(direction);
                     if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityX);
+                        velocity_x_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityX);
                     }
                 }
 
-                velocity_u_P /= c.center;
-                node_P->set_field_value(Field::VelocityX, velocity_u_P);
+                velocity_x_P /= c.center;
+                node_P->set_field_value(Field::VelocityX, velocity_x_P);
             }
         }
 
@@ -126,18 +126,18 @@ double Simulation::get_momentum_y_imbalance() const {
             // Get the coefficients
             Coefficients c = node_P->get_momentum_coefficients(VelocityComponent::V);
 
-            // Solve for velocity_v_P
-            double velocity_v_P = c.source;
+            // Solve for velocity_y_P
+            double velocity_y_P = c.source;
             for (int dir = direction_start; dir < direction_all_end; dir++) {
                 const Direction direction = static_cast<Direction>(dir);
                 Face *face = node_P->get_neighbouring_face(direction);
                 if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                     const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                    velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityY);
+                    velocity_y_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityY);
                 }
             }
 
-            const double residual = std::abs(c.center * node_P->get_field_value(Field::VelocityY) - velocity_v_P);
+            const double residual = std::abs(c.center * node_P->get_field_value(Field::VelocityY) - velocity_y_P);
             error += residual;
             denom += std::abs(c.center * node_P->get_field_value(Field::VelocityY));
         }
@@ -165,19 +165,19 @@ void Simulation::solve_y_momentum() const {
                 // Get the coefficients
                 Coefficients c = node_P->get_momentum_coefficients(VelocityComponent::V);
 
-                // Solve for velocity_v_P
-                double velocity_v_P = c.source;
+                // Solve for velocity_y_P
+                double velocity_y_P = c.source;
                 for (int dir = direction_start; dir < direction_all_end; dir++) {
                     const Direction direction = static_cast<Direction>(dir);
                     Face *face = node_P->get_neighbouring_face(direction);
                     if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityY);
+                        velocity_y_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityY);
                     }
                 }
 
-                velocity_v_P /= c.center;
-                node_P->set_field_value(Field::VelocityY, velocity_v_P);
+                velocity_y_P /= c.center;
+                node_P->set_field_value(Field::VelocityY, velocity_y_P);
             }
         }
 
@@ -438,19 +438,19 @@ void Simulation::solve_convection_diffusion_x() const {
                 // Get the coefficients
                 Coefficients c = node_P->get_convection_diffusion_coefficients(VelocityComponent::U);
 
-                // Solve for velocity_u_P
-                double velocity_u_P = c.source;
+                // Solve for velocity_x_P
+                double velocity_x_P = c.source;
                 for (int dir = direction_start; dir < direction_all_end; dir++) {
                     const Direction direction = static_cast<Direction>(dir);
                     Face *face = node_P->get_neighbouring_face(direction);
                     if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        velocity_u_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityX);
+                        velocity_x_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityX);
                     }
                 }
 
-                velocity_u_P /= c.center;
-                node_P->set_field_value(Field::VelocityX, velocity_u_P);
+                velocity_x_P /= c.center;
+                node_P->set_field_value(Field::VelocityX, velocity_x_P);
             }
         }
 
@@ -512,19 +512,19 @@ void Simulation::solve_convection_diffusion_y() const {
                 // Get the coefficients
                 Coefficients c = node_P->get_convection_diffusion_coefficients(VelocityComponent::V);
 
-                // Solve for velocity_u_P
-                double velocity_v_P = c.source;
+                // Solve for velocity_y_P
+                double velocity_y_P = c.source;
                 for (int dir = direction_start; dir < direction_all_end; dir++) {
                     const Direction direction = static_cast<Direction>(dir);
                     Face *face = node_P->get_neighbouring_face(direction);
                     if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
                         const Node *neighbouring_node = node_P->get_neighbouring_node(direction);
-                        velocity_v_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityY);
+                        velocity_y_P += c.get_coefficient(direction) * neighbouring_node->get_field_value(Field::VelocityY);
                     }
                 }
 
-                velocity_v_P /= c.center;
-                node_P->set_field_value(Field::VelocityY, velocity_v_P);
+                velocity_y_P /= c.center;
+                node_P->set_field_value(Field::VelocityY, velocity_y_P);
             }
         }
 
@@ -563,8 +563,8 @@ void Simulation::simple_iterate(const SimulationType simulation_type) {
     m_bulk_face_operations->update_face_y_pressure_corrections();
 
     // Correct the u and v node velocities
-    m_bulk_node_operations->correct_node_velocity_u();
-    m_bulk_node_operations->correct_node_velocity_v();
+    m_bulk_node_operations->correct_node_velocity_x();
+    m_bulk_node_operations->correct_node_velocity_y();
 
     // Correct the face x and y velocities
     m_bulk_face_operations->correct_face_x_velocity();

@@ -2,7 +2,7 @@
 
 SlipBoundaryFace::SlipBoundaryFace(const Orientation orientation) : BoundaryFace(BoundaryType::Slip, orientation) {}
 
-double SlipBoundaryFace::get_velocity_u() const {
+double SlipBoundaryFace::get_velocity_x() const {
     if (m_orientation == Orientation::Horizontal) {
         return 0.0;
     } else {
@@ -10,7 +10,7 @@ double SlipBoundaryFace::get_velocity_u() const {
     }
 }
 
-double SlipBoundaryFace::get_velocity_v() const {
+double SlipBoundaryFace::get_velocity_y() const {
     if (m_orientation == Orientation::Vertical) {
         return 0.0;
     } else {

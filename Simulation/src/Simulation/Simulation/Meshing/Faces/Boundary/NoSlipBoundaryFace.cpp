@@ -2,11 +2,11 @@
 
 NoSlipBoundaryFace::NoSlipBoundaryFace(const Orientation orientation) : BoundaryFace(BoundaryType::NoSlip, orientation) {}
 
-double NoSlipBoundaryFace::get_velocity_u() const {
+double NoSlipBoundaryFace::get_velocity_x() const {
     return 0.0;
 }
 
-double NoSlipBoundaryFace::get_velocity_v() const {
+double NoSlipBoundaryFace::get_velocity_y() const {
     return 0.0;
 }
 

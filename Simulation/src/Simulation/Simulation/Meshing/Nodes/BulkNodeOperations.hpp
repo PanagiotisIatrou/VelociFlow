@@ -10,13 +10,13 @@ public:
 
     // Velocity
 
-    void correct_node_velocity_u() const;
+    void correct_node_velocity_x() const;
 
-    void correct_node_velocity_v() const;
+    void correct_node_velocity_y() const;
 
-    void update_node_previous_timestep_velocity_u() const;
+    void update_node_previous_timestep_velocity_x() const;
 
-    void update_node_previous_timestep_velocity_v() const;
+    void update_node_previous_timestep_velocity_y() const;
 
     // Pressure
 

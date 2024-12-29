@@ -17,8 +17,8 @@ protected:
     std::unique_ptr<BulkNodeOperations> m_bulk_node_operations;
     std::unique_ptr<BulkFaceOperations> m_bulk_face_operations;
 
-    double m_velocity_u_tolerance;
-    double m_velocity_v_tolerance;
+    double m_tolerance_velocity_x;
+    double m_tolerance_velocity_y;
     double m_pressure_tolerance;
     double m_momentum_x_error = 0.0;
     double m_momentum_y_error = 0.0;
@@ -74,7 +74,7 @@ protected:
     void solve_convection_diffusion_y() const;
 
 public:
-    Simulation(Mesh *mesh, double velocity_u_tolerance, double velocity_v_tolerance, double pressure_tolerance, std::string output_file, VerboseType verbose_type);
+    Simulation(Mesh *mesh, double tolerance_velocity_x, double tolerance_velocity_y, double pressure_tolerance, std::string output_file, VerboseType verbose_type);
 
     double get_time_taken() const;
 

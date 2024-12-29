@@ -58,6 +58,6 @@ inline Direction get_opposite_direction(const Direction direction) {
 enum class VelocityComponent { U, V };
 
 // Relaxation
-inline extern const double velocity_u_relaxation = 0.5;
-inline extern const double velocity_v_relaxation = 0.5;
+inline extern const double relaxation_velocity_x = 0.5;
+inline extern const double relaxation_velocity_y = 0.5;
 inline extern const double pressure_relaxation = 0.2;

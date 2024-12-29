@@ -2,18 +2,18 @@
 
 #include "../../Nodes/Node.hpp"
 
-InletBoundaryFace::InletBoundaryFace(const double velocity_u, const double velocity_v, const double dye, const Orientation orientation) : BoundaryFace(BoundaryType::Inlet, orientation) {
-    m_velocity_u = velocity_u;
-    m_velocity_v = velocity_v;
+InletBoundaryFace::InletBoundaryFace(const double velocity_x, const double velocity_y, const double dye, const Orientation orientation) : BoundaryFace(BoundaryType::Inlet, orientation) {
+    m_velocity_x = velocity_x;
+    m_velocity_y = velocity_y;
     m_dye = dye;
 }
 
-double InletBoundaryFace::get_velocity_u() const {
-    return m_velocity_u;
+double InletBoundaryFace::get_velocity_x() const {
+    return m_velocity_x;
 }
 
-double InletBoundaryFace::get_velocity_v() const {
-    return m_velocity_v;
+double InletBoundaryFace::get_velocity_y() const {
+    return m_velocity_y;
 }
 
 double InletBoundaryFace::get_dye() const {

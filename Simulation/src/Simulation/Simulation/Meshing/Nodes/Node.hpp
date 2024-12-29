@@ -40,7 +40,7 @@ protected:
     };
 
 public:
-    Node(double viscosity, double density, double dx, double dy, double velocity_u, double velocity_v, double pressure, double dye);
+    Node(double viscosity, double density, double dx, double dy, double velocity_x, double velocity_y, double pressure, double dye);
 
     void set_previous_timestep_velocity_x(double velocity);
 
@@ -76,9 +76,9 @@ public:
 
     void apply_pressure_correction();
 
-    void correct_velocity_u();
+    void correct_velocity_x();
 
-    void correct_velocity_v();
+    void correct_velocity_y();
 
     Face *get_neighbouring_face(Direction direction) const;
 

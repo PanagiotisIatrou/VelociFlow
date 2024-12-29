@@ -59,9 +59,9 @@ Coefficients ConvectionCoefficients::get_upwind_convection_effects(const Directi
         double face_value;
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
         if (field == Field::VelocityX) {
-            face_value = boundary_face->get_velocity_u();
+            face_value = boundary_face->get_velocity_x();
         } else if (field == Field::VelocityY) {
-            face_value = boundary_face->get_velocity_v();
+            face_value = boundary_face->get_velocity_y();
         } else if (field == Field::Dye) {
             face_value = boundary_face->get_dye();
         } else {
@@ -95,9 +95,9 @@ Coefficients ConvectionCoefficients::get_central_differencing_convection_effects
         double face_value;
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
         if (field == Field::VelocityX) {
-            face_value = boundary_face->get_velocity_u();
+            face_value = boundary_face->get_velocity_x();
         } else if (field == Field::VelocityY) {
-            face_value = boundary_face->get_velocity_v();
+            face_value = boundary_face->get_velocity_y();
         } else if (field == Field::Dye) {
             face_value = boundary_face->get_dye();
         } else {
@@ -145,9 +145,9 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
             double boundary_value;
             const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(opposite_direction_face);
             if (field == Field::VelocityX) {
-                boundary_value = boundary_face->get_velocity_u();
+                boundary_value = boundary_face->get_velocity_x();
             } else if (field == Field::VelocityY) {
-                boundary_value = boundary_face->get_velocity_v();
+                boundary_value = boundary_face->get_velocity_y();
             } else if (field == Field::Dye) {
                 boundary_value = boundary_face->get_dye();
             } else {
@@ -173,9 +173,9 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
             double boundary_value;
             const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(extended_direction_face);
             if (field == Field::VelocityX) {
-                boundary_value = boundary_face->get_velocity_u();
+                boundary_value = boundary_face->get_velocity_x();
             } else if (field == Field::VelocityY) {
-                boundary_value = boundary_face->get_velocity_v();
+                boundary_value = boundary_face->get_velocity_y();
             } else if (field == Field::Dye) {
                 boundary_value = boundary_face->get_dye();
             } else {
@@ -197,9 +197,9 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
         double face_velocity;
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
         if (field == Field::VelocityX) {
-            face_velocity = boundary_face->get_velocity_u();
+            face_velocity = boundary_face->get_velocity_x();
         } else if (field == Field::VelocityY) {
-            face_velocity = boundary_face->get_velocity_v();
+            face_velocity = boundary_face->get_velocity_y();
         } else if (field == Field::Dye) {
             face_velocity = boundary_face->get_dye();
         } else {

@@ -45,9 +45,9 @@ Coefficients DiffusionCoefficients::get_central_differencing_diffusion_effects(c
         double face_value;
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
         if (field == Field::VelocityX) {
-            face_value = boundary_face->get_velocity_u();
+            face_value = boundary_face->get_velocity_x();
         } else if (field == Field::VelocityY) {
-            face_value = boundary_face->get_velocity_v();
+            face_value = boundary_face->get_velocity_y();
         } else if (field == Field::Dye) {
             face_value = boundary_face->get_dye();
         } else {

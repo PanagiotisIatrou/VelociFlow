@@ -4,10 +4,10 @@
 #include <iostream>
 #include <algorithm>
 
-SteadySimulation::SteadySimulation(Mesh *mesh, const double velocity_u_tolerance, const double velocity_v_tolerance,
+SteadySimulation::SteadySimulation(Mesh *mesh, const double tolerance_velocity_x, const double tolerance_velocity_y,
                                    const double pressure_tolerance, const std::string output_file,
                                    const VerboseType verbose_type)
-    : Simulation(mesh, velocity_u_tolerance, velocity_v_tolerance, pressure_tolerance, output_file, verbose_type) {
+    : Simulation(mesh, tolerance_velocity_x, tolerance_velocity_y, pressure_tolerance, output_file, verbose_type) {
 }
 
 void SteadySimulation::solve() {
@@ -32,7 +32,7 @@ void SteadySimulation::solve() {
     double first_momentum_x_error;
     double first_momentum_y_error;
     double first_mass_imbalance_error;
-    while (m_momentum_x_error > m_velocity_u_tolerance || m_momentum_y_error > m_velocity_v_tolerance ||
+    while (m_momentum_x_error > m_tolerance_velocity_x || m_momentum_y_error > m_tolerance_velocity_y ||
            m_mass_imbalance > m_pressure_tolerance) {
         simple_iterate(SimulationType::Steady);
 
@@ -49,19 +49,19 @@ void SteadySimulation::solve() {
                    m_mass_imbalance);
         } else if (m_verbose_type == VerboseType::Percentages) {
             double momentum_x_scale;
-            if (first_momentum_x_error <= m_velocity_u_tolerance) {
-                momentum_x_scale = (std::log10(m_velocity_u_tolerance) - std::log10(m_momentum_x_error / m_velocity_u_tolerance)) / std::log10(m_velocity_u_tolerance);
+            if (first_momentum_x_error <= m_tolerance_velocity_x) {
+                momentum_x_scale = (std::log10(m_tolerance_velocity_x) - std::log10(m_momentum_x_error / m_tolerance_velocity_x)) / std::log10(m_tolerance_velocity_x);
             } else {
-                momentum_x_scale = std::log10(first_momentum_x_error / m_momentum_x_error) / std::log10(first_momentum_x_error / m_velocity_u_tolerance);
+                momentum_x_scale = std::log10(first_momentum_x_error / m_momentum_x_error) / std::log10(first_momentum_x_error / m_tolerance_velocity_x);
             }
             momentum_x_scale = std::clamp(momentum_x_scale, 0.0, 1.0);
             const int momentum_x_percentage = static_cast<int>(std::floor(momentum_x_scale * 100.0));
 
             double momentum_y_scale;
-            if (first_momentum_y_error <= m_velocity_v_tolerance) {
-                momentum_y_scale = (std::log10(m_velocity_v_tolerance) - std::log10(m_momentum_y_error / m_velocity_v_tolerance)) / std::log10(m_velocity_v_tolerance);
+            if (first_momentum_y_error <= m_tolerance_velocity_y) {
+                momentum_y_scale = (std::log10(m_tolerance_velocity_y) - std::log10(m_momentum_y_error / m_tolerance_velocity_y)) / std::log10(m_tolerance_velocity_y);
             } else {
-                momentum_y_scale = std::log10(first_momentum_y_error / m_momentum_y_error) / std::log10(first_momentum_y_error / m_velocity_v_tolerance);
+                momentum_y_scale = std::log10(first_momentum_y_error / m_momentum_y_error) / std::log10(first_momentum_y_error / m_tolerance_velocity_y);
             }
             momentum_y_scale = std::clamp(momentum_y_scale, 0.0, 1.0);
             const int momentum_y_percentage = static_cast<int>(std::floor(momentum_y_scale * 100.0));

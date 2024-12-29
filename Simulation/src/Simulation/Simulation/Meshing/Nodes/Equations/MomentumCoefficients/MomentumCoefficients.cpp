@@ -50,32 +50,32 @@ void MomentumCoefficients::calculate_coefficients(const VelocityComponent veloci
 
     if (velocity_component == VelocityComponent::U) {
         // Under-relaxation
-        coefficients.center /= velocity_u_relaxation;
-        coefficients.source += (1 - velocity_u_relaxation) * coefficients.center * m_node->get_field_value(Field::VelocityX);
+        coefficients.center /= relaxation_velocity_x;
+        coefficients.source += (1 - relaxation_velocity_x) * coefficients.center * m_node->get_field_value(Field::VelocityX);
 
-        m_coefficients_u = coefficients;
+        m_coefficients_x = coefficients;
     } else {
         // Under-relaxation
-        coefficients.center /= velocity_v_relaxation;
-        coefficients.source += (1 - velocity_v_relaxation) * coefficients.center * m_node->get_field_value(Field::VelocityY);
+        coefficients.center /= relaxation_velocity_y;
+        coefficients.source += (1 - relaxation_velocity_y) * coefficients.center * m_node->get_field_value(Field::VelocityY);
 
-        m_coefficients_v = coefficients;
+        m_coefficients_y = coefficients;
     }
 }
 
 double MomentumCoefficients::get_coefficient(const CoefficientType type,
                                                       const VelocityComponent velocity_component) const {
     if (velocity_component == VelocityComponent::U) {
-        return m_coefficients_u.get_coefficient(type);
+        return m_coefficients_x.get_coefficient(type);
     } else {
-        return m_coefficients_v.get_coefficient(type);
+        return m_coefficients_y.get_coefficient(type);
     }
 }
 
 Coefficients MomentumCoefficients::get_coefficients(const VelocityComponent velocity_component) const {
     if (velocity_component == VelocityComponent::U) {
-        return m_coefficients_u;
+        return m_coefficients_x;
     } else {
-        return m_coefficients_v;
+        return m_coefficients_y;
     }
 }

@@ -19,15 +19,15 @@ public:
 
     Node *get_node_neighbour() const;
 
-    virtual double get_velocity_u() const = 0;
+    virtual double get_velocity_x() const = 0;
 
-    virtual double get_velocity_v() const = 0;
+    virtual double get_velocity_y() const = 0;
 
     double get_pressure_correction() const override = 0;
 
     double get_pressure() const override = 0;
 
-    double get_dye() const = 0;
+    double get_dye() const override = 0;
 
     double get_viscosity() const override;
 

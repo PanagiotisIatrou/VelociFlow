@@ -80,8 +80,8 @@ double Mesh::get_domain_size_y() const {
 
 // Nodes
 
-void Mesh::set_node(const int i, const int j, const double viscosity, const double density, const double velocity_u, const double velocity_v, const double pressure, const double dye) {
-    m_nodes[i][j] = std::make_unique<Node>(viscosity, density, m_dx, m_dy, velocity_u, velocity_v, pressure, dye);
+void Mesh::set_node(const int i, const int j, const double viscosity, const double density, const double velocity_x, const double velocity_y, const double pressure, const double dye) {
+    m_nodes[i][j] = std::make_unique<Node>(viscosity, density, m_dx, m_dy, velocity_x, velocity_y, pressure, dye);
 }
 
 Node *Mesh::get_node(const int i, const int j) const {
@@ -99,11 +99,11 @@ void Mesh::set_interior_face(const FaceSide side, const int i, const int j) {
 }
 
 void Mesh::set_boundary_inlet_face(const FaceSide side, const int i, const int j,
-                                            const double velocity_u, const double velocity_v, const double dye) {
+                                            const double velocity_x, const double velocity_y, const double dye) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<InletBoundaryFace>(velocity_u, velocity_v, dye, Orientation::Horizontal);
+        m_faces_x[i][j] = std::make_unique<InletBoundaryFace>(velocity_x, velocity_y, dye, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<InletBoundaryFace>(velocity_u, velocity_v, dye, Orientation::Vertical);
+        m_faces_y[i][j] = std::make_unique<InletBoundaryFace>(velocity_x, velocity_y, dye, Orientation::Vertical);
     }
 }
 
