@@ -51,13 +51,13 @@ void MomentumCoefficients::calculate_coefficients(const VelocityComponent veloci
     if (velocity_component == VelocityComponent::U) {
         // Under-relaxation
         coefficients.center /= velocity_u_relaxation;
-        coefficients.source += (1 - velocity_u_relaxation) * coefficients.center * m_node->get_velocity_x();
+        coefficients.source += (1 - velocity_u_relaxation) * coefficients.center * m_node->get_field_value(Field::VelocityX);
 
         m_coefficients_u = coefficients;
     } else {
         // Under-relaxation
         coefficients.center /= velocity_v_relaxation;
-        coefficients.source += (1 - velocity_v_relaxation) * coefficients.center * m_node->get_velocity_y();
+        coefficients.source += (1 - velocity_v_relaxation) * coefficients.center * m_node->get_field_value(Field::VelocityY);
 
         m_coefficients_v = coefficients;
     }

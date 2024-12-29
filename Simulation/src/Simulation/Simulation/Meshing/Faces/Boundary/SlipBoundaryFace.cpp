@@ -6,7 +6,7 @@ double SlipBoundaryFace::get_velocity_u() const {
     if (m_orientation == Orientation::Horizontal) {
         return 0.0;
     } else {
-        return m_node_neighbour->get_velocity_x();
+        return m_node_neighbour->get_field_value(Field::VelocityX);
     }
 }
 
@@ -14,18 +14,18 @@ double SlipBoundaryFace::get_velocity_v() const {
     if (m_orientation == Orientation::Vertical) {
         return 0.0;
     } else {
-        return m_node_neighbour->get_velocity_y();
+        return m_node_neighbour->get_field_value(Field::VelocityY);
     }
 }
 
 double SlipBoundaryFace::get_dye() const {
-    return m_node_neighbour->get_dye();
+    return m_node_neighbour->get_field_value(Field::Dye);
 }
 
 double SlipBoundaryFace::get_pressure_correction() const {
-    return m_node_neighbour->get_pressure_correction();
+    return m_node_neighbour->get_field_value(Field::PressureCorrection);
 }
 
 double SlipBoundaryFace::get_pressure() const {
-    return m_node_neighbour->get_pressure();
+    return m_node_neighbour->get_field_value(Field::Pressure);
 }

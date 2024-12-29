@@ -42,7 +42,7 @@ void InteriorFace::set_dye(const double dye) {
 }
 
 void InteriorFace::update_dye() {
-    m_dye = 0.5 * (m_node_neighbours[0]->get_dye() + m_node_neighbours[1]->get_dye());
+    m_dye = 0.5 * (m_node_neighbours[0]->get_field_value(Field::Dye) + m_node_neighbours[1]->get_field_value(Field::Dye));
 }
 
 double InteriorFace::get_pressure() const {
@@ -50,7 +50,7 @@ double InteriorFace::get_pressure() const {
 }
 
 void InteriorFace::update_pressure_correction() {
-    m_pressure_correction = 0.5 * (m_node_neighbours[0]->get_pressure_correction() + m_node_neighbours[1]->get_pressure_correction());
+    m_pressure_correction = 0.5 * (m_node_neighbours[0]->get_field_value(Field::PressureCorrection) + m_node_neighbours[1]->get_field_value(Field::PressureCorrection));
 }
 
 double InteriorFace::get_pressure_correction() const {
@@ -58,5 +58,5 @@ double InteriorFace::get_pressure_correction() const {
 }
 
 void InteriorFace::update_pressure() {
-    m_pressure = 0.5 * (m_node_neighbours[0]->get_pressure() + m_node_neighbours[1]->get_pressure());
+    m_pressure = 0.5 * (m_node_neighbours[0]->get_field_value(Field::Pressure) + m_node_neighbours[1]->get_field_value(Field::Pressure));
 }

@@ -1,5 +1,6 @@
 #include "Node.hpp"
 
+#include <iostream>
 #include <memory>
 
 #include "../../../common.hpp"
@@ -25,14 +26,6 @@ Node::Node(const double viscosity, const double density, const double dx, const 
     m_previous_timestep_pressure = m_pressure;
 }
 
-void Node::set_velocity_x(const double velocity_u) {
-    m_velocity_x = velocity_u;
-}
-
-double Node::get_velocity_x() const {
-    return m_velocity_x;
-}
-
 void Node::set_previous_timestep_velocity_x(const double velocity) {
     m_previous_timestep_velocity_x = velocity;
 }
@@ -41,28 +34,12 @@ double Node::get_previous_timestep_velocity_x() const {
     return m_previous_timestep_velocity_x;
 }
 
-void Node::set_velocity_y(const double velocity_v) {
-    m_velocity_y = velocity_v;
-}
-
-double Node::get_velocity_y() const {
-    return m_velocity_y;
-}
-
 void Node::set_previous_timestep_velocity_y(const double velocity) {
     m_previous_timestep_velocity_y = velocity;
 }
 
 double Node::get_previous_timestep_velocity_y() const {
     return m_previous_timestep_velocity_y;
-}
-
-void Node::set_pressure(const double pressure) {
-    m_pressure = pressure;
-}
-
-double Node::get_pressure() const {
-    return m_pressure;
 }
 
 void Node::set_previous_timestep_pressure(const double pressure) {
@@ -97,14 +74,6 @@ double Node::get_density() const {
     return m_density;
 }
 
-double Node::get_dye() const {
-    return m_dye;
-}
-
-void Node::set_dye(const double dye) {
-    m_dye = dye;
-}
-
 void Node::set_previous_timestep_dye(const double dye) {
     m_previous_timestep_dye = dye;
 }
@@ -113,12 +82,57 @@ double Node::get_previous_timestep_dye() const {
     return m_previous_timestep_dye;
 }
 
-double Node::get_pressure_correction() const {
-    return m_pressure_correction;
+double Node::get_field_value(const Field field) const {
+    switch (field) {
+        case Field::VelocityX: {
+            return m_velocity_x;
+        }
+        case Field::VelocityY: {
+            return m_velocity_y;
+        }
+        case Field::Pressure: {
+            return m_pressure;
+        }
+        case Field::PressureCorrection: {
+            return m_pressure_correction;
+        }
+        case Field::Dye: {
+            return m_dye;
+        }
+        default: {
+            std::cerr << "Invalid field type" << std::endl;
+            exit(1);
+        }
+    }
 }
 
-void Node::set_pressure_correction(const double pressure_correction) {
-    m_pressure_correction = pressure_correction;
+void Node::set_field_value(const Field field, const double value) {
+    switch (field) {
+        case Field::VelocityX: {
+            m_velocity_x = value;
+            break;
+        }
+        case Field::VelocityY: {
+            m_velocity_y = value;
+            break;
+        }
+        case Field::Pressure: {
+            m_pressure = value;
+            break;
+        }
+        case Field::PressureCorrection: {
+            m_pressure_correction = value;
+            break;
+        }
+        case Field::Dye: {
+            m_dye = value;
+            break;
+        }
+        default: {
+            std::cerr << "Invalid field type" << std::endl;
+            exit(1);
+        }
+    }
 }
 
 void Node::apply_pressure_correction() {

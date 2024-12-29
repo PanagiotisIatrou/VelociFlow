@@ -63,16 +63,7 @@ void Saver::write_field(const Field field) const {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
             const Node *node_P = m_mesh->get_node(i, j);
             if (node_P != nullptr) {
-                double value;
-                if (field == Field::VelocityX) {
-                    value = node_P->get_velocity_x();
-                } else if (field == Field::VelocityY) {
-                    value = node_P->get_velocity_y();
-                } else if (field == Field::Pressure) {
-                    value = node_P->get_pressure();
-                } else if (field == Field::Dye) {
-                    value = node_P->get_dye();
-                }
+                const double value = node_P->get_field_value(field);
                 fprintf(m_file, "%d,%d,%f\n", i, j, value);
             } else {
                 fprintf(m_file, "%d,%d,-\n", i, j);

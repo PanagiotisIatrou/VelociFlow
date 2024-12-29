@@ -42,25 +42,13 @@ protected:
 public:
     Node(double viscosity, double density, double dx, double dy, double velocity_u, double velocity_v, double pressure, double dye);
 
-    void set_velocity_x(double velocity_u);
-
-    double get_velocity_x() const;
-
     void set_previous_timestep_velocity_x(double velocity);
 
     double get_previous_timestep_velocity_x() const;
 
-    void set_velocity_y(double velocity_v);
-
-    double get_velocity_y() const;
-
     void set_previous_timestep_velocity_y(double velocity);
 
     double get_previous_timestep_velocity_y() const;
-
-    void set_pressure(double pressure);
-
-    double get_pressure() const;
 
     void set_previous_timestep_pressure(double pressure);
 
@@ -78,19 +66,13 @@ public:
 
     double get_density() const;
 
-    double get_dye() const;
-
-    void set_dye(double dye);
-
     void set_previous_timestep_dye(double dye);
 
     double get_previous_timestep_dye() const;
 
-    double get_pressure_correction() const;
-
-    void set_pressure_correction(double pressure_correction);
-
     double get_field_value(Field field) const;
+
+    void set_field_value(Field field, double value);
 
     void apply_pressure_correction();
 

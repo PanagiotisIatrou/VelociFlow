@@ -21,13 +21,13 @@ double MovingWallBoundaryFace::get_velocity_v() const {
 }
 
 double MovingWallBoundaryFace::get_dye() const {
-    return m_node_neighbour->get_dye();
+    return m_node_neighbour->get_field_value(Field::Dye);
 }
 
 double MovingWallBoundaryFace::get_pressure_correction() const {
-    return m_node_neighbour->get_pressure_correction();
+    return m_node_neighbour->get_field_value(Field::PressureCorrection);
 }
 
 double MovingWallBoundaryFace::get_pressure() const {
-    return m_node_neighbour->get_pressure();
+    return m_node_neighbour->get_field_value(Field::Pressure);
 }

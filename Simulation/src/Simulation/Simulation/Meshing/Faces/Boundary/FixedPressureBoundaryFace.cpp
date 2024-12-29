@@ -7,15 +7,15 @@ FixedPressureBoundaryFace::FixedPressureBoundaryFace(const double pressure, cons
 }
 
 double FixedPressureBoundaryFace::get_velocity_u() const {
-    return m_node_neighbour->get_velocity_x();
+    return m_node_neighbour->get_field_value(Field::VelocityX);
 }
 
 double FixedPressureBoundaryFace::get_velocity_v() const {
-    return m_node_neighbour->get_velocity_y();
+    return m_node_neighbour->get_field_value(Field::VelocityY);
 }
 
 double FixedPressureBoundaryFace::get_dye() const {
-    return m_node_neighbour->get_dye();
+    return m_node_neighbour->get_field_value(Field::Dye);
 }
 
 double FixedPressureBoundaryFace::get_pressure_correction() const {

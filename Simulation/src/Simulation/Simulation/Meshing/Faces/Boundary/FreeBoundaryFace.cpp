@@ -6,21 +6,21 @@ FreeBoundaryFace::FreeBoundaryFace(const Orientation orientation) : BoundaryFace
 }
 
 double FreeBoundaryFace::get_velocity_u() const {
-    return m_node_neighbour->get_velocity_x();
+    return m_node_neighbour->get_field_value(Field::VelocityX);
 }
 
 double FreeBoundaryFace::get_velocity_v() const {
-    return m_node_neighbour->get_velocity_y();
+    return m_node_neighbour->get_field_value(Field::VelocityY);
 }
 
 double FreeBoundaryFace::get_dye() const {
-    return m_node_neighbour->get_dye();
+    return m_node_neighbour->get_field_value(Field::Dye);
 }
 
 double FreeBoundaryFace::get_pressure_correction() const {
-    return m_node_neighbour->get_pressure_correction();
+    return m_node_neighbour->get_field_value(Field::PressureCorrection);
 }
 
 double FreeBoundaryFace::get_pressure() const {
-    return m_node_neighbour->get_pressure();
+    return m_node_neighbour->get_field_value(Field::Pressure);
 }
