@@ -2,7 +2,7 @@
 
 enum class SimulationType { Steady, Unsteady };
 
-enum class Field { VelocityX, VelocityY, Pressure, PressureCorrection, Dye };
+enum class Field { VelocityX, VelocityY, Pressure, PressureCorrection, Dye, Density, Viscosity };
 
 enum class Variable { VelocityX, VelocityY, Pressure, Dye };
 

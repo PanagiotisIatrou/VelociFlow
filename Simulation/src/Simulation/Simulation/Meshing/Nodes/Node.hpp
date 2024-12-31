@@ -54,10 +54,6 @@ public:
 
     double set_previous_timestep_variable_value(Variable variable, double value);
 
-    double get_viscosity() const;
-
-    double get_density() const;
-
     double get_field_value(Field field) const;
 
     void set_field_value(Field field, double value);

@@ -88,14 +88,6 @@ double Node::set_previous_timestep_variable_value(Variable variable, double valu
     }
 }
 
-double Node::get_viscosity() const {
-    return m_viscosity;
-}
-
-double Node::get_density() const {
-    return m_density;
-}
-
 double Node::get_field_value(const Field field) const {
     switch (field) {
         case Field::VelocityX: {
@@ -112,6 +104,12 @@ double Node::get_field_value(const Field field) const {
         }
         case Field::Dye: {
             return m_dye;
+        }
+        case Field::Density: {
+            return m_density;
+        }
+        case Field::Viscosity: {
+            return m_viscosity;
         }
         default: {
             std::cerr << "Invalid field type" << std::endl;
@@ -140,6 +138,14 @@ void Node::set_field_value(const Field field, const double value) {
         }
         case Field::Dye: {
             m_dye = value;
+            break;
+        }
+        case Field::Density: {
+            m_density = value;
+            break;
+        }
+        case Field::Viscosity: {
+            m_viscosity = value;
             break;
         }
         default: {

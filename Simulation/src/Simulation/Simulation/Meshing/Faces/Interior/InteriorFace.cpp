@@ -14,7 +14,7 @@ void InteriorFace::set_dt(const double dt) {
 }
 
 void InteriorFace::update_viscosity() {
-    m_viscosity = 0.5 * (m_node_neighbours[0]->get_viscosity() + m_node_neighbours[1]->get_viscosity());
+    m_viscosity = 0.5 * (m_node_neighbours[0]->get_field_value(Field::Viscosity) + m_node_neighbours[1]->get_field_value(Field::Viscosity));
 }
 
 double InteriorFace::get_viscosity() const {
@@ -22,7 +22,7 @@ double InteriorFace::get_viscosity() const {
 }
 
 void InteriorFace::update_density() {
-    m_density = 0.5 * (m_node_neighbours[0]->get_density() + m_node_neighbours[1]->get_density());
+    m_density = 0.5 * (m_node_neighbours[0]->get_field_value(Field::Density) + m_node_neighbours[1]->get_field_value(Field::Density));
 }
 
 double InteriorFace::get_density() const {
