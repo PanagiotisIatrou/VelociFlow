@@ -22,11 +22,9 @@ protected:
 public:
     InteriorFace(double dx, double dy, Orientation orientation);
 
-    double get_velocity() const;
-
-    void set_velocity(double velocity);
-
     void set_dt(double dt);
+
+    double get_velocity() const;
 
     virtual void update_velocity_distance_weighted() = 0;
 
@@ -40,19 +38,13 @@ public:
 
     double get_density() const override;
 
-    double get_dye() const override;
-
-    void set_dye(double dye);
-
     void update_dye();
 
-    double get_pressure() const override;
-
     void update_pressure_correction();
-
-    double get_pressure_correction() const override;
 
     void update_pressure();
 
     virtual void correct_velocity() = 0;
+
+    double get_field_value(Field field) const override = 0;
 };

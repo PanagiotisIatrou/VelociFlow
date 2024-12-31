@@ -56,18 +56,8 @@ Coefficients ConvectionCoefficients::get_upwind_convection_effects(const Directi
         coefficients.add_to_coefficient(direction, extra);
         coefficients.center += extra - dir_sign * flow_rate;
     } else {
-        double face_value;
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
-        if (field == Field::VelocityX) {
-            face_value = boundary_face->get_velocity_x();
-        } else if (field == Field::VelocityY) {
-            face_value = boundary_face->get_velocity_y();
-        } else if (field == Field::Dye) {
-            face_value = boundary_face->get_dye();
-        } else {
-            std::cerr << std::endl << "Field not recognised" << std::endl;
-            exit(1);
-        }
+        const double face_value = boundary_face->get_field_value(field);
         coefficients.source += dir_sign * flow_rate * face_value;
     }
 
@@ -92,18 +82,8 @@ Coefficients ConvectionCoefficients::get_central_differencing_convection_effects
         coefficients.add_to_coefficient(direction, extra);
         coefficients.center += extra - dir_sign * flow_rate;
     } else {
-        double face_value;
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
-        if (field == Field::VelocityX) {
-            face_value = boundary_face->get_velocity_x();
-        } else if (field == Field::VelocityY) {
-            face_value = boundary_face->get_velocity_y();
-        } else if (field == Field::Dye) {
-            face_value = boundary_face->get_dye();
-        } else {
-            std::cerr << std::endl << "Field not recognised" << std::endl;
-            exit(1);
-        }
+        const double face_value = boundary_face->get_field_value(field);
         coefficients.source += -dir_sign * flow_rate * face_value;
     }
 
@@ -142,18 +122,8 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
             const Node *opposite_node = m_node->get_neighbouring_node(opposite_direction);
             opposite_node_value = opposite_node->get_field_value(field);
         } else {
-            double boundary_value;
             const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(opposite_direction_face);
-            if (field == Field::VelocityX) {
-                boundary_value = boundary_face->get_velocity_x();
-            } else if (field == Field::VelocityY) {
-                boundary_value = boundary_face->get_velocity_y();
-            } else if (field == Field::Dye) {
-                boundary_value = boundary_face->get_dye();
-            } else {
-                std::cerr << std::endl << "Field not recognised" << std::endl;
-                exit(1);
-            }
+            const double boundary_value = boundary_face->get_field_value(field);
             opposite_node_value = 2 * boundary_value - node_value;
         }
 
@@ -170,19 +140,8 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
             extended_node_value = extended_node->get_field_value(field);
         } else {
             // Mirror node
-            double boundary_value;
             const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(extended_direction_face);
-            if (field == Field::VelocityX) {
-                boundary_value = boundary_face->get_velocity_x();
-            } else if (field == Field::VelocityY) {
-                boundary_value = boundary_face->get_velocity_y();
-            } else if (field == Field::Dye) {
-                boundary_value = boundary_face->get_dye();
-            } else {
-                std::cerr << std::endl << "Field not recognised" << std::endl;
-                exit(1);
-            }
-
+            const double boundary_value = boundary_face->get_field_value(field);
             extended_node_value = 2 * boundary_value - direction_node_value;
         }
 
@@ -194,18 +153,8 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
         coefficients.source += dir_sign * (1.0 / 8.0) * fac2 * flow_rate * (
             3 * direction_node_value - 2 * node_value - opposite_node_value);
     } else {
-        double face_velocity;
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
-        if (field == Field::VelocityX) {
-            face_velocity = boundary_face->get_velocity_x();
-        } else if (field == Field::VelocityY) {
-            face_velocity = boundary_face->get_velocity_y();
-        } else if (field == Field::Dye) {
-            face_velocity = boundary_face->get_dye();
-        } else {
-            std::cerr << std::endl << "Field not recognised" << std::endl;
-            exit(1);
-        }
+        const double face_velocity = boundary_face->get_field_value(field);
         coefficients.source += dir_sign * flow_rate * face_velocity;
     }
 

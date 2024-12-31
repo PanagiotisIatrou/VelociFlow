@@ -19,9 +19,9 @@ Orientation Face::get_orientation() const {
 double Face::get_normal_velocity() {
     if (m_face_type == FaceType::Boundary) {
         if (m_orientation == Orientation::Horizontal) {
-            return static_cast<BoundaryFace *>(this)->get_velocity_x();
+            return static_cast<BoundaryFace *>(this)->get_field_value(Field::VelocityX);
         } else {
-            return static_cast<BoundaryFace *>(this)->get_velocity_y();
+            return static_cast<BoundaryFace *>(this)->get_field_value(Field::VelocityY);
         }
     } else {
         return static_cast<InteriorFace *>(this)->get_velocity();

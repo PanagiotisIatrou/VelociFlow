@@ -1,33 +1,39 @@
 #include "MovingWallBoundaryFace.hpp"
 
+#include <iostream>
+
 MovingWallBoundaryFace::MovingWallBoundaryFace(const double velocity, const Orientation orientation) : BoundaryFace(BoundaryType::MovingWall, orientation) {
     m_velocity = velocity;
 }
 
-double MovingWallBoundaryFace::get_velocity_x() const {
-    if (m_orientation == Orientation::Horizontal) {
-        return 0.0;
-    } else {
-        return m_velocity;
+double MovingWallBoundaryFace::get_field_value(const Field field) const {
+    switch (field) {
+        case Field::VelocityX : {
+            if (m_orientation == Orientation::Horizontal) {
+                return 0.0;
+            } else {
+                return m_velocity;
+            }
+        }
+        case Field::VelocityY : {
+            if (m_orientation == Orientation::Vertical) {
+                return 0.0;
+            } else {
+                return m_velocity;
+            };
+        }
+        case Field::Pressure : {
+            return m_node_neighbour->get_field_value(Field::Pressure);
+        }
+        case Field::PressureCorrection : {
+            return m_node_neighbour->get_field_value(Field::PressureCorrection);
+        }
+        case Field::Dye : {
+            return m_node_neighbour->get_field_value(Field::Dye);
+        }
+        default : {
+            std::cerr << std::endl << "Field not recognised" << std::endl;
+            exit(1);
+        }
     }
-}
-
-double MovingWallBoundaryFace::get_velocity_y() const {
-    if (m_orientation == Orientation::Vertical) {
-        return 0.0;
-    } else {
-        return m_velocity;
-    }
-}
-
-double MovingWallBoundaryFace::get_dye() const {
-    return m_node_neighbour->get_field_value(Field::Dye);
-}
-
-double MovingWallBoundaryFace::get_pressure_correction() const {
-    return m_node_neighbour->get_field_value(Field::PressureCorrection);
-}
-
-double MovingWallBoundaryFace::get_pressure() const {
-    return m_node_neighbour->get_field_value(Field::Pressure);
 }

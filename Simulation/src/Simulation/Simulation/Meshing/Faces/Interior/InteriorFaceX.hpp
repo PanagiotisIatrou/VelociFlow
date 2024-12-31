@@ -17,4 +17,6 @@ public:
     void update_velocity_rhie_chow() override;
 
     void correct_velocity() override;
+
+    double get_field_value(Field field) const override;
 };

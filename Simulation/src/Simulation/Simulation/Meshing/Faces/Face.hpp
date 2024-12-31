@@ -1,5 +1,7 @@
 #pragma once
 
+enum class Field;
+
 enum class FaceType { Interior, Boundary };
 
 enum class Orientation { Horizontal, Vertical };
@@ -23,9 +25,5 @@ public:
 
     virtual double get_density() const = 0;
 
-    virtual double get_dye() const = 0;
-
-    virtual double get_pressure() const = 0;
-
-    virtual double get_pressure_correction() const = 0;
+    virtual double get_field_value(Field field) const = 0;
 };

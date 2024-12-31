@@ -42,18 +42,8 @@ Coefficients DiffusionCoefficients::get_central_differencing_diffusion_effects(c
         coefficients.add_to_coefficient(direction, flux);
         coefficients.center += flux;
     } else {
-        double face_value;
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
-        if (field == Field::VelocityX) {
-            face_value = boundary_face->get_velocity_x();
-        } else if (field == Field::VelocityY) {
-            face_value = boundary_face->get_velocity_y();
-        } else if (field == Field::Dye) {
-            face_value = boundary_face->get_dye();
-        } else {
-            std::cerr << std::endl << "Field not recognised" << std::endl;
-            exit(1);
-        }
+        const double face_value = boundary_face->get_field_value(field);
         const double extra = 2.0 * flux;
         coefficients.center += extra;
         coefficients.source += face_value * extra;

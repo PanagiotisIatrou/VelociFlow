@@ -140,8 +140,8 @@ void Node::apply_pressure_correction() {
 }
 
 void Node::correct_velocity_x() {
-    const double pressure_correction_w = get_neighbouring_face(Direction::West)->get_pressure_correction();
-    const double pressure_correction_e = get_neighbouring_face(Direction::East)->get_pressure_correction();
+    const double pressure_correction_w = get_neighbouring_face(Direction::West)->get_field_value(Field::PressureCorrection);
+    const double pressure_correction_e = get_neighbouring_face(Direction::East)->get_field_value(Field::PressureCorrection);
     const double momentum_x_a_P = get_momentum_coefficient(CoefficientType::Center, VelocityComponent::U);
     const double correction = m_dt * m_dy * (pressure_correction_w - pressure_correction_e) / momentum_x_a_P;
 
@@ -149,8 +149,8 @@ void Node::correct_velocity_x() {
 }
 
 void Node::correct_velocity_y() {
-    const double pressure_correction_s = get_neighbouring_face(Direction::South)->get_pressure_correction();
-    const double pressure_correction_n = get_neighbouring_face(Direction::North)->get_pressure_correction();
+    const double pressure_correction_s = get_neighbouring_face(Direction::South)->get_field_value(Field::PressureCorrection);
+    const double pressure_correction_n = get_neighbouring_face(Direction::North)->get_field_value(Field::PressureCorrection);
     const double momentum_y_a_P = get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
     const double correction = m_dt * m_dx * (pressure_correction_s - pressure_correction_n) / momentum_y_a_P;
 

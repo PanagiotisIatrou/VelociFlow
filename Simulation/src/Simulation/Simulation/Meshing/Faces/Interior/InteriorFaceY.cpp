@@ -1,5 +1,7 @@
 #include "InteriorFaceY.hpp"
 
+#include <iostream>
+
 #include "../../Nodes/Node.hpp"
 
 InteriorFaceY::InteriorFaceY(const double dx, const double dy) : InteriorFace(dx, dy, Orientation::Vertical) {
@@ -31,13 +33,13 @@ void InteriorFaceY::update_velocity_rhie_chow() {
     const double momentum_y_a_N = node_N->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
 
     const Face *face_s = node_P->get_neighbouring_face(Direction::South);
-    const double pressure_s = face_s->get_pressure();
+    const double pressure_s = face_s->get_field_value(Field::Pressure);
 
     const Face *face_n = node_P->get_neighbouring_face(Direction::North);
-    const double pressure_n = face_n->get_pressure();
+    const double pressure_n = face_n->get_field_value(Field::Pressure);
 
     const Face *face_nn = node_N->get_neighbouring_face(Direction::North);
-    const double pressure_nn = face_nn->get_pressure();
+    const double pressure_nn = face_nn->get_field_value(Field::Pressure);
 
     const double velocity_y_n = 0.5 * (velocity_y_P + velocity_y_N) + 0.5 * m_dt * m_dx * (
                                     (pressure_n - pressure_s) / momentum_y_a_P
@@ -58,4 +60,25 @@ void InteriorFaceY::correct_velocity() {
                       * (node_P->get_field_value(Field::PressureCorrection) - node_N->get_field_value(Field::PressureCorrection));
 
     m_velocity += correction;
+}
+
+double InteriorFaceY::get_field_value(const Field field) const {
+    switch (field) {
+        case Field::VelocityY: {
+            return m_velocity;
+        }
+        case Field::Pressure: {
+            return m_pressure;
+        }
+        case Field::PressureCorrection: {
+            return m_pressure_correction;
+        }
+        case Field::Dye: {
+            return m_dye;
+        }
+        default: {
+            std::cerr << "Field not recognised" << std::endl;
+            exit(1);
+        }
+    }
 }

@@ -9,10 +9,6 @@ double InteriorFace::get_velocity() const {
     return m_velocity;
 }
 
-void InteriorFace::set_velocity(const double velocity) {
-    m_velocity = velocity;
-}
-
 void InteriorFace::set_dt(const double dt) {
     m_dt = dt;
 }
@@ -33,28 +29,12 @@ double InteriorFace::get_density() const {
     return m_density;
 }
 
-double InteriorFace::get_dye() const {
-    return m_dye;
-}
-
-void InteriorFace::set_dye(const double dye) {
-    m_dye = dye;
-}
-
 void InteriorFace::update_dye() {
     m_dye = 0.5 * (m_node_neighbours[0]->get_field_value(Field::Dye) + m_node_neighbours[1]->get_field_value(Field::Dye));
 }
 
-double InteriorFace::get_pressure() const {
-    return m_pressure;
-}
-
 void InteriorFace::update_pressure_correction() {
     m_pressure_correction = 0.5 * (m_node_neighbours[0]->get_field_value(Field::PressureCorrection) + m_node_neighbours[1]->get_field_value(Field::PressureCorrection));
-}
-
-double InteriorFace::get_pressure_correction() const {
-    return m_pressure_correction;
 }
 
 void InteriorFace::update_pressure() {

@@ -6,13 +6,5 @@ class FreeBoundaryFace : public BoundaryFace {
 public:
     FreeBoundaryFace(Orientation orientation);
 
-    double get_velocity_x() const override;
-
-    double get_velocity_y() const override;
-
-    double get_dye() const override;
-
-    double get_pressure_correction() const override;
-
-    double get_pressure() const override;
+    double get_field_value(Field field) const override;
 };
