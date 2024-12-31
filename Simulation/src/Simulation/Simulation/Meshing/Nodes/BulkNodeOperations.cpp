@@ -46,7 +46,7 @@ void BulkNodeOperations::update_node_previous_timestep_velocity_x() const {
                 continue;
             }
 
-            node_P->set_previous_timestep_velocity_x(node_P->get_field_value(Field::VelocityX));
+            node_P->set_previous_timestep_variable_value(Variable::VelocityX, node_P->get_field_value(Field::VelocityX));
         }
     }
 }
@@ -61,7 +61,7 @@ void BulkNodeOperations::update_node_previous_timestep_velocity_y() const {
                 continue;
             }
 
-            node_P->set_previous_timestep_velocity_y(node_P->get_field_value(Field::VelocityY));
+            node_P->set_previous_timestep_variable_value(Variable::VelocityY, node_P->get_field_value(Field::VelocityY));
         }
     }
 }
@@ -91,7 +91,7 @@ void BulkNodeOperations::update_node_previous_timestep_pressure() const {
                 continue;
             }
 
-            node_P->set_previous_timestep_pressure(node_P->get_field_value(Field::Pressure));
+            node_P->set_previous_timestep_variable_value(Variable::Pressure, node_P->get_field_value(Field::Pressure));
         }
     }
 }
@@ -106,7 +106,7 @@ void BulkNodeOperations::update_node_previous_timestep_dye() const {
                 continue;
             }
 
-            node_P->set_previous_timestep_dye(node_P->get_field_value(Field::Dye));
+            node_P->set_previous_timestep_variable_value(Variable::Dye, node_P->get_field_value(Field::Dye));
         }
     }
 }

@@ -13,10 +13,13 @@ ConvectionDiffusionCoefficients::ConvectionDiffusionCoefficients(Node *node) {
 void ConvectionDiffusionCoefficients::calculate_coefficients(const SimulationType simulation_type,
                                                              const VelocityComponent velocity_component) {
     Field field;
+    Variable variable;
     if (velocity_component == VelocityComponent::U) {
         field = Field::VelocityX;
+        variable = Variable::VelocityX;
     } else {
         field = Field::VelocityY;
+        variable = Variable::VelocityY;
     }
 
     // Diffusion
@@ -30,12 +33,7 @@ void ConvectionDiffusionCoefficients::calculate_coefficients(const SimulationTyp
     // Time
     Coefficients time_coefficients = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     if (simulation_type == SimulationType::Unsteady) {
-        double previous_value;
-        if (velocity_component == VelocityComponent::U) {
-            previous_value = m_node->get_previous_timestep_velocity_x();
-        } else {
-            previous_value = m_node->get_previous_timestep_velocity_y();
-        }
+        double previous_value = m_node->get_previous_timestep_variable_value(variable);
         time_coefficients = m_time_coefficients->get_time_effects(previous_value);
     }
 

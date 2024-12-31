@@ -15,13 +15,13 @@ protected:
     double m_velocity_x;
     double m_velocity_y;
     double m_pressure;
+    double m_dye;
     double m_previous_timestep_velocity_x;
     double m_previous_timestep_velocity_y;
     double m_previous_timestep_pressure;
+    double m_previous_timestep_dye;
     double m_viscosity;
     double m_density;
-    double m_dye;
-    double m_previous_timestep_dye;
     double m_dx; // TODO: Remove in the future
     double m_dy; // TODO: Remove in the future
     double m_dt = 1.0;
@@ -42,18 +42,6 @@ protected:
 public:
     Node(double viscosity, double density, double dx, double dy, double velocity_x, double velocity_y, double pressure, double dye);
 
-    void set_previous_timestep_velocity_x(double velocity);
-
-    double get_previous_timestep_velocity_x() const;
-
-    void set_previous_timestep_velocity_y(double velocity);
-
-    double get_previous_timestep_velocity_y() const;
-
-    void set_previous_timestep_pressure(double pressure);
-
-    double get_previous_timestep_pressure() const;
-
     double get_dx() const;
 
     double get_dy() const;
@@ -62,13 +50,13 @@ public:
 
     void set_dt(double dt);
 
+    double get_previous_timestep_variable_value(Variable variable) const;
+
+    double set_previous_timestep_variable_value(Variable variable, double value);
+
     double get_viscosity() const;
 
     double get_density() const;
-
-    void set_previous_timestep_dye(double dye);
-
-    double get_previous_timestep_dye() const;
 
     double get_field_value(Field field) const;
 

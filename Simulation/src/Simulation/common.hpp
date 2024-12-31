@@ -4,6 +4,8 @@ enum class SimulationType { Steady, Unsteady };
 
 enum class Field { VelocityX, VelocityY, Pressure, PressureCorrection, Dye };
 
+enum class Variable { VelocityX, VelocityY, Pressure, Dye };
+
 enum class Direction { West = 0, East = 1, South = 2, North = 3, WestWest = 4, EastEast = 5, SouthSouth = 6, NorthNorth = 7 };
 inline extern const int direction_start = 0;
 inline extern const int direction_near_end = 4;

@@ -26,30 +26,6 @@ Node::Node(const double viscosity, const double density, const double dx, const 
     m_previous_timestep_pressure = m_pressure;
 }
 
-void Node::set_previous_timestep_velocity_x(const double velocity) {
-    m_previous_timestep_velocity_x = velocity;
-}
-
-double Node::get_previous_timestep_velocity_x() const {
-    return m_previous_timestep_velocity_x;
-}
-
-void Node::set_previous_timestep_velocity_y(const double velocity) {
-    m_previous_timestep_velocity_y = velocity;
-}
-
-double Node::get_previous_timestep_velocity_y() const {
-    return m_previous_timestep_velocity_y;
-}
-
-void Node::set_previous_timestep_pressure(const double pressure) {
-    m_previous_timestep_pressure = pressure;
-}
-
-double Node::get_previous_timestep_pressure() const {
-    return m_previous_timestep_pressure;
-}
-
 double Node::get_dx() const {
     return m_dx;
 }
@@ -66,20 +42,58 @@ void Node::set_dt(const double dt) {
     m_dt = dt;
 }
 
+double Node::get_previous_timestep_variable_value(Variable variable) const {
+    switch (variable) {
+        case Variable::VelocityX: {
+            return m_previous_timestep_velocity_x;
+        }
+        case Variable::VelocityY: {
+            return m_previous_timestep_velocity_y;
+        }
+        case Variable::Pressure: {
+            return m_previous_timestep_pressure;
+        }
+        case Variable::Dye: {
+            return m_previous_timestep_dye;
+        }
+        default: {
+            std::cerr << "Invalid variable type" << std::endl;
+            exit(1);
+        }
+    }
+}
+
+double Node::set_previous_timestep_variable_value(Variable variable, double value) {
+    switch (variable) {
+        case Variable::VelocityX: {
+            m_previous_timestep_velocity_x = value;
+            break;
+        }
+        case Variable::VelocityY: {
+            m_previous_timestep_velocity_y = value;
+            break;
+        }
+        case Variable::Pressure: {
+            m_previous_timestep_pressure = value;
+            break;
+        }
+        case Variable::Dye: {
+            m_previous_timestep_dye = value;
+            break;
+        }
+        default: {
+            std::cerr << "Invalid variable type" << std::endl;
+            exit(1);
+        }
+    }
+}
+
 double Node::get_viscosity() const {
     return m_viscosity;
 }
 
 double Node::get_density() const {
     return m_density;
-}
-
-void Node::set_previous_timestep_dye(const double dye) {
-    m_previous_timestep_dye = dye;
-}
-
-double Node::get_previous_timestep_dye() const {
-    return m_previous_timestep_dye;
 }
 
 double Node::get_field_value(const Field field) const {
