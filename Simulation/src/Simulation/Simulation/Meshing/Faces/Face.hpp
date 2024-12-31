@@ -21,9 +21,5 @@ public:
 
     double get_normal_velocity();
 
-    virtual double get_viscosity() const = 0;
-
-    virtual double get_density() const = 0;
-
     virtual double get_field_value(Field field) const = 0;
 };

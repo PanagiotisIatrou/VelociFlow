@@ -32,11 +32,7 @@ public:
 
     void update_viscosity();
 
-    double get_viscosity() const override;
-
     void update_density();
-
-    double get_density() const override;
 
     void update_dye();
 

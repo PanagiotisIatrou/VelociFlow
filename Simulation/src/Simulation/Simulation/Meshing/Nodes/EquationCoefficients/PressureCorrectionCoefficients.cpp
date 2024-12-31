@@ -21,11 +21,11 @@ void PressureCorrectionCoefficients::calculate_coefficients() {
     if (face_w->get_face_type() == FaceType::Boundary) {
         const BoundaryFace *boundary_face_w = static_cast<BoundaryFace *>(face_w);
         velocity_w = boundary_face_w->get_field_value(Field::VelocityX);
-        density_w = boundary_face_w->get_density();
+        density_w = boundary_face_w->get_field_value(Field::Density);
     } else {
         const InteriorFace *interior_face_w = static_cast<InteriorFace *>(face_w);
         velocity_w = interior_face_w->get_velocity();
-        density_w = interior_face_w->get_density();
+        density_w = interior_face_w->get_field_value(Field::Density);
     }
 
     // Velocity/density e
@@ -34,11 +34,11 @@ void PressureCorrectionCoefficients::calculate_coefficients() {
     if (face_e->get_face_type() == FaceType::Boundary) {
         const BoundaryFace *boundary_face_e = static_cast<BoundaryFace *>(face_e);
         velocity_e = boundary_face_e->get_field_value(Field::VelocityX);
-        density_e = boundary_face_e->get_density();
+        density_e = boundary_face_e->get_field_value(Field::Density);
     } else {
         const InteriorFace *interior_face_e = static_cast<InteriorFace *>(face_e);
         velocity_e = interior_face_e->get_velocity();
-        density_e = interior_face_e->get_density();
+        density_e = interior_face_e->get_field_value(Field::Density);
     }
 
     // Velocity/density s
@@ -47,11 +47,11 @@ void PressureCorrectionCoefficients::calculate_coefficients() {
     if (face_s->get_face_type() == FaceType::Boundary) {
         const BoundaryFace *boundary_face_s = static_cast<BoundaryFace *>(face_s);
         velocity_s = boundary_face_s->get_field_value(Field::VelocityY);
-        density_s = boundary_face_s->get_density();
+        density_s = boundary_face_s->get_field_value(Field::Density);
     } else {
         const InteriorFace *interior_face_s = static_cast<InteriorFace *>(face_s);
         velocity_s = interior_face_s->get_velocity();
-        density_s = interior_face_s->get_density();
+        density_s = interior_face_s->get_field_value(Field::Density);
     }
 
     // Velocity/density n
@@ -60,11 +60,11 @@ void PressureCorrectionCoefficients::calculate_coefficients() {
     if (face_n->get_face_type() == FaceType::Boundary) {
         const BoundaryFace *boundary_face_n = static_cast<BoundaryFace *>(face_n);
         velocity_n = boundary_face_n->get_field_value(Field::VelocityY);
-        density_n = boundary_face_n->get_density();
+        density_n = boundary_face_n->get_field_value(Field::Density);
     } else {
         const InteriorFace *interior_face_n = static_cast<InteriorFace *>(face_n);
         velocity_n = interior_face_n->get_velocity();
-        density_n = interior_face_n->get_density();
+        density_n = interior_face_n->get_field_value(Field::Density);
     }
 
     // Calculate the mass imbalance (source)

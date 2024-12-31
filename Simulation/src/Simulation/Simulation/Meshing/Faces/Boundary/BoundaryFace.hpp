@@ -20,8 +20,4 @@ public:
     Node *get_node_neighbour() const;
 
     virtual double get_field_value(Field field) const = 0;
-
-    double get_viscosity() const override;
-
-    double get_density() const override;
 };

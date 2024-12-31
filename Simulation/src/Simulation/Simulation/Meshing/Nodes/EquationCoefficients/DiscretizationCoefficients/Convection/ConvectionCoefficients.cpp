@@ -47,7 +47,7 @@ Coefficients ConvectionCoefficients::get_upwind_convection_effects(const Directi
                             : m_node->get_dx();
     double flow_rate = m_node->get_dt() * area * face->get_normal_velocity();
     if (m_include_density) {
-        flow_rate *= face->get_density();
+        flow_rate *= face->get_field_value(Field::Density);
     }
 
     const int dir_sign = direction == Direction::West || direction == Direction::South ? 1 : -1;
@@ -74,7 +74,7 @@ Coefficients ConvectionCoefficients::get_central_differencing_convection_effects
                             : m_node->get_dx();
     double flow_rate = m_node->get_dt() * area * face->get_normal_velocity();
     if (m_include_density) {
-        flow_rate *= face->get_density();
+        flow_rate *= face->get_field_value(Field::Density);
     }
     const int dir_sign = direction == Direction::West || direction == Direction::South ? 1 : -1;
     if (face->get_face_type() != FaceType::Boundary) {
@@ -100,7 +100,7 @@ Coefficients ConvectionCoefficients::get_quick_hayase_convection_effects(
                             : m_node->get_dx();
     double flow_rate = m_node->get_dt() * area * face->get_normal_velocity();
     if (m_include_density) {
-        flow_rate *= face->get_density();
+        flow_rate *= face->get_field_value(Field::Density);
     }
     const double dir_sign = direction == Direction::West || direction == Direction::South ? 1.0 : -1.0;
     if (face->get_face_type() != FaceType::Boundary) {
