@@ -1,7 +1,7 @@
-#include "../../Node.hpp"
+#include "../Node.hpp"
 
-#include "../../../Faces/Boundary/BoundaryFace.hpp"
-#include "../../../Faces/Interior/InteriorFace.hpp"
+#include "../../Faces/Boundary/BoundaryFace.hpp"
+#include "../../Faces/Interior/InteriorFace.hpp"
 
 PressureCorrectionCoefficients::PressureCorrectionCoefficients(Node *node) {
     m_node = node;

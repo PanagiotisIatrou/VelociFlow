@@ -5,10 +5,10 @@
 
 #include "../../../common.hpp"
 #include "../Faces/Face.hpp"
-#include "EquationCoefficients/ConvectionDiffusionCoefficients/ConvectionDiffusionCoefficients.hpp"
-#include "EquationCoefficients/MomentumCoefficients/MomentumCoefficients.hpp"
-#include "EquationCoefficients/PressureCorrectionCoefficients/PressureCorrectionCoefficients.hpp"
-#include "EquationCoefficients/DyeCoefficients/DyeCoefficients.hpp"
+#include "EquationCoefficients/ConvectionDiffusionCoefficients.hpp"
+#include "EquationCoefficients/MomentumCoefficients.hpp"
+#include "EquationCoefficients/PressureCorrectionCoefficients.hpp"
+#include "EquationCoefficients/DyeCoefficients.hpp"
 
 class Node {
 protected:

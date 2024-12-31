@@ -1,6 +1,6 @@
 #include "PressureCoefficients.hpp"
 
-#include "../../Node.hpp"
+#include "../../../Node.hpp"
 
 class Face;
 

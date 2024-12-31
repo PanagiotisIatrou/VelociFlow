@@ -1,7 +1,7 @@
 #include "MomentumCoefficients.hpp"
 
-#include "../../Node.hpp"
-#include "../../../../../common.hpp"
+#include "../Node.hpp"
+#include "../../../../common.hpp"
 
 MomentumCoefficients::MomentumCoefficients(Node *node) {
     m_node = node;

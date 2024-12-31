@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Coefficients/Coefficients.hpp"
+#include "DiscretizationCoefficients/Coefficients.hpp"
 
 class Node;
 

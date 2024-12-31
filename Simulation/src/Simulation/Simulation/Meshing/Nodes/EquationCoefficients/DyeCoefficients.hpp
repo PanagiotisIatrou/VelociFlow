@@ -2,10 +2,10 @@
 
 #include <memory>
 
-#include "../../Coefficients/Coefficients.hpp"
-#include "../../Coefficients/Convection/ConvectionCoefficients.hpp"
-#include "../../Coefficients/Diffusion/DiffusionCoefficients.hpp"
-#include "../../Coefficients/Time/TimeCoefficients.hpp"
+#include "DiscretizationCoefficients/Coefficients.hpp"
+#include "DiscretizationCoefficients/Convection/ConvectionCoefficients.hpp"
+#include "DiscretizationCoefficients/Diffusion/DiffusionCoefficients.hpp"
+#include "DiscretizationCoefficients/Time/TimeCoefficients.hpp"
 
 class DyeCoefficients {
 private:

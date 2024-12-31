@@ -1,6 +1,6 @@
 #include "DyeCoefficients.hpp"
 
-#include "../../Node.hpp"
+#include "../Node.hpp"
 
 DyeCoefficients::DyeCoefficients(Node *node) {
     m_node = node;

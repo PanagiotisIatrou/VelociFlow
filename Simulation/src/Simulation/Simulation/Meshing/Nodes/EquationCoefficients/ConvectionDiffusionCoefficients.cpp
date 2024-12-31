@@ -1,6 +1,6 @@
 #include "ConvectionDiffusionCoefficients.hpp"
 
-#include "../../Node.hpp"
+#include "../Node.hpp"
 
 ConvectionDiffusionCoefficients::ConvectionDiffusionCoefficients(Node *node) {
     m_node = node;

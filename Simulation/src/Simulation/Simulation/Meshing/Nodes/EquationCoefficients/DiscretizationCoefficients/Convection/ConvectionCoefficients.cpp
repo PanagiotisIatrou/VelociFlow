@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../../../Faces/Boundary/BoundaryFace.hpp"
+#include "../../../../Faces/Boundary/BoundaryFace.hpp"
 
 class Face;
 
