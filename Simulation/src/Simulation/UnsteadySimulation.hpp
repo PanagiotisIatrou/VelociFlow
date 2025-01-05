@@ -1,15 +1,28 @@
 #pragma once
 
+#include "Simulation/Equations/Equations/Dye.hpp"
+#include "Simulation/Equations/Equations/MomentumX.hpp"
+#include "Simulation/Equations/Equations/MomentumY.hpp"
+#include "Simulation/Equations/Equations/PressureCorrection.hpp"
 #include "Simulation/Simulation.hpp"
 
 class UnsteadySimulation : public Simulation {
-private:
+   private:
+    std::unique_ptr<MomentumX> m_equation_momentum_x;
+    std::unique_ptr<MomentumY> m_equation_momentum_y;
+    std::unique_ptr<PressureCorrection> m_equation_pressure_correction;
+    std::unique_ptr<Dye> m_equation_dye;
+
+    double m_tolerance_momentum_x;
+    double m_tolerance_momentum_y;
+    double m_tolerance_mass_imbalance;
+
     double m_dt;
     int m_timesteps;
 
-public:
-    UnsteadySimulation(Mesh *mesh, double dt, int timesteps, double tolerance_velocity_x, double tolerance_velocity_y,
-                       double pressure_tolerance, std::string output_file, VerboseType verbose_type);
+   public:
+    UnsteadySimulation(Mesh *mesh, double dt, int timesteps, double tolerance_momentum_x, double tolerance_momentum_y,
+                       double tolerance_mass_imbalance, std::string output_file, VerboseType verbose_type);
 
     void solve() override;
 };

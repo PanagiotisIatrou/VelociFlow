@@ -1,14 +1,12 @@
 #pragma once
 
 #include <array>
+#include <map>
 #include <memory>
 
 #include "../../../common.hpp"
 #include "../Faces/Face.hpp"
-#include "EquationCoefficients/ConvectionDiffusionCoefficients.hpp"
-#include "EquationCoefficients/MomentumCoefficients.hpp"
-#include "EquationCoefficients/PressureCorrectionCoefficients.hpp"
-#include "EquationCoefficients/DyeCoefficients.hpp"
+#include "../../Equations/Equations/EquationCoefficients/EquationCoefficients.hpp"
 
 class Node {
 protected:
@@ -16,21 +14,22 @@ protected:
     double m_velocity_y;
     double m_pressure;
     double m_dye;
+    double m_pressure_correction;
+    double m_density;
+    double m_viscosity;
     double m_previous_timestep_velocity_x;
     double m_previous_timestep_velocity_y;
     double m_previous_timestep_pressure;
     double m_previous_timestep_dye;
-    double m_viscosity;
-    double m_density;
-    double m_dx; // TODO: Remove in the future
-    double m_dy; // TODO: Remove in the future
-    double m_dt = 1.0;
-    double m_pressure_correction = 0.0;
+    double m_previous_timestep_pressure_correction;
+    double m_previous_timestep_density;
+    double m_previous_timestep_viscosity;
 
-    std::unique_ptr<MomentumCoefficients> m_momentum_coefficients;
-    std::unique_ptr<PressureCorrectionCoefficients> m_pressure_correction_coefficients;
-    std::unique_ptr<DyeCoefficients> m_dye_coefficients;
-    std::unique_ptr<ConvectionDiffusionCoefficients> m_convection_diffusion_coefficients;
+    double m_dx; // TODO: Remove in the future (on non-cartesian grids)
+    double m_dy; // TODO: Remove in the future (on non-cartesian grids)
+    double m_dt = 1.0;
+
+    std::map<EquationType, std::unique_ptr<EquationCoefficients>> m_equation_coefficients;
 
     std::array<Face *, 8> m_neighbouring_faces = {
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
@@ -50,9 +49,9 @@ public:
 
     void set_dt(double dt);
 
-    double get_previous_timestep_variable_value(Variable variable) const;
+    double get_previous_timestep_field_value(Field field) const;
 
-    double set_previous_timestep_variable_value(Variable variable, double value);
+    void set_previous_timestep_field_value(Field field, double value);
 
     double get_field_value(Field field) const;
 
@@ -72,27 +71,11 @@ public:
 
     void set_neighbouring_node(Node *node, Direction direction);
 
-    void calculate_momentum_coefficients(VelocityComponent velocity_component, SimulationType simulation_type) const;
+    void add_equation_coefficient(EquationType equation_type, Field variable_field, double relaxation, bool include_time);
 
-    double get_momentum_coefficient(CoefficientType type, VelocityComponent velocity_component) const;
+    double get_equation_coefficient(EquationType equation_type, CoefficientType coefficient_type) const;
 
-    Coefficients get_momentum_coefficients(VelocityComponent velocity_component) const;
+    Coefficients get_equation_coefficients(EquationType equation_type) const;
 
-    void calculate_pressure_coefficients() const;
-
-    Coefficients get_pressure_coefficients() const;
-
-    double get_pressure_coefficient(CoefficientType type) const;
-
-    void calculate_dye_coefficients(SimulationType type) const;
-
-    Coefficients get_dye_coefficients() const;
-
-    double get_dye_coefficient(CoefficientType type) const;
-
-    void calculate_convection_diffusion_coefficients(SimulationType type, VelocityComponent velocity_component) const;
-
-    Coefficients get_convection_diffusion_coefficients(VelocityComponent velocity_component) const;
-
-    double get_convection_diffusion_coefficient(CoefficientType type, VelocityComponent velocity_component) const;
+    void calculate_equation_coefficients(EquationType equation_type);
 };

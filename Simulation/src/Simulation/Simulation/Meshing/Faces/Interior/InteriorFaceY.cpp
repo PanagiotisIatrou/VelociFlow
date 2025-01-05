@@ -29,8 +29,8 @@ void InteriorFaceY::update_velocity_rhie_chow() {
     const double pressure_P = node_P->get_field_value(Field::Pressure);
     const double pressure_N = node_N->get_field_value(Field::Pressure);
 
-    const double momentum_y_a_P = node_P->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
-    const double momentum_y_a_N = node_N->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
+    const double momentum_y_a_P = node_P->get_equation_coefficient(EquationType::MomentumY, CoefficientType::Center);
+    const double momentum_y_a_N = node_N->get_equation_coefficient(EquationType::MomentumY, CoefficientType::Center);
 
     const Face *face_s = node_P->get_neighbouring_face(Direction::South);
     const double pressure_s = face_s->get_field_value(Field::Pressure);
@@ -53,8 +53,8 @@ void InteriorFaceY::correct_velocity() {
     const Node *node_P = get_node_neighbour(FaceYSide::South);
     const Node *node_N = get_node_neighbour(FaceYSide::North);
 
-    const double momentum_y_a_P = node_P->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
-    const double momentum_y_a_N = node_N->get_momentum_coefficient(CoefficientType::Center, VelocityComponent::V);
+    const double momentum_y_a_P = node_P->get_equation_coefficient(EquationType::MomentumY, CoefficientType::Center);
+    const double momentum_y_a_N = node_N->get_equation_coefficient(EquationType::MomentumY, CoefficientType::Center);
     const double correction = 0.5 * m_dt * m_dx
                       * (1 / momentum_y_a_P + 1 / momentum_y_a_N)
                       * (node_P->get_field_value(Field::PressureCorrection) - node_N->get_field_value(Field::PressureCorrection));

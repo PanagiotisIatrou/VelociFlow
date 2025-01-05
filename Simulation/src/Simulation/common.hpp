@@ -1,15 +1,47 @@
 #pragma once
+#include <iostream>
 
 enum class SimulationType { Steady, Unsteady };
 
-enum class Field { VelocityX, VelocityY, Pressure, PressureCorrection, Dye, Density, Viscosity };
+enum class Field {
+    VelocityX = 0,
+    VelocityY = 1,
+    Pressure = 2,
+    PressureCorrection = 3,
+    Dye = 4,
+    Density = 5,
+    Viscosity = 6
+};
+inline extern const int field_start = 0;
+inline extern const int field_end = static_cast<int>(Field::Viscosity) + 1;
 
-enum class Variable { VelocityX, VelocityY, Pressure, Dye };
-
-enum class Direction { West = 0, East = 1, South = 2, North = 3, WestWest = 4, EastEast = 5, SouthSouth = 6, NorthNorth = 7 };
+enum class Direction {
+    West = 0,
+    East = 1,
+    South = 2,
+    North = 3,
+    WestWest = 4,
+    EastEast = 5,
+    SouthSouth = 6,
+    NorthNorth = 7
+};
 inline extern const int direction_start = 0;
-inline extern const int direction_near_end = 4;
-inline extern const int direction_all_end = 8;
+inline extern const int direction_near_end = static_cast<int>(Direction::North) + 1;
+inline extern const int direction_all_end = static_cast<int>(Direction::NorthNorth) + 1;
+
+enum class Component {
+    X = 0,
+    Y = 1
+};
+
+enum class EquationType {
+    MomentumX = 0,
+    MomentumY = 1,
+    PressureCorrection = 2,
+    Dye = 3,
+    ConvectionDiffusionX = 4,
+    ConvectionDiffusionY = 5
+};
 
 inline Direction extend_direction(const Direction direction) {
     switch (direction) {
@@ -24,6 +56,10 @@ inline Direction extend_direction(const Direction direction) {
         }
         case Direction::North: {
             return Direction::NorthNorth;
+        }
+        default: {
+            std::cerr << "Invalid direction" << std::endl;
+            exit(1);
         }
     }
 }
@@ -54,10 +90,12 @@ inline Direction get_opposite_direction(const Direction direction) {
         case Direction::NorthNorth: {
             return Direction::SouthSouth;
         }
+        default: {
+            std::cerr << "Invalid direction" << std::endl;
+            exit(1);
+        }
     }
 }
-
-enum class VelocityComponent { U, V };
 
 // Relaxation
 inline extern const double relaxation_velocity_x = 0.5;

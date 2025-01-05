@@ -15,8 +15,8 @@ protected:
     double m_viscosity = 0.0;
     double m_density = 0.0;
     double m_dye = 0.0;
-    double m_dx; // TODO: Remove this in the future
-    double m_dy; // TODO: Remove this in the future
+    double m_dx; // TODO: Remove this in the future (on non-cartesian grids)
+    double m_dy; // TODO: Remove this in the future (on non-cartesian grids)
     double m_dt = 1.0;
     std::array<Node *, 2> m_node_neighbours = {nullptr, nullptr};
 public:

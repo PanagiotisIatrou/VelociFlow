@@ -36,7 +36,7 @@ void BulkNodeOperations::correct_node_velocity_y() const {
     }
 }
 
-void BulkNodeOperations::update_node_previous_timestep_velocity_x() const {
+void BulkNodeOperations::update_node_previous_timestep_fields() const {
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
             Node *node_P = m_mesh->get_node(i, j);
@@ -46,22 +46,11 @@ void BulkNodeOperations::update_node_previous_timestep_velocity_x() const {
                 continue;
             }
 
-            node_P->set_previous_timestep_variable_value(Variable::VelocityX, node_P->get_field_value(Field::VelocityX));
-        }
-    }
-}
-
-void BulkNodeOperations::update_node_previous_timestep_velocity_y() const {
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            // Nothing to calculate for an empty node
-            if (node_P == nullptr) {
-                continue;
+            // Update the previous timestep of all the fields
+            for (int field = field_start; field < field_end; field++) {
+                Field f = static_cast<Field>(field);
+                node_P->set_previous_timestep_field_value(f, node_P->get_field_value(f));
             }
-
-            node_P->set_previous_timestep_variable_value(Variable::VelocityY, node_P->get_field_value(Field::VelocityY));
         }
     }
 }
@@ -81,7 +70,9 @@ void BulkNodeOperations::correct_node_pressure() const {
     }
 }
 
-void BulkNodeOperations::update_node_previous_timestep_pressure() const {
+// Pressure correction
+
+void BulkNodeOperations::reset_pressure_correction() const {
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
             Node *node_P = m_mesh->get_node(i, j);
@@ -91,82 +82,7 @@ void BulkNodeOperations::update_node_previous_timestep_pressure() const {
                 continue;
             }
 
-            node_P->set_previous_timestep_variable_value(Variable::Pressure, node_P->get_field_value(Field::Pressure));
-        }
-    }
-}
-
-void BulkNodeOperations::update_node_previous_timestep_dye() const {
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            // Nothing to calculate for an empty node
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            node_P->set_previous_timestep_variable_value(Variable::Dye, node_P->get_field_value(Field::Dye));
-        }
-    }
-}
-
-void BulkNodeOperations::calculate_momentum_coefficients(const VelocityComponent velocity_component, const SimulationType simulation_type) const {
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            // Nothing to calculate for an empty node
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            node_P->calculate_momentum_coefficients(velocity_component, simulation_type);
-        }
-    }
-}
-
-void BulkNodeOperations::calculate_pressure_coefficients() const {
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            // Nothing to calculate for an empty node
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            node_P->calculate_pressure_coefficients();
-        }
-    }
-}
-
-void BulkNodeOperations::calculate_dye_coefficients(const SimulationType simulation_type) const {
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            // Nothing to calculate for an empty node
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            node_P->calculate_dye_coefficients(simulation_type);
-        }
-    }
-}
-
-void BulkNodeOperations::calculate_convection_diffusion_coefficients(const SimulationType simulation_type, const VelocityComponent velocity_component) const {
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Node *node_P = m_mesh->get_node(i, j);
-
-            // Nothing to calculate for an empty node
-            if (node_P == nullptr) {
-                continue;
-            }
-
-            node_P->calculate_convection_diffusion_coefficients(simulation_type, velocity_component);
+            node_P->set_field_value(Field::PressureCorrection, 0.0);
         }
     }
 }

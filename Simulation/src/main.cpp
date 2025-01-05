@@ -1,29 +1,17 @@
-#include <iostream>
-#include <string>
 #include <chrono>
 #include <fstream>
+#include <iostream>
+#include <string>
 
 #include "MeshExamples.hpp"
 #include "Simulation/Simulation/Meshing/Mesh.hpp"
-#include "../tests/tests.hpp"
 #include "Simulation/SteadyConvectionDiffusionSimulation.hpp"
 #include "Simulation/SteadySimulation.hpp"
 #include "Simulation/UnsteadySimulation.hpp"
 
-bool run_tests = false;
-bool run_simulation = true;
-
 int main() {
-    if (run_tests) {
-        run_all_tests();
-    }
-
-    if (!run_simulation) {
-        return 0;
-    }
-
-    Mesh *mesh = create_adv_diff_mesh(1.0, 1.0);
-    // Mesh *mesh = create_lid_driven_cavity_mesh(1.0, 1.0 / 1000.0, 1.0, 1.0);
+    // Mesh *mesh = create_adv_diff_mesh(5.0, 1.0);
+    Mesh *mesh = create_lid_driven_cavity_mesh(1.0, 1.0 / 1000.0, 1.0, 1.0);
     // Mesh *mesh = create_lid_driven_cavity_mesh(1.0, 1.0 / 3200.0, 1.0, 1.0);
     // Mesh *mesh = create_lid_driven_cavity_mesh(1.0, 1.0 / 10000, 1.0, 1.0);
     // Mesh *mesh = create_lid_driven_cavity_mesh(0.001, 0.001003, 998.2, 1.0);
@@ -36,7 +24,7 @@ int main() {
     // Mesh *mesh = create_circle_box_mesh(1.0, 0.01);
     // Mesh *mesh = create_rotating_circle_box_mesh(1.0, 0.5, 0.005);
     // Mesh *mesh = create_von_karman_mesh(1.0, 0.0005); // 500 - 0.0002, 200 - 0.0005, 120 - 0.000835, 65 - 0.00168
-    Mesh *mesh = create_kelvin_helmholtz_mesh(1.0, 0.0001);
+    // Mesh *mesh = create_kelvin_helmholtz_mesh(1.0, 0.0001);
     // Mesh *mesh = create_reynolds_mesh(1.0, 1.0 / 3000.0);
 
     // Create the path for the output file
@@ -45,11 +33,12 @@ int main() {
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 
-    const double tol = 1e-6;
-    // SteadySimulation simulation(mesh, tol, tol, tol, path, VerboseType::Percentages);
+    const double tol = 1e-3;
     const double dt = 0.01;
-    const int timesteps = 1000;
+    const int timesteps = 100;
+    // SteadySimulation simulation(mesh, tol, tol, tol, path, VerboseType::Percentages);
     UnsteadySimulation simulation(mesh, dt, timesteps, tol, tol, tol, path, VerboseType::Percentages);
+    // SteadyConvectionDiffusionSimulation simulation(mesh, tol, tol, path, VerboseType::Residuals);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();

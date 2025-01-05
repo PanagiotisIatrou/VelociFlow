@@ -1,18 +1,32 @@
 #include "SteadyConvectionDiffusionSimulation.hpp"
 
-#include <iostream>
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <iostream>
 
-SteadyConvectionDiffusionSimulation::SteadyConvectionDiffusionSimulation(Mesh *mesh, double tolerance_velocity_x, double tolerance_velocity_y,
-                                                                         std::string output_file, VerboseType verbose_type) : Simulation(mesh, tolerance_velocity_x, tolerance_velocity_y, 0.0, output_file, verbose_type) {
+SteadyConvectionDiffusionSimulation::SteadyConvectionDiffusionSimulation(
+    Mesh* mesh, const double tolerance_x, const double tolerance_y,
+    std::string output_file, const VerboseType verbose_type)
+    : Simulation(mesh, output_file, verbose_type) {
+    m_tolerance_x = tolerance_x;
+    m_tolerance_y = tolerance_y;
 
+    // Create the equations
+    m_equation_convection_diffusion_x = std::make_unique<ConvectionDiffusionX>(
+        mesh, Field::VelocityX, 1.0, ResidualType::Scaled,
+        StoppingRule::Relative, NormType::L1, 1e-3, false);
+    m_equation_convection_diffusion_y = std::make_unique<ConvectionDiffusionY>(
+        mesh, Field::VelocityY, 1.0, ResidualType::Scaled,
+        StoppingRule::Relative, NormType::L1, 1e-3, false);
+
+    // Populate all the nodes with the equation coefficients
+    m_equation_convection_diffusion_x->populate_mesh();
+    m_equation_convection_diffusion_y->populate_mesh();
 }
 
 void SteadyConvectionDiffusionSimulation::solve() {
     m_timer->start_timer();
 
-    calculate_active_cells_count();
     m_bulk_face_operations->update_face_x_velocities_distance_weighted();
     m_bulk_face_operations->update_face_y_velocities_distance_weighted();
     m_bulk_face_operations->update_face_x_viscosities();
@@ -20,48 +34,97 @@ void SteadyConvectionDiffusionSimulation::solve() {
     m_bulk_face_operations->update_face_x_densities();
     m_bulk_face_operations->update_face_y_densities();
 
-    m_convection_diffusion_x_error = 1.0;
-    m_convection_diffusion_y_error = 1.0;
     m_outer_iterations_count = 0;
     double first_convection_diffusion_x_error;
     double first_convection_diffusion_y_error;
-    while (m_convection_diffusion_x_error > m_tolerance_velocity_x || m_convection_diffusion_y_error > m_tolerance_velocity_y) {
-        convection_diffusion_iterate(SimulationType::Steady);
+    while (m_equation_convection_diffusion_x->get_imbalance() > m_tolerance_x ||
+           m_equation_convection_diffusion_y->get_imbalance() > m_tolerance_y) {
+        // Calculate the coefficients
+        m_equation_convection_diffusion_x->calculate_coefficients();
+        m_equation_convection_diffusion_y->calculate_coefficients();
+
+        // Calculate the imbalance
+        m_equation_convection_diffusion_x->calculate_imbalance();
+        m_equation_convection_diffusion_y->calculate_imbalance();
+
+        // Solve X and Y equations
+        m_equation_convection_diffusion_x->solve();
+        m_equation_convection_diffusion_y->solve();
+
+        // Calculate the face velocities
+        m_bulk_face_operations->update_face_x_velocities_distance_weighted();
+        m_bulk_face_operations->update_face_y_velocities_distance_weighted();
+
+        m_outer_iterations_count++;
+        m_equation_convection_diffusion_x->progress_iteration_counter();
+        m_equation_convection_diffusion_y->progress_iteration_counter();
 
         // First errors
         if (m_outer_iterations_count < 5) {
-            first_convection_diffusion_x_error = m_convection_diffusion_x_error;
-            first_convection_diffusion_y_error = m_convection_diffusion_y_error;
+            first_convection_diffusion_x_error =
+                m_equation_convection_diffusion_x->get_imbalance();
+            first_convection_diffusion_y_error =
+                m_equation_convection_diffusion_y->get_imbalance();
         }
 
         // Printing
         if (m_verbose_type == VerboseType::Residuals) {
-            printf("%-6.d   %.4e   %.4e\n", m_outer_iterations_count, m_convection_diffusion_x_error, m_convection_diffusion_y_error);
+            printf("%-6d   %4e   %4e\n", m_outer_iterations_count,
+                   m_equation_convection_diffusion_x->get_imbalance(),
+                   m_equation_convection_diffusion_y->get_imbalance());
         } else if (m_verbose_type == VerboseType::Percentages) {
             double convection_diffusion_x_scale;
-            if (first_convection_diffusion_x_error <= m_tolerance_velocity_x) {
-                convection_diffusion_x_scale = (std::log10(m_tolerance_velocity_x) - std::log10(m_convection_diffusion_x_error / m_tolerance_velocity_x)) / std::log10(m_tolerance_velocity_x);
+            if (first_convection_diffusion_x_error <= m_tolerance_x) {
+                convection_diffusion_x_scale =
+                    (std::log10(m_tolerance_x) -
+                     std::log10(
+                         m_equation_convection_diffusion_x->get_imbalance() /
+                         m_tolerance_x)) /
+                    std::log10(m_tolerance_x);
             } else {
-                convection_diffusion_x_scale = std::log10(first_convection_diffusion_x_error / m_convection_diffusion_x_error) / std::log10(first_convection_diffusion_x_error / m_tolerance_velocity_x);
+                convection_diffusion_x_scale =
+                    std::log10(
+                        first_convection_diffusion_x_error /
+                        m_equation_convection_diffusion_x->get_imbalance()) /
+                    std::log10(first_convection_diffusion_x_error /
+                               m_tolerance_x);
             }
-            convection_diffusion_x_scale = std::clamp(convection_diffusion_x_scale, 0.0, 1.0);
-            const int convection_diffusion_x_percentage = static_cast<int>(std::floor(convection_diffusion_x_scale * 100.0));
+            convection_diffusion_x_scale =
+                std::clamp(convection_diffusion_x_scale, 0.0, 1.0);
+            const int convection_diffusion_x_percentage = static_cast<int>(
+                std::floor(convection_diffusion_x_scale * 100.0));
 
             double convection_diffusion_y_scale;
-            if (first_convection_diffusion_y_error <= m_tolerance_velocity_y) {
-                convection_diffusion_y_scale = (std::log10(m_tolerance_velocity_y) - std::log10(m_convection_diffusion_y_error / m_tolerance_velocity_y)) / std::log10(m_tolerance_velocity_y);
+            if (first_convection_diffusion_y_error <= m_tolerance_y) {
+                convection_diffusion_y_scale =
+                    (std::log10(m_tolerance_y) -
+                     std::log10(
+                         m_equation_convection_diffusion_y->get_imbalance() /
+                         m_tolerance_y)) /
+                    std::log10(m_tolerance_y);
             } else {
-                convection_diffusion_y_scale = std::log10(first_convection_diffusion_y_error / m_convection_diffusion_y_error) / std::log10(first_convection_diffusion_y_error / m_tolerance_velocity_y);
+                convection_diffusion_y_scale =
+                    std::log10(
+                        first_convection_diffusion_y_error /
+                        m_equation_convection_diffusion_y->get_imbalance()) /
+                    std::log10(first_convection_diffusion_y_error /
+                               m_tolerance_y);
             }
-            convection_diffusion_y_scale = std::clamp(convection_diffusion_y_scale, 0.0, 1.0);
-            const int convection_diffusion_y_percentage = static_cast<int>(std::floor(convection_diffusion_y_scale * 100.0));
+            convection_diffusion_y_scale =
+                std::clamp(convection_diffusion_y_scale, 0.0, 1.0);
+            const int convection_diffusion_y_percentage = static_cast<int>(
+                std::floor(convection_diffusion_y_scale * 100.0));
 
-            printf("\r[X: %-3.d%%, Y: %-3.d%%]", convection_diffusion_x_percentage, convection_diffusion_y_percentage);
+            printf("\r[X: %-3d%%, Y: %-3d%%]",
+                   convection_diffusion_x_percentage,
+                   convection_diffusion_y_percentage);
             std::cout << std::flush;
         }
     }
 
-    std::cout << std::endl << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
+    std::cout << std::endl
+              << "Converged in " << m_outer_iterations_count << " iterations"
+              << std::endl;
 
     m_time_taken = m_timer->get_elapsed_time();
 
