@@ -7,7 +7,10 @@
 #include "Simulation/Simulation.hpp"
 
 class UnsteadySimulation : public Simulation {
-   private:
+private:
+    double m_density;
+    double m_viscosity;
+
     std::unique_ptr<MomentumX> m_equation_momentum_x;
     std::unique_ptr<MomentumY> m_equation_momentum_y;
     std::unique_ptr<PressureCorrection> m_equation_pressure_correction;
@@ -20,9 +23,10 @@ class UnsteadySimulation : public Simulation {
     double m_dt;
     int m_timesteps;
 
-   public:
-    UnsteadySimulation(Mesh *mesh, double dt, int timesteps, double tolerance_momentum_x, double tolerance_momentum_y,
-                       double tolerance_mass_imbalance, std::string output_file, VerboseType verbose_type);
+public:
+    UnsteadySimulation(Mesh *mesh, double density, double viscosity, double dt, int timesteps,
+                       double tolerance_momentum_x, double tolerance_momentum_y, double tolerance_mass_imbalance,
+                       std::string output_file, VerboseType verbose_type);
 
     void solve() override;
 };

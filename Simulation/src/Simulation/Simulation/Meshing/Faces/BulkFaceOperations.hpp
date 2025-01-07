@@ -22,18 +22,6 @@ public:
 
     void correct_face_y_velocity() const;
 
-    // Face viscosities
-
-    void update_face_x_viscosities() const;
-
-    void update_face_y_viscosities() const;
-
-    // Face densities
-
-    void update_face_x_densities() const;
-
-    void update_face_y_densities() const;
-
     // Face pressures
 
     void update_face_x_pressures() const;
@@ -57,4 +45,16 @@ public:
     void set_face_x_dt(double dt) const;
 
     void set_face_y_dt(double dt) const;
+
+    // Density
+
+    void set_face_x_density(double density) const;
+
+    void set_face_y_density(double density) const;
+
+    // Viscosity
+
+    void set_face_x_viscosity(double viscosity) const;
+
+    void set_face_y_viscosity(double viscosity) const;
 };

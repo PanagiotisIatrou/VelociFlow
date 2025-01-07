@@ -9,11 +9,13 @@ private:
     std::unique_ptr<ConvectionDiffusionX> m_equation_convection_diffusion_x;
     std::unique_ptr<ConvectionDiffusionY> m_equation_convection_diffusion_y;
 
+    double m_viscosity;
+
     double m_tolerance_x;
     double m_tolerance_y;
 
 public:
-    SteadyConvectionDiffusionSimulation(Mesh *mesh, double tolerance_x, double tolerance_y,
+    SteadyConvectionDiffusionSimulation(Mesh *mesh, double viscosity, double tolerance_x, double tolerance_y,
                                         std::string output_file, VerboseType verbose_type);
 
     void solve() override;

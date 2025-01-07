@@ -5,9 +5,10 @@
 #include <iostream>
 
 SteadyConvectionDiffusionSimulation::SteadyConvectionDiffusionSimulation(
-    Mesh* mesh, const double tolerance_x, const double tolerance_y,
+    Mesh* mesh, const double viscosity, const double tolerance_x, const double tolerance_y,
     std::string output_file, const VerboseType verbose_type)
     : Simulation(mesh, output_file, verbose_type) {
+    m_viscosity = viscosity;
     m_tolerance_x = tolerance_x;
     m_tolerance_y = tolerance_y;
 
@@ -22,6 +23,11 @@ SteadyConvectionDiffusionSimulation::SteadyConvectionDiffusionSimulation(
     // Populate all the nodes with the equation coefficients
     m_equation_convection_diffusion_x->populate_mesh();
     m_equation_convection_diffusion_y->populate_mesh();
+
+    // Set viscosity
+    m_bulk_node_operations->set_viscosity(m_viscosity);
+    m_bulk_face_operations->set_face_x_viscosity(m_viscosity);
+    m_bulk_face_operations->set_face_y_viscosity(m_viscosity);
 }
 
 void SteadyConvectionDiffusionSimulation::solve() {
@@ -29,10 +35,6 @@ void SteadyConvectionDiffusionSimulation::solve() {
 
     m_bulk_face_operations->update_face_x_velocities_distance_weighted();
     m_bulk_face_operations->update_face_y_velocities_distance_weighted();
-    m_bulk_face_operations->update_face_x_viscosities();
-    m_bulk_face_operations->update_face_y_viscosities();
-    m_bulk_face_operations->update_face_x_densities();
-    m_bulk_face_operations->update_face_y_densities();
 
     m_outer_iterations_count = 0;
     double first_convection_diffusion_x_error;

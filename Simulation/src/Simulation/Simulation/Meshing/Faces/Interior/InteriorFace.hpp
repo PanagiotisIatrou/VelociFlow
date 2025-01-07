@@ -12,27 +12,18 @@ protected:
     double m_velocity = 0.0;
     double m_pressure = 0.0;
     double m_pressure_correction = 0.0;
-    double m_viscosity = 0.0;
-    double m_density = 0.0;
     double m_dye = 0.0;
     double m_dx; // TODO: Remove this in the future (on non-cartesian grids)
     double m_dy; // TODO: Remove this in the future (on non-cartesian grids)
-    double m_dt = 1.0;
     std::array<Node *, 2> m_node_neighbours = {nullptr, nullptr};
 public:
     InteriorFace(double dx, double dy, Orientation orientation);
-
-    void set_dt(double dt);
 
     double get_velocity() const;
 
     virtual void update_velocity_distance_weighted() = 0;
 
     virtual void update_velocity_rhie_chow() = 0;
-
-    void update_viscosity();
-
-    void update_density();
 
     void update_dye();
 

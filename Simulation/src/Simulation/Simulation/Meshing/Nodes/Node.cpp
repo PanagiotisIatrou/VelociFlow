@@ -11,10 +11,8 @@
 #include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionX/ConvectionDiffusionXCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionY/ConvectionDiffusionYCoefficients.hpp"
 
-Node::Node(const double viscosity, const double density, const double dx, const double dy, const double velocity_x,
+Node::Node(const double dx, const double dy, const double velocity_x,
            const double velocity_y, const double pressure, const double dye) {
-    m_viscosity = viscosity;
-    m_density = density;
     m_dye = dye;
     m_dx = dx;
     m_dy = dy;
@@ -43,6 +41,22 @@ void Node::set_dt(const double dt) {
     m_dt = dt;
 }
 
+double Node::get_viscosity() const {
+    return m_viscosity;
+}
+
+void Node::set_viscosity(const double viscosity) {
+    m_viscosity = viscosity;
+}
+
+double Node::get_density() const {
+    return m_density;
+}
+
+void Node::set_density(const double density) {
+    m_density = density;
+}
+
 double Node::get_previous_timestep_field_value(const Field field) const {
     switch (field) {
         case Field::VelocityX: {
@@ -59,12 +73,6 @@ double Node::get_previous_timestep_field_value(const Field field) const {
         }
         case Field::PressureCorrection: {
             return m_previous_timestep_pressure_correction;
-        }
-        case Field::Density: {
-            return m_previous_timestep_density;
-        }
-        case Field::Viscosity: {
-            return m_previous_timestep_viscosity;
         }
         default: {
             std::cerr << "Invalid field type" << std::endl;
@@ -95,14 +103,6 @@ void Node::set_previous_timestep_field_value(const Field field, const double val
             m_previous_timestep_pressure_correction = value;
             break;
         }
-        case Field::Density: {
-            m_previous_timestep_density = value;
-            break;
-        }
-        case Field::Viscosity: {
-            m_previous_timestep_viscosity = value;
-            break;
-        }
         default: {
             std::cerr << "Invalid field type" << std::endl;
             exit(1);
@@ -126,12 +126,6 @@ double Node::get_field_value(const Field field) const {
         }
         case Field::Dye: {
             return m_dye;
-        }
-        case Field::Density: {
-            return m_density;
-        }
-        case Field::Viscosity: {
-            return m_viscosity;
         }
         default: {
             std::cerr << "Invalid field type" << std::endl;
@@ -160,14 +154,6 @@ void Node::set_field_value(const Field field, const double value) {
         }
         case Field::Dye: {
             m_dye = value;
-            break;
-        }
-        case Field::Density: {
-            m_density = value;
-            break;
-        }
-        case Field::Viscosity: {
-            m_viscosity = value;
             break;
         }
         default: {

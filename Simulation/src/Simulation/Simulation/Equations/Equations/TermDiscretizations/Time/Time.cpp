@@ -12,7 +12,7 @@ Coefficients Time::get_effects() const {
 
     double extra = m_node->get_dx() * m_node->get_dy();
     if (m_include_density) {
-        extra *= m_node->get_field_value(Field::Density);
+        extra *= m_node->get_density();
     }
 
     coefficients.center += extra;

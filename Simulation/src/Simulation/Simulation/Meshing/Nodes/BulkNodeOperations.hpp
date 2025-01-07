@@ -27,4 +27,12 @@ public:
     // Time
 
     void set_dt(double dt) const;
+
+    // Density
+
+    void set_density(double density) const;
+
+    // Viscosity
+
+    void set_viscosity(double viscosity) const;
 };

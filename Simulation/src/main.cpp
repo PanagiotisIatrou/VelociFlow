@@ -28,17 +28,17 @@ int main() {
     // Mesh *mesh = create_reynolds_mesh(1.0, 1.0 / 3000.0);
 
     // Create the path for the output file
-    // const std::string folder = "../../Results/Steady/";
-    const std::string folder = "../../Results/Unsteady/";
+    const std::string folder = "../../Results/Steady/";
+    // const std::string folder = "../../Results/Unsteady/";
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 
     const double tol = 1e-3;
     const double dt = 0.01;
     const int timesteps = 100;
-    // SteadySimulation simulation(mesh, tol, tol, tol, path, VerboseType::Percentages);
-    UnsteadySimulation simulation(mesh, dt, timesteps, tol, tol, tol, path, VerboseType::Percentages);
-    // SteadyConvectionDiffusionSimulation simulation(mesh, tol, tol, path, VerboseType::Residuals);
+    SteadySimulation simulation(mesh, 1.0, 1.0 / 1000.0, tol, tol, tol, path, VerboseType::Percentages);
+    // UnsteadySimulation simulation(mesh, 1.0, 1.0 / 1000.0, dt, timesteps, tol, tol, tol, path, VerboseType::Percentages);
+    // SteadyConvectionDiffusionSimulation simulation(mesh, 1.0, tol, tol, path, VerboseType::Residuals);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();

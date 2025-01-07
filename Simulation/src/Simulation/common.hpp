@@ -8,12 +8,10 @@ enum class Field {
     VelocityY = 1,
     Pressure = 2,
     PressureCorrection = 3,
-    Dye = 4,
-    Density = 5,
-    Viscosity = 6
+    Dye = 4
 };
 inline extern const int field_start = 0;
-inline extern const int field_end = static_cast<int>(Field::Viscosity) + 1;
+inline extern const int field_end = static_cast<int>(Field::Dye) + 1;
 
 enum class Direction {
     West = 0,

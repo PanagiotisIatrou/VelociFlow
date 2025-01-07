@@ -15,15 +15,14 @@ protected:
     double m_pressure;
     double m_dye;
     double m_pressure_correction;
-    double m_density;
-    double m_viscosity;
     double m_previous_timestep_velocity_x;
     double m_previous_timestep_velocity_y;
     double m_previous_timestep_pressure;
     double m_previous_timestep_dye;
     double m_previous_timestep_pressure_correction;
-    double m_previous_timestep_density;
-    double m_previous_timestep_viscosity;
+
+    double m_density;
+    double m_viscosity;
 
     double m_dx; // TODO: Remove in the future (on non-cartesian grids)
     double m_dy; // TODO: Remove in the future (on non-cartesian grids)
@@ -39,7 +38,7 @@ protected:
     };
 
 public:
-    Node(double viscosity, double density, double dx, double dy, double velocity_x, double velocity_y, double pressure, double dye);
+    Node(double dx, double dy, double velocity_x, double velocity_y, double pressure, double dye);
 
     double get_dx() const;
 
@@ -48,6 +47,14 @@ public:
     double get_dt() const;
 
     void set_dt(double dt);
+
+    double get_viscosity() const;
+
+    void set_viscosity(double viscosity);
+
+    double get_density() const;
+
+    void set_density(double density);
 
     double get_previous_timestep_field_value(Field field) const;
 

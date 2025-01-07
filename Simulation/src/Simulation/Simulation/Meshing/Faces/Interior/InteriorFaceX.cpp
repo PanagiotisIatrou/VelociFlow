@@ -76,12 +76,6 @@ double InteriorFaceX::get_field_value(const Field field) const {
         case Field::Dye: {
             return m_dye;
         }
-        case Field::Density: {
-            return m_density;
-        }
-        case Field::Viscosity: {
-            return m_viscosity;
-        }
         default: {
             std::cerr << "Field not recognised" << std::endl;
             exit(1);

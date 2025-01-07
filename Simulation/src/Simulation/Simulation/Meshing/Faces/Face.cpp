@@ -27,3 +27,23 @@ double Face::get_normal_velocity() {
         return static_cast<InteriorFace *>(this)->get_velocity();
     }
 }
+
+void Face::set_dt(const double dt) {
+    m_dt = dt;
+}
+
+double Face::get_viscosity() const {
+    return m_viscosity;
+}
+
+void Face::set_viscosity(const double viscosity) {
+    m_viscosity = viscosity;
+}
+
+double Face::get_density() const {
+    return m_density;
+}
+
+void Face::set_density(const double density) {
+    m_density = density;
+}

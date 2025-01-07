@@ -4,11 +4,14 @@
 #include <cmath>
 #include <iostream>
 
-UnsteadySimulation::UnsteadySimulation(Mesh *mesh, const double dt, const int timesteps,
-                                       const double tolerance_momentum_x, const double tolerance_momentum_y,
-                                       const double tolerance_mass_imbalance, const std::string output_file,
-                                       const VerboseType verbose_type)
+UnsteadySimulation::UnsteadySimulation(Mesh *mesh, const double density, const double viscosity, const double dt,
+                                       const int timesteps, const double tolerance_momentum_x,
+                                       const double tolerance_momentum_y, const double tolerance_mass_imbalance,
+                                       const std::string output_file, const VerboseType verbose_type)
     : Simulation(mesh, output_file, verbose_type) {
+    m_density = density;
+    m_viscosity = viscosity;
+
     m_tolerance_momentum_x = tolerance_momentum_x;
     m_tolerance_momentum_y = tolerance_momentum_y;
     m_tolerance_mass_imbalance = tolerance_mass_imbalance;
@@ -34,13 +37,23 @@ UnsteadySimulation::UnsteadySimulation(Mesh *mesh, const double dt, const int ti
     m_equation_pressure_correction->populate_mesh();
     m_equation_dye->populate_mesh();
 
+    // Save current field values as previous
+    m_bulk_node_operations->update_node_previous_timestep_fields();
+
     // Propagate the dt to the nodes and the faces
     m_bulk_node_operations->set_dt(dt);
     m_bulk_face_operations->set_face_x_dt(dt);
     m_bulk_face_operations->set_face_y_dt(dt);
 
-    // Save current field values as previous
-    m_bulk_node_operations->update_node_previous_timestep_fields();
+    // Set density
+    m_bulk_node_operations->set_density(m_density);
+    m_bulk_face_operations->set_face_x_density(m_density);
+    m_bulk_face_operations->set_face_y_density(m_density);
+
+    // Set viscosity
+    m_bulk_node_operations->set_viscosity(m_viscosity);
+    m_bulk_face_operations->set_face_x_viscosity(m_viscosity);
+    m_bulk_face_operations->set_face_y_viscosity(m_viscosity);
 }
 
 void UnsteadySimulation::solve() {
@@ -48,10 +61,6 @@ void UnsteadySimulation::solve() {
 
     m_bulk_face_operations->update_face_x_velocities_distance_weighted();
     m_bulk_face_operations->update_face_y_velocities_distance_weighted();
-    m_bulk_face_operations->update_face_x_viscosities();
-    m_bulk_face_operations->update_face_y_viscosities();
-    m_bulk_face_operations->update_face_x_densities();
-    m_bulk_face_operations->update_face_y_densities();
     m_bulk_face_operations->update_face_x_pressures();
     m_bulk_face_operations->update_face_y_pressures();
     m_bulk_face_operations->update_face_x_dye();

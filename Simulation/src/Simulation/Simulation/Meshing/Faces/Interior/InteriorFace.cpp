@@ -9,18 +9,6 @@ double InteriorFace::get_velocity() const {
     return m_velocity;
 }
 
-void InteriorFace::set_dt(const double dt) {
-    m_dt = dt;
-}
-
-void InteriorFace::update_viscosity() {
-    m_viscosity = 0.5 * (m_node_neighbours[0]->get_field_value(Field::Viscosity) + m_node_neighbours[1]->get_field_value(Field::Viscosity));
-}
-
-void InteriorFace::update_density() {
-    m_density = 0.5 * (m_node_neighbours[0]->get_field_value(Field::Density) + m_node_neighbours[1]->get_field_value(Field::Density));
-}
-
 void InteriorFace::update_dye() {
     m_dye = 0.5 * (m_node_neighbours[0]->get_field_value(Field::Dye) + m_node_neighbours[1]->get_field_value(Field::Dye));
 }

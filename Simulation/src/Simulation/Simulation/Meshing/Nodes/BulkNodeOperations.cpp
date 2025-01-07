@@ -87,6 +87,8 @@ void BulkNodeOperations::reset_pressure_correction() const {
     }
 }
 
+// Time
+
 void BulkNodeOperations::set_dt(const double dt) const {
     for (int i = 0; i < m_mesh->get_size_x(); i++) {
         for (int j = 0; j < m_mesh->get_size_y(); j++) {
@@ -98,6 +100,40 @@ void BulkNodeOperations::set_dt(const double dt) const {
             }
 
             node_P->set_dt(dt);
+        }
+    }
+}
+
+// Density
+
+void BulkNodeOperations::set_density(const double density) const {
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            node_P->set_density(density);
+        }
+    }
+}
+
+// Viscosity
+
+void BulkNodeOperations::set_viscosity(const double viscosity) const {
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            node_P->set_viscosity(viscosity);
         }
     }
 }

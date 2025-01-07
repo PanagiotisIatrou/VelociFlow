@@ -1,6 +1,7 @@
 #include "Simulation.hpp"
 
-Simulation::Simulation(Mesh *mesh, const std::string output_file, const VerboseType verbose_type) {
+Simulation::Simulation(Mesh *mesh, const std::string output_file,
+                       const VerboseType verbose_type) {
     m_mesh = mesh;
     m_bulk_node_operations = std::make_unique<BulkNodeOperations>(mesh);
     m_bulk_face_operations = std::make_unique<BulkFaceOperations>(mesh);
