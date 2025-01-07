@@ -37,8 +37,9 @@ int main() {
     const double dt = 0.01;
     const int timesteps = 100;
     SteadySimulation simulation(mesh, 1.0, 1.0 / 1000.0, tol, tol, tol, path, VerboseType::Percentages);
-    // UnsteadySimulation simulation(mesh, 1.0, 1.0 / 1000.0, dt, timesteps, tol, tol, tol, path, VerboseType::Percentages);
-    // SteadyConvectionDiffusionSimulation simulation(mesh, 1.0, tol, tol, path, VerboseType::Residuals);
+    // UnsteadySimulation simulation(mesh, 1.0, 1.0 / 1000.0, dt, timesteps, tol, tol, tol, path,
+    // VerboseType::Percentages); SteadyConvectionDiffusionSimulation simulation(mesh, 1.0, tol, tol, path,
+    // VerboseType::Residuals);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();

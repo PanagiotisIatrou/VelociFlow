@@ -18,13 +18,17 @@ public:
 
     void close_file();
 
-    void write_domain_size() const;
+    void write_domain_size(double size_x, double size_y) const;
 
-    void write_grid_size() const;
+    void write_grid_size(int size_x, int size_y) const;
 
     void write_execution_time(double execution_time) const;
 
-    void write_dt() const;
+    void write_dt(double dt) const;
+
+    void write_density(double density) const;
+
+    void write_viscosity(double viscosity) const;
 
     void write_timesteps_count(int timesteps) const;
 

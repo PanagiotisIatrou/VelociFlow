@@ -1,6 +1,6 @@
 #include "Saver.hpp"
 
-Saver::Saver(Mesh *mesh, std::string path) {
+Saver::Saver(Mesh *mesh, const std::string path) {
     m_mesh = mesh;
     m_path = path;
 }
@@ -18,14 +18,14 @@ void Saver::close_file() {
     m_file = nullptr;
 }
 
-void Saver::write_domain_size() const {
+void Saver::write_domain_size(const double size_x, const double size_y) const {
     fprintf(m_file, "domain_size\n");
-    fprintf(m_file, "%f,%f\n", m_mesh->get_domain_size_x(), m_mesh->get_domain_size_y());
+    fprintf(m_file, "%f,%f\n", size_x, size_y);
 }
 
-void Saver::write_grid_size() const {
+void Saver::write_grid_size(const int size_x, const int size_y) const {
     fprintf(m_file, "grid_size\n");
-    fprintf(m_file, "%d,%d\n", m_mesh->get_size_x(), m_mesh->get_size_y());
+    fprintf(m_file, "%d,%d\n", size_x, size_y);
 
 }
 
@@ -34,9 +34,19 @@ void Saver::write_execution_time(const double execution_time) const {
     fprintf(m_file, "%.2f\n", execution_time);
 }
 
-void Saver::write_dt() const {
+void Saver::write_dt(const double dt) const {
     fprintf(m_file, "dt\n");
-    fprintf(m_file, "%f\n", m_mesh->get_dt());
+    fprintf(m_file, "%f\n", dt);
+}
+
+void Saver::write_density(const double density) const {
+    fprintf(m_file, "density\n");
+    fprintf(m_file, "%f\n", density);
+}
+
+void Saver::write_viscosity(const double viscosity) const {
+    fprintf(m_file, "viscosity\n");
+    fprintf(m_file, "%f\n", viscosity);
 }
 
 void Saver::write_timesteps_count(const int timesteps) const {
@@ -47,15 +57,29 @@ void Saver::write_timesteps_count(const int timesteps) const {
 void Saver::write_field(const Field field) const {
     // Write the title of the field
     std::string title;
-    if (field == Field::VelocityX) {
-        title = "velocity_u";
-    } else if (field == Field::VelocityY) {
-        title = "velocity_v";
-    } else if (field == Field::Pressure) {
-        title = "pressure";
-    } else if (field == Field::Dye) {
-        title = "dye";
+    switch (field) {
+        case Field::VelocityX: {
+            title = "velocity_u";
+            break;
+        }
+        case Field::VelocityY: {
+            title = "velocity_v";
+            break;
+        }
+        case Field::Pressure: {
+            title = "pressure";
+            break;
+        }
+        case Field::Dye: {
+            title = "dye";
+            break;
+        }
+        default: {
+            std::cerr << "Invalid field" << std::endl;
+            exit(1);
+        }
     }
+
     fprintf(m_file, "%s\n", title.c_str());
 
     // Write the values of the field
