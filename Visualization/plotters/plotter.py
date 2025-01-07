@@ -3,7 +3,7 @@ from copy import copy
 import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
-from abc import ABC, abstractmethod
+from abc import ABC
 from enum import Enum
 
 from Visualization.utilities.utilities import normalize_vectors
@@ -13,6 +13,7 @@ class ScalarFields(Enum):
     VELOCITY_Y = 2
     PRESSURE = 3
     DYE = 4
+    VORTICITY = 5
 
 class VectorFields(Enum):
     VELOCITY_MAGNITUDE = 1

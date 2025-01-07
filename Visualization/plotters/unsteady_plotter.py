@@ -81,6 +81,9 @@ class UnsteadyPlotter(Plotter):
             scalar_field = np.array(self.data.pressure_timesteps)
         elif field == ScalarFields.DYE:
             scalar_field = np.array(self.data.dye_timesteps)
+        elif field == ScalarFields.VORTICITY:
+            scalar_field = np.gradient(self.data.velocity_timesteps_u, axis=0) - np.gradient(
+                self.data.velocity_timesteps_v, axis=1)
 
         # Initialize the plot
         self.create_plot()

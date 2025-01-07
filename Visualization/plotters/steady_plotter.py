@@ -51,6 +51,10 @@ class SteadyPlotter(Plotter):
         elif field == ScalarFields.DYE:
             self.dye = np.array(self.data.dye_timesteps[-1])
             self.__scalar_field(self.dye)
+        elif field == ScalarFields.VORTICITY:
+            self.vorticity = np.gradient(self.data.velocity_timesteps_u[-1], axis=0) - np.gradient(
+                self.data.velocity_timesteps_v[-1], axis=1)
+            self.__scalar_field(self.vorticity)
 
     def __apply_vector_field(self, field):
         if field == VectorFields.VELOCITY_MAGNITUDE:
