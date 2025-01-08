@@ -4,11 +4,13 @@ project(Simulation)
 set(CMAKE_CXX_STANDARD 17)
 
 # Directory root for the simulation
-set(SIMULATION_PATH src)
+set(SIMULATION_PATH src/Simulation)
+set(EXAMPLES_PATH src/Examples)
 
 file(GLOB_RECURSE SIMULATION_FILES
         ${SIMULATION_PATH}/*.cpp
         ${SIMULATION_PATH}/*.hpp
+        ${EXAMPLES_PATH}/lid_driven_cavity_steady.cpp
 )
 
 add_executable(Simulation ${SIMULATION_FILES})
