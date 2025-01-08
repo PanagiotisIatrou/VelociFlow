@@ -1,10 +1,10 @@
-#include "SteadyConvectionDiffusionSimulation.hpp"
+#include "ConvectionDiffusionSteady.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <iostream>
 
-SteadyConvectionDiffusionSimulation::SteadyConvectionDiffusionSimulation(Mesh* mesh, const double viscosity,
+ConvectionDiffusionSteady::ConvectionDiffusionSteady(Mesh* mesh, const double viscosity,
                                                                          const double tolerance_x,
                                                                          const double tolerance_y,
                                                                          const std::string output_file,
@@ -13,7 +13,7 @@ SteadyConvectionDiffusionSimulation::SteadyConvectionDiffusionSimulation(Mesh* m
                           verbose_type) {
 }
 
-void SteadyConvectionDiffusionSimulation::solve() {
+void ConvectionDiffusionSteady::solve() {
     m_timer->start_timer();
 
     m_outer_iterations_count = 0;

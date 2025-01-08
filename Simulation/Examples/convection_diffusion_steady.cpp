@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "../src/SteadyConvectionDiffusionSimulation.hpp"
+#include "../src/ConvectionDiffusionSteady.hpp"
 
 const int grid_size_x = 100;
 const int grid_size_y = 100;
@@ -51,7 +51,7 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    SteadyConvectionDiffusionSimulation simulation(mesh, viscosity, 1e-4, 1e-4, path, VerboseType::Percentages);
+    ConvectionDiffusionSteady simulation(mesh, viscosity, 1e-4, 1e-4, path, VerboseType::Percentages);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();
