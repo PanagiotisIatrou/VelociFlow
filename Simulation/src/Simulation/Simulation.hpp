@@ -11,6 +11,8 @@
 
 enum class VerboseType {None, Percentages, Residuals};
 
+enum class SimulationType { Steady, Unsteady };
+
 class Simulation {
 protected:
     Mesh *m_mesh;
@@ -20,6 +22,7 @@ protected:
 
     int m_outer_iterations_count = 0;
 
+    SimulationType m_simulation_type;
 
     // Timer
     std::unique_ptr<Timer> m_timer;
@@ -32,7 +35,7 @@ protected:
     VerboseType m_verbose_type;
 
 public:
-    Simulation(Mesh *mesh, std::string output_file, VerboseType verbose_type);
+    Simulation(Mesh *mesh, std::string output_file, SimulationType simulation_type, VerboseType verbose_type);
 
     double get_time_taken() const;
 

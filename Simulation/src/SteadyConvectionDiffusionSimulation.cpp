@@ -6,8 +6,8 @@
 
 SteadyConvectionDiffusionSimulation::SteadyConvectionDiffusionSimulation(
     Mesh* mesh, const double viscosity, const double tolerance_x, const double tolerance_y,
-    std::string output_file, const VerboseType verbose_type)
-    : Simulation(mesh, output_file, verbose_type) {
+    const std::string output_file, const VerboseType verbose_type)
+    : Simulation(mesh, output_file, SimulationType::Steady, verbose_type) {
     m_viscosity = viscosity;
     m_tolerance_x = tolerance_x;
     m_tolerance_y = tolerance_y;

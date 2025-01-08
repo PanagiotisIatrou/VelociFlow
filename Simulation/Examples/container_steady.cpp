@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "../src/SteadySimulation.hpp"
+#include "../src/NavierStokesSteady.hpp"
 
 const int grid_size_x = 100;
 const int grid_size_y = 100;
@@ -58,7 +58,7 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    SteadySimulation simulation(mesh, density, viscosity, 1e-4, 1e-4, 1e-4, path, VerboseType::Percentages);
+    NavierStokesSteady simulation(mesh, density, viscosity, 1e-4, 1e-4, 1e-4, path, VerboseType::Percentages);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();

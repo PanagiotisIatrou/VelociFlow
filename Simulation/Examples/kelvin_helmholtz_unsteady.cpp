@@ -4,7 +4,7 @@
 #include <string>
 #include <cmath>
 
-#include "../src/UnsteadySimulation.hpp"
+#include "../src/NavierStokesUnsteady.hpp"
 #include "../src/Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp"
 #include "../src/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp"
 
@@ -174,7 +174,7 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    UnsteadySimulation simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerboseType::Percentages);
+    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerboseType::Percentages);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();

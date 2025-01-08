@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "../src/UnsteadySimulation.hpp"
+#include "../src/NavierStokesUnsteady.hpp"
 
 const int grid_size_x = 100;
 const int grid_size_y = 100;
@@ -55,7 +55,7 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    UnsteadySimulation simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerboseType::Percentages);
+    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerboseType::Percentages);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();

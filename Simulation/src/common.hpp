@@ -1,8 +1,6 @@
 #pragma once
 #include <iostream>
 
-enum class SimulationType { Steady, Unsteady };
-
 enum class Field {
     VelocityX = 0,
     VelocityY = 1,
