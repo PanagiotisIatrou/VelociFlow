@@ -34,7 +34,9 @@ void PressureCorrection::calculate_mass_imbalance() {
         }
     }
 
-    m_mass_imbalance /= std::max(m_mass_imbalance_normalization_factor, 1e-10);
+    if (m_mass_imbalance_normalization_factor != 0.0) {
+        m_mass_imbalance /= std::max(m_mass_imbalance_normalization_factor, 1e-10);
+    }
 }
 
 double PressureCorrection::get_mass_imbalance() const {

@@ -142,7 +142,7 @@ double Equation::calculate_and_get_imbalance() {
         }
     }
 
-    if (m_residual_type == ResidualType::Scaled) {
+    if (m_residual_type == ResidualType::Scaled && scaled_denominator != 0.0) {
         error /= std::max(scaled_denominator, 1e-10);
     } else if (m_residual_type == ResidualType::Normalized) {
         if (m_can_update_imbalance_normalization_factor) {
@@ -153,7 +153,9 @@ double Equation::calculate_and_get_imbalance() {
             }
         }
 
-        error /= std::max(m_imbalance_normalization_factor, 1e-10);
+        if (m_imbalance_normalization_factor != 0.0) {
+            error /= std::max(m_imbalance_normalization_factor, 1e-10);
+        }
     }
 
     return error;
