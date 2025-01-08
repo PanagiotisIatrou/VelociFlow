@@ -3,14 +3,14 @@
 #include <iostream>
 #include <string>
 
-#include "../Simulation/SteadySimulation.hpp"
+#include "../src/SteadySimulation.hpp"
 
 const int grid_size_x = 100;
 const int grid_size_y = 100;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
-const double viscosity = 0.05;
+const double viscosity = 1.0 / 1000.0;
 const double density = 1.0;
 
 int main() {
@@ -24,24 +24,19 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
-        }
-    }
-
-    // Add the x boundary faces
-    for (int i = 0; i < grid_size_x + 1; i++) {
-        for (int j = 0; j < grid_size_y; j++) {
-            if (i == 0 && j > grid_size_y / 2 - 5 && j < grid_size_y / 2 + 5) {
-                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
+            if (j == grid_size_y - 1 || j == grid_size_y - 2) {
+                mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            } else {
+                mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
             }
         }
     }
 
-    // Add the y boundary faces
+    // Add the moving lid
     for (int i = 0; i < grid_size_x; i++) {
         for (int j = 0; j < grid_size_y + 1; j++) {
-            if (i > grid_size_x / 2 - 5 && i < grid_size_x / 2 + 5 && j == grid_size_x) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, 0.0, -velocity, 0.0);
+            if (j == grid_size_y) {
+                mesh->set_boundary_moving_wall_face(FaceSide::Y, i, j, velocity);
             }
         }
     }

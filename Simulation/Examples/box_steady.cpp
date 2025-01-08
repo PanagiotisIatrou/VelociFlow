@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "../Simulation/SteadySimulation.hpp"
+#include "../src/SteadySimulation.hpp"
 
 const int grid_size_x = 200;
 const int grid_size_y = 100;

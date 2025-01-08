@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "../Simulation/SteadyConvectionDiffusionSimulation.hpp"
+#include "../src/SteadyConvectionDiffusionSimulation.hpp"
 
 const int grid_size_x = 100;
 const int grid_size_y = 100;

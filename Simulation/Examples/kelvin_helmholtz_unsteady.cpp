@@ -4,9 +4,9 @@
 #include <string>
 #include <cmath>
 
-#include "../Simulation/UnsteadySimulation.hpp"
-#include "../Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp"
-#include "../Simulation/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp"
+#include "../src/UnsteadySimulation.hpp"
+#include "../src/Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp"
+#include "../src/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp"
 
 const int grid_size_x = 128;
 const int grid_size_y = 128;
