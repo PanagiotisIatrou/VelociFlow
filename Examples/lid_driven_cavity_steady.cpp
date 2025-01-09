@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "../src/NavierStokesSteady.hpp"
+#include <NavierStokesSteady.hpp>
 
 const int grid_size_x = 100;
 const int grid_size_y = 100;
@@ -48,7 +48,7 @@ int main() {
     mesh->link_nodes_faces();
 
     // Create the path for the output file
-    const std::string folder = "../../Results/Steady/";
+    const std::string folder = "../Results/Steady/";
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 

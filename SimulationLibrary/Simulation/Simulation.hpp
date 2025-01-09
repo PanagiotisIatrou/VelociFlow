@@ -35,6 +35,7 @@ protected:
     VerboseType m_verbose_type;
 
 public:
+    virtual ~Simulation() = default;
     Simulation(Mesh *mesh, std::string output_file, SimulationType simulation_type, VerboseType verbose_type);
 
     double get_time_taken() const;

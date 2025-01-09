@@ -3,17 +3,15 @@
 #include <iostream>
 #include <string>
 
-#include "../src/NavierStokesUnsteady.hpp"
+#include <NavierStokesSteady.hpp>
 
 const int grid_size_x = 100;
 const int grid_size_y = 100;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
-const double viscosity = 1.0 / 1000.0;
+const double viscosity = 0.05;
 const double density = 1.0;
-const double dt = 0.01;
-const int timesteps = 100;
 
 int main() {
     // Create the mesh
@@ -26,19 +24,24 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            if (j == grid_size_y - 1 || j == grid_size_y - 2) {
-                mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
-            } else {
-                mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+        }
+    }
+
+    // Add the x boundary faces
+    for (int i = 0; i < grid_size_x + 1; i++) {
+        for (int j = 0; j < grid_size_y; j++) {
+            if (i == 0 && j > grid_size_y / 2 - 5 && j < grid_size_y / 2 + 5) {
+                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
             }
         }
     }
 
-    // Add the moving lid
+    // Add the y boundary faces
     for (int i = 0; i < grid_size_x; i++) {
         for (int j = 0; j < grid_size_y + 1; j++) {
-            if (j == grid_size_y) {
-                mesh->set_boundary_moving_wall_face(FaceSide::Y, i, j, velocity);
+            if (i > grid_size_x / 2 - 5 && i < grid_size_x / 2 + 5 && j == grid_size_x) {
+                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, 0.0, -velocity, 0.0);
             }
         }
     }
@@ -50,12 +53,12 @@ int main() {
     mesh->link_nodes_faces();
 
     // Create the path for the output file
-    const std::string folder = "../../Results/Unsteady/";
+    const std::string folder = "../Results/Steady/";
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 
     // Run the simulation
-    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerboseType::Percentages);
+    NavierStokesSteady simulation(mesh, density, viscosity, 1e-4, 1e-4, 1e-4, path, VerboseType::Percentages);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();

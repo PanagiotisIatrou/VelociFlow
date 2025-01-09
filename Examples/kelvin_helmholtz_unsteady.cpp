@@ -4,9 +4,9 @@
 #include <string>
 #include <cmath>
 
-#include "../src/NavierStokesUnsteady.hpp"
-#include "../src/Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp"
-#include "../src/Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp"
+#include <NavierStokesUnsteady.hpp>
+#include <Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp>
+#include <Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp>
 
 const int grid_size_x = 128;
 const int grid_size_y = 128;
@@ -169,7 +169,7 @@ int main() {
     mesh->link_nodes_faces();
 
     // Create the path for the output file
-    const std::string folder = "../../Results/Unsteady/";
+    const std::string folder = "../Results/Unsteady/";
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 

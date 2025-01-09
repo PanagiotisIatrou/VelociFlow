@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "../src/ConvectionDiffusionUnsteady.hpp"
+#include <ConvectionDiffusionSteady.hpp>
 
 const int grid_size_x = 100;
 const int grid_size_y = 100;
@@ -11,8 +11,6 @@ const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
 const double viscosity = 1.0;
-const double dt = 0.01;
-const int timesteps = 100;
 
 int main() {
     // Create the mesh
@@ -48,12 +46,12 @@ int main() {
     mesh->link_nodes_faces();
 
     // Create the path for the output file
-    const std::string folder = "../../Results/Unsteady/";
+    const std::string folder = "../Results/Steady/";
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 
     // Run the simulation
-    ConvectionDiffusionUnsteady simulation(mesh, viscosity, dt, timesteps, 1e-4, 1e-4, path, VerboseType::Percentages);
+    ConvectionDiffusionSteady simulation(mesh, viscosity, 1e-4, 1e-4, path, VerboseType::Percentages);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();

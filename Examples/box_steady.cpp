@@ -3,13 +3,13 @@
 #include <iostream>
 #include <string>
 
-#include "../src/NavierStokesSteady.hpp"
+#include <NavierStokesSteady.hpp>
 
-const int grid_size_x = 160;
-const int grid_size_y = 40;
-const double domain_size_x = 4.0;
+const int grid_size_x = 200;
+const int grid_size_y = 100;
+const double domain_size_x = 2.0;
 const double domain_size_y = 1.0;
-const double velocity = 0.5;
+const double velocity = 1.0;
 const double viscosity = 0.05;
 const double density = 1.0;
 
@@ -17,13 +17,11 @@ int main() {
     // Create the mesh
     Mesh *mesh = new Mesh(grid_size_x, grid_size_y, domain_size_x, domain_size_y);
 
-    // Add the nodes (and the obstacles)
+    // Add the nodes
     for (int i = 0; i < grid_size_x; i++) {
         for (int j = 0; j < grid_size_y; j++) {
-            if (i > grid_size_x / 4 - 3 && i < grid_size_x / 4 + 3 && j > grid_size_y / 3) {
-                continue;
-            }
-            if (i > 2 * grid_size_x / 4 - 3 && i < 2 * grid_size_x / 4 + 3 && j < 2 * grid_size_y / 3) {
+            // No nodes for the 3rd quadrant
+            if (i < grid_size_x / 2 && j < grid_size_y / 2) {
                 continue;
             }
 
@@ -35,10 +33,10 @@ int main() {
         }
     }
 
-    // Add the left and right boundaries
+    // Add the x boundary faces
     for (int i = 0; i < grid_size_x + 1; i++) {
         for (int j = 0; j < grid_size_y; j++) {
-            if (i == 0) {
+            if (i == 0 && j >= grid_size_y / 2) {
                 mesh->set_boundary_inlet_face(FaceSide::X, i, j, velocity, 0.0, 0.0);
             } else if (i == grid_size_x) {
                 mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
@@ -53,7 +51,7 @@ int main() {
     mesh->link_nodes_faces();
 
     // Create the path for the output file
-    const std::string folder = "../../Results/Steady/";
+    const std::string folder = "../Results/Steady/";
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 
