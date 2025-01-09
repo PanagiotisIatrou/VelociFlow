@@ -1,9 +1,8 @@
+#include <NavierStokesSteady.hpp>
 #include <chrono>
 #include <fstream>
 #include <iostream>
 #include <string>
-
-#include <NavierStokesSteady.hpp>
 
 const int grid_size_x = 100;
 const int grid_size_y = 100;
@@ -24,11 +23,7 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            if (j == grid_size_y - 1 || j == grid_size_y - 2) {
-                mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
-            } else {
-                mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
-            }
+            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
         }
     }
 
