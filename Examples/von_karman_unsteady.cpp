@@ -68,7 +68,7 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerboseType::Percentages);
+    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();

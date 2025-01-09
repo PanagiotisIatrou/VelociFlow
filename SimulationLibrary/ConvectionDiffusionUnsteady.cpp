@@ -6,9 +6,9 @@
 ConvectionDiffusionUnsteady::ConvectionDiffusionUnsteady(Mesh* mesh, const double viscosity, const double dt,
                                                          const int timesteps, const double tolerance_x,
                                                          const double tolerance_y, const std::string output_file,
-                                                         const VerboseType verbose_type)
+                                                         const VerbosityType verbosity_type)
     : ConvectionDiffusion(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Unsteady,
-                          verbose_type) {
+                          verbosity_type) {
     m_dt = dt;
     m_timesteps = timesteps;
     m_mesh->set_dt(dt);
@@ -50,11 +50,11 @@ void ConvectionDiffusionUnsteady::solve() {
             }
 
             // Printing
-            if (m_verbose_type == VerboseType::Residuals) {
+            if (m_verbosity_type == VerbosityType::Residuals) {
                 printf("%-6d   %4e   %4e\n", m_outer_iterations_count,
                        m_equation_convection_diffusion_x->get_imbalance(),
                        m_equation_convection_diffusion_y->get_imbalance());
-            } else if (m_verbose_type == VerboseType::Percentages) {
+            } else if (m_verbosity_type == VerbosityType::Percentages) {
                 double convection_diffusion_x_scale;
                 if (first_convection_diffusion_x_error <= m_tolerance_x) {
                     convection_diffusion_x_scale =

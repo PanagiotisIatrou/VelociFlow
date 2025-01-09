@@ -9,7 +9,7 @@
 #include "Utilities/Saver.hpp"
 #include "Utilities/Timer.hpp"
 
-enum class VerboseType {None, Percentages, Residuals};
+enum class VerbosityType {None, Percentages, Residuals};
 
 enum class SimulationType { Steady, Unsteady };
 
@@ -32,11 +32,11 @@ protected:
     std::unique_ptr<Saver> m_saver;
 
     // Verbosity
-    VerboseType m_verbose_type;
+    VerbosityType m_verbosity_type;
 
 public:
     virtual ~Simulation() = default;
-    Simulation(Mesh *mesh, std::string output_file, SimulationType simulation_type, VerboseType verbose_type);
+    Simulation(Mesh *mesh, std::string output_file, SimulationType simulation_type, VerbosityType verbosity_type);
 
     double get_time_taken() const;
 

@@ -7,9 +7,9 @@
 NavierStokesUnsteady::NavierStokesUnsteady(Mesh *mesh, const double density, const double viscosity, const double dt,
                                        const int timesteps, const double tolerance_momentum_x,
                                        const double tolerance_momentum_y, const double tolerance_mass_imbalance,
-                                       const std::string output_file, const VerboseType verbose_type)
+                                       const std::string output_file, const VerbosityType verbosity_type)
     : NavierStokes(mesh, density, viscosity, tolerance_momentum_x, tolerance_momentum_y, tolerance_mass_imbalance,
-                   output_file, SimulationType::Unsteady, verbose_type) {
+                   output_file, SimulationType::Unsteady, verbosity_type) {
     m_dt = dt;
     m_timesteps = timesteps;
     m_mesh->set_dt(dt);
@@ -57,10 +57,10 @@ void NavierStokesUnsteady::solve() {
             }
 
             // Printing
-            if (m_verbose_type == VerboseType::Residuals) {
+            if (m_verbosity_type == VerbosityType::Residuals) {
                 printf("%-6d   %4e   %4e   %4e\n", m_outer_iterations_count, m_equation_momentum_x->get_imbalance(),
                        m_equation_momentum_y->get_imbalance(), m_equation_pressure_correction->get_mass_imbalance());
-            } else if (m_verbose_type == VerboseType::Percentages) {
+            } else if (m_verbosity_type == VerbosityType::Percentages) {
                 double momentum_x_scale;
                 if (first_momentum_x_error <= m_tolerance_momentum_x) {
                     momentum_x_scale = (std::log10(m_tolerance_momentum_x) -

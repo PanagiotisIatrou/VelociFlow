@@ -53,7 +53,7 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    ConvectionDiffusionUnsteady simulation(mesh, viscosity, dt, timesteps, 1e-4, 1e-4, path, VerboseType::Percentages);
+    ConvectionDiffusionUnsteady simulation(mesh, viscosity, dt, timesteps, 1e-4, 1e-4, path, VerbosityType::Percentages);
     simulation.solve();
 
     const double time_taken = simulation.get_time_taken();
