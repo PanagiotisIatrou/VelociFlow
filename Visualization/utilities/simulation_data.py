@@ -14,6 +14,8 @@ class SimulationData:
         self.dt = None
         self.timesteps = 0
         self.execution_time = None
+        self.density = None
+        self.viscosity = None
         self.velocity_timesteps_u = []
         self.velocity_timesteps_v = []
         self.pressure_timesteps = []
@@ -48,6 +50,12 @@ class SimulationData:
                     elif line.startswith("execution_time"):
                         line = f.readline()
                         self.execution_time = float(line)
+                    elif line.startswith("density"):
+                        line = f.readline()
+                        self.density = float(line)
+                    elif line.startswith("viscosity"):
+                        line = f.readline()
+                        self.viscosity = float(line)
                     elif line.startswith("velocity_u"):
                         self.timesteps += 1
                         velocity_u = np.zeros((self.grid_size_x, self.grid_size_y))
@@ -106,3 +114,7 @@ class SimulationData:
         if self.dt is not None and self.timesteps is not None:
             print("Simulation time:", self.timesteps * self.dt, "s")
         print("Execution time:", self.execution_time, "s")
+        if self.density is not None:
+            print("Density:", self.density)
+        if self.viscosity is not None:
+            print("Viscosity:", self.viscosity)
