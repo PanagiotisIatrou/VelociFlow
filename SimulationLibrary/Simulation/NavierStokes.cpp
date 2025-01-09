@@ -49,56 +49,67 @@ NavierStokes::NavierStokes(Mesh *mesh, const double density, const double viscos
     m_bulk_face_operations->update_face_y_pressures();
     m_bulk_face_operations->update_face_x_dye();
     m_bulk_face_operations->update_face_y_dye();
+
+    // Verbosity
+    m_verbosity_handler->add_monitor(
+        "MomentumX", [capture0 = m_equation_momentum_x.get()] { return capture0->get_imbalance(); },
+        m_tolerance_momentum_x);
+    m_verbosity_handler->add_monitor(
+        "MomentumY", [capture0 = m_equation_momentum_y.get()] { return capture0->get_imbalance(); },
+        m_tolerance_momentum_y);
+    m_verbosity_handler->add_monitor(
+        "MassImbalance", [capture0 = m_equation_pressure_correction.get()] { return capture0->get_mass_imbalance(); },
+        m_tolerance_mass_imbalance);
 }
 
 void NavierStokes::simple_iterate() {
     // Calculate the momentum coefficients
-        m_equation_momentum_x->calculate_coefficients();
-        m_equation_momentum_y->calculate_coefficients();
+    m_equation_momentum_x->calculate_coefficients();
+    m_equation_momentum_y->calculate_coefficients();
 
-        // Calculate the momentum imbalance
-        m_equation_momentum_x->calculate_imbalance();
-        m_equation_momentum_y->calculate_imbalance();
+    // Calculate the momentum imbalance
+    m_equation_momentum_x->calculate_imbalance();
+    m_equation_momentum_y->calculate_imbalance();
 
-        // Solve X and Y momentum equations
-        m_equation_momentum_x->solve();
-        m_equation_momentum_y->solve();
+    // Solve X and Y momentum equations
+    m_equation_momentum_x->solve();
+    m_equation_momentum_y->solve();
 
-        // Calculate the face velocities
-        m_bulk_face_operations->update_face_x_velocities_rhie_chow();
-        m_bulk_face_operations->update_face_y_velocities_rhie_chow();
+    // Calculate the face velocities
+    m_bulk_face_operations->update_face_x_velocities_rhie_chow();
+    m_bulk_face_operations->update_face_y_velocities_rhie_chow();
 
-        // Calculate the pressure correction coefficients
-        m_equation_pressure_correction->calculate_coefficients();
+    // Calculate the pressure correction coefficients
+    m_equation_pressure_correction->calculate_coefficients();
 
-        // Calculate the mass imbalance
-        m_equation_pressure_correction->calculate_mass_imbalance();
+    // Calculate the mass imbalance
+    m_equation_pressure_correction->calculate_mass_imbalance();
 
-        // Solve pressure correction equation
-        m_bulk_node_operations->reset_pressure_correction();
-        m_equation_pressure_correction->solve();
+    // Solve pressure correction equation
+    m_bulk_node_operations->reset_pressure_correction();
+    m_equation_pressure_correction->solve();
 
-        // Update the pressure correction on the faces
-        m_bulk_face_operations->update_face_x_pressure_corrections();
-        m_bulk_face_operations->update_face_y_pressure_corrections();
+    // Update the pressure correction on the faces
+    m_bulk_face_operations->update_face_x_pressure_corrections();
+    m_bulk_face_operations->update_face_y_pressure_corrections();
 
-        // Correct the x and y node velocities
-        m_bulk_node_operations->correct_node_velocity_x();
-        m_bulk_node_operations->correct_node_velocity_y();
+    // Correct the x and y node velocities
+    m_bulk_node_operations->correct_node_velocity_x();
+    m_bulk_node_operations->correct_node_velocity_y();
 
-        // Correct the face x and y velocities
-        m_bulk_face_operations->correct_face_x_velocity();
-        m_bulk_face_operations->correct_face_y_velocity();
+    // Correct the face x and y velocities
+    m_bulk_face_operations->correct_face_x_velocity();
+    m_bulk_face_operations->correct_face_y_velocity();
 
-        // Correct the pressure on the nodes
-        m_bulk_node_operations->correct_node_pressure();
+    // Correct the pressure on the nodes
+    m_bulk_node_operations->correct_node_pressure();
 
-        // Update the pressure on the faces
-        m_bulk_face_operations->update_face_x_pressures();
-        m_bulk_face_operations->update_face_y_pressures();
+    // Update the pressure on the faces
+    m_bulk_face_operations->update_face_x_pressures();
+    m_bulk_face_operations->update_face_y_pressures();
 
-        m_outer_iterations_count++;
-        m_equation_momentum_x->progress_iteration_counter();
-        m_equation_momentum_y->progress_iteration_counter();
-        m_equation_pressure_correction->progress_iteration_counter();
+    m_outer_iterations_count++;
+    m_equation_momentum_x->progress_iteration_counter();
+    m_equation_momentum_y->progress_iteration_counter();
+    m_equation_pressure_correction->progress_iteration_counter();
 }

@@ -10,75 +10,21 @@ NavierStokesSteady::NavierStokesSteady(Mesh* mesh, const double density, const d
                                    const VerbosityType verbosity_type)
     : NavierStokes(mesh, density, viscosity, tolerance_momentum_x, tolerance_momentum_y, tolerance_mass_imbalance,
                    output_file, SimulationType::Steady, verbosity_type) {
+    // Verbosity
+    m_verbosity_handler->enable_print_iterations();
 }
 
 void NavierStokesSteady::solve() {
     m_timer->start_timer();
-
-    double first_momentum_x_error;
-    double first_momentum_y_error;
-    double first_mass_imbalance_error;
+    m_verbosity_handler->set_timesteps_count(1);
+    m_outer_iterations_count = 0;
     while (m_equation_momentum_x->get_imbalance() > m_tolerance_momentum_x ||
            m_equation_momentum_y->get_imbalance() > m_tolerance_momentum_y ||
            m_equation_pressure_correction->get_mass_imbalance() > m_tolerance_mass_imbalance) {
         simple_iterate();
 
-        // First errors
-        if (m_outer_iterations_count < 5) {
-            first_momentum_x_error = m_equation_momentum_x->get_imbalance();
-            first_momentum_y_error = m_equation_momentum_y->get_imbalance();
-            first_mass_imbalance_error = m_equation_pressure_correction->get_mass_imbalance();
-        }
-
-        // Printing
-        if (m_verbosity_type == VerbosityType::Residuals) {
-            printf("%-6d   %4e   %4e   %4e\n", m_outer_iterations_count, m_equation_momentum_x->get_imbalance(),
-                   m_equation_momentum_y->get_imbalance(), m_equation_pressure_correction->get_mass_imbalance());
-        } else if (m_verbosity_type == VerbosityType::Percentages) {
-            double momentum_x_scale;
-            if (first_momentum_x_error <= m_tolerance_momentum_x) {
-                momentum_x_scale = (std::log10(m_tolerance_momentum_x) -
-                                    std::log10(m_equation_momentum_x->get_imbalance() / m_tolerance_momentum_x)) /
-                                   std::log10(m_tolerance_momentum_x);
-            } else {
-                momentum_x_scale = std::log10(first_momentum_x_error / m_equation_momentum_x->get_imbalance()) /
-                                   std::log10(first_momentum_x_error / m_tolerance_momentum_x);
-            }
-            momentum_x_scale = std::clamp(momentum_x_scale, 0.0, 1.0);
-            const int momentum_x_percentage = static_cast<int>(std::floor(momentum_x_scale * 100.0));
-
-            double momentum_y_scale;
-            if (first_momentum_y_error <= m_tolerance_momentum_y) {
-                momentum_y_scale = (std::log10(m_tolerance_momentum_y) -
-                                    std::log10(m_equation_momentum_y->get_imbalance() / m_tolerance_momentum_y)) /
-                                   std::log10(m_tolerance_momentum_y);
-            } else {
-                momentum_y_scale = std::log10(first_momentum_y_error / m_equation_momentum_y->get_imbalance()) /
-                                   std::log10(first_momentum_y_error / m_tolerance_momentum_y);
-            }
-            momentum_y_scale = std::clamp(momentum_y_scale, 0.0, 1.0);
-            const int momentum_y_percentage = static_cast<int>(std::floor(momentum_y_scale * 100.0));
-
-            double mass_imbalance_scale;
-            if (first_mass_imbalance_error <= m_tolerance_mass_imbalance) {
-                mass_imbalance_scale =
-                    (std::log10(m_tolerance_mass_imbalance) -
-                     std::log10(m_equation_pressure_correction->get_mass_imbalance() / m_tolerance_mass_imbalance)) /
-                    std::log10(m_tolerance_mass_imbalance);
-            } else {
-                mass_imbalance_scale =
-                    std::log10(first_mass_imbalance_error / m_equation_pressure_correction->get_mass_imbalance()) /
-                    std::log10(first_mass_imbalance_error / m_tolerance_mass_imbalance);
-            }
-            mass_imbalance_scale = std::clamp(mass_imbalance_scale, 0.0, 1.0);
-            const int mass_imbalance_percentage = static_cast<int>(std::floor(mass_imbalance_scale * 100.0));
-
-            printf(
-                "\r[Momentum X: %-3d%%, Momentum Y: %-3d%%, Continuity: "
-                "%-3d%%]",
-                momentum_x_percentage, momentum_y_percentage, mass_imbalance_percentage);
-            std::cout << std::flush;
-        }
+        m_verbosity_handler->set_iterations_count(m_outer_iterations_count);
+        m_verbosity_handler->print();
     }
 
     // Solve the dye equation

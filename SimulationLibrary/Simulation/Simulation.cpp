@@ -7,7 +7,7 @@ Simulation::Simulation(Mesh *mesh, const std::string output_file, const Simulati
     m_bulk_face_operations = std::make_unique<BulkFaceOperations>(mesh);
     m_timer = std::make_unique<Timer>();
     m_saver = std::make_unique<Saver>(mesh, output_file);
-    m_verbosity_type = verbosity_type;
+    m_verbosity_handler = std::make_unique<VerbosityHandler>(verbosity_type);
     m_simulation_type = simulation_type;
 }
 

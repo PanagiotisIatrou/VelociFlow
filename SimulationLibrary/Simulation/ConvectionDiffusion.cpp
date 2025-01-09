@@ -12,11 +12,9 @@ ConvectionDiffusion::ConvectionDiffusion(Mesh* mesh, const double viscosity, con
 
     // Create the equations
     m_equation_convection_diffusion_x = std::make_unique<ConvectionDiffusionX>(
-        mesh, Field::VelocityX, 1.0, ResidualType::Scaled,
-        StoppingRule::Relative, NormType::L1, 1e-1, include_time);
+        mesh, Field::VelocityX, 1.0, ResidualType::Scaled, StoppingRule::Relative, NormType::L1, 1e-1, include_time);
     m_equation_convection_diffusion_y = std::make_unique<ConvectionDiffusionY>(
-        mesh, Field::VelocityY, 1.0, ResidualType::Scaled,
-        StoppingRule::Relative, NormType::L1, 1e-1, include_time);
+        mesh, Field::VelocityY, 1.0, ResidualType::Scaled, StoppingRule::Relative, NormType::L1, 1e-1, include_time);
 
     // Populate all the nodes with the equation coefficients
     m_equation_convection_diffusion_x->populate_mesh();
@@ -30,6 +28,12 @@ ConvectionDiffusion::ConvectionDiffusion(Mesh* mesh, const double viscosity, con
     // Initialize the face velocities
     m_bulk_face_operations->update_face_x_velocities_distance_weighted();
     m_bulk_face_operations->update_face_y_velocities_distance_weighted();
+
+    // Verbosity
+    m_verbosity_handler->add_monitor(
+        "X", [capture0 = m_equation_convection_diffusion_x.get()] { return capture0->get_imbalance(); }, m_tolerance_x);
+    m_verbosity_handler->add_monitor(
+        "Y", [capture0 = m_equation_convection_diffusion_y.get()] { return capture0->get_imbalance(); }, m_tolerance_y);
 }
 
 void ConvectionDiffusion::iterate() {

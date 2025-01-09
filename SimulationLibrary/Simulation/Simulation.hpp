@@ -8,8 +8,7 @@
 #include "Meshing/Nodes/BulkNodeOperations.hpp"
 #include "Utilities/Saver.hpp"
 #include "Utilities/Timer.hpp"
-
-enum class VerbosityType {None, Percentages, Residuals};
+#include "Utilities/VerbosityHandler.hpp"
 
 enum class SimulationType { Steady, Unsteady };
 
@@ -32,7 +31,7 @@ protected:
     std::unique_ptr<Saver> m_saver;
 
     // Verbosity
-    VerbosityType m_verbosity_type;
+    std::unique_ptr<VerbosityHandler> m_verbosity_handler;
 
 public:
     virtual ~Simulation() = default;
