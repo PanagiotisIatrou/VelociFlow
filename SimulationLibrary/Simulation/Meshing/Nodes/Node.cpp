@@ -10,6 +10,8 @@
 #include "../../Equations/Equations/EquationCoefficients/PressureCorrection/PressureCorrectionCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionX/ConvectionDiffusionXCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionY/ConvectionDiffusionYCoefficients.hpp"
+#include "../../Equations/Equations/EquationCoefficients/DiffusionX/DiffusionXCoefficients.hpp"
+#include "../../Equations/Equations/EquationCoefficients/DiffusionY/DiffusionYCoefficients.hpp"
 
 Node::Node(const double dx, const double dy, const double velocity_x,
            const double velocity_y, const double pressure, const double dye) {
@@ -225,6 +227,14 @@ void Node::add_equation_coefficient(const EquationType equation_type, Field vari
         }
         case EquationType::ConvectionDiffusionY: {
             m_equation_coefficients[equation_type] = std::make_unique<ConvectionDiffusionYCoefficients>(this, variable_field, relaxation, include_time);
+            break;
+        }
+        case EquationType::DiffusionX: {
+            m_equation_coefficients[equation_type] = std::make_unique<DiffusionXCoefficients>(this, variable_field, relaxation, include_time);
+            break;
+        }
+        case EquationType::DiffusionY: {
+            m_equation_coefficients[equation_type] = std::make_unique<DiffusionYCoefficients>(this, variable_field, relaxation, include_time);
             break;
         }
         default: {

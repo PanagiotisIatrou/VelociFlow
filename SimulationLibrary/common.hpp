@@ -36,7 +36,9 @@ enum class EquationType {
     PressureCorrection = 2,
     Dye = 3,
     ConvectionDiffusionX = 4,
-    ConvectionDiffusionY = 5
+    ConvectionDiffusionY = 5,
+    DiffusionX = 6,
+    DiffusionY = 7
 };
 
 inline Direction extend_direction(const Direction direction) {
