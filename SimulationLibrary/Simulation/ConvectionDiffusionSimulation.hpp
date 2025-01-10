@@ -4,7 +4,7 @@
 #include "Equations/Equations/ConvectionDiffusionY.hpp"
 #include "Simulation.hpp"
 
-class ConvectionDiffusion : public Simulation {
+class ConvectionDiffusionSimulation : public Simulation {
 protected:
     double m_viscosity;
 
@@ -15,7 +15,7 @@ protected:
     double m_tolerance_y;
 
 public:
-    ConvectionDiffusion(Mesh* mesh, double viscosity, double tolerance_x, double tolerance_y, std::string output_file,
+    ConvectionDiffusionSimulation(Mesh* mesh, double viscosity, double tolerance_x, double tolerance_y, std::string output_file,
                         SimulationType simulation_type, VerbosityType verbosity_type);
 
     void solve() override = 0;

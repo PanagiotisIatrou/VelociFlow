@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Simulation/ConvectionDiffusion.hpp"
+#include "Simulation/ConvectionDiffusionSimulation.hpp"
 
-class ConvectionDiffusionUnsteady : public ConvectionDiffusion {
+class ConvectionDiffusionUnsteady : public ConvectionDiffusionSimulation {
 private:
     double m_dt;
     int m_timesteps;

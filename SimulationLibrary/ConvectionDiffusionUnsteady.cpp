@@ -7,7 +7,7 @@ ConvectionDiffusionUnsteady::ConvectionDiffusionUnsteady(Mesh* mesh, const doubl
                                                          const int timesteps, const double tolerance_x,
                                                          const double tolerance_y, const std::string output_file,
                                                          const VerbosityType verbosity_type)
-    : ConvectionDiffusion(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Unsteady,
+    : ConvectionDiffusionSimulation(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Unsteady,
                           verbosity_type) {
     m_dt = dt;
     m_timesteps = timesteps;

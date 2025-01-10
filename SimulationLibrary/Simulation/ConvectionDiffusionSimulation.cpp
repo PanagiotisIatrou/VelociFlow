@@ -1,6 +1,6 @@
-#include "ConvectionDiffusion.hpp"
+#include "ConvectionDiffusionSimulation.hpp"
 
-ConvectionDiffusion::ConvectionDiffusion(Mesh* mesh, const double viscosity, const double tolerance_x,
+ConvectionDiffusionSimulation::ConvectionDiffusionSimulation(Mesh* mesh, const double viscosity, const double tolerance_x,
                                          const double tolerance_y, const std::string output_file,
                                          const SimulationType simulation_type, const VerbosityType verbosity_type)
     : Simulation(mesh, output_file, simulation_type, verbosity_type) {
@@ -36,7 +36,7 @@ ConvectionDiffusion::ConvectionDiffusion(Mesh* mesh, const double viscosity, con
         "Y", [capture0 = m_equation_convection_diffusion_y.get()] { return capture0->get_imbalance(); }, m_tolerance_y);
 }
 
-void ConvectionDiffusion::iterate() {
+void ConvectionDiffusionSimulation::iterate() {
     // Calculate the coefficients
     m_equation_convection_diffusion_x->calculate_coefficients();
     m_equation_convection_diffusion_y->calculate_coefficients();
