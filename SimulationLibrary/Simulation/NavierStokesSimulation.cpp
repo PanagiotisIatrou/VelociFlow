@@ -1,6 +1,6 @@
-#include "NavierStokes.hpp"
+#include "NavierStokesSimulation.hpp"
 
-NavierStokes::NavierStokes(Mesh *mesh, const double density, const double viscosity, const double tolerance_momentum_x,
+NavierStokesSimulation::NavierStokesSimulation(Mesh *mesh, const double density, const double viscosity, const double tolerance_momentum_x,
                            const double tolerance_momentum_y, const double tolerance_mass_imbalance,
                            const std::string output_file, const SimulationType simulation_type,
                            const VerbosityType verbosity_type)
@@ -62,7 +62,7 @@ NavierStokes::NavierStokes(Mesh *mesh, const double density, const double viscos
         m_tolerance_mass_imbalance);
 }
 
-void NavierStokes::simple_iterate() {
+void NavierStokesSimulation::simple_iterate() {
     // Calculate the momentum coefficients
     m_equation_momentum_x->calculate_coefficients();
     m_equation_momentum_y->calculate_coefficients();

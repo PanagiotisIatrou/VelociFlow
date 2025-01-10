@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Simulation/NavierStokes.hpp"
+#include "Simulation/NavierStokesSimulation.hpp"
 
-class NavierStokesUnsteady : public NavierStokes {
+class NavierStokesUnsteady : public NavierStokesSimulation {
 private:
     double m_dt;
     int m_timesteps;

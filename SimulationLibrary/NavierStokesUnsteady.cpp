@@ -8,7 +8,7 @@ NavierStokesUnsteady::NavierStokesUnsteady(Mesh *mesh, const double density, con
                                        const int timesteps, const double tolerance_momentum_x,
                                        const double tolerance_momentum_y, const double tolerance_mass_imbalance,
                                        const std::string output_file, const VerbosityType verbosity_type)
-    : NavierStokes(mesh, density, viscosity, tolerance_momentum_x, tolerance_momentum_y, tolerance_mass_imbalance,
+    : NavierStokesSimulation(mesh, density, viscosity, tolerance_momentum_x, tolerance_momentum_y, tolerance_mass_imbalance,
                    output_file, SimulationType::Unsteady, verbosity_type) {
     m_dt = dt;
     m_timesteps = timesteps;

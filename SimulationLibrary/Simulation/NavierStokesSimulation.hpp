@@ -6,7 +6,7 @@
 #include "Equations/Equations/PressureCorrection.hpp"
 #include "Simulation.hpp"
 
-class NavierStokes : public Simulation {
+class NavierStokesSimulation : public Simulation {
 protected:
     double m_density;
     double m_viscosity;
@@ -21,7 +21,7 @@ protected:
     double m_tolerance_mass_imbalance;
 
 public:
-    NavierStokes(Mesh *mesh, double density, double viscosity, double tolerance_momentum_x, double tolerance_momentum_y,
+    NavierStokesSimulation(Mesh *mesh, double density, double viscosity, double tolerance_momentum_x, double tolerance_momentum_y,
                  double tolerance_mass_imbalance, std::string output_file, SimulationType simulation_type,
                  VerbosityType verbosity_type);
 
