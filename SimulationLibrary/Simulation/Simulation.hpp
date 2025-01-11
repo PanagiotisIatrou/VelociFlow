@@ -34,7 +34,6 @@ protected:
     std::unique_ptr<VerbosityHandler> m_verbosity_handler;
 
 public:
-    virtual ~Simulation() = default;
     Simulation(Mesh *mesh, std::string output_file, SimulationType simulation_type, VerbosityType verbosity_type);
 
     double get_time_taken() const;
