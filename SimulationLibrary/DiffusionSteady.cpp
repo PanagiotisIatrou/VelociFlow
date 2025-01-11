@@ -9,18 +9,32 @@ DiffusionSteady::DiffusionSteady(Mesh* mesh, const double viscosity, const doubl
 }
 
 void DiffusionSteady::solve() {
+    start_ncurses();
+
     m_timer->start_timer();
     m_verbosity_handler->set_timesteps_count(1);
     m_outer_iterations_count = 0;
+    bool has_quit = false;
     while (m_equation_diffusion_x->get_imbalance() > m_tolerance_x ||
            m_equation_diffusion_y->get_imbalance() > m_tolerance_y) {
         iterate();
 
         m_verbosity_handler->set_iterations_count(m_outer_iterations_count);
         m_verbosity_handler->print();
+
+        if (pressed_quit()) {
+            has_quit = true;
+            break;
+        }
     }
 
-    std::cout << std::endl << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
+    end_ncurses();
+
+    if (has_quit) {
+        std::cout << "Simulation stopped by user" << std::endl;
+    }
+
+    std::cout << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
 
     m_time_taken = m_timer->get_elapsed_time();
 

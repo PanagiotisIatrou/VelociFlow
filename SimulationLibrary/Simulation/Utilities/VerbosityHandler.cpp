@@ -1,5 +1,6 @@
 #include "VerbosityHandler.hpp"
 
+#include <ncurses.h>
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -38,6 +39,8 @@ void VerbosityHandler::print() {
             exit(1);
         }
     }
+
+    refresh();
 }
 
 void VerbosityHandler::add_monitor(const std::string name, const std::function<double()>& residual_getter,
@@ -65,30 +68,31 @@ void VerbosityHandler::set_timesteps_count(const int timesteps_count) {
 
 void VerbosityHandler::print_residuals() {
     if (m_print_timesteps) {
-        printf("Timesteps: %6d / %d   ", m_timesteps_count, m_total_timesteps);
+        printw("Timesteps: %6d / %d   ", m_timesteps_count, m_total_timesteps);
     }
     if (m_print_iterations) {
-        printf("Iterations: %-6d   ", m_iterations_count);
+        printw("Iterations: %-6d   ", m_iterations_count);
     }
-    printf("[");
+    printw("[");
     for (const Monitor &monitor : m_monitors) {
         const double residual = monitor.residual_getter();
         if (residual > monitor.tolerance) {
-            printf("%s: %4e   ", monitor.name.c_str(), residual);
+            printw("%s: %4e   ", monitor.name.c_str(), residual);
         }
     }
-    printf("]\n");
+    printw("]\n");
 }
 
 void VerbosityHandler::print_percentages() {
-    printf("\r");
+    move(0, 0);
+    clrtoeol();
     if (m_print_timesteps) {
-        printf("Timesteps: %6d / %d   ", m_timesteps_count, m_total_timesteps);
+        printw("Timesteps: %6d / %d   ", m_timesteps_count, m_total_timesteps);
     }
     if (m_print_iterations) {
-        printf("Iterations: %-6d   ", m_iterations_count);
+        printw("Iterations: %-6d   ", m_iterations_count);
     }
-    printf("[");
+    printw("[");
     for (const Monitor &monitor : m_monitors) {
         const double initial_residual = monitor.initial_residual;
         const double residual = monitor.residual_getter();
@@ -101,8 +105,7 @@ void VerbosityHandler::print_percentages() {
         }
         scale = std::clamp(scale, 0.0, 1.0);
         const int percentage = static_cast<int>(std::floor(scale * 100.0));
-        printf("%s: %-3d%% ", monitor.name.c_str(), percentage);
+        printw("%s: %-3d%% ", monitor.name.c_str(), percentage);
     }
-    printf("]");
-    std::cout << std::flush;
+    printw("]");
 }

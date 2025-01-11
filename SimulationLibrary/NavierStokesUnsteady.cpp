@@ -1,7 +1,5 @@
 #include "NavierStokesUnsteady.hpp"
 
-#include <algorithm>
-#include <cmath>
 #include <iostream>
 
 NavierStokesUnsteady::NavierStokesUnsteady(Mesh *mesh, const double density, const double viscosity, const double dt,
@@ -27,6 +25,8 @@ NavierStokesUnsteady::NavierStokesUnsteady(Mesh *mesh, const double density, con
 }
 
 void NavierStokesUnsteady::solve() {
+    start_ncurses();
+
     m_timer->start_timer();
 
     // Save the mesh settings and the initial state
@@ -42,6 +42,7 @@ void NavierStokesUnsteady::solve() {
     m_saver->write_field(Field::Dye);
     m_saver->close_file();
 
+    bool has_quit = false;
     for (int k = 0; k < m_timesteps; k++) {
         m_outer_iterations_count = 0;
         m_verbosity_handler->set_timesteps_count(k + 1);
@@ -52,6 +53,15 @@ void NavierStokesUnsteady::solve() {
 
             m_verbosity_handler->set_iterations_count(m_outer_iterations_count);
             m_verbosity_handler->print();
+
+            if (pressed_quit()) {
+                has_quit = true;
+                break;
+            }
+        }
+
+        if (has_quit) {
+            break;
         }
 
         // Solve the dye equation
@@ -80,12 +90,16 @@ void NavierStokesUnsteady::solve() {
         m_equation_dye->reset_imbalance();
     }
 
+    end_ncurses();
+
+    if (has_quit) {
+        std::cout << "Simulation stopped by user" << std::endl;
+    }
+
     m_time_taken = m_timer->get_elapsed_time();
 
     // Save the time took to calculate
     m_saver->open_append_file();
     m_saver->write_execution_time(m_time_taken);
     m_saver->close_file();
-
-    std::cout << std::endl;
 }

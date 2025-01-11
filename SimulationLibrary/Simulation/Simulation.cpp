@@ -1,5 +1,7 @@
 #include "Simulation.hpp"
 
+#include <ncurses.h>
+
 Simulation::Simulation(Mesh *mesh, const std::string output_file, const SimulationType simulation_type,
                        const VerbosityType verbosity_type) {
     m_mesh = mesh;
@@ -13,4 +15,24 @@ Simulation::Simulation(Mesh *mesh, const std::string output_file, const Simulati
 
 double Simulation::get_time_taken() const {
     return m_time_taken;
+}
+
+void Simulation::start_ncurses() {
+    initscr();
+    noecho();
+    nodelay(stdscr, TRUE);
+}
+
+void Simulation::end_ncurses() {
+    resetty();
+    endwin();
+}
+
+bool Simulation::pressed_quit() const {
+    char c = getch();
+    if (c == 'q') {
+        return true;
+    } else {
+        return false;
+    }
 }

@@ -15,9 +15,12 @@ NavierStokesSteady::NavierStokesSteady(Mesh* mesh, const double density, const d
 }
 
 void NavierStokesSteady::solve() {
+    start_ncurses();
+
     m_timer->start_timer();
     m_verbosity_handler->set_timesteps_count(1);
     m_outer_iterations_count = 0;
+    bool has_quit = false;
     while (m_equation_momentum_x->get_imbalance() > m_tolerance_momentum_x ||
            m_equation_momentum_y->get_imbalance() > m_tolerance_momentum_y ||
            m_equation_pressure_correction->get_mass_imbalance() > m_tolerance_mass_imbalance) {
@@ -25,13 +28,24 @@ void NavierStokesSteady::solve() {
 
         m_verbosity_handler->set_iterations_count(m_outer_iterations_count);
         m_verbosity_handler->print();
+
+        if (pressed_quit()) {
+            has_quit = true;
+            break;
+        }
     }
 
     // Solve the dye equation
     m_equation_dye->calculate_coefficients();
     m_equation_dye->solve();
 
-    std::cout << std::endl << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
+    end_ncurses();
+
+    if (has_quit) {
+        std::cout << "Simulation stopped by user" << std::endl;
+    }
+
+    std::cout << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
 
     m_time_taken = m_timer->get_elapsed_time();
 

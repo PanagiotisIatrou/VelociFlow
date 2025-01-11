@@ -21,6 +21,8 @@ DiffusionUnsteady::DiffusionUnsteady(Mesh *mesh, const double viscosity, const d
 }
 
 void DiffusionUnsteady::solve() {
+    start_ncurses();
+
     m_timer->start_timer();
 
     // Save the mesh settings and the initial state
@@ -33,6 +35,7 @@ void DiffusionUnsteady::solve() {
     m_saver->write_field(Field::VelocityY);
     m_saver->close_file();
 
+    bool has_quit = false;
     for (int k = 0; k < m_timesteps; k++) {
         m_outer_iterations_count = 0;
         m_verbosity_handler->set_timesteps_count(k + 1);
@@ -42,6 +45,15 @@ void DiffusionUnsteady::solve() {
 
             m_verbosity_handler->set_iterations_count(m_outer_iterations_count);
             m_verbosity_handler->print();
+
+            if (pressed_quit()) {
+                has_quit = true;
+                break;
+            }
+        }
+
+        if (has_quit) {
+            break;
         }
 
         // Write the current timestep field values
@@ -58,12 +70,16 @@ void DiffusionUnsteady::solve() {
         m_equation_diffusion_y->reset_imbalance();
     }
 
+    end_ncurses();
+
+    if (has_quit) {
+        std::cout << "Simulation stopped by user" << std::endl;
+    }
+
     m_time_taken = m_timer->get_elapsed_time();
 
     // Save the time took to calculate
     m_saver->open_append_file();
     m_saver->write_execution_time(m_time_taken);
     m_saver->close_file();
-
-    std::cout << std::endl;
 }
