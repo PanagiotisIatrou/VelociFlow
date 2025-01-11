@@ -17,6 +17,10 @@ double Simulation::get_time_taken() const {
     return m_time_taken;
 }
 
+int Simulation::get_outer_iterations_count() const {
+    return m_outer_iterations_count;
+}
+
 void Simulation::start_ncurses() {
     initscr();
     noecho();

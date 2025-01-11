@@ -46,5 +46,7 @@ public:
 
     double get_time_taken() const;
 
+    int get_outer_iterations_count() const;
+
     virtual void solve() = 0;
 };

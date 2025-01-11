@@ -41,8 +41,6 @@ void ConvectionDiffusionSteady::solve() {
         std::cout << "Simulation stopped by user" << std::endl;
     }
 
-    std::cout << "Converged in " << m_outer_iterations_count << " iterations" << std::endl;
-
     m_time_taken = m_timer->get_elapsed_time();
 
     // Save the results

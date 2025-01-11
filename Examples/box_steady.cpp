@@ -59,8 +59,8 @@ int main() {
     NavierStokesSteady simulation(mesh, density, viscosity, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
     simulation.solve();
 
-    const double time_taken = simulation.get_time_taken();
-    std::cout << "Finished in " << time_taken << " s" << std::endl;
+    std::cout << "Converged in " << simulation.get_outer_iterations_count() << " iterations" << std::endl;
+    std::cout << "Finished in " << simulation.get_time_taken() << " s" << std::endl;
     std::cout << "Saved output to file " << filename << std::endl;
 
     return 0;
