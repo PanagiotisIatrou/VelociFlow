@@ -43,9 +43,9 @@ void NavierStokesUnsteady::solve() {
     m_saver->close_file();
 
     bool has_quit = false;
-    for (int k = 0; k < m_timesteps; k++) {
+    for (m_reached_timesteps = 0; m_reached_timesteps < m_timesteps; m_reached_timesteps++) {
         m_outer_iterations_count = 0;
-        m_verbosity_handler->set_timesteps_count(k + 1);
+        m_verbosity_handler->set_timesteps_count(m_reached_timesteps + 1);
         while (m_equation_momentum_x->get_imbalance() > m_tolerance_momentum_x ||
                m_equation_momentum_y->get_imbalance() > m_tolerance_momentum_y ||
                m_equation_pressure_correction->get_mass_imbalance() > m_tolerance_mass_imbalance) {
@@ -102,4 +102,8 @@ void NavierStokesUnsteady::solve() {
     m_saver->open_append_file();
     m_saver->write_execution_time(m_time_taken);
     m_saver->close_file();
+}
+
+int NavierStokesUnsteady::get_reached_timesteps() const {
+    return m_reached_timesteps + 1;
 }

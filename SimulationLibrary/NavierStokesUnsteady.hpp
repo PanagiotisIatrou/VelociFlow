@@ -6,6 +6,7 @@ class NavierStokesUnsteady : public NavierStokesSimulation {
 private:
     double m_dt;
     int m_timesteps;
+    int m_reached_timesteps;
 
 public:
     NavierStokesUnsteady(Mesh *mesh, double density, double viscosity, double dt, int timesteps,
@@ -13,4 +14,6 @@ public:
                        std::string output_file, VerbosityType verbosity_type);
 
     void solve() override;
+
+    int get_reached_timesteps() const;
 };
