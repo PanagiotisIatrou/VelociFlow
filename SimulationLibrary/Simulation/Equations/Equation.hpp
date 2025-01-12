@@ -60,7 +60,5 @@ class Equation {
 
     void calculate_imbalance();
 
-    void progress_iteration_counter();
-
     void reset_imbalance();
 };

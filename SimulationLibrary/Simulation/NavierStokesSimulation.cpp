@@ -109,7 +109,4 @@ void NavierStokesSimulation::simple_iterate() {
     m_bulk_face_operations->update_face_y_pressures();
 
     m_outer_iterations_count++;
-    m_equation_momentum_x->progress_iteration_counter();
-    m_equation_momentum_y->progress_iteration_counter();
-    m_equation_pressure_correction->progress_iteration_counter();
 }

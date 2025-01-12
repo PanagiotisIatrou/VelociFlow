@@ -54,6 +54,4 @@ void DiffusionSimulation::iterate() {
     m_bulk_face_operations->update_face_y_velocities_distance_weighted();
 
     m_outer_iterations_count++;
-    m_equation_diffusion_x->progress_iteration_counter();
-    m_equation_diffusion_y->progress_iteration_counter();
 }

@@ -94,6 +94,8 @@ void Equation::solve() {
 
         error = calculate_and_get_imbalance();
     }
+
+    m_iterations_count++;
 }
 
 double Equation::calculate_and_get_imbalance() {
@@ -167,10 +169,6 @@ void Equation::calculate_imbalance() {
 
 double Equation::get_imbalance() const {
     return m_imbalance;
-}
-
-void Equation::progress_iteration_counter() {
-    m_iterations_count++;
 }
 
 void Equation::reset_imbalance() {
