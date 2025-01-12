@@ -51,6 +51,16 @@ void NavierStokesUnsteady::solve() {
                m_equation_pressure_correction->get_mass_imbalance() > m_tolerance_mass_imbalance) {
             simple_iterate();
 
+            // Save the normalization values
+            // TODO: Might fail if the first timestep converges too quickly (very rare)
+            if (m_reached_timesteps == 0 && m_outer_iterations_count == Equation::imbalance_normalization_iterations + 1) {
+                m_saver->open_append_file();
+                m_saver->write_normalization_values(EquationType::MomentumX, m_equation_momentum_x.get());
+                m_saver->write_normalization_values(EquationType::MomentumY, m_equation_momentum_y.get());
+                m_saver->write_normalization_values(EquationType::PressureCorrection, m_equation_pressure_correction.get());
+                m_saver->close_file();
+            }
+
             m_verbosity_handler->set_iterations_count(m_outer_iterations_count);
             m_verbosity_handler->print();
 

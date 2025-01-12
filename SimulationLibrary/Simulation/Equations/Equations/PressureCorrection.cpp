@@ -29,7 +29,7 @@ void PressureCorrection::calculate_mass_imbalance() {
     if (m_can_update_mass_imbalance_normalization_factor) {
         m_mass_imbalance_normalization_factor = std::max(m_mass_imbalance_normalization_factor, m_mass_imbalance);
 
-        if (m_iterations_count >= m_imbalance_normalization_iterations) {
+        if (m_iterations_count >= imbalance_normalization_iterations) {
             m_can_update_mass_imbalance_normalization_factor = false;
         }
     }
@@ -45,4 +45,12 @@ double PressureCorrection::get_mass_imbalance() const {
 
 void PressureCorrection::reset_mass_imbalance() {
     m_mass_imbalance = std::numeric_limits<double>::infinity();
+}
+
+double PressureCorrection::get_mass_imbalance_normalization_factor() const {
+    return m_mass_imbalance_normalization_factor;
+}
+
+void PressureCorrection::set_mass_imbalance_normalization_factor(const double factor) {
+    m_mass_imbalance_normalization_factor = factor;
 }

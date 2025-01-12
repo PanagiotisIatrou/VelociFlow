@@ -1,5 +1,7 @@
 #include "Saver.hpp"
 
+#include "Simulation/Equations/Equations/PressureCorrection.hpp"
+
 Saver::Saver(Mesh *mesh, const std::string path) {
     m_mesh = mesh;
     m_path = path;
@@ -26,7 +28,6 @@ void Saver::write_domain_size(const double size_x, const double size_y) const {
 void Saver::write_grid_size(const int size_x, const int size_y) const {
     fprintf(m_file, "grid_size\n");
     fprintf(m_file, "%d,%d\n", size_x, size_y);
-
 }
 
 void Saver::write_execution_time(const double execution_time) const {
@@ -93,5 +94,56 @@ void Saver::write_field(const Field field) const {
                 fprintf(m_file, "%d,%d,-\n", i, j);
             }
         }
+    }
+}
+
+void Saver::write_normalization_values(const EquationType equation_type, Equation *equation) const {
+    std::string title;
+    switch (equation_type) {
+        case EquationType::MomentumX: {
+            title = "momentum_x_normalization";
+            break;
+        }
+        case EquationType::MomentumY: {
+            title = "momentum_y_normalization";
+            break;
+        }
+        case EquationType::PressureCorrection: {
+            title = "pressure_correction_normalization";
+            break;
+        }
+        case EquationType::Dye: {
+            title = "dye_normalization";
+            break;
+        }
+        case EquationType::ConvectionDiffusionX: {
+            title = "convection_diffusion_x_normalization";
+            break;
+        }
+        case EquationType::ConvectionDiffusionY: {
+            title = "convection_diffusion_y_normalization";
+            break;
+        }
+        case EquationType::DiffusionX: {
+            title = "diffusion_x_normalization";
+            break;
+        }
+        case EquationType::DiffusionY: {
+            title = "diffusion_y_normalization";
+            break;
+        }
+        default: {
+            std::cerr << "Invalid field" << std::endl;
+            exit(1);
+        }
+    }
+    fprintf(m_file, "%s\n", title.c_str());
+    fprintf(m_file, "%f\n", equation->get_imbalance_normalization_factor());
+
+    // Extra normalization value only for the pressure correction equation
+    // (mass imbalance)
+    if (equation_type == EquationType::PressureCorrection) {
+        fprintf(m_file, "pressure_correction_mass_normalization\n");
+        fprintf(m_file, "%f\n", static_cast<PressureCorrection *>(equation)->get_mass_imbalance_normalization_factor());
     }
 }

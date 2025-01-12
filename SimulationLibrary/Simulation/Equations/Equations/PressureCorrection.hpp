@@ -21,4 +21,8 @@ class PressureCorrection : public Equation {
     double get_mass_imbalance() const;
 
     void reset_mass_imbalance();
+
+    double get_mass_imbalance_normalization_factor() const;
+
+    void set_mass_imbalance_normalization_factor(double factor);
 };

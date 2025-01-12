@@ -3,6 +3,7 @@
 #include <string>
 
 #include "../Meshing/Mesh.hpp"
+#include "Simulation/Equations/Equation.hpp"
 
 class Saver {
 public:
@@ -33,4 +34,6 @@ public:
     void write_timesteps_count(int timesteps) const;
 
     void write_field(Field field) const;
+
+    void write_normalization_values(EquationType equation_type, Equation *equation) const;
 };

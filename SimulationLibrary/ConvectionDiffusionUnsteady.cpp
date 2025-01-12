@@ -45,6 +45,15 @@ void ConvectionDiffusionUnsteady::solve() {
                m_equation_convection_diffusion_y->get_imbalance() > m_tolerance_y) {
             iterate();
 
+            // Save the normalization values
+            // TODO: Might fail if the first timestep converges too quickly (very rare)
+            if (m_reached_timesteps == 0 && m_outer_iterations_count == Equation::imbalance_normalization_iterations + 1) {
+                m_saver->open_append_file();
+                m_saver->write_normalization_values(EquationType::ConvectionDiffusionX, m_equation_convection_diffusion_x.get());
+                m_saver->write_normalization_values(EquationType::ConvectionDiffusionY, m_equation_convection_diffusion_y.get());
+                m_saver->close_file();
+            }
+
             m_verbosity_handler->set_iterations_count(m_outer_iterations_count);
             m_verbosity_handler->print();
 

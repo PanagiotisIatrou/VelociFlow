@@ -150,7 +150,7 @@ double Equation::calculate_and_get_imbalance() {
         if (m_can_update_imbalance_normalization_factor) {
             m_imbalance_normalization_factor = std::max(m_imbalance_normalization_factor, error);
 
-            if (m_iterations_count >= m_imbalance_normalization_iterations) {
+            if (m_iterations_count >= imbalance_normalization_iterations) {
                 m_can_update_imbalance_normalization_factor = false;
             }
         }
@@ -173,4 +173,12 @@ double Equation::get_imbalance() const {
 
 void Equation::reset_imbalance() {
     m_imbalance = std::numeric_limits<double>::infinity();
+}
+
+double Equation::get_imbalance_normalization_factor() const {
+    return m_imbalance_normalization_factor;
+}
+
+void Equation::set_imbalance_normalization_factor(const double factor) {
+    m_imbalance_normalization_factor = factor;
 }

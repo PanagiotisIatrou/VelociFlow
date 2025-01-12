@@ -41,8 +41,6 @@ class Equation {
 
     bool m_include_time;
 
-    int m_imbalance_normalization_iterations = 5;
-
     double calculate_and_get_imbalance();
 
    public:
@@ -61,4 +59,10 @@ class Equation {
     void calculate_imbalance();
 
     void reset_imbalance();
+
+    double get_imbalance_normalization_factor() const;
+
+    void set_imbalance_normalization_factor(double factor);
+
+    static const int imbalance_normalization_iterations = 5;
 };
