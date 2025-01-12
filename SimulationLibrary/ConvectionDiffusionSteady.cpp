@@ -45,6 +45,7 @@ void ConvectionDiffusionSteady::solve() {
 
     // Save the results
     m_saver->open_and_clear_file();
+    m_saver->write_simulation_name(SimulationName::ConvectionDiffusionSteady);
     m_saver->write_domain_size(m_mesh->get_domain_size_x(), m_mesh->get_domain_size_y());
     m_saver->write_grid_size(m_mesh->get_size_x(), m_mesh->get_size_y());
     m_saver->write_viscosity(m_viscosity);

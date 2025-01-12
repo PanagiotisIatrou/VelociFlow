@@ -31,6 +31,7 @@ void NavierStokesUnsteady::solve() {
 
     // Save the mesh settings and the initial state
     m_saver->open_and_clear_file();
+    m_saver->write_simulation_name(SimulationName::NavierStokesUnsteady);
     m_saver->write_domain_size(m_mesh->get_domain_size_x(), m_mesh->get_domain_size_y());
     m_saver->write_grid_size(m_mesh->get_size_x(), m_mesh->get_size_y());
     m_saver->write_density(m_density);

@@ -20,6 +20,11 @@ void Saver::close_file() {
     m_file = nullptr;
 }
 
+void Saver::write_simulation_name(const SimulationName simulation_name) const {
+    fprintf(m_file, "simulation_name\n");
+    fprintf(m_file, "%s\n", simulation_name_to_str(simulation_name).c_str());
+}
+
 void Saver::write_domain_size(const double size_x, const double size_y) const {
     fprintf(m_file, "domain_size\n");
     fprintf(m_file, "%f,%f\n", size_x, size_y);

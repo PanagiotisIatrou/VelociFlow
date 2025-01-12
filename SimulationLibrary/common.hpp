@@ -1,13 +1,7 @@
 #pragma once
 #include <iostream>
 
-enum class Field {
-    VelocityX = 0,
-    VelocityY = 1,
-    Pressure = 2,
-    PressureCorrection = 3,
-    Dye = 4
-};
+enum class Field { VelocityX = 0, VelocityY = 1, Pressure = 2, PressureCorrection = 3, Dye = 4 };
 inline extern const int field_start = 0;
 inline extern const int field_end = static_cast<int>(Field::Dye) + 1;
 
@@ -25,10 +19,62 @@ inline extern const int direction_start = 0;
 inline extern const int direction_near_end = static_cast<int>(Direction::North) + 1;
 inline extern const int direction_all_end = static_cast<int>(Direction::NorthNorth) + 1;
 
-enum class Component {
-    X = 0,
-    Y = 1
+enum class Component { X = 0, Y = 1 };
+
+enum class SimulationName {
+    NavierStokesSteady = 0,
+    NavierStokesUnsteady = 1,
+    ConvectionDiffusionSteady = 2,
+    ConvectionDiffusionUnsteady = 3,
+    DiffusionSteady = 4,
+    DiffusionUnsteady = 5
 };
+
+inline SimulationName str_to_simulation_name(const std::string simulation_name) {
+    if (simulation_name == "navier_stokes_steady") {
+        return SimulationName::NavierStokesSteady;
+    } else if (simulation_name == "navier_stokes_unsteady") {
+        return SimulationName::NavierStokesUnsteady;
+    } else if (simulation_name == "convection_diffusion_steady") {
+        return SimulationName::ConvectionDiffusionSteady;
+    } else if (simulation_name == "convection_diffusion_unsteady") {
+        return SimulationName::ConvectionDiffusionUnsteady;
+    } else if (simulation_name == "diffusion_steady") {
+        return SimulationName::DiffusionSteady;
+    } else if (simulation_name == "diffusion_unsteady") {
+        return SimulationName::DiffusionUnsteady;
+    } else {
+        std::cerr << "Simulation name not found" << std::endl;
+        exit(1);
+    }
+}
+
+inline std::string simulation_name_to_str(const SimulationName simulation_name) {
+    switch (simulation_name) {
+        case SimulationName::NavierStokesSteady: {
+            return "navier_stokes_steady";
+        }
+        case SimulationName::NavierStokesUnsteady: {
+            return "navier_stokes_unsteady";
+        }
+        case SimulationName::ConvectionDiffusionSteady: {
+            return "convection_diffusion_steady";
+        }
+        case SimulationName::ConvectionDiffusionUnsteady: {
+            return "convection_diffusion_unsteady";
+        }
+        case SimulationName::DiffusionSteady: {
+            return "diffusion_steady";
+        }
+        case SimulationName::DiffusionUnsteady: {
+            return "diffusion_unsteady";
+        }
+        default: {
+            std::cerr << "Simulation name not found" << std::endl;
+            exit(1);
+        }
+    }
+}
 
 enum class EquationType {
     MomentumX = 0,

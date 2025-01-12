@@ -19,6 +19,8 @@ public:
 
     void close_file();
 
+    void write_simulation_name(SimulationName simulation_name) const;
+
     void write_domain_size(double size_x, double size_y) const;
 
     void write_grid_size(int size_x, int size_y) const;
