@@ -108,52 +108,13 @@ void Saver::write_field(const Field field) const {
 }
 
 void Saver::write_normalization_values(const EquationType equation_type, Equation *equation) const {
-    std::string title;
-    switch (equation_type) {
-        case EquationType::MomentumX: {
-            title = "momentum_x_normalization";
-            break;
-        }
-        case EquationType::MomentumY: {
-            title = "momentum_y_normalization";
-            break;
-        }
-        case EquationType::PressureCorrection: {
-            title = "pressure_correction_normalization";
-            break;
-        }
-        case EquationType::Dye: {
-            title = "dye_normalization";
-            break;
-        }
-        case EquationType::ConvectionDiffusionX: {
-            title = "convection_diffusion_x_normalization";
-            break;
-        }
-        case EquationType::ConvectionDiffusionY: {
-            title = "convection_diffusion_y_normalization";
-            break;
-        }
-        case EquationType::DiffusionX: {
-            title = "diffusion_x_normalization";
-            break;
-        }
-        case EquationType::DiffusionY: {
-            title = "diffusion_y_normalization";
-            break;
-        }
-        default: {
-            std::cerr << "Invalid field" << std::endl;
-            exit(1);
-        }
-    }
-    fprintf(m_file, "%s\n", title.c_str());
-    fprintf(m_file, "%f\n", equation->get_imbalance_normalization_factor());
+    fprintf(m_file, "normalization\n");
+    fprintf(m_file, "%s,%f\n", equation_type_to_str(equation_type).c_str(), equation->get_imbalance_normalization_factor());
 
     // Extra normalization value only for the pressure correction equation
     // (mass imbalance)
     if (equation_type == EquationType::PressureCorrection) {
-        fprintf(m_file, "pressure_correction_mass_normalization\n");
-        fprintf(m_file, "%f\n", static_cast<PressureCorrection *>(equation)->get_mass_imbalance_normalization_factor());
+        fprintf(m_file, "normalization\n");
+        fprintf(m_file, "pressure_correction_mass,%f\n", static_cast<PressureCorrection *>(equation)->get_mass_imbalance_normalization_factor());
     }
 }
