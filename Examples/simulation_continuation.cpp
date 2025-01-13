@@ -10,10 +10,7 @@ const int grid_size_y = 100;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
-const double viscosity = 1.0 / 1000.0;
-const double density = 1.0;
-const double dt = 0.01;
-const int timesteps = 100;
+const int extra_timesteps = 5;
 
 int main() {
     // Create the mesh
@@ -51,14 +48,14 @@ int main() {
 
 
     // Run the simulation
-    SimulatorContinuation simulation_continuation("../Results/Unsteady/out-1736787333.txt");
-    const int extra_timesteps = 5;
+    const std::string file = "../Results/Unsteady/out-1736787333.txt";
+    SimulatorContinuation simulation_continuation(file);
     NavierStokesUnsteady simulation(mesh, &simulation_continuation, extra_timesteps, VerbosityType::Percentages);
     simulation.solve();
 
-    std::cout << "Reached " << simulation.get_reached_timesteps() << " / " << timesteps << " timesteps" << std::endl;
+    std::cout << "Reached " << simulation.get_reached_timesteps() << " timesteps" << std::endl;
     std::cout << "Finished in " << simulation.get_time_taken() << " s" << std::endl;
-    std::cout << "Saved output" << std::endl;
+    std::cout << "Saved output to file " << file << std::endl;
 
     return 0;
 }
