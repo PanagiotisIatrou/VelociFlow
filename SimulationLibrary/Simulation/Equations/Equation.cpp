@@ -182,3 +182,7 @@ double Equation::get_imbalance_normalization_factor() const {
 void Equation::set_imbalance_normalization_factor(const double factor) {
     m_imbalance_normalization_factor = factor;
 }
+
+double Equation::get_tolerance() const {
+    return m_stopping_tolerance;
+}

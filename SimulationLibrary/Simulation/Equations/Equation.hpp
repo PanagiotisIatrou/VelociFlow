@@ -64,5 +64,7 @@ class Equation {
 
     void set_imbalance_normalization_factor(double factor);
 
+    double get_tolerance() const;
+
     static const int imbalance_normalization_iterations = 5;
 };
