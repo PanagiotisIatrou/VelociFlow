@@ -53,4 +53,5 @@ double PressureCorrection::get_mass_imbalance_normalization_factor() const {
 
 void PressureCorrection::set_mass_imbalance_normalization_factor(const double factor) {
     m_mass_imbalance_normalization_factor = factor;
+    m_can_update_mass_imbalance_normalization_factor = false;
 }
