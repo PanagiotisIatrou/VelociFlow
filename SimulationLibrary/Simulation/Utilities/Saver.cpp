@@ -55,9 +55,9 @@ void Saver::write_viscosity(const double viscosity) const {
     fprintf(m_file, "%f\n", viscosity);
 }
 
-void Saver::write_tolerance(const EquationType equation_type, const Equation *equation) const {
+void Saver::write_tolerance(const EquationType equation_type, const double value) const {
     fprintf(m_file, "tolerance\n");
-    fprintf(m_file, "%s,%f\n", equation_type_to_str(equation_type).c_str(), equation->get_tolerance());
+    fprintf(m_file, "%s,%f\n", equation_type_to_str(equation_type).c_str(), value);
 }
 
 void Saver::write_timesteps_count(const int timesteps) const {

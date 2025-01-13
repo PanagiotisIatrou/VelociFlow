@@ -34,9 +34,9 @@ void NavierStokesUnsteady::solve() {
     m_saver->write_simulation_name(SimulationName::NavierStokesUnsteady);
     m_saver->write_domain_size(m_mesh->get_domain_size_x(), m_mesh->get_domain_size_y());
     m_saver->write_grid_size(m_mesh->get_size_x(), m_mesh->get_size_y());
-    m_saver->write_tolerance(EquationType::MomentumX, m_equation_momentum_x.get());
-    m_saver->write_tolerance(EquationType::MomentumY, m_equation_momentum_y.get());
-    m_saver->write_tolerance(EquationType::PressureCorrection, m_equation_pressure_correction.get());
+    m_saver->write_tolerance(EquationType::MomentumX, m_tolerance_momentum_x);
+    m_saver->write_tolerance(EquationType::MomentumY, m_tolerance_momentum_y);
+    m_saver->write_tolerance(EquationType::PressureCorrection, m_tolerance_mass_imbalance);
     m_saver->write_density(m_density);
     m_saver->write_viscosity(m_viscosity);
     m_saver->write_dt(m_dt);

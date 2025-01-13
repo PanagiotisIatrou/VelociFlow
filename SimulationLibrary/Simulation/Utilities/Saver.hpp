@@ -33,7 +33,7 @@ public:
 
     void write_viscosity(double viscosity) const;
 
-    void write_tolerance(EquationType equation_type, const Equation *equation) const;
+    void write_tolerance(EquationType equation_type, double value) const;
 
     void write_timesteps_count(int timesteps) const;
 
