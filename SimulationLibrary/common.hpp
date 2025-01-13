@@ -87,6 +87,72 @@ enum class EquationType {
     DiffusionY = 7
 };
 
+inline std::string equation_type_to_str(const EquationType equation_type) {
+    switch (equation_type) {
+        case EquationType::MomentumX: {
+            return "momentum_x";
+        }
+        case EquationType::MomentumY: {
+            return "momentum_y";
+        }
+        case EquationType::PressureCorrection: {
+            return "pressure_correction";
+        }
+        case EquationType::Dye: {
+            return "dye";
+        }
+        case EquationType::ConvectionDiffusionX: {
+            return "convection_diffusion_x";
+        }
+        case EquationType::ConvectionDiffusionY: {
+            return "convection_diffusion_y";
+        }
+        case EquationType::DiffusionX: {
+            return "diffusion_x";
+        }
+        case EquationType::DiffusionY: {
+            return "diffusion_y";
+        }
+        default: {
+            std::cerr << "Invalid equation type" << std::endl;
+            exit(1);
+        }
+    }
+}
+
+inline EquationType str_to_equation_type(const std::string equation_type) {
+    switch (equation_type) {
+        case "momentum_x": {
+            return EquationType::MomentumX;
+        }
+        case "momentum_y": {
+            return EquationType::MomentumY;
+        }
+        case "pressure_correction": {
+            return EquationType::PressureCorrection;
+        }
+        case "dye": {
+            return EquationType::Dye;
+        }
+        case "convection_diffusion_x": {
+            return EquationType::ConvectionDiffusionX;
+        }
+        case "convection_diffusion_y": {
+            return EquationType::ConvectionDiffusionY;
+        }
+        case "diffusion_x": {
+            return EquationType::DiffusionX;
+        }
+        case "diffusion_y": {
+            return EquationType::DiffusionY;
+        }
+        default: {
+            std::cerr << "Invalid equation type" << std::endl;
+            exit(1);
+        }
+    }
+}
+
 inline Direction extend_direction(const Direction direction) {
     switch (direction) {
         case Direction::West: {

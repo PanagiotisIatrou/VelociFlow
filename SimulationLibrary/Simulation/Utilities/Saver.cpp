@@ -55,48 +55,9 @@ void Saver::write_viscosity(const double viscosity) const {
     fprintf(m_file, "%f\n", viscosity);
 }
 
-void Saver::write_tolerance(const EquationType equation_type, Equation *equation) const {
-    std::string title;
-    switch (equation_type) {
-        case EquationType::MomentumX: {
-            title = "momentum_x_tolerance";
-            break;
-        }
-        case EquationType::MomentumY: {
-            title = "momentum_y_tolerance";
-            break;
-        }
-        case EquationType::PressureCorrection: {
-            title = "pressure_correction_tolerance";
-            break;
-        }
-        case EquationType::Dye: {
-            title = "dye_tolerance";
-            break;
-        }
-        case EquationType::ConvectionDiffusionX: {
-            title = "convection_diffusion_x_tolerance";
-            break;
-        }
-        case EquationType::ConvectionDiffusionY: {
-            title = "convection_diffusion_y_tolerance";
-            break;
-        }
-        case EquationType::DiffusionX: {
-            title = "diffusion_x_tolerance";
-            break;
-        }
-        case EquationType::DiffusionY: {
-            title = "diffusion_y_tolerance";
-            break;
-        }
-        default: {
-            std::cerr << "Invalid field" << std::endl;
-            exit(1);
-        }
-    }
-    fprintf(m_file, "%s\n", title.c_str());
-    fprintf(m_file, "%f\n", equation->get_tolerance());
+void Saver::write_tolerance(const EquationType equation_type, const Equation *equation) const {
+    fprintf(m_file, "tolerance\n");
+    fprintf(m_file, "%s,%f\n", equation_type_to_str(equation_type).c_str(), equation->get_tolerance());
 }
 
 void Saver::write_timesteps_count(const int timesteps) const {
