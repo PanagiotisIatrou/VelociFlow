@@ -1,5 +1,6 @@
 #include "Equation.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 
@@ -88,6 +89,10 @@ void Equation::solve() {
                 }
 
                 value_P /= c.center;
+
+                // Apply the value limits
+                value_P = std::clamp(value_P, m_lower_value_limit, m_upper_value_limit);
+
                 node_P->set_field_value(m_variable_field, value_P);
             }
         }
@@ -186,4 +191,17 @@ void Equation::set_imbalance_normalization_factor(const double factor) {
 
 double Equation::get_tolerance() const {
     return m_stopping_tolerance;
+}
+
+void Equation::set_lower_value_limit(const double limit) {
+    m_lower_value_limit = limit;
+}
+
+void Equation::set_upper_value_limit(const double limit) {
+    m_upper_value_limit = limit;
+}
+
+void Equation::set_value_limits(const double lower_limit, const double upper_limit) {
+    m_lower_value_limit = lower_limit;
+    m_upper_value_limit = upper_limit;
 }

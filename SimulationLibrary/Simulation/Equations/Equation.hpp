@@ -1,5 +1,7 @@
 #pragma once
 
+#include <limits>
+
 #include "../Meshing/Mesh.hpp"
 
 enum class ResidualType {
@@ -41,6 +43,10 @@ class Equation {
 
     bool m_include_time;
 
+    double m_lower_value_limit = -std::numeric_limits<double>::infinity();
+
+    double m_upper_value_limit = std::numeric_limits<double>::infinity();
+
     double calculate_and_get_imbalance();
 
    public:
@@ -65,6 +71,12 @@ class Equation {
     void set_imbalance_normalization_factor(double factor);
 
     double get_tolerance() const;
+
+    void set_lower_value_limit(double limit);
+
+    void set_upper_value_limit(double limit);
+
+    void set_value_limits(double lower_limit, double upper_limit);
 
     static const int imbalance_normalization_iterations = 5;
 };
