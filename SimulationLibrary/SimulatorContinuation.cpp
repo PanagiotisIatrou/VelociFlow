@@ -15,6 +15,8 @@ SimulatorContinuation::SimulatorContinuation(const std::string filename) {
         exit(1);
     }
 
+    std::cout << "Reading file " << filename << std::endl;
+
     // Read the file
     std::string line;
     while (getline(file, line)) {
