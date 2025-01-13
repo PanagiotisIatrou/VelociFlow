@@ -12,7 +12,7 @@ include_directories(${SIMULATION_PATH})
 add_subdirectory(${SIMULATION_PATH})
 
 # Create the executable
-add_executable(Simulation ${EXAMPLES_PATH}/simulation_continuation.cpp)
+add_executable(Simulation ${EXAMPLES_PATH}/kelvin_helmholtz_unsteady.cpp)
 
 # Include the SimulationLibrary
 target_link_libraries(Simulation SimulationLibrary)

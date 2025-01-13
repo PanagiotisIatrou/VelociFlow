@@ -16,7 +16,7 @@ const double velocity = 1.0;
 const double viscosity = 0.0001;
 const double density = 1.0;
 const double dt = 0.01;
-const int timesteps = 100;
+const int timesteps = 1000;
 
 int main() {
     // Create the mesh
@@ -102,66 +102,6 @@ int main() {
         second_node->set_neighbouring_node(first_node, Direction::West);
     }
 
-    // Set periodic boundary conditions Y
-    for (int i = 0; i < grid_size_x; i++) {
-        mesh->set_interior_face(FaceSide::Y, i, 0);
-        mesh->set_interior_face(FaceSide::Y, i, grid_size_y - 1);
-        mesh->set_interior_face(FaceSide::Y, i, 1);
-        InteriorFaceY *face = static_cast<InteriorFaceY *>(mesh->get_face_y(i, 0));
-        InteriorFaceY *face_left = static_cast<InteriorFaceY *>(mesh->get_face_y(i, grid_size_y - 1));
-        InteriorFaceY *face_right = static_cast<InteriorFaceY *>(mesh->get_face_y(i, 1));
-
-        Node *first_node = mesh->get_node(i, 0);
-        Node *second_node = mesh->get_node(i, 1);
-        Node *last_node = mesh->get_node(i, grid_size_y - 1);
-        Node *pre_last_node = mesh->get_node(i, grid_size_y - 2);
-
-        // Faces
-
-        face->set_node_neighbour(last_node, FaceYSide::South);
-        face->set_node_neighbour(first_node, FaceYSide::North);
-
-        face_left->set_node_neighbour(pre_last_node, FaceYSide::South);
-        face_left->set_node_neighbour(last_node, FaceYSide::North);
-
-        face_right->set_node_neighbour(first_node, FaceYSide::South);
-        face_right->set_node_neighbour(second_node, FaceYSide::North);
-
-        // Nodes
-
-        // pre_last_node
-        pre_last_node->set_neighbouring_face(face_left, Direction::North);
-        pre_last_node->set_neighbouring_face(face, Direction::NorthNorth);
-
-        pre_last_node->set_neighbouring_node(last_node, Direction::North);
-        pre_last_node->set_neighbouring_node(first_node, Direction::NorthNorth);
-
-        // last_node
-        last_node->set_neighbouring_face(face_left, Direction::South);
-        last_node->set_neighbouring_face(face, Direction::North);
-        last_node->set_neighbouring_face(face_right, Direction::NorthNorth);
-
-        last_node->set_neighbouring_node(pre_last_node, Direction::South);
-        last_node->set_neighbouring_node(first_node, Direction::North);
-        last_node->set_neighbouring_node(second_node, Direction::NorthNorth);
-
-        // first_node
-        first_node->set_neighbouring_face(face_left, Direction::SouthSouth);
-        first_node->set_neighbouring_face(face, Direction::South);
-        first_node->set_neighbouring_face(face_right, Direction::North);
-
-        first_node->set_neighbouring_node(pre_last_node, Direction::SouthSouth);
-        first_node->set_neighbouring_node(last_node, Direction::South);
-        first_node->set_neighbouring_node(second_node, Direction::North);
-
-        // second_node
-        second_node->set_neighbouring_face(face, Direction::SouthSouth);
-        second_node->set_neighbouring_face(face_right, Direction::South);
-
-        second_node->set_neighbouring_node(last_node, Direction::SouthSouth);
-        second_node->set_neighbouring_node(first_node, Direction::South);
-    }
-
     // Link the nodes to their neighbouring nodes
     mesh->link_nodes();
 
@@ -174,7 +114,10 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
+    const std::string file = "../Results/Unsteady/out-1736806195.txt";
+    SimulatorContinuation simulation_continuation(file);
+    NavierStokesUnsteady simulation(mesh, &simulation_continuation, timesteps, VerbosityType::Percentages);
+//    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
     simulation.solve();
 
     std::cout << "Reached " << simulation.get_reached_timesteps() << " / " << timesteps << " timesteps" << std::endl;
