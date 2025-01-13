@@ -5,4 +5,5 @@ Dye::Dye(Mesh *mesh, const Field variable_field, const double relaxation_factor,
          const bool include_time) : Equation(
     mesh, EquationType::Dye, variable_field, relaxation_factor, residual_type, stopping_rule, norm_type,
     stopping_tolerance, include_time) {
+    set_value_limits(0.0, 1.0);
 }
