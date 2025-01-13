@@ -121,35 +121,25 @@ inline std::string equation_type_to_str(const EquationType equation_type) {
 }
 
 inline EquationType str_to_equation_type(const std::string equation_type) {
-    switch (equation_type) {
-        case "momentum_x": {
-            return EquationType::MomentumX;
-        }
-        case "momentum_y": {
-            return EquationType::MomentumY;
-        }
-        case "pressure_correction": {
-            return EquationType::PressureCorrection;
-        }
-        case "dye": {
-            return EquationType::Dye;
-        }
-        case "convection_diffusion_x": {
-            return EquationType::ConvectionDiffusionX;
-        }
-        case "convection_diffusion_y": {
-            return EquationType::ConvectionDiffusionY;
-        }
-        case "diffusion_x": {
-            return EquationType::DiffusionX;
-        }
-        case "diffusion_y": {
-            return EquationType::DiffusionY;
-        }
-        default: {
-            std::cerr << "Invalid equation type" << std::endl;
-            exit(1);
-        }
+    if (equation_type == "momentum_x") {
+        return EquationType::MomentumX;
+    } else if (equation_type == "momentum_y") {
+        return EquationType::MomentumY;
+    } else if (equation_type == "pressure_correction") {
+        return EquationType::PressureCorrection;
+    } else if (equation_type == "dye") {
+        return EquationType::Dye;
+    } else if (equation_type == "convection_diffusion_x") {
+        return EquationType::ConvectionDiffusionX;
+    } else if (equation_type == "convection_diffusion_y") {
+        return EquationType::ConvectionDiffusionY;
+    } else if (equation_type == "diffusion_x") {
+        return EquationType::DiffusionX;
+    } else if (equation_type == "diffusion_y") {
+        return EquationType::DiffusionY;
+    } else {
+        std::cerr << "Equation type not found" << std::endl;
+        exit(1);
     }
 }
 
