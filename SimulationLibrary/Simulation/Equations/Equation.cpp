@@ -89,15 +89,27 @@ void Equation::solve() {
                 }
 
                 value_P /= c.center;
-
-                // Apply the value limits
-                value_P = std::clamp(value_P, m_lower_value_limit, m_upper_value_limit);
-
                 node_P->set_field_value(m_variable_field, value_P);
             }
         }
 
         error = calculate_and_get_imbalance();
+    }
+
+    // Apply the value limits
+    for (int i = 0; i < m_mesh->get_size_x(); i++) {
+        for (int j = 0; j < m_mesh->get_size_y(); j++) {
+            Node *node_P = m_mesh->get_node(i, j);
+
+            // Nothing to calculate for an empty node
+            if (node_P == nullptr) {
+                continue;
+            }
+
+            double value_P = node_P->get_field_value(m_variable_field);
+            value_P = std::clamp(value_P, m_lower_value_limit, m_upper_value_limit);
+            node_P->set_field_value(m_variable_field, value_P);
+        }
     }
 
     m_iterations_count++;
