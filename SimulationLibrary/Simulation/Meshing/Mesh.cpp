@@ -4,13 +4,12 @@
 
 #include "Faces/Boundary/BoundaryFace.hpp"
 #include "Faces/Boundary/FixedPressureBoundaryFace.hpp"
-#include "Faces/Boundary/InletBoundaryFace.hpp"
 #include "Faces/Boundary/FreeBoundaryFace.hpp"
+#include "Faces/Boundary/InletBoundaryFace.hpp"
 #include "Faces/Boundary/MovingWallBoundaryFace.hpp"
 #include "Faces/Boundary/NoSlipBoundaryFace.hpp"
 #include "Faces/Boundary/SlipBoundaryFace.hpp"
-#include "Faces/Interior/InteriorFaceX.hpp"
-#include "Faces/Interior/InteriorFaceY.hpp"
+#include "Faces/Interior/InteriorFace.hpp"
 
 Mesh::Mesh(const int size_x, const int size_y, const double domain_size_x, const double domain_size_y) {
     m_size_x = size_x;
@@ -92,9 +91,9 @@ Node *Mesh::get_node(const int i, const int j) const {
 
 void Mesh::set_interior_face(const FaceSide side, const int i, const int j) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<InteriorFaceX>(m_dx, m_dy);
+        m_faces_x[i][j] = std::make_unique<InteriorFace>(m_dx, m_dy, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<InteriorFaceY>(m_dx, m_dy);
+        m_faces_y[i][j] = std::make_unique<InteriorFace>(m_dx, m_dy, Orientation::Vertical);
     }
 }
 
@@ -232,7 +231,7 @@ void Mesh::link_nodes_faces() {
                 if (grid_face_w->get_face_type() == FaceType::Boundary) {
                     static_cast<BoundaryFace *>(grid_face_w)->set_node_neighbour(node);
                 } else {
-                    static_cast<InteriorFaceX *>(grid_face_w)->set_node_neighbour(node, FaceXSide::East);
+                    static_cast<InteriorFace *>(grid_face_w)->set_node_neighbour(node, InteriorFaceSide::Second);
                 }
             }
 
@@ -265,7 +264,7 @@ void Mesh::link_nodes_faces() {
                 if (grid_face_e->get_face_type() == FaceType::Boundary) {
                     static_cast<BoundaryFace *>(grid_face_e)->set_node_neighbour(node);
                 } else {
-                    static_cast<InteriorFaceX *>(grid_face_e)->set_node_neighbour(node, FaceXSide::West);
+                    static_cast<InteriorFace *>(grid_face_e)->set_node_neighbour(node, InteriorFaceSide::First);
                 }
             }
 
@@ -298,7 +297,7 @@ void Mesh::link_nodes_faces() {
                 if (grid_face_s->get_face_type() == FaceType::Boundary) {
                     static_cast<BoundaryFace *>(grid_face_s)->set_node_neighbour(node);
                 } else {
-                    static_cast<InteriorFaceY *>(grid_face_s)->set_node_neighbour(node, FaceYSide::North);
+                    static_cast<InteriorFace *>(grid_face_s)->set_node_neighbour(node, InteriorFaceSide::Second);
                 }
             }
 
@@ -331,7 +330,7 @@ void Mesh::link_nodes_faces() {
                 if (grid_face_n->get_face_type() == FaceType::Boundary) {
                     static_cast<BoundaryFace *>(grid_face_n)->set_node_neighbour(node);
                 } else {
-                    static_cast<InteriorFaceY *>(grid_face_n)->set_node_neighbour(node, FaceYSide::South);
+                    static_cast<InteriorFace *>(grid_face_n)->set_node_neighbour(node, InteriorFaceSide::First);
                 }
             }
         }

@@ -5,7 +5,7 @@
 #include "../Face.hpp"
 #include "../../Nodes/Node.hpp"
 
-class Node;
+enum class InteriorFaceSide { First = 0, Second = 1 };
 
 class InteriorFace : public Face {
 protected:
@@ -19,19 +19,23 @@ protected:
 public:
     InteriorFace(double dx, double dy, Orientation orientation);
 
+    void set_node_neighbour(Node *node, InteriorFaceSide side);
+
+    Node *get_node_neighbour(InteriorFaceSide side) const;
+
+    void update_velocity_distance_weighted();
+
+    void update_velocity_rhie_chow();
+
+    void correct_velocity();
+
+    double get_field_value(Field field) const;
+
     double get_velocity() const;
-
-    virtual void update_velocity_distance_weighted() = 0;
-
-    virtual void update_velocity_rhie_chow() = 0;
 
     void update_dye();
 
     void update_pressure_correction();
 
     void update_pressure();
-
-    virtual void correct_velocity() = 0;
-
-    double get_field_value(Field field) const override = 0;
 };
