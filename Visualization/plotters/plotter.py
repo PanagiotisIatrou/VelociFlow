@@ -29,9 +29,28 @@ class Plotter(ABC):
     def create_plot(self):
         plt.figure(figsize=(16, 9))
         plt.gca().set_aspect('equal', adjustable='box')
-        plt.title("??? field")
+        self.set_title()
         plt.xlabel("x")
         plt.ylabel("y")
+
+    def set_title(self):
+        field_name = None
+        field = self.settings.field
+        if field == VectorFields.VELOCITY_MAGNITUDE:
+            field_name = "Velocity Magnitude"
+        elif field == ScalarFields.VELOCITY_X:
+            field_name = "Velocity X"
+        elif field == ScalarFields.VELOCITY_Y:
+            field_name = "Velocity Y"
+        elif field == ScalarFields.PRESSURE:
+            field_name = "Pressure"
+        elif field == ScalarFields.DYE:
+            field_name = "Dye"
+        elif field == ScalarFields.VORTICITY:
+            field_name = "Vorticity"
+        else:
+            raise Exception("Invalid field")
+        plt.title(f"{field_name} Field")
 
     def create_color_mesh(self, field):
         color_map = copy(plt.colormaps.get_cmap(self.settings.color_map))
