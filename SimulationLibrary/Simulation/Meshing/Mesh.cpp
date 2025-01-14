@@ -138,6 +138,94 @@ void Mesh::set_boundary_fixed_pressure_face(const FaceSide side, const int i, co
     }
 }
 
+void Mesh::set_boundary_periodic_side(const FaceSide side) {
+    const Direction direction_first_near = side == FaceSide::X ? Direction::West : Direction::South;
+    const Direction direction_first_far = side == FaceSide::X ? Direction::WestWest : Direction::SouthSouth;
+    const Direction direction_second_near = side == FaceSide::X ? Direction::East : Direction::North;
+    const Direction direction_second_far = side == FaceSide::X ? Direction::EastEast : Direction::NorthNorth;
+    for (int k = 0; k < m_size_y; k++) {
+        Node *first_node;
+        Node *second_node;
+        Node *last_node;
+        Node *pre_last_node;
+        InteriorFace *face;
+        InteriorFace *face_first;
+        InteriorFace *face_second;
+        if (side == FaceSide::X) {
+            set_interior_face(FaceSide::X, 0, k);
+            set_interior_face(FaceSide::X, m_size_x - 1, k);
+            set_interior_face(FaceSide::X, 1, k);
+
+            first_node = get_node(0, k);
+            second_node = get_node(1, k);
+            last_node = get_node(m_size_x - 1, k);
+            pre_last_node = get_node(m_size_x - 2, k);
+
+            face = static_cast<InteriorFace *>(get_face_x(0, k));
+            face_first = static_cast<InteriorFace *>(get_face_x(m_size_x - 1, k));
+            face_second = static_cast<InteriorFace *>(get_face_x(1, k));
+        } else {
+            set_interior_face(FaceSide::Y, k, 0);
+            set_interior_face(FaceSide::Y, k, m_size_y - 1);
+            set_interior_face(FaceSide::Y, k, 1);
+
+            first_node = get_node(k, 0);
+            second_node = get_node(k, 1);
+            last_node = get_node(k, m_size_y - 1);
+            pre_last_node = get_node(k, m_size_y - 2);
+
+            face = static_cast<InteriorFace *>(get_face_y(k, 0));
+            face_first = static_cast<InteriorFace *>(get_face_y(k, m_size_y - 1));
+            face_second = static_cast<InteriorFace *>(get_face_y(k, 1));
+        }
+
+        // Faces
+
+        face->set_node_neighbour(last_node, InteriorFaceSide::First);
+        face->set_node_neighbour(first_node, InteriorFaceSide::Second);
+
+        face_first->set_node_neighbour(pre_last_node, InteriorFaceSide::First);
+        face_first->set_node_neighbour(last_node, InteriorFaceSide::Second);
+
+        face_second->set_node_neighbour(first_node, InteriorFaceSide::First);
+        face_second->set_node_neighbour(second_node, InteriorFaceSide::Second);
+
+        // Nodes
+
+        // pre_last_node
+        pre_last_node->set_neighbouring_face(face_first, direction_second_near);
+        pre_last_node->set_neighbouring_face(face, direction_second_far);
+
+        pre_last_node->set_neighbouring_node(last_node, direction_second_near);
+        pre_last_node->set_neighbouring_node(first_node, direction_second_far);
+
+        // last_node
+        last_node->set_neighbouring_face(face_first, direction_first_near);
+        last_node->set_neighbouring_face(face, direction_second_near);
+        last_node->set_neighbouring_face(face_second, direction_second_far);
+
+        last_node->set_neighbouring_node(pre_last_node, direction_first_near);
+        last_node->set_neighbouring_node(first_node, direction_second_near);
+        last_node->set_neighbouring_node(second_node, direction_second_far);
+
+        // first_node
+        first_node->set_neighbouring_face(face_first, direction_first_far);
+        first_node->set_neighbouring_face(face, direction_first_near);
+        first_node->set_neighbouring_face(face_second, direction_second_near);
+
+        first_node->set_neighbouring_node(pre_last_node, direction_first_far);
+        first_node->set_neighbouring_node(last_node, direction_first_near);
+        first_node->set_neighbouring_node(second_node, direction_second_near);
+
+        // second_node
+        second_node->set_neighbouring_face(face, direction_first_far);
+        second_node->set_neighbouring_face(face_second, direction_first_near);
+
+        second_node->set_neighbouring_node(last_node, direction_first_far);
+        second_node->set_neighbouring_node(first_node, direction_first_near);
+    }
+}
+
 void Mesh::set_boundary_free_face(const FaceSide side, const int i, const int j) {
     if (side == FaceSide::X) {
         m_faces_x[i][j] = std::make_unique<FreeBoundaryFace>(Orientation::Horizontal);

@@ -5,8 +5,7 @@
 #include <cmath>
 
 #include <NavierStokesUnsteady.hpp>
-#include <Simulation/Meshing/Faces/Interior/InteriorFaceX.hpp>
-#include <Simulation/Meshing/Faces/Interior/InteriorFaceY.hpp>
+#include <Simulation/Meshing/Faces/Interior/InteriorFace.hpp>
 
 const int grid_size_x = 128;
 const int grid_size_y = 128;
@@ -42,65 +41,8 @@ int main() {
         }
     }
 
-    // Set periodic boundary conditions X
-    for (int j = 0; j < grid_size_y; j++) {
-        mesh->set_interior_face(FaceSide::X, 0, j);
-        mesh->set_interior_face(FaceSide::X, grid_size_x - 1, j);
-        mesh->set_interior_face(FaceSide::X, 1, j);
-        InteriorFaceX *face = static_cast<InteriorFaceX *>(mesh->get_face_x(0, j));
-        InteriorFaceX *face_left = static_cast<InteriorFaceX *>(mesh->get_face_x(grid_size_x - 1, j));
-        InteriorFaceX *face_right = static_cast<InteriorFaceX *>(mesh->get_face_x(1, j));
-
-        Node *first_node = mesh->get_node(0, j);
-        Node *second_node = mesh->get_node(1, j);
-        Node *last_node = mesh->get_node(grid_size_x - 1, j);
-        Node *pre_last_node = mesh->get_node(grid_size_x - 2, j);
-
-        // Faces
-
-        face->set_node_neighbour(last_node, FaceXSide::West);
-        face->set_node_neighbour(first_node, FaceXSide::East);
-
-        face_left->set_node_neighbour(pre_last_node, FaceXSide::West);
-        face_left->set_node_neighbour(last_node, FaceXSide::East);
-
-        face_right->set_node_neighbour(first_node, FaceXSide::West);
-        face_right->set_node_neighbour(second_node, FaceXSide::East);
-
-        // Nodes
-
-        // pre_last_node
-        pre_last_node->set_neighbouring_face(face_left, Direction::East);
-        pre_last_node->set_neighbouring_face(face, Direction::EastEast);
-
-        pre_last_node->set_neighbouring_node(last_node, Direction::East);
-        pre_last_node->set_neighbouring_node(first_node, Direction::EastEast);
-
-        // last_node
-        last_node->set_neighbouring_face(face_left, Direction::West);
-        last_node->set_neighbouring_face(face, Direction::East);
-        last_node->set_neighbouring_face(face_right, Direction::EastEast);
-
-        last_node->set_neighbouring_node(pre_last_node, Direction::West);
-        last_node->set_neighbouring_node(first_node, Direction::East);
-        last_node->set_neighbouring_node(second_node, Direction::EastEast);
-
-        // first_node
-        first_node->set_neighbouring_face(face_left, Direction::WestWest);
-        first_node->set_neighbouring_face(face, Direction::West);
-        first_node->set_neighbouring_face(face_right, Direction::East);
-
-        first_node->set_neighbouring_node(pre_last_node, Direction::WestWest);
-        first_node->set_neighbouring_node(last_node, Direction::West);
-        first_node->set_neighbouring_node(second_node, Direction::East);
-
-        // second_node
-        second_node->set_neighbouring_face(face, Direction::WestWest);
-        second_node->set_neighbouring_face(face_right, Direction::West);
-
-        second_node->set_neighbouring_node(last_node, Direction::WestWest);
-        second_node->set_neighbouring_node(first_node, Direction::West);
-    }
+    // Set periodic boundary conditions on the x-axis
+    mesh->set_boundary_periodic_side(FaceSide::X);
 
     // Link the nodes to their neighbouring nodes
     mesh->link_nodes();
@@ -114,10 +56,10 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    const std::string file = "../Results/Unsteady/out-1736806195.txt";
-    SimulatorContinuation simulation_continuation(file);
-    NavierStokesUnsteady simulation(mesh, &simulation_continuation, timesteps, VerbosityType::Percentages);
-//    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
+    // const std::string file = "../Results/Unsteady/out-1736806195.txt";
+    // SimulatorContinuation simulation_continuation(file);
+    // NavierStokesUnsteady simulation(mesh, &simulation_continuation, timesteps, VerbosityType::Percentages);
+    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
     simulation.solve();
 
     std::cout << "Reached " << simulation.get_reached_timesteps() << " / " << timesteps << " timesteps" << std::endl;

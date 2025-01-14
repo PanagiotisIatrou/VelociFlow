@@ -61,6 +61,8 @@ public:
 
     void set_boundary_fixed_pressure_face(FaceSide side, int i, int j, double pressure);
 
+    void set_boundary_periodic_side(FaceSide side);
+
     void set_boundary_free_face(FaceSide side, int i, int j);
 
     // Linking
