@@ -1,7 +1,8 @@
 #include "DiffusionUnsteady.hpp"
 
-DiffusionUnsteady::DiffusionUnsteady(Mesh *mesh, const double viscosity, const double dt, const int timesteps, const double tolerance_x,
-                               const double tolerance_y, const std::string output_file, const VerbosityType verbosity_type)
+DiffusionUnsteady::DiffusionUnsteady(Mesh *mesh, const double viscosity, const double dt, const int timesteps,
+                                     const double tolerance_x, const double tolerance_y, const std::string output_file,
+                                     const VerbosityType verbosity_type)
     : DiffusionSimulation(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Unsteady,
                           verbosity_type) {
     m_dt = dt;
@@ -48,7 +49,8 @@ void DiffusionUnsteady::solve() {
 
             // Save the normalization values
             // TODO: Might fail if the first timestep converges too quickly (very rare)
-            if (m_reached_timesteps == 0 && m_outer_iterations_count == Equation::imbalance_normalization_iterations + 1) {
+            if (m_reached_timesteps == 0 &&
+                m_outer_iterations_count == Equation::imbalance_normalization_iterations + 1) {
                 m_saver->open_append_file();
                 m_saver->write_normalization_values(EquationType::DiffusionX, m_equation_diffusion_x.get());
                 m_saver->write_normalization_values(EquationType::DiffusionY, m_equation_diffusion_y.get());

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Face.hpp"
 #include "../../Nodes/Node.hpp"
+#include "../Face.hpp"
 
 enum class BoundaryType { Inlet, NoSlip, MovingWall, Slip, FixedPressure, Free };
 

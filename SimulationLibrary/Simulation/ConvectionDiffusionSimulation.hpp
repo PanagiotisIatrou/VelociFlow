@@ -15,8 +15,9 @@ protected:
     double m_tolerance_y;
 
 public:
-    ConvectionDiffusionSimulation(Mesh* mesh, double viscosity, double tolerance_x, double tolerance_y, std::string output_file,
-                        SimulationType simulation_type, VerbosityType verbosity_type);
+    ConvectionDiffusionSimulation(Mesh* mesh, double viscosity, double tolerance_x, double tolerance_y,
+                                  std::string output_file, SimulationType simulation_type,
+                                  VerbosityType verbosity_type);
 
     void solve() override = 0;
 

@@ -5,8 +5,8 @@
 #include <memory>
 
 #include "../../../common.hpp"
-#include "../Faces/Face.hpp"
 #include "../../Equations/Equations/EquationCoefficients/EquationCoefficients.hpp"
+#include "../Faces/Face.hpp"
 
 class Node {
 protected:
@@ -24,18 +24,16 @@ protected:
     double m_density;
     double m_viscosity;
 
-    double m_dx; // TODO: Remove in the future (on non-cartesian grids)
-    double m_dy; // TODO: Remove in the future (on non-cartesian grids)
+    double m_dx;  // TODO: Remove in the future (on non-cartesian grids)
+    double m_dy;  // TODO: Remove in the future (on non-cartesian grids)
     double m_dt = 1.0;
 
     std::map<EquationType, std::unique_ptr<EquationCoefficients>> m_equation_coefficients;
 
-    std::array<Face *, 8> m_neighbouring_faces = {
-        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
-    };
-    std::array<Node *, 8> m_neighbouring_nodes = {
-        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr
-    };
+    std::array<Face *, 8> m_neighbouring_faces = {nullptr, nullptr, nullptr, nullptr,
+                                                  nullptr, nullptr, nullptr, nullptr};
+    std::array<Node *, 8> m_neighbouring_nodes = {nullptr, nullptr, nullptr, nullptr,
+                                                  nullptr, nullptr, nullptr, nullptr};
 
 public:
     Node(double dx, double dy, double velocity_x, double velocity_y, double pressure, double dye);
@@ -78,7 +76,8 @@ public:
 
     void set_neighbouring_node(Node *node, Direction direction);
 
-    void add_equation_coefficient(EquationType equation_type, Field variable_field, double relaxation, bool include_time);
+    void add_equation_coefficient(EquationType equation_type, Field variable_field, double relaxation,
+                                  bool include_time);
 
     double get_equation_coefficient(EquationType equation_type, CoefficientType coefficient_type) const;
 

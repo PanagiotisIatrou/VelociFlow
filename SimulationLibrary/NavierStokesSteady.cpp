@@ -5,11 +5,11 @@
 #include <iostream>
 
 NavierStokesSteady::NavierStokesSteady(Mesh* mesh, const double density, const double viscosity,
-                                   const double tolerance_momentum_x, const double tolerance_momentum_y,
-                                   const double tolerance_mass_imbalance, const std::string output_file,
-                                   const VerbosityType verbosity_type)
-    : NavierStokesSimulation(mesh, density, viscosity, tolerance_momentum_x, tolerance_momentum_y, tolerance_mass_imbalance,
-                   output_file, SimulationType::Steady, verbosity_type) {
+                                       const double tolerance_momentum_x, const double tolerance_momentum_y,
+                                       const double tolerance_mass_imbalance, const std::string output_file,
+                                       const VerbosityType verbosity_type)
+    : NavierStokesSimulation(mesh, density, viscosity, tolerance_momentum_x, tolerance_momentum_y,
+                             tolerance_mass_imbalance, output_file, SimulationType::Steady, verbosity_type) {
     // Verbosity
     m_verbosity_handler->enable_print_iterations();
 }

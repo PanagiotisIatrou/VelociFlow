@@ -2,8 +2,8 @@
 
 #include <array>
 
-#include "../Face.hpp"
 #include "../../Nodes/Node.hpp"
+#include "../Face.hpp"
 
 enum class InteriorFaceSide { First = 0, Second = 1 };
 
@@ -13,9 +13,10 @@ protected:
     double m_pressure = 0.0;
     double m_pressure_correction = 0.0;
     double m_dye = 0.0;
-    double m_dx; // TODO: Remove this in the future (on non-cartesian grids)
-    double m_dy; // TODO: Remove this in the future (on non-cartesian grids)
+    double m_dx;  // TODO: Remove this in the future (on non-cartesian grids)
+    double m_dy;  // TODO: Remove this in the future (on non-cartesian grids)
     std::array<Node *, 2> m_node_neighbours = {nullptr, nullptr};
+
 public:
     InteriorFace(double dx, double dy, Orientation orientation);
 

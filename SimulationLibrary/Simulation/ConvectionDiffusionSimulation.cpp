@@ -1,8 +1,10 @@
 #include "ConvectionDiffusionSimulation.hpp"
 
-ConvectionDiffusionSimulation::ConvectionDiffusionSimulation(Mesh* mesh, const double viscosity, const double tolerance_x,
-                                         const double tolerance_y, const std::string output_file,
-                                         const SimulationType simulation_type, const VerbosityType verbosity_type)
+ConvectionDiffusionSimulation::ConvectionDiffusionSimulation(Mesh* mesh, const double viscosity,
+                                                             const double tolerance_x, const double tolerance_y,
+                                                             const std::string output_file,
+                                                             const SimulationType simulation_type,
+                                                             const VerbosityType verbosity_type)
     : Simulation(mesh, output_file, simulation_type, verbosity_type) {
     m_viscosity = viscosity;
     m_tolerance_x = tolerance_x;

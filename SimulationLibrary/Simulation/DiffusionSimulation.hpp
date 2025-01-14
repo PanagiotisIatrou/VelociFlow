@@ -1,9 +1,10 @@
 #pragma once
 
 #include <memory>
-#include "Simulation.hpp"
+
 #include "Equations/Equations/DiffusionX.hpp"
 #include "Equations/Equations/DiffusionY.hpp"
+#include "Simulation.hpp"
 
 class DiffusionSimulation : public Simulation {
 protected:

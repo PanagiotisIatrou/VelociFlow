@@ -35,11 +35,14 @@ NavierStokesUnsteady::NavierStokesUnsteady(Mesh *mesh, SimulatorContinuation *si
     m_continuing_simulation = true;
 
     // Set the normalization values
-    m_equation_momentum_x->set_imbalance_normalization_factor(simulator_continuation->normalizations[EquationType::MomentumX]);
-    m_equation_momentum_y->set_imbalance_normalization_factor(simulator_continuation->normalizations[EquationType::MomentumY]);
+    m_equation_momentum_x->set_imbalance_normalization_factor(
+        simulator_continuation->normalizations[EquationType::MomentumX]);
+    m_equation_momentum_y->set_imbalance_normalization_factor(
+        simulator_continuation->normalizations[EquationType::MomentumY]);
     m_equation_pressure_correction->set_imbalance_normalization_factor(
         simulator_continuation->normalizations[EquationType::PressureCorrection]);
-    m_equation_pressure_correction->set_mass_imbalance_normalization_factor(simulator_continuation->mass_normalization.value());
+    m_equation_pressure_correction->set_mass_imbalance_normalization_factor(
+        simulator_continuation->mass_normalization.value());
 
     // Set the timesteps
     m_reached_timesteps = simulator_continuation->timesteps - 1;

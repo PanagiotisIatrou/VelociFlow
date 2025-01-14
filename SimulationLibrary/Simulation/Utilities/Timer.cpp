@@ -7,5 +7,7 @@ void Timer::start_timer() {
 }
 
 double Timer::get_elapsed_time() const {
-    return static_cast<double>((std::chrono::high_resolution_clock::now() - m_start_time) / std::chrono::milliseconds(1)) / 1000.0;
+    return static_cast<double>((std::chrono::high_resolution_clock::now() - m_start_time) /
+                               std::chrono::milliseconds(1)) /
+           1000.0;
 }

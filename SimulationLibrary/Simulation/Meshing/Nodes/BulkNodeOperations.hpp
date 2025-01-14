@@ -5,6 +5,7 @@
 class BulkNodeOperations {
 private:
     Mesh *m_mesh;
+
 public:
     BulkNodeOperations(Mesh *mesh);
 

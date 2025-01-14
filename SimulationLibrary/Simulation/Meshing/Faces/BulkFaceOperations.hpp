@@ -5,6 +5,7 @@
 class BulkFaceOperations {
 private:
     Mesh *m_mesh;
+
 public:
     BulkFaceOperations(Mesh *mesh);
 

@@ -4,13 +4,11 @@
 #include <cmath>
 #include <iostream>
 
-ConvectionDiffusionSteady::ConvectionDiffusionSteady(Mesh* mesh, const double viscosity,
-                                                                         const double tolerance_x,
-                                                                         const double tolerance_y,
-                                                                         const std::string output_file,
-                                                                         const VerbosityType verbosity_type)
+ConvectionDiffusionSteady::ConvectionDiffusionSteady(Mesh* mesh, const double viscosity, const double tolerance_x,
+                                                     const double tolerance_y, const std::string output_file,
+                                                     const VerbosityType verbosity_type)
     : ConvectionDiffusionSimulation(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Steady,
-                          verbosity_type) {
+                                    verbosity_type) {
     // Verbosity
     m_verbosity_handler->enable_print_iterations();
 }

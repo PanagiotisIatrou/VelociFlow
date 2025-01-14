@@ -1,9 +1,9 @@
 #include "NavierStokesSimulation.hpp"
 
-NavierStokesSimulation::NavierStokesSimulation(Mesh *mesh, const double density, const double viscosity, const double tolerance_momentum_x,
-                           const double tolerance_momentum_y, const double tolerance_mass_imbalance,
-                           const std::string output_file, const SimulationType simulation_type,
-                           const VerbosityType verbosity_type)
+NavierStokesSimulation::NavierStokesSimulation(Mesh *mesh, const double density, const double viscosity,
+                                               const double tolerance_momentum_x, const double tolerance_momentum_y,
+                                               const double tolerance_mass_imbalance, const std::string output_file,
+                                               const SimulationType simulation_type, const VerbosityType verbosity_type)
     : Simulation(mesh, output_file, simulation_type, verbosity_type) {
     m_density = density;
     m_viscosity = viscosity;

@@ -109,12 +109,14 @@ void Saver::write_field(const Field field) const {
 
 void Saver::write_normalization_values(const EquationType equation_type, Equation *equation) const {
     fprintf(m_file, "[normalization]\n");
-    fprintf(m_file, "%s,%.15f", equation_type_to_str(equation_type).c_str(), equation->get_imbalance_normalization_factor());
+    fprintf(m_file, "%s,%.15f", equation_type_to_str(equation_type).c_str(),
+            equation->get_imbalance_normalization_factor());
 
     // Extra normalization value only for the pressure correction equation
     // (mass imbalance)
     if (equation_type == EquationType::PressureCorrection) {
-        fprintf(m_file, ",%.15f", static_cast<PressureCorrection *>(equation)->get_mass_imbalance_normalization_factor());
+        fprintf(m_file, ",%.15f",
+                static_cast<PressureCorrection *>(equation)->get_mass_imbalance_normalization_factor());
     }
 
     fprintf(m_file, "\n");

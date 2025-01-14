@@ -21,9 +21,9 @@ protected:
     double m_tolerance_mass_imbalance;
 
 public:
-    NavierStokesSimulation(Mesh *mesh, double density, double viscosity, double tolerance_momentum_x, double tolerance_momentum_y,
-                 double tolerance_mass_imbalance, std::string output_file, SimulationType simulation_type,
-                 VerbosityType verbosity_type);
+    NavierStokesSimulation(Mesh *mesh, double density, double viscosity, double tolerance_momentum_x,
+                           double tolerance_momentum_y, double tolerance_mass_imbalance, std::string output_file,
+                           SimulationType simulation_type, VerbosityType verbosity_type);
 
     void solve() override = 0;
 

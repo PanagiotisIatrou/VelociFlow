@@ -1,6 +1,7 @@
 #include "VerbosityHandler.hpp"
 
 #include <ncurses.h>
+
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -43,7 +44,7 @@ void VerbosityHandler::print() {
     refresh();
 }
 
-void VerbosityHandler::add_monitor(const std::string name, const std::function<double()>& residual_getter,
+void VerbosityHandler::add_monitor(const std::string name, const std::function<double()> &residual_getter,
                                    const double tolerance) {
     const Monitor monitor = {name, residual_getter, tolerance, 0.0};
     m_monitors.push_back(monitor);
@@ -55,7 +56,7 @@ void VerbosityHandler::enable_print_iterations() {
 
 void VerbosityHandler::enable_print_timesteps(const int total_timesteps) {
     m_print_timesteps = true;
-        m_total_timesteps = total_timesteps;
+    m_total_timesteps = total_timesteps;
 }
 
 void VerbosityHandler::set_iterations_count(const int iterations_count) {

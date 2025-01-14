@@ -2,7 +2,18 @@
 
 #include "../../common.hpp"
 
-enum class CoefficientType { Center = 0, Source = 1, West = 2, East = 3, South = 4, North = 5, WestWest = 6, EastEast = 7, SouthSouth = 8, NorthNorth = 9 };
+enum class CoefficientType {
+    Center = 0,
+    Source = 1,
+    West = 2,
+    East = 3,
+    South = 4,
+    North = 5,
+    WestWest = 6,
+    EastEast = 7,
+    SouthSouth = 8,
+    NorthNorth = 9
+};
 
 class Coefficients {
 public:
@@ -26,8 +37,8 @@ public:
     void add_to_coefficient(Direction direction, double value);
 
     Coefficients operator+(const Coefficients &rhs) const {
-        return {center + rhs.center, source + rhs.source, west + rhs.west, east + rhs.east, south + rhs.south,
-                north + rhs.north};
+        return {center + rhs.center, source + rhs.source, west + rhs.west,
+                east + rhs.east,     south + rhs.south,   north + rhs.north};
     }
 
     Coefficients &operator+=(const Coefficients &rhs) {

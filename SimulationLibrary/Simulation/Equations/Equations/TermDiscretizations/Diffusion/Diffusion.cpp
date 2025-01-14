@@ -2,7 +2,8 @@
 
 #include "../../../../Meshing/Faces/Boundary/BoundaryFace.hpp"
 
-Diffusion::Diffusion(Node *node, const Field field, const DiffusionSchemes diffusion_scheme) : TermDiscretization(node) {
+Diffusion::Diffusion(Node *node, const Field field, const DiffusionSchemes diffusion_scheme)
+    : TermDiscretization(node) {
     m_diffusion_scheme = diffusion_scheme;
     m_field = field;
 }
