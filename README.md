@@ -11,7 +11,7 @@ C++, while the visualizations are written in Python.
 
 ## Equations
 
-The following system of equations are discretized and solved using the finite volume method (FVM):
+The following system of equations is discretized and solved using the finite volume method (FVM):
 
 $$
 \begin{aligned}
