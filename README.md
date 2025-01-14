@@ -4,20 +4,63 @@
   <img src="https://img.shields.io/badge/Donate-PayPal-green.svg">
 </a>
 
-This project serves as part of my BsC thesis in Computer Science. It is a CFD (Computational Fluid Dynamics) solver for
+This project serves as part of my BSc thesis in Computer Science. It is a CFD (Computational Fluid Dynamics) solver for
 the 2D incompressible Navier-Stokes equations. The solver is based on the SIMPLE
 algorithm for pressure-velocity coupling, solved in an orthogonal cartesian colocated grid. The simulation is written in
-C++, while the visualizations are conducted in Python.
+C++, while the visualizations are written in Python.
 
 ## Equations
 
 The following system of equations are discretized and solved using the finite volume method (FVM):
 
 - $\large \nabla \cdot \vec{v} = 0 $
-- $\large \rho \bigg[ \dfrac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla)\vec{v} \bigg] = -\nabla p + \mu \, \nabla^2\vec{v}$
+- $\large \rho \bigg[ \dfrac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla)\vec{v} \bigg] = -\nabla p + \mu \nabla^2\vec{v}$
 
-Expanding the equations in 2D gives the following system of 3 equations:
+## Gallery
 
-- $\large \dfrac{\partial u}{\partial x} + \dfrac{\partial v}{\partial y} = 0$
-- $\large \dfrac{\partial(\rho u)}{\partial t} + \dfrac{\partial(\rho uu)}{\partial x} + \dfrac{\partial(\rho vu)}{\partial y} = -\dfrac{\partial p}{\partial x} + \dfrac{\partial}{\partial x}\bigg(\mu\dfrac{\partial u}{\partial x}\bigg) + \dfrac{\partial}{\partial y}\bigg(\mu\dfrac{\partial u}{\partial y}\bigg)$
-- $\large \dfrac{\partial(\rho v)}{\partial t} + \dfrac{\partial(\rho uv)}{\partial x} + \dfrac{\partial(\rho vv)}{\partial y} = -\dfrac{\partial p}{\partial y} + \dfrac{\partial}{\partial x}\bigg(\mu\dfrac{\partial v}{\partial x}\bigg) + \dfrac{\partial}{\partial y}\bigg(\mu\dfrac{\partial v}{\partial y}\bigg)$
+## Features
+
+- 2D Simulations (both steady and unsteady)
+    - Incompressible Navier Stokes (using the SIMPLE algorithm)
+    - Convection - Diffusion
+    - Diffusion
+- Boundary conditions
+    - Velocity inlet
+    - Fixed pressure
+    - No-slip wall
+    - Slip wall
+    - Moving wall
+    - Periodic
+    - Free
+- Plots
+    - Velocity Magnitude
+    - Velocity X
+    - Velocity Y
+    - Pressure
+    - Vorticity
+    - Dye
+    - Streamlines
+    - Quivers
+- Grid types
+    - Orthogonal cartesian colocated
+- Diffusion schemes
+    - Central differencing
+- Convection schemes
+    - Upwind
+    - Central differencing
+    - QUICK Hayase
+- Time schemes
+    - Implicit Euler
+- Dye injection (for tracing the flow)
+- Ability for early stopping and restarting of the Incompressible Navier Stokes simulations
+- Residual types
+    - Unscaled
+    - Scaled
+    - Normalized
+- Residual norm types
+    - $L^1$
+    - $L^2$
+    - $L^\infty$
+- Stopping rules (based on tolerance)
+    - Absolute
+    - Relative
