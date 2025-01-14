@@ -63,9 +63,9 @@ $$
     - Scaled
     - Normalized
 - Residual norm types
-    - $L^1$
-    - $L^2$
-    - $L^\infty$
+    - $\large L^1$
+    - $\large L^2$
+    - $\large L^\infty$
 - Stopping rules (based on tolerance)
     - Absolute
     - Relative
