@@ -16,7 +16,7 @@ The following system of equations are discretized and solved using the finite vo
 $$
 \begin{aligned}
     \begin{cases}
-        \large \nabla \cdot \vec{v} = 0 \\[10pt]
+        \large \nabla \cdot \vec{v} = 0 \\ \\
         \large \rho \bigg[ \dfrac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla)\vec{v} \bigg] = -\nabla p + \mu \nabla^2\vec{v}
     \end{cases}
 \end{aligned}
