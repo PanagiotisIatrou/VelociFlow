@@ -13,12 +13,12 @@ C++, while the visualizations are written in Python.
 
 The following system of equations are discretized and solved using the finite volume method (FVM):
 
-$$
+$
 \begin{cases}
-    \large \nabla \cdot \vec{v} = 0 \\
+    \large \nabla \cdot \vec{v} = 0 \\[10pt]
     \large \rho \bigg[ \dfrac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla)\vec{v} \bigg] = -\nabla p + \mu \nabla^2\vec{v}
 \end{cases}
-$$
+$
 ## Gallery
 
 ## Features
