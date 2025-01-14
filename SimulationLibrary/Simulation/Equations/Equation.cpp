@@ -79,7 +79,7 @@ void Equation::solve() {
 
                 // Solve for the nodal value (the main diagonal variable)
                 double value_P = c.source;
-                for (int dir = direction_start; dir < direction_all_end; dir++) {
+                for (int dir = direction_start; dir < direction_near_end; dir++) {
                     const Direction direction = static_cast<Direction>(dir);
                     Face *face = node_P->get_neighbouring_face(direction);
                     if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
@@ -132,7 +132,7 @@ double Equation::calculate_and_get_imbalance() {
 
             // Solve for the nodal value (the main diagonal variable)
             double value_P = c.source;
-            for (int dir = direction_start; dir < direction_all_end; dir++) {
+            for (int dir = direction_start; dir < direction_near_end; dir++) {
                 const Direction direction = static_cast<Direction>(dir);
                 Face *face = node_P->get_neighbouring_face(direction);
                 if (face != nullptr && face->get_face_type() != FaceType::Boundary) {
