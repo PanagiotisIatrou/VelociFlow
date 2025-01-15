@@ -39,31 +39,31 @@ public:
 
     double get_domain_size_y() const;
 
-    void set_node(int i, int j, double velocity_x, double velocity_y, double pressure, double dye);
+    void set_node(int x, int y, double velocity_x, double velocity_y, double pressure, double dye);
 
-    Node *get_node(int i, int j) const;
+    Node *get_node(int x, int y) const;
 
-    Face *get_face_x(int i, int j) const;
+    Face *get_face_x(int x, int y) const;
 
-    Face *get_face_y(int i, int j) const;
+    Face *get_face_y(int x, int y) const;
 
     // Face types
 
-    void set_interior_face(FaceSide side, int i, int j);
+    void set_interior_face(FaceSide side, int x, int y);
 
-    void set_boundary_inlet_face(FaceSide side, int i, int j, double velocity_x, double velocity_y, double dye);
+    void set_boundary_inlet_face(FaceSide side, int x, int y, double velocity_x, double velocity_y, double dye);
 
-    void set_boundary_no_slip_face(FaceSide side, int i, int j);
+    void set_boundary_no_slip_face(FaceSide side, int x, int y);
 
-    void set_boundary_moving_wall_face(FaceSide side, int i, int j, double velocity);
+    void set_boundary_moving_wall_face(FaceSide side, int x, int y, double velocity);
 
-    void set_boundary_slip_face(FaceSide side, int i, int j);
+    void set_boundary_slip_face(FaceSide side, int x, int y);
 
-    void set_boundary_fixed_pressure_face(FaceSide side, int i, int j, double pressure);
+    void set_boundary_fixed_pressure_face(FaceSide side, int x, int y, double pressure);
 
     void set_boundary_periodic_side(FaceSide side);
 
-    void set_boundary_free_face(FaceSide side, int i, int j);
+    void set_boundary_free_face(FaceSide side, int x, int y);
 
     // Linking
 

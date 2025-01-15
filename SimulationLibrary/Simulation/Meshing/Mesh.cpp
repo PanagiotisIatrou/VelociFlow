@@ -79,63 +79,63 @@ double Mesh::get_domain_size_y() const {
 
 // Nodes
 
-void Mesh::set_node(const int i, const int j, const double velocity_x, const double velocity_y, const double pressure,
+void Mesh::set_node(const int x, const int y, const double velocity_x, const double velocity_y, const double pressure,
                     const double dye) {
-    m_nodes[i][j] = std::make_unique<Node>(m_dx, m_dy, velocity_x, velocity_y, pressure, dye);
+    m_nodes[x][y] = std::make_unique<Node>(m_dx, m_dy, velocity_x, velocity_y, pressure, dye);
 }
 
-Node *Mesh::get_node(const int i, const int j) const {
-    return m_nodes[i][j].get();
+Node *Mesh::get_node(const int x, const int y) const {
+    return m_nodes[x][y].get();
 }
 
 // Faces
 
-void Mesh::set_interior_face(const FaceSide side, const int i, const int j) {
+void Mesh::set_interior_face(const FaceSide side, const int x, const int y) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<InteriorFace>(m_dx, m_dy, Orientation::Horizontal);
+        m_faces_x[x][y] = std::make_unique<InteriorFace>(m_dx, m_dy, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<InteriorFace>(m_dx, m_dy, Orientation::Vertical);
+        m_faces_y[x][y] = std::make_unique<InteriorFace>(m_dx, m_dy, Orientation::Vertical);
     }
 }
 
-void Mesh::set_boundary_inlet_face(const FaceSide side, const int i, const int j, const double velocity_x,
+void Mesh::set_boundary_inlet_face(const FaceSide side, const int x, const int y, const double velocity_x,
                                    const double velocity_y, const double dye) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<InletBoundaryFace>(velocity_x, velocity_y, dye, Orientation::Horizontal);
+        m_faces_x[x][y] = std::make_unique<InletBoundaryFace>(velocity_x, velocity_y, dye, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<InletBoundaryFace>(velocity_x, velocity_y, dye, Orientation::Vertical);
+        m_faces_y[x][y] = std::make_unique<InletBoundaryFace>(velocity_x, velocity_y, dye, Orientation::Vertical);
     }
 }
 
-void Mesh::set_boundary_no_slip_face(const FaceSide side, const int i, const int j) {
+void Mesh::set_boundary_no_slip_face(const FaceSide side, const int x, const int y) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<NoSlipBoundaryFace>(Orientation::Horizontal);
+        m_faces_x[x][y] = std::make_unique<NoSlipBoundaryFace>(Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<NoSlipBoundaryFace>(Orientation::Vertical);
+        m_faces_y[x][y] = std::make_unique<NoSlipBoundaryFace>(Orientation::Vertical);
     }
 }
 
-void Mesh::set_boundary_moving_wall_face(const FaceSide side, const int i, const int j, const double velocity) {
+void Mesh::set_boundary_moving_wall_face(const FaceSide side, const int x, const int y, const double velocity) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<MovingWallBoundaryFace>(velocity, Orientation::Horizontal);
+        m_faces_x[x][y] = std::make_unique<MovingWallBoundaryFace>(velocity, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<MovingWallBoundaryFace>(velocity, Orientation::Vertical);
+        m_faces_y[x][y] = std::make_unique<MovingWallBoundaryFace>(velocity, Orientation::Vertical);
     }
 }
 
-void Mesh::set_boundary_slip_face(const FaceSide side, const int i, const int j) {
+void Mesh::set_boundary_slip_face(const FaceSide side, const int x, const int y) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<SlipBoundaryFace>(Orientation::Horizontal);
+        m_faces_x[x][y] = std::make_unique<SlipBoundaryFace>(Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<SlipBoundaryFace>(Orientation::Vertical);
+        m_faces_y[x][y] = std::make_unique<SlipBoundaryFace>(Orientation::Vertical);
     }
 }
 
-void Mesh::set_boundary_fixed_pressure_face(const FaceSide side, const int i, const int j, const double pressure) {
+void Mesh::set_boundary_fixed_pressure_face(const FaceSide side, const int x, const int y, const double pressure) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<FixedPressureBoundaryFace>(pressure, Orientation::Horizontal);
+        m_faces_x[x][y] = std::make_unique<FixedPressureBoundaryFace>(pressure, Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<FixedPressureBoundaryFace>(pressure, Orientation::Vertical);
+        m_faces_y[x][y] = std::make_unique<FixedPressureBoundaryFace>(pressure, Orientation::Vertical);
     }
 }
 
@@ -227,20 +227,20 @@ void Mesh::set_boundary_periodic_side(const FaceSide side) {
     }
 }
 
-void Mesh::set_boundary_free_face(const FaceSide side, const int i, const int j) {
+void Mesh::set_boundary_free_face(const FaceSide side, const int x, const int y) {
     if (side == FaceSide::X) {
-        m_faces_x[i][j] = std::make_unique<FreeBoundaryFace>(Orientation::Horizontal);
+        m_faces_x[x][y] = std::make_unique<FreeBoundaryFace>(Orientation::Horizontal);
     } else {
-        m_faces_y[i][j] = std::make_unique<FreeBoundaryFace>(Orientation::Vertical);
+        m_faces_y[x][y] = std::make_unique<FreeBoundaryFace>(Orientation::Vertical);
     }
 }
 
-Face *Mesh::get_face_x(const int i, const int j) const {
-    return m_faces_x[i][j].get();
+Face *Mesh::get_face_x(const int x, const int y) const {
+    return m_faces_x[x][y].get();
 }
 
-Face *Mesh::get_face_y(const int i, const int j) const {
-    return m_faces_y[i][j].get();
+Face *Mesh::get_face_y(const int x, const int y) const {
+    return m_faces_y[x][y].get();
 }
 
 // Linking
