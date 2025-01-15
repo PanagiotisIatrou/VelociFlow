@@ -144,7 +144,9 @@ void Mesh::set_boundary_periodic_side(const FaceSide side) {
     const Direction direction_first_far = side == FaceSide::X ? Direction::WestWest : Direction::SouthSouth;
     const Direction direction_second_near = side == FaceSide::X ? Direction::East : Direction::North;
     const Direction direction_second_far = side == FaceSide::X ? Direction::EastEast : Direction::NorthNorth;
-    for (int k = 0; k < m_size_y; k++) {
+
+    const int side_size = side == FaceSide::X ? m_size_y : m_size_x;
+    for (int k = 0; k < side_size; k++) {
         Node *first_node;
         Node *second_node;
         Node *last_node;
