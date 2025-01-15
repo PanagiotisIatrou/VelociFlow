@@ -94,7 +94,7 @@ SimulatorContinuation::SimulatorContinuation(const std::string filename) {
             }
             EquationType equation_type = str_to_equation_type(tokens[0]);
             tolerances[equation_type] = std::stod(tokens[1]);
-        } else if (header == "velocity_u") {
+        } else if (header == "velocity_x") {
             timesteps += 1;
 
             for (int i = 0; i < grid_size_x; i++) {
@@ -115,7 +115,7 @@ SimulatorContinuation::SimulatorContinuation(const std::string filename) {
                     }
                 }
             }
-        } else if (header == "velocity_v") {
+        } else if (header == "velocity_y") {
             for (int i = 0; i < grid_size_x; i++) {
                 for (int j = 0; j < grid_size_y; j++) {
                     getline(file, line);

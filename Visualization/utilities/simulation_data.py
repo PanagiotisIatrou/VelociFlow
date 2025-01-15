@@ -16,8 +16,8 @@ class SimulationData:
         self.execution_time = None
         self.density = None
         self.viscosity = None
-        self.velocity_timesteps_u = []
-        self.velocity_timesteps_v = []
+        self.timesteps_velocity_x = []
+        self.timesteps_velocity_y = []
         self.pressure_timesteps = []
         self.dye_timesteps = []
 
@@ -60,28 +60,28 @@ class SimulationData:
                     elif header_value == "viscosity":
                         line = f.readline()
                         self.viscosity = float(line)
-                    elif header_value == "velocity_u":
+                    elif header_value == "velocity_x":
                         self.timesteps += 1
-                        velocity_u = np.zeros((self.grid_size_x, self.grid_size_y))
+                        velocity_x = np.zeros((self.grid_size_x, self.grid_size_y))
                         for i in range(self.grid_size_x * self.grid_size_y):
                             line = f.readline()
                             i, j, value = line.split(",")
                             if value.strip() == '-':
-                                velocity_u[int(i), int(j)] = math.nan
+                                velocity_x[int(i), int(j)] = math.nan
                             else:
-                                velocity_u[int(i), int(j)] = float(value.strip())
-                        self.velocity_timesteps_u.append(np.array(velocity_u))
+                                velocity_x[int(i), int(j)] = float(value.strip())
+                        self.timesteps_velocity_x.append(np.array(velocity_x))
                         progress_bar.update(1)
-                    elif header_value == "velocity_v":
-                        velocity_v = np.zeros((self.grid_size_x, self.grid_size_y))
+                    elif header_value == "velocity_y":
+                        velocity_y = np.zeros((self.grid_size_x, self.grid_size_y))
                         for i in range(self.grid_size_x * self.grid_size_y):
                             line = f.readline()
                             i, j, value = line.split(",")
                             if value.strip() == '-':
-                                velocity_v[int(i), int(j)] = math.nan
+                                velocity_y[int(i), int(j)] = math.nan
                             else:
-                                velocity_v[int(i), int(j)] = float(value.strip())
-                        self.velocity_timesteps_v.append(np.array(velocity_v))
+                                velocity_y[int(i), int(j)] = float(value.strip())
+                        self.timesteps_velocity_y.append(np.array(velocity_y))
                     elif header_value == "pressure":
                         pressure = np.zeros((self.grid_size_x, self.grid_size_y))
                         for i in range(self.grid_size_x * self.grid_size_y):

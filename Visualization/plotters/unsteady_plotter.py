@@ -12,8 +12,8 @@ class UnsteadyPlotter(Plotter):
 
     def __save_vector_field(self, field):
         if field == VectorFields.VELOCITY_MAGNITUDE:
-            field1 = np.array(self.data.velocity_timesteps_u)
-            field2 = np.array(self.data.velocity_timesteps_v)
+            field1 = np.array(self.data.timesteps_velocity_x)
+            field2 = np.array(self.data.timesteps_velocity_y)
 
         # Initialize the plot
         self.create_plot()
@@ -74,16 +74,16 @@ class UnsteadyPlotter(Plotter):
 
     def __save_scalar_field(self, field, filename="unsteady.mp4"):
         if field == ScalarFields.VELOCITY_X:
-            scalar_field = np.array(self.data.velocity_timesteps_u)
+            scalar_field = np.array(self.data.timesteps_velocity_x)
         elif field == ScalarFields.VELOCITY_Y:
-            scalar_field = np.array(self.data.velocity_timesteps_v)
+            scalar_field = np.array(self.data.timesteps_velocity_y)
         elif field == ScalarFields.PRESSURE:
             scalar_field = np.array(self.data.pressure_timesteps)
         elif field == ScalarFields.DYE:
             scalar_field = np.array(self.data.dye_timesteps)
         elif field == ScalarFields.VORTICITY:
-            scalar_field = np.gradient(self.data.velocity_timesteps_u, axis=0) - np.gradient(
-                self.data.velocity_timesteps_v, axis=1)
+            scalar_field = np.gradient(self.data.timesteps_velocity_x, axis=0) - np.gradient(
+                self.data.timesteps_velocity_y, axis=1)
 
         # Initialize the plot
         self.create_plot()

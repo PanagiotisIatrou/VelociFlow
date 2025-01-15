@@ -70,11 +70,11 @@ void Saver::write_field(const Field field) const {
     std::string title;
     switch (field) {
         case Field::VelocityX: {
-            title = "velocity_u";
+            title = "velocity_x";
             break;
         }
         case Field::VelocityY: {
-            title = "velocity_v";
+            title = "velocity_y";
             break;
         }
         case Field::Pressure: {
