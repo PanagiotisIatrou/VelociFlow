@@ -21,7 +21,7 @@ int main() {
     // Create the mesh
     Mesh *mesh = new Mesh(grid_size_x, grid_size_y, domain_size_x, domain_size_y);
 
-    const double height = 20.0;
+    const double height = 0.2;
 
     // Add the nodes
     for (int i = 0; i < grid_size_x; i++) {
@@ -31,7 +31,7 @@ int main() {
             }
 
             double velocity_x;
-            if (std::abs(j - grid_size_y / 2.0) / (grid_size_y / 2.0) < 0.2 + 0.01 * std::sin(2.0 * M_PI * (static_cast<double>(i) / grid_size_x) * domain_size_x * 10.0)) {
+            if (std::abs(j - grid_size_y / 2.0) / (grid_size_y / 2.0) < height + 0.01 * std::sin(2.0 * M_PI * (static_cast<double>(i) / grid_size_x) * domain_size_x * 10.0)) {
                 velocity_x = velocity;
                 mesh->set_node(i, j, velocity_x, 0.0, 0.0, 1.0);
             } else {
