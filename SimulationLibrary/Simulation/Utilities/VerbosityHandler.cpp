@@ -16,7 +16,7 @@ VerbosityType VerbosityHandler::get_verbosity_type() const {
 
 void VerbosityHandler::print() {
     // Update the initial residuals
-    if (m_iterations_count < 5) {
+    if (m_iterations_count == 2) {
         for (Monitor &monitor : m_monitors) {
             monitor.initial_residual = monitor.residual_getter();
         }
