@@ -77,9 +77,7 @@ void VerbosityHandler::print_residuals() {
     printw("[");
     for (const Monitor &monitor : m_monitors) {
         const double residual = monitor.residual_getter();
-        if (residual > monitor.tolerance) {
-            printw("%s: %4e   ", monitor.name.c_str(), residual);
-        }
+        printw("%s: %4e   ", monitor.name.c_str(), residual);
     }
     printw("]\n");
 }
