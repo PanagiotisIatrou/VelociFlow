@@ -7,14 +7,14 @@
 #include <NavierStokesUnsteady.hpp>
 #include <Simulation/Meshing/Faces/Interior/InteriorFace.hpp>
 
-const int grid_size_x = 128;
-const int grid_size_y = 128;
+const int grid_size_x = 300;
+const int grid_size_y = 300;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
 const double viscosity = 0.0001;
 const double density = 1.0;
-const double dt = 0.01;
+const double dt = 0.00025;
 const int timesteps = 1000;
 
 int main() {
@@ -56,10 +56,10 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    // const std::string file = "../Results/Unsteady/out-1736806195.txt";
-    // SimulatorContinuation simulation_continuation(file);
-    // NavierStokesUnsteady simulation(mesh, &simulation_continuation, timesteps, VerbosityType::Percentages);
-    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
+    const std::string file = "../Results/Unsteady/out-1737469287.txt";
+    SimulatorContinuation simulation_continuation(file);
+    NavierStokesUnsteady simulation(mesh, &simulation_continuation, timesteps, VerbosityType::Percentages);
+    // NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
     simulation.solve();
 
     std::cout << "Reached " << simulation.get_reached_timesteps() << " / " << timesteps << " timesteps" << std::endl;

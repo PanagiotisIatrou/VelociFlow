@@ -5,15 +5,15 @@
 #include <iostream>
 #include <string>
 
-const int grid_size_x = 100;
-const int grid_size_y = 100;
+const int grid_size_x = 300;
+const int grid_size_y = 300;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
 const double viscosity = 0.00001;
 const double density = 1.0;
-const double dt = 0.01;
-const int timesteps = 200;
+const double dt = 0.005;
+const int timesteps = 1000;
 
 int main() {
     // Create the mesh
