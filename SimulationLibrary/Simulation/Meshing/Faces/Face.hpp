@@ -13,7 +13,6 @@ protected:
 
     double m_dt = 1.0;
     double m_viscosity = 0.0;
-    double m_density = 0.0;
 
 public:
     Face(FaceType type, Orientation orientation);
@@ -33,8 +32,4 @@ public:
     double get_viscosity() const;
 
     void set_viscosity(double viscosity);
-
-    double get_density() const;
-
-    void set_density(double density);
 };

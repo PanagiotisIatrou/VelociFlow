@@ -11,14 +11,20 @@ class Mesh {
 private:
     int m_size_x;
     int m_size_y;
+
     double m_domain_size_x;
     double m_domain_size_y;
+
     double m_dx;
     double m_dy;
     double m_dt;
+
     std::vector<std::vector<std::unique_ptr<Node>>> m_nodes;
     std::vector<std::vector<std::unique_ptr<Face>>> m_faces_x;
     std::vector<std::vector<std::unique_ptr<Face>>> m_faces_y;
+
+    double m_density = 0.0;
+    double m_viscosity = 0.0;
 
 public:
     Mesh(int size_x, int size_y, double domain_size_x, double domain_size_y);
@@ -70,4 +76,12 @@ public:
     void link_nodes() const;
 
     void link_nodes_faces();
+
+    // Density
+
+    double get_density();
+
+    // Viscosity
+
+    double get_viscosity();
 };

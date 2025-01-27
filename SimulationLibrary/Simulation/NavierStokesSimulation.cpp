@@ -34,8 +34,6 @@ NavierStokesSimulation::NavierStokesSimulation(Mesh *mesh, const double density,
 
     // Set density
     m_bulk_node_operations->set_density(m_density);
-    m_bulk_face_operations->set_face_x_density(m_density);
-    m_bulk_face_operations->set_face_y_density(m_density);
 
     // Set viscosity
     m_bulk_node_operations->set_viscosity(m_viscosity);

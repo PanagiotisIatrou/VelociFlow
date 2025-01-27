@@ -35,6 +35,11 @@ Coefficients Convection::get_effects() const {
         coefficients += direction_coefficients;
     }
 
+    // Multiply by density
+    if (m_include_density) {
+        coefficients *= m_node->get_density();
+    }
+
     return coefficients;
 }
 
@@ -44,10 +49,7 @@ Coefficients Convection::get_upwind_effects(const Direction direction) const {
     Face *face = m_node->get_neighbouring_face(direction);
     const double area =
         direction == Direction::West || direction == Direction::East ? m_node->get_dy() : m_node->get_dx();
-    double flow_rate = m_node->get_dt() * area * face->get_normal_velocity();
-    if (m_include_density) {
-        flow_rate *= face->get_density();
-    }
+    const double flow_rate = m_node->get_dt() * area * face->get_normal_velocity();
 
     const int dir_sign = direction == Direction::West || direction == Direction::South ? 1 : -1;
     if (face->get_face_type() != FaceType::Boundary) {
@@ -69,10 +71,7 @@ Coefficients Convection::get_central_differencing_effects(const Direction direct
     Face *face = m_node->get_neighbouring_face(direction);
     const double area =
         direction == Direction::West || direction == Direction::East ? m_node->get_dy() : m_node->get_dx();
-    double flow_rate = m_node->get_dt() * area * face->get_normal_velocity();
-    if (m_include_density) {
-        flow_rate *= face->get_density();
-    }
+    const double flow_rate = m_node->get_dt() * area * face->get_normal_velocity();
     const int dir_sign = direction == Direction::West || direction == Direction::South ? 1 : -1;
     if (face->get_face_type() != FaceType::Boundary) {
         const double extra = 0.5 * dir_sign * flow_rate;
@@ -93,10 +92,7 @@ Coefficients Convection::get_quick_hayase_effects(const Direction direction) con
     Face *face = m_node->get_neighbouring_face(direction);
     const double area =
         direction == Direction::West || direction == Direction::East ? m_node->get_dy() : m_node->get_dx();
-    double flow_rate = m_node->get_dt() * area * face->get_normal_velocity();
-    if (m_include_density) {
-        flow_rate *= face->get_density();
-    }
+    const double flow_rate = m_node->get_dt() * area * face->get_normal_velocity();
     const double dir_sign = direction == Direction::West || direction == Direction::South ? 1.0 : -1.0;
     if (face->get_face_type() != FaceType::Boundary) {
         const double alpha = flow_rate > 0.0 ? 1.0 : 0.0;

@@ -47,12 +47,6 @@ public:
 
     void set_face_y_dt(double dt) const;
 
-    // Density
-
-    void set_face_x_density(double density) const;
-
-    void set_face_y_density(double density) const;
-
     // Viscosity
 
     void set_face_x_viscosity(double viscosity) const;

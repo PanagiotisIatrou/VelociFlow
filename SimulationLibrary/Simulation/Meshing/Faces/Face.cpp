@@ -39,11 +39,3 @@ double Face::get_viscosity() const {
 void Face::set_viscosity(const double viscosity) {
     m_viscosity = viscosity;
 }
-
-double Face::get_density() const {
-    return m_density;
-}
-
-void Face::set_density(const double density) {
-    m_density = density;
-}
