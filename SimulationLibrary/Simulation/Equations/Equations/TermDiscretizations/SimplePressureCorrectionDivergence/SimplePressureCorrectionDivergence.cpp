@@ -18,7 +18,7 @@ Coefficients SimplePressureCorrectionDivergence::get_effects() const {
                                             ? Orientation::Horizontal
                                             : Orientation::Vertical;
 
-        // Get the face velocity and density
+        // Get the face velocity
         double velocity_face;
         if (face_direction->get_face_type() == FaceType::Boundary) {
             const BoundaryFace *boundary_face_face = static_cast<BoundaryFace *>(face_direction);
