@@ -23,6 +23,8 @@ Coefficients Diffusion::get_effects() const {
         coefficients += direction_coefficients;
     }
 
+    coefficients *= m_node->get_viscosity();
+
     return coefficients;
 }
 
@@ -30,7 +32,7 @@ Coefficients Diffusion::get_central_differencing_effects(const Direction directi
     Coefficients coefficients;
 
     Face *face = m_node->get_neighbouring_face(direction);
-    double flux = face->get_viscosity() * m_node->get_dt();
+    double flux = m_node->get_dt();
     if (direction == Direction::West || direction == Direction::East) {
         flux *= m_node->get_dy() / m_node->get_dx();
     } else {

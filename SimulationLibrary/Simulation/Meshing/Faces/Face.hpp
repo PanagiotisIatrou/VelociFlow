@@ -12,7 +12,6 @@ protected:
     Orientation m_orientation;
 
     double m_dt = 1.0;
-    double m_viscosity = 0.0;
 
 public:
     Face(FaceType type, Orientation orientation);
@@ -28,8 +27,4 @@ public:
     virtual double get_field_value(Field field) const = 0;
 
     void set_dt(double dt);
-
-    double get_viscosity() const;
-
-    void set_viscosity(double viscosity);
 };

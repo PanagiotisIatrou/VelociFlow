@@ -31,11 +31,3 @@ double Face::get_normal_velocity() {
 void Face::set_dt(const double dt) {
     m_dt = dt;
 }
-
-double Face::get_viscosity() const {
-    return m_viscosity;
-}
-
-void Face::set_viscosity(const double viscosity) {
-    m_viscosity = viscosity;
-}

@@ -32,13 +32,9 @@ NavierStokesSimulation::NavierStokesSimulation(Mesh *mesh, const double density,
     m_equation_pressure_correction->populate_mesh();
     m_equation_dye->populate_mesh();
 
-    // Set density
+    // Set density and viscosity
     m_bulk_node_operations->set_density(m_density);
-
-    // Set viscosity
     m_bulk_node_operations->set_viscosity(m_viscosity);
-    m_bulk_face_operations->set_face_x_viscosity(m_viscosity);
-    m_bulk_face_operations->set_face_y_viscosity(m_viscosity);
 
     // Initialize the face values
     m_bulk_face_operations->update_face_x_velocities_distance_weighted();

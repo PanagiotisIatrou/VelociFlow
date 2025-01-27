@@ -22,8 +22,6 @@ DiffusionSimulation::DiffusionSimulation(Mesh* mesh, const double viscosity, con
 
     // Set viscosity
     m_bulk_node_operations->set_viscosity(m_viscosity);
-    m_bulk_face_operations->set_face_x_viscosity(m_viscosity);
-    m_bulk_face_operations->set_face_y_viscosity(m_viscosity);
 
     // Initialize the face velocities
     m_bulk_face_operations->update_face_x_velocities_distance_weighted();

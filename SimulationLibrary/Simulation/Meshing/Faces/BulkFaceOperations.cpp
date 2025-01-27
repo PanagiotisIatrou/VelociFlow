@@ -225,35 +225,3 @@ void BulkFaceOperations::set_face_y_dt(const double dt) const {
         }
     }
 }
-
-// Viscosity
-
-void BulkFaceOperations::set_face_x_viscosity(const double viscosity) const {
-    for (int i = 0; i < m_mesh->get_size_x() + 1; i++) {
-        for (int j = 0; j < m_mesh->get_size_y(); j++) {
-            Face *face = m_mesh->get_face_x(i, j);
-
-            // Nothing to calculate on boundary faces
-            if (face == nullptr) {
-                continue;
-            }
-
-            face->set_viscosity(viscosity);
-        }
-    }
-}
-
-void BulkFaceOperations::set_face_y_viscosity(const double viscosity) const {
-    for (int i = 0; i < m_mesh->get_size_x(); i++) {
-        for (int j = 0; j < m_mesh->get_size_y() + 1; j++) {
-            Face *face = m_mesh->get_face_y(i, j);
-
-            // Nothing to calculate on boundary faces
-            if (face == nullptr) {
-                continue;
-            }
-
-            face->set_viscosity(viscosity);
-        }
-    }
-}

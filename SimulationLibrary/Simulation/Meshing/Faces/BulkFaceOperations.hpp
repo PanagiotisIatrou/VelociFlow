@@ -46,10 +46,4 @@ public:
     void set_face_x_dt(double dt) const;
 
     void set_face_y_dt(double dt) const;
-
-    // Viscosity
-
-    void set_face_x_viscosity(double viscosity) const;
-
-    void set_face_y_viscosity(double viscosity) const;
 };
