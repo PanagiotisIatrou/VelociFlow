@@ -34,6 +34,8 @@ public:
 
     double get_velocity() const;
 
+    double get_normal_velocity() override;
+
     void update_dye();
 
     void update_pressure_correction();

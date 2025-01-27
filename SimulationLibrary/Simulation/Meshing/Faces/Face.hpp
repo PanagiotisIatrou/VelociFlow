@@ -22,7 +22,7 @@ public:
 
     Orientation get_orientation() const;
 
-    double get_normal_velocity();
+    virtual double get_normal_velocity() = 0;
 
     virtual double get_field_value(Field field) const = 0;
 

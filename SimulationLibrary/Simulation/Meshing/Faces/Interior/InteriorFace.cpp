@@ -101,6 +101,10 @@ double InteriorFace::get_velocity() const {
     return m_velocity;
 }
 
+double InteriorFace::get_normal_velocity() {
+    return m_velocity;
+}
+
 void InteriorFace::update_dye() {
     m_dye =
         0.5 * (m_node_neighbours[0]->get_field_value(Field::Dye) + m_node_neighbours[1]->get_field_value(Field::Dye));

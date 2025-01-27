@@ -16,3 +16,11 @@ void BoundaryFace::set_node_neighbour(Node *node) {
 Node *BoundaryFace::get_node_neighbour() const {
     return m_node_neighbour;
 }
+
+double BoundaryFace::get_normal_velocity() {
+    if (m_orientation == Orientation::Horizontal) {
+        return get_field_value(Field::VelocityX);
+    } else {
+        return get_field_value(Field::VelocityY);
+    }
+}

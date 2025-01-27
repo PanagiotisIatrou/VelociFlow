@@ -19,5 +19,7 @@ public:
 
     Node *get_node_neighbour() const;
 
+    double get_normal_velocity() override;
+
     virtual double get_field_value(Field field) const = 0;
 };
