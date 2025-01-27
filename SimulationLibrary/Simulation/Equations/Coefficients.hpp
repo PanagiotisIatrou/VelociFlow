@@ -50,4 +50,18 @@ public:
         north += rhs.north;
         return *this;
     }
+
+    Coefficients operator*(const double scalar) const {
+        return {center * scalar, source * scalar, west * scalar, east * scalar, south * scalar, north * scalar};
+    }
+
+    Coefficients &operator*=(const double scalar) {
+        center *= scalar;
+        source *= scalar;
+        west *= scalar;
+        east *= scalar;
+        south *= scalar;
+        north *= scalar;
+        return *this;
+    }
 };
