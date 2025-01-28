@@ -34,11 +34,6 @@ protected:
     std::unique_ptr<VerbosityHandler> m_verbosity_handler;
 
     // ncurses
-
-    void start_ncurses();
-
-    void end_ncurses();
-
     bool pressed_quit() const;
 
 public:

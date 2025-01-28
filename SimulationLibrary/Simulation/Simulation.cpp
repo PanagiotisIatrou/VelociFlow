@@ -21,17 +21,6 @@ int Simulation::get_outer_iterations_count() const {
     return m_outer_iterations_count;
 }
 
-void Simulation::start_ncurses() {
-    initscr();
-    noecho();
-    nodelay(stdscr, TRUE);
-}
-
-void Simulation::end_ncurses() {
-    resetty();
-    endwin();
-}
-
 bool Simulation::pressed_quit() const {
     char c = getch();
     if (c == 'q') {

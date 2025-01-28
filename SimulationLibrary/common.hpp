@@ -1,5 +1,7 @@
 #pragma once
+
 #include <iostream>
+#include <ncurses.h>
 
 enum class Field { VelocityX = 0, VelocityY = 1, Pressure = 2, PressureCorrection = 3, Dye = 4 };
 inline extern const int field_start = 0;
@@ -201,3 +203,16 @@ inline Direction get_opposite_direction(const Direction direction) {
 inline extern const double relaxation_velocity_x = 0.5;
 inline extern const double relaxation_velocity_y = 0.5;
 inline extern const double pressure_relaxation = 0.2;
+
+// Ncurses
+
+inline void start_ncurses() {
+    initscr();
+    noecho();
+    nodelay(stdscr, TRUE);
+}
+
+inline void end_ncurses() {
+    resetty();
+    endwin();
+}
