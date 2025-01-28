@@ -89,6 +89,14 @@ void Equation::solve() {
                 }
 
                 value_P /= c.center;
+
+                // Check if calculation has diverged
+                if (!std::isfinite(value_P)) {
+                    end_ncurses();
+                    std::cerr << "Calculation diverged" << std::endl;
+                    exit(1);
+                }
+
                 node_P->set_field_value(m_variable_field, value_P);
             }
         }
