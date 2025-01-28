@@ -68,6 +68,8 @@ void VerbosityHandler::set_timesteps_count(const int timesteps_count) {
 }
 
 void VerbosityHandler::print_residuals() {
+    move(0, 0);
+    clrtoeol();
     if (m_print_timesteps) {
         printw("Timesteps: %6d / %d   ", m_timesteps_count, m_total_timesteps);
     }
