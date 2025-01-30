@@ -11,7 +11,9 @@ C++, while the visualizations are written in Python.
 
 ## Equations
 
-The following system of equations is discretized and solved using the finite volume method (FVM):
+Equations being discretized and solved using the finite volume method (FVM):
+
+### Navier Stokes
 
 $$
 \begin{aligned}
@@ -21,6 +23,23 @@ $$
     \end{cases}
 \end{aligned}
 $$
+
+### Convection - Diffusion
+
+$$
+\begin{aligned}
+    \large \dfrac{\partial \vec{v}}{\partial t} + (\vec{v} \cdot \nabla)\vec{v} = \mu \nabla^2\vec{v}
+\end{aligned}
+$$
+
+### Diffusion
+
+$$
+\begin{aligned}
+    \large \mu \nabla^2\vec{v} = 0
+\end{aligned}
+$$
+
 ## Gallery
 
 ## Features
