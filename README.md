@@ -13,7 +13,7 @@ C++, while the visualizations are written in Python.
 
 Equations being discretized and solved using the finite volume method (FVM):
 
-- Navier Stokes
+- Incompressible Navier Stokes
 
 $$
 \begin{aligned}
