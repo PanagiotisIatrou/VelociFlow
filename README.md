@@ -13,7 +13,7 @@ C++, while the visualizations are written in Python.
 
 Equations being discretized and solved using the finite volume method (FVM):
 
-### Navier Stokes
+- Navier Stokes
 
 $$
 \begin{aligned}
@@ -24,7 +24,7 @@ $$
 \end{aligned}
 $$
 
-### Convection - Diffusion
+- Convection - Diffusion
 
 $$
 \begin{aligned}
@@ -32,7 +32,7 @@ $$
 \end{aligned}
 $$
 
-### Diffusion
+- Diffusion
 
 $$
 \begin{aligned}
