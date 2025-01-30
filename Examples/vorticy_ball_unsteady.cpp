@@ -61,7 +61,7 @@ int main() {
                                     VerbosityType::Percentages);
     simulation.solve();
 
-    std::cout << "Reached " << simulation.get_reached_timesteps() << " / " << timesteps << " timesteps" << std::endl;
+    std::cout << "Reached timestep " << simulation.get_reached_timesteps() << std::endl;
     std::cout << "Finished in " << simulation.get_time_taken() << " s" << std::endl;
     std::cout << "Saved output to file " << filename << std::endl;
 

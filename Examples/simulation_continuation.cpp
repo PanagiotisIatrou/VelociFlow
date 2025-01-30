@@ -53,7 +53,7 @@ int main() {
     NavierStokesUnsteady simulation(mesh, &simulation_continuation, extra_timesteps, VerbosityType::Percentages);
     simulation.solve();
 
-    std::cout << "Reached " << simulation.get_reached_timesteps() << " timesteps" << std::endl;
+    std::cout << "Reached timestep " << simulation.get_reached_timesteps() << std::endl;
     std::cout << "Finished in " << simulation.get_time_taken() << " s" << std::endl;
     std::cout << "Saved output to file " << file << std::endl;
 
