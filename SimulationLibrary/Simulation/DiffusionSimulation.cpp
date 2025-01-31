@@ -2,19 +2,19 @@
 
 DiffusionSimulation::DiffusionSimulation(Mesh* mesh, const double viscosity, const double tolerance_x,
                                          const double tolerance_y, const std::string output_file,
-                                         const SimulationType simulation_type, const VerbosityType verbosity_type)
-    : Simulation(mesh, output_file, simulation_type, verbosity_type) {
+                                         const SimulationType simulation_type)
+    : Simulation(mesh, output_file, simulation_type, VerbosityType::None) {
     m_viscosity = viscosity;
-    m_tolerance_x = tolerance_x;
-    m_tolerance_y = tolerance_y;
 
     bool include_time = simulation_type == SimulationType::Unsteady;
 
     // Create the equations
-    m_equation_diffusion_x = std::make_unique<DiffusionX>(mesh, Field::VelocityX, 1.0, ResidualType::Scaled,
-                                                          StoppingRule::Relative, NormType::L1, 1e-1, include_time);
-    m_equation_diffusion_y = std::make_unique<DiffusionY>(mesh, Field::VelocityY, 1.0, ResidualType::Scaled,
-                                                          StoppingRule::Relative, NormType::L1, 1e-1, include_time);
+    m_equation_diffusion_x =
+        std::make_unique<DiffusionX>(mesh, Field::VelocityX, 1.0, ResidualType::Scaled, StoppingRule::Absolute,
+                                     NormType::L1, tolerance_x, include_time);
+    m_equation_diffusion_y =
+        std::make_unique<DiffusionY>(mesh, Field::VelocityY, 1.0, ResidualType::Scaled, StoppingRule::Absolute,
+                                     NormType::L1, tolerance_y, include_time);
 
     // Populate all the nodes with the equation coefficients
     m_equation_diffusion_x->populate_mesh();
@@ -26,12 +26,6 @@ DiffusionSimulation::DiffusionSimulation(Mesh* mesh, const double viscosity, con
     // Initialize the face velocities
     m_bulk_face_operations->update_face_x_velocities_distance_weighted();
     m_bulk_face_operations->update_face_y_velocities_distance_weighted();
-
-    // Verbosity
-    m_verbosity_handler->add_monitor(
-        "X", [capture0 = m_equation_diffusion_x.get()] { return capture0->get_imbalance(); }, m_tolerance_x);
-    m_verbosity_handler->add_monitor(
-        "Y", [capture0 = m_equation_diffusion_y.get()] { return capture0->get_imbalance(); }, m_tolerance_y);
 }
 
 void DiffusionSimulation::iterate() {
@@ -43,13 +37,11 @@ void DiffusionSimulation::iterate() {
     m_equation_diffusion_x->calculate_imbalance();
     m_equation_diffusion_y->calculate_imbalance();
 
-    // Solve X and Y equations
+    // Solve X Diffusion equation
     m_equation_diffusion_x->solve();
+    std::cout << "Solved X Diffusion equation" << std::endl;
+
+    // Solve Y Diffusion equation
     m_equation_diffusion_y->solve();
-
-    // Calculate the face velocities
-    m_bulk_face_operations->update_face_x_velocities_distance_weighted();
-    m_bulk_face_operations->update_face_y_velocities_distance_weighted();
-
-    m_outer_iterations_count++;
+    std::cout << "Solved Y Diffusion equation" << std::endl;
 }

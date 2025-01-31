@@ -30,11 +30,8 @@ int main() {
     // Add the moving lid
     for (int i = 0; i < grid_size_x; i++) {
         for (int j = 0; j < grid_size_y + 1; j++) {
-            if (j == 0) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, -velocity, -velocity, 0.0);
-            }
             if (j == grid_size_y) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, velocity, -velocity, 0.0);
+                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, 0.0, -velocity, 0.0);
             }
         }
     }
@@ -51,7 +48,7 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    DiffusionSteady simulation(mesh, viscosity, 1e-4, 1e-4, path, VerbosityType::Percentages);
+    DiffusionSteady simulation(mesh, viscosity, 1e-4, 1e-4, path);
     simulation.solve();
 
     std::cout << "Converged in " << simulation.get_outer_iterations_count() << " iterations" << std::endl;

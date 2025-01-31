@@ -1,10 +1,8 @@
 #include "DiffusionUnsteady.hpp"
 
 DiffusionUnsteady::DiffusionUnsteady(Mesh *mesh, const double viscosity, const double dt, const int timesteps,
-                                     const double tolerance_x, const double tolerance_y, const std::string output_file,
-                                     const VerbosityType verbosity_type)
-    : DiffusionSimulation(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Unsteady,
-                          verbosity_type) {
+                                     const double tolerance_x, const double tolerance_y, const std::string output_file)
+    : DiffusionSimulation(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Unsteady) {
     m_dt = dt;
     m_timesteps = timesteps;
     m_mesh->set_dt(dt);

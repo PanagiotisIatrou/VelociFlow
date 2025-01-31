@@ -1,38 +1,16 @@
 #include "DiffusionSteady.hpp"
 
 DiffusionSteady::DiffusionSteady(Mesh* mesh, const double viscosity, const double tolerance_x, const double tolerance_y,
-                                 const std::string output_file, const VerbosityType verbosity_type)
-    : DiffusionSimulation(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Steady,
-                          verbosity_type) {
-    // Verbosity
-    m_verbosity_handler->enable_print_iterations();
+                                 const std::string output_file)
+    : DiffusionSimulation(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Steady) {
 }
 
 void DiffusionSteady::solve() {
-    start_ncurses();
-
     m_timer->start_timer();
     m_verbosity_handler->set_timesteps_count(1);
     m_outer_iterations_count = 0;
-    bool has_quit = false;
-    while (m_equation_diffusion_x->get_imbalance() > m_tolerance_x ||
-           m_equation_diffusion_y->get_imbalance() > m_tolerance_y) {
-        iterate();
 
-        m_verbosity_handler->set_iterations_count(m_outer_iterations_count);
-        m_verbosity_handler->print();
-
-        if (pressed_quit()) {
-            has_quit = true;
-            break;
-        }
-    }
-
-    end_ncurses();
-
-    if (has_quit) {
-        std::cout << "Simulation stopped by user" << std::endl;
-    }
+    iterate();
 
     m_time_taken = m_timer->get_elapsed_time();
 
