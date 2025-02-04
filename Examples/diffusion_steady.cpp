@@ -27,13 +27,14 @@ int main() {
         }
     }
 
-    // Add the moving lid
+    // Add the faces
     for (int i = 0; i < grid_size_x; i++) {
-        for (int j = 0; j < grid_size_y + 1; j++) {
-            if (j == grid_size_y) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, 0.0, -velocity, 0.0);
-            }
-        }
+        mesh->set_boundary_inlet_face(FaceSide::Y, i, 0, 0.0, 0.0, 0.0);
+        mesh->set_boundary_inlet_face(FaceSide::Y, i, grid_size_y, velocity, 0.0, 0.0);
+    }
+    for (int j = 0; j < grid_size_y; j++) {
+        mesh->set_boundary_inlet_face(FaceSide::X, 0, j, 0.0, 0.0, 0.0);
+        mesh->set_boundary_inlet_face(FaceSide::X, grid_size_x, j, 0.0, 0.0, 0.0);
     }
 
     // Link the nodes to their neighbouring nodes
@@ -48,10 +49,9 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    DiffusionSteady simulation(mesh, viscosity, 1e-4, 1e-4, path);
+    DiffusionSteady simulation(mesh, viscosity, 1e-4, path);
     simulation.solve();
 
-    std::cout << "Converged in " << simulation.get_outer_iterations_count() << " iterations" << std::endl;
     std::cout << "Finished in " << simulation.get_time_taken() << " s" << std::endl;
     std::cout << "Saved output to file " << filename << std::endl;
 

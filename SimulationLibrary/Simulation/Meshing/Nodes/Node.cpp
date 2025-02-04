@@ -7,7 +7,6 @@
 #include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionX/ConvectionDiffusionXCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionY/ConvectionDiffusionYCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/DiffusionX/DiffusionXCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/DiffusionY/DiffusionYCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/Dye/DyeCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/MomentumX/MomentumXCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/MomentumY/MomentumYCoefficients.hpp"
@@ -243,11 +242,6 @@ void Node::add_equation_coefficient(const EquationType equation_type, Field vari
         case EquationType::DiffusionX: {
             m_equation_coefficients[equation_type] =
                 std::make_unique<DiffusionXCoefficients>(this, variable_field, relaxation, include_time);
-            break;
-        }
-        case EquationType::DiffusionY: {
-            m_equation_coefficients[equation_type] =
-                std::make_unique<DiffusionYCoefficients>(this, variable_field, relaxation, include_time);
             break;
         }
         default: {

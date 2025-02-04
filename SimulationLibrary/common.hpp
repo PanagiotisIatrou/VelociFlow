@@ -85,8 +85,7 @@ enum class EquationType {
     Dye = 3,
     ConvectionDiffusionX = 4,
     ConvectionDiffusionY = 5,
-    DiffusionX = 6,
-    DiffusionY = 7
+    DiffusionX = 6
 };
 
 inline std::string equation_type_to_str(const EquationType equation_type) {
@@ -112,9 +111,6 @@ inline std::string equation_type_to_str(const EquationType equation_type) {
         case EquationType::DiffusionX: {
             return "diffusion_x";
         }
-        case EquationType::DiffusionY: {
-            return "diffusion_y";
-        }
         default: {
             std::cerr << "Invalid equation type" << std::endl;
             exit(1);
@@ -137,8 +133,6 @@ inline EquationType str_to_equation_type(const std::string equation_type) {
         return EquationType::ConvectionDiffusionY;
     } else if (equation_type == "diffusion_x") {
         return EquationType::DiffusionX;
-    } else if (equation_type == "diffusion_y") {
-        return EquationType::DiffusionY;
     } else {
         std::cerr << "Equation type not found" << std::endl;
         exit(1);

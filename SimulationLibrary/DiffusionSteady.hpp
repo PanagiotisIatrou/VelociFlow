@@ -4,7 +4,7 @@
 
 class DiffusionSteady : public DiffusionSimulation {
 public:
-    DiffusionSteady(Mesh *mesh, double viscosity, double tolerance_x, double tolerance_y, std::string output_file);
+    DiffusionSteady(Mesh *mesh, double viscosity, double tolerance, std::string output_file);
 
     void solve() override;
 };

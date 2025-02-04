@@ -9,7 +9,7 @@ private:
     int m_reached_timesteps;
 
 public:
-    DiffusionUnsteady(Mesh *mesh, double viscosity, double dt, int timesteps, double tolerance_x, double tolerance_y,
+    DiffusionUnsteady(Mesh *mesh, double viscosity, double dt, int timesteps, double tolerance,
                       std::string output_file);
 
     void solve() override;

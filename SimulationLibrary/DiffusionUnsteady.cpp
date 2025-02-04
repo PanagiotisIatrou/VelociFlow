@@ -1,8 +1,8 @@
 #include "DiffusionUnsteady.hpp"
 
 DiffusionUnsteady::DiffusionUnsteady(Mesh *mesh, const double viscosity, const double dt, const int timesteps,
-                                     const double tolerance_x, const double tolerance_y, const std::string output_file)
-    : DiffusionSimulation(mesh, viscosity, tolerance_x, tolerance_y, output_file, SimulationType::Unsteady) {
+                                     const double tolerance, const std::string output_file)
+    : DiffusionSimulation(mesh, viscosity, tolerance, output_file, SimulationType::Unsteady) {
     m_dt = dt;
     m_timesteps = timesteps;
     m_mesh->set_dt(dt);
@@ -29,8 +29,6 @@ void DiffusionUnsteady::solve() {
     m_saver->write_simulation_name(SimulationName::DiffusionUnsteady);
     m_saver->write_domain_size(m_mesh->get_domain_size_x(), m_mesh->get_domain_size_y());
     m_saver->write_grid_size(m_mesh->get_size_x(), m_mesh->get_size_y());
-    m_saver->write_tolerance(EquationType::DiffusionX, m_tolerance_x);
-    m_saver->write_tolerance(EquationType::DiffusionY, m_tolerance_y);
     m_saver->write_viscosity(m_viscosity);
     m_saver->write_dt(m_dt);
     m_saver->write_field(Field::VelocityX);
@@ -39,32 +37,29 @@ void DiffusionUnsteady::solve() {
 
     bool has_quit = false;
     for (m_reached_timesteps = 0; m_reached_timesteps < m_timesteps; m_reached_timesteps++) {
-        m_outer_iterations_count = 0;
         m_verbosity_handler->set_timesteps_count(m_reached_timesteps + 1);
-        while (m_equation_diffusion_x->get_imbalance() > m_tolerance_x ||
-               m_equation_diffusion_y->get_imbalance() > m_tolerance_y) {
-            iterate();
 
-            // Save the normalization values
-            // TODO: Might fail if the first timestep converges too quickly (very rare)
-            if (m_reached_timesteps == 0 &&
-                m_outer_iterations_count == Equation::imbalance_normalization_iterations + 1) {
-                m_saver->open_append_file();
-                m_saver->write_normalization_values(EquationType::DiffusionX, m_equation_diffusion_x.get());
-                m_saver->write_normalization_values(EquationType::DiffusionY, m_equation_diffusion_y.get());
-                m_saver->close_file();
-            }
+        // Calculate the coefficients
+        m_equation_diffusion->calculate_coefficients();
 
-            m_verbosity_handler->set_iterations_count(m_outer_iterations_count);
-            m_verbosity_handler->print();
+        // Calculate the imbalance
+        m_equation_diffusion->calculate_imbalance();
 
-            if (pressed_quit()) {
-                has_quit = true;
-                break;
-            }
+        // Solve the Diffusion equation
+        m_equation_diffusion->solve();
+
+        // Save the normalization values
+        // TODO: Might fail if the first timestep converges too quickly (very rare)
+        if (m_reached_timesteps == 0) {
+            m_saver->open_append_file();
+            m_saver->write_normalization_values(EquationType::DiffusionX, m_equation_diffusion.get());
+            m_saver->close_file();
         }
 
-        if (has_quit) {
+        m_verbosity_handler->print();
+
+        if (pressed_quit()) {
+            has_quit = true;
             break;
         }
 
@@ -78,8 +73,7 @@ void DiffusionUnsteady::solve() {
         m_bulk_node_operations->update_node_previous_timestep_fields();
 
         // Reset the residuals
-        m_equation_diffusion_x->reset_imbalance();
-        m_equation_diffusion_y->reset_imbalance();
+        m_equation_diffusion->reset_imbalance();
     }
 
     end_ncurses();

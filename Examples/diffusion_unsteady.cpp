@@ -29,16 +29,14 @@ int main() {
         }
     }
 
-    // Add the moving lid
+    // Add the faces
     for (int i = 0; i < grid_size_x; i++) {
-        for (int j = 0; j < grid_size_y + 1; j++) {
-            if (j == 0) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, -velocity, -velocity, 0.0);
-            }
-            if (j == grid_size_y) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, velocity, -velocity, 0.0);
-            }
-        }
+        mesh->set_boundary_inlet_face(FaceSide::Y, i, 0, 0.0, 0.0, 0.0);
+        mesh->set_boundary_inlet_face(FaceSide::Y, i, grid_size_y, velocity, 0.0, 0.0);
+    }
+    for (int j = 0; j < grid_size_y; j++) {
+        mesh->set_boundary_inlet_face(FaceSide::X, 0, j, 0.0, 0.0, 0.0);
+        mesh->set_boundary_inlet_face(FaceSide::X, grid_size_x, j, 0.0, 0.0, 0.0);
     }
 
     // Link the nodes to their neighbouring nodes
@@ -53,7 +51,7 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    DiffusionUnsteady simulation(mesh, viscosity, dt, timesteps, 1e-4, 1e-4, path, VerbosityType::Percentages);
+    DiffusionUnsteady simulation(mesh, viscosity, dt, timesteps, 1e-4, path);
     simulation.solve();
 
     std::cout << "Reached timestep " << simulation.get_reached_timesteps() << std::endl;
