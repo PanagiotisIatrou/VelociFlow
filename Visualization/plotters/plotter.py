@@ -64,7 +64,7 @@ class Plotter(ABC):
             shading="gouraud" if self.settings.blur else "auto",
             clim=(self.min_value, self.max_value),
         )
-        plt.colorbar(label="Magnitude")
+        plt.colorbar(label="Value")
 
         return color_mesh
 
