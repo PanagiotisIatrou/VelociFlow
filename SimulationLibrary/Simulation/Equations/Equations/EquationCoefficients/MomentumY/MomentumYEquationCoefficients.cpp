@@ -1,11 +1,11 @@
-#include "MomentumYCoefficients.hpp"
+#include "MomentumYEquationCoefficients.hpp"
 
 #include "../../TermDiscretizations/Convection/Convection.hpp"
 #include "../../TermDiscretizations/Diffusion/Diffusion.hpp"
 #include "../../TermDiscretizations/Pressure/Pressure.hpp"
 #include "../../TermDiscretizations/Time/Time.hpp"
 
-MomentumYCoefficients::MomentumYCoefficients(Node *node, const double relaxation, const bool include_time)
+MomentumYEquationCoefficients::MomentumYEquationCoefficients(Node *node, const double relaxation, const bool include_time)
     : EquationCoefficients(node, Field::VelocityY, relaxation) {
     // Diffusion
     std::unique_ptr<Diffusion> diffusion_equation =

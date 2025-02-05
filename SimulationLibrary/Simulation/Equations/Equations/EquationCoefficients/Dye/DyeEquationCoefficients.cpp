@@ -1,10 +1,10 @@
-#include "DyeCoefficients.hpp"
+#include "DyeEquationCoefficients.hpp"
 
 #include "../../TermDiscretizations/Convection/Convection.hpp"
 #include "../../TermDiscretizations/Diffusion/Diffusion.hpp"
 #include "../../TermDiscretizations/Time/Time.hpp"
 
-DyeCoefficients::DyeCoefficients(Node *node, const double relaxation, const bool include_time)
+DyeEquationCoefficients::DyeEquationCoefficients(Node *node, const double relaxation, const bool include_time)
     : EquationCoefficients(node, Field::Dye, relaxation) {
     // Diffusion
     std::unique_ptr<Diffusion> diffusion_equation =

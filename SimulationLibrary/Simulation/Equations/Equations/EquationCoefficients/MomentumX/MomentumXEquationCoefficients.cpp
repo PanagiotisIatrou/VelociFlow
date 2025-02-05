@@ -1,11 +1,11 @@
-#include "MomentumXCoefficients.hpp"
+#include "MomentumXEquationCoefficients.hpp"
 
 #include "../../TermDiscretizations/Convection/Convection.hpp"
 #include "../../TermDiscretizations/Diffusion/Diffusion.hpp"
 #include "../../TermDiscretizations/Pressure/Pressure.hpp"
 #include "../../TermDiscretizations/Time/Time.hpp"
 
-MomentumXCoefficients::MomentumXCoefficients(Node *node, const double relaxation, const bool include_time)
+MomentumXEquationCoefficients::MomentumXEquationCoefficients(Node *node, const double relaxation, const bool include_time)
     : EquationCoefficients(node, Field::VelocityX, relaxation) {
     // Diffusion
     std::unique_ptr<Diffusion> diffusion_equation =

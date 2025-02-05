@@ -1,8 +1,8 @@
-#include "PressureCorrectionCoefficients.hpp"
+#include "PressureCorrectionEquationCoefficients.hpp"
 
 #include "../../TermDiscretizations/SimplePressureCorrectionDivergence/SimplePressureCorrectionDivergence.hpp"
 
-PressureCorrectionCoefficients::PressureCorrectionCoefficients(Node *node, const double relaxation)
+PressureCorrectionEquationCoefficients::PressureCorrectionEquationCoefficients(Node *node, const double relaxation)
     : EquationCoefficients(node, Field::PressureCorrection, relaxation) {
     // Pressure correction divergence
     std::unique_ptr<SimplePressureCorrectionDivergence> pressure_correction_divergence =

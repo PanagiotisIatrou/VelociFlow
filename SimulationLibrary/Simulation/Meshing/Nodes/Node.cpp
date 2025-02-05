@@ -4,13 +4,13 @@
 #include <memory>
 
 #include "../../../common.hpp"
-#include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionX/ConvectionDiffusionXCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionY/ConvectionDiffusionYCoefficients.hpp"
+#include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionX/ConvectionDiffusionXEquationCoefficients.hpp"
+#include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionY/ConvectionDiffusionYEquationCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/Diffusion/DiffusionEquationCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/Dye/DyeCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/MomentumX/MomentumXCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/MomentumY/MomentumYCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/PressureCorrection/PressureCorrectionCoefficients.hpp"
+#include "../../Equations/Equations/EquationCoefficients/Dye/DyeEquationCoefficients.hpp"
+#include "../../Equations/Equations/EquationCoefficients/MomentumX/MomentumXEquationCoefficients.hpp"
+#include "../../Equations/Equations/EquationCoefficients/MomentumY/MomentumYEquationCoefficients.hpp"
+#include "../../Equations/Equations/EquationCoefficients/PressureCorrection/PressureCorrectionEquationCoefficients.hpp"
 
 Node::Node(const double dx, const double dy, const FieldValues field_values) {
     m_dx = dx;
@@ -232,32 +232,32 @@ void Node::add_equation_coefficient(const EquationType equation_type, const doub
     switch (equation_type) {
         case EquationType::MomentumX: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<MomentumXCoefficients>(this, relaxation, include_time);
+                std::make_unique<MomentumXEquationCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::MomentumY: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<MomentumYCoefficients>(this, relaxation, include_time);
+                std::make_unique<MomentumYEquationCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::PressureCorrection: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<PressureCorrectionCoefficients>(this, relaxation);
+                std::make_unique<PressureCorrectionEquationCoefficients>(this, relaxation);
             break;
         }
         case EquationType::Dye: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<DyeCoefficients>(this, relaxation, include_time);
+                std::make_unique<DyeEquationCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::ConvectionDiffusionX: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<ConvectionDiffusionXCoefficients>(this, relaxation, include_time);
+                std::make_unique<ConvectionDiffusionXEquationCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::ConvectionDiffusionY: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<ConvectionDiffusionYCoefficients>(this, relaxation, include_time);
+                std::make_unique<ConvectionDiffusionYEquationCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::DiffusionX: {
