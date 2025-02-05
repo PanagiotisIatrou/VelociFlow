@@ -4,6 +4,7 @@
 
 #include "Faces/Boundary/BoundaryFace.hpp"
 #include "Faces/Boundary/FixedPressureBoundaryFace.hpp"
+#include "Faces/Boundary/FixedValueBoundaryFace.hpp"
 #include "Faces/Boundary/FreeBoundaryFace.hpp"
 #include "Faces/Boundary/InletBoundaryFace.hpp"
 #include "Faces/Boundary/MovingWallBoundaryFace.hpp"
@@ -79,9 +80,8 @@ double Mesh::get_domain_size_y() const {
 
 // Nodes
 
-void Mesh::set_node(const int x, const int y, const double velocity_x, const double velocity_y, const double pressure,
-                    const double dye) {
-    m_nodes[x][y] = std::make_unique<Node>(m_dx, m_dy, velocity_x, velocity_y, pressure, dye);
+void Mesh::set_node(const int x, const int y, const FieldValues field_values) {
+    m_nodes[x][y] = std::make_unique<Node>(m_dx, m_dy, field_values);
 }
 
 Node *Mesh::get_node(const int x, const int y) const {
@@ -95,6 +95,14 @@ void Mesh::set_interior_face(const FaceSide side, const int x, const int y) {
         m_faces_x[x][y] = std::make_unique<InteriorFace>(m_dx, m_dy, Orientation::Horizontal);
     } else {
         m_faces_y[x][y] = std::make_unique<InteriorFace>(m_dx, m_dy, Orientation::Vertical);
+    }
+}
+
+void Mesh::set_boundary_fixed_value_face(const FaceSide side, const int x, const int y, const double phi) {
+    if (side == FaceSide::X) {
+        m_faces_x[x][y] = std::make_unique<FixedValueBoundaryFace>(phi, Orientation::Horizontal);
+    } else {
+        m_faces_y[x][y] = std::make_unique<FixedValueBoundaryFace>(phi, Orientation::Vertical);
     }
 }
 

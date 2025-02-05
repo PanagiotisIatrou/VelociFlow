@@ -13,8 +13,8 @@ protected:
     double m_pressure = 0.0;
     double m_pressure_correction = 0.0;
     double m_dye = 0.0;
-    double m_dx;  // TODO: Remove this in the future (on non-cartesian grids)
-    double m_dy;  // TODO: Remove this in the future (on non-cartesian grids)
+    double m_dx;
+    double m_dy;
     std::array<Node *, 2> m_node_neighbours = {nullptr, nullptr};
 
 public:

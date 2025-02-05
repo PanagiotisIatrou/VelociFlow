@@ -31,8 +31,7 @@ void DiffusionUnsteady::solve() {
     m_saver->write_grid_size(m_mesh->get_size_x(), m_mesh->get_size_y());
     m_saver->write_viscosity(m_viscosity);
     m_saver->write_dt(m_dt);
-    m_saver->write_field(Field::VelocityX);
-    m_saver->write_field(Field::VelocityY);
+    m_saver->write_field(Field::Phi);
     m_saver->close_file();
 
     bool has_quit = false;
@@ -65,8 +64,7 @@ void DiffusionUnsteady::solve() {
 
         // Write the current timestep field values
         m_saver->open_append_file();
-        m_saver->write_field(Field::VelocityX);
-        m_saver->write_field(Field::VelocityY);
+        m_saver->write_field(Field::Phi);
         m_saver->close_file();
 
         // Save current field values as previous

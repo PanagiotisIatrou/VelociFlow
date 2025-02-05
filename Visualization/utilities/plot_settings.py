@@ -52,6 +52,8 @@ class PlotSettings:
                 self.field = ScalarFields.PRESSURE
             elif self.field == "dye":
                 self.field = ScalarFields.DYE
+            elif self.field == "phi":
+                self.field = ScalarFields.PHI
             elif self.field == "vorticity":
                 self.field = ScalarFields.VORTICITY
             else:

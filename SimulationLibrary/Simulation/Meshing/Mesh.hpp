@@ -45,7 +45,7 @@ public:
 
     double get_domain_size_y() const;
 
-    void set_node(int x, int y, double velocity_x, double velocity_y, double pressure, double dye);
+    void set_node(int x, int y, FieldValues field_values);
 
     Node *get_node(int x, int y) const;
 
@@ -56,6 +56,8 @@ public:
     // Face types
 
     void set_interior_face(FaceSide side, int x, int y);
+
+    void set_boundary_fixed_value_face(FaceSide side, int x, int y, double phi);
 
     void set_boundary_inlet_face(FaceSide side, int x, int y, double velocity_x, double velocity_y, double dye);
 

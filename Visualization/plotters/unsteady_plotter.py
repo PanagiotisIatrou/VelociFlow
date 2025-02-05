@@ -81,6 +81,8 @@ class UnsteadyPlotter(Plotter):
             scalar_field = np.array(self.data.pressure_timesteps)
         elif field == ScalarFields.DYE:
             scalar_field = np.array(self.data.dye_timesteps)
+        elif field == ScalarFields.PHI:
+            scalar_field = np.array(self.data.phi_timesteps)
         elif field == ScalarFields.VORTICITY:
             scalar_field = np.gradient(self.data.timesteps_velocity_x, axis=0) - np.gradient(
                 self.data.timesteps_velocity_y, axis=1)

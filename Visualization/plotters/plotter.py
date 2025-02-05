@@ -13,7 +13,8 @@ class ScalarFields(Enum):
     VELOCITY_Y = 2
     PRESSURE = 3
     DYE = 4
-    VORTICITY = 5
+    PHI = 5
+    VORTICITY = 6
 
 class VectorFields(Enum):
     VELOCITY_MAGNITUDE = 1
@@ -46,6 +47,8 @@ class Plotter(ABC):
             field_name = "Pressure"
         elif field == ScalarFields.DYE:
             field_name = "Dye"
+        elif field == ScalarFields.PHI:
+            field_name = "Phi"
         elif field == ScalarFields.VORTICITY:
             field_name = "Vorticity"
         else:

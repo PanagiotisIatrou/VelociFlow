@@ -85,6 +85,10 @@ void Saver::write_field(const Field field) const {
             title = "dye";
             break;
         }
+        case Field::Phi: {
+            title = "phi";
+            break;
+        }
         default: {
             std::cerr << "Invalid field" << std::endl;
             exit(1);

@@ -1,4 +1,5 @@
 import math
+
 import numpy as np
 from tqdm import tqdm
 
@@ -20,6 +21,7 @@ class SimulationData:
         self.timesteps_velocity_y = []
         self.pressure_timesteps = []
         self.dye_timesteps = []
+        self.phi_timesteps = []
 
     def import_file(self, file):
         # Clear the data
@@ -61,7 +63,6 @@ class SimulationData:
                         line = f.readline()
                         self.viscosity = float(line)
                     elif header_value == "velocity_x":
-                        self.timesteps += 1
                         velocity_x = np.zeros((self.grid_size_x, self.grid_size_y))
                         for i in range(self.grid_size_x * self.grid_size_y):
                             line = f.readline()
@@ -71,7 +72,6 @@ class SimulationData:
                             else:
                                 velocity_x[int(i), int(j)] = float(value.strip())
                         self.timesteps_velocity_x.append(np.array(velocity_x))
-                        progress_bar.update(1)
                     elif header_value == "velocity_y":
                         velocity_y = np.zeros((self.grid_size_x, self.grid_size_y))
                         for i in range(self.grid_size_x * self.grid_size_y):
@@ -102,6 +102,21 @@ class SimulationData:
                             else:
                                 dye[int(i), int(j)] = float(value.strip())
                         self.dye_timesteps.append(np.array(dye))
+                    elif header_value == "phi":
+                        phi = np.zeros((self.grid_size_x, self.grid_size_y))
+                        for i in range(self.grid_size_x * self.grid_size_y):
+                            line = f.readline()
+                            i, j, value = line.split(",")
+                            if value.strip() == '-':
+                                phi[int(i), int(j)] = math.nan
+                            else:
+                                phi[int(i), int(j)] = float(value.strip())
+                        self.phi_timesteps.append(np.array(phi))
+
+                    self.timesteps = max(len(self.timesteps_velocity_x), len(self.timesteps_velocity_y),
+                                         len(self.pressure_timesteps), len(self.dye_timesteps), len(self.phi_timesteps))
+                    progress_bar.n = self.timesteps
+                    progress_bar.refresh()
 
             self.dx = self.domain_size_x / self.grid_size_x
             self.dy = self.domain_size_y / self.grid_size_y

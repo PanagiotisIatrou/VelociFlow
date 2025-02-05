@@ -8,6 +8,15 @@
 #include "../../Equations/Equations/EquationCoefficients/EquationCoefficients.hpp"
 #include "../Faces/Face.hpp"
 
+struct FieldValues {
+    double velocity_x = 0.0;
+    double velocity_y = 0.0;
+    double pressure = 0.0;
+    double dye = 0.0;
+    double pressure_correction = 0.0;
+    double phi = 0.0;
+};
+
 class Node {
 protected:
     double m_velocity_x;
@@ -15,17 +24,19 @@ protected:
     double m_pressure;
     double m_dye;
     double m_pressure_correction;
+    double m_phi;
     double m_previous_timestep_velocity_x;
     double m_previous_timestep_velocity_y;
     double m_previous_timestep_pressure;
     double m_previous_timestep_dye;
     double m_previous_timestep_pressure_correction;
+    double m_previous_timestep_phi;
 
     double m_density;
     double m_viscosity;
 
-    double m_dx;  // TODO: Remove in the future (on non-cartesian grids)
-    double m_dy;  // TODO: Remove in the future (on non-cartesian grids)
+    double m_dx;
+    double m_dy;
     double m_dt = 1.0;
 
     std::map<EquationType, std::unique_ptr<EquationCoefficients>> m_equation_coefficients;
@@ -36,7 +47,7 @@ protected:
                                                   nullptr, nullptr, nullptr, nullptr};
 
 public:
-    Node(double dx, double dy, double velocity_x, double velocity_y, double pressure, double dye);
+    Node(double dx, double dy, FieldValues field_values);
 
     double get_dx() const;
 

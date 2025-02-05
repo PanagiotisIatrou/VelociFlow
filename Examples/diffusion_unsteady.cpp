@@ -9,7 +9,7 @@ const int grid_size_x = 100;
 const int grid_size_y = 100;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
-const double velocity = 1.0;
+const double phi = 1.0;
 const double viscosity = 1.0;
 const double dt = 0.01;
 const int timesteps = 100;
@@ -25,18 +25,19 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            const FieldValues field_values{.phi = 0.0};
+            mesh->set_node(i, j, field_values);
         }
     }
 
     // Add the faces
     for (int i = 0; i < grid_size_x; i++) {
-        mesh->set_boundary_inlet_face(FaceSide::Y, i, 0, 0.0, 0.0, 0.0);
-        mesh->set_boundary_inlet_face(FaceSide::Y, i, grid_size_y, velocity, 0.0, 0.0);
+        mesh->set_boundary_fixed_value_face(FaceSide::Y, i, 0, 0.0);
+        mesh->set_boundary_fixed_value_face(FaceSide::Y, i, grid_size_y, phi);
     }
     for (int j = 0; j < grid_size_y; j++) {
-        mesh->set_boundary_inlet_face(FaceSide::X, 0, j, 0.0, 0.0, 0.0);
-        mesh->set_boundary_inlet_face(FaceSide::X, grid_size_x, j, 0.0, 0.0, 0.0);
+        mesh->set_boundary_fixed_value_face(FaceSide::X, 0, j, 0.0);
+        mesh->set_boundary_fixed_value_face(FaceSide::X, grid_size_x, j, 0.0);
     }
 
     // Link the nodes to their neighbouring nodes

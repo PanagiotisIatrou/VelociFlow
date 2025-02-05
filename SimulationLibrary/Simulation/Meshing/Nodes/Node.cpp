@@ -12,18 +12,25 @@
 #include "../../Equations/Equations/EquationCoefficients/MomentumY/MomentumYCoefficients.hpp"
 #include "../../Equations/Equations/EquationCoefficients/PressureCorrection/PressureCorrectionCoefficients.hpp"
 
-Node::Node(const double dx, const double dy, const double velocity_x, const double velocity_y, const double pressure,
-           const double dye) {
-    m_dye = dye;
+Node::Node(const double dx, const double dy, const FieldValues field_values) {
     m_dx = dx;
     m_dy = dy;
-    m_velocity_x = velocity_x;
-    m_velocity_y = velocity_y;
-    m_pressure = pressure;
 
-    m_previous_timestep_velocity_x = m_velocity_x;
-    m_previous_timestep_velocity_y = m_velocity_y;
-    m_previous_timestep_pressure = m_pressure;
+    // Set field values
+    m_velocity_x = field_values.velocity_x;
+    m_velocity_y = field_values.velocity_y;
+    m_pressure = field_values.pressure;
+    m_dye = field_values.dye;
+    m_pressure_correction = field_values.pressure_correction;
+    m_phi = field_values.phi;
+
+    // Set previous field values
+    m_previous_timestep_velocity_x = field_values.velocity_x;
+    m_previous_timestep_velocity_y = field_values.velocity_y;
+    m_previous_timestep_pressure = field_values.pressure;
+    m_previous_timestep_dye = field_values.dye;
+    m_previous_timestep_pressure_correction = field_values.pressure_correction;
+    m_previous_timestep_phi = field_values.phi;
 }
 
 double Node::get_dx() const {
@@ -75,6 +82,9 @@ double Node::get_previous_timestep_field_value(const Field field) const {
         case Field::PressureCorrection: {
             return m_previous_timestep_pressure_correction;
         }
+        case Field::Phi: {
+            return m_previous_timestep_phi;
+        }
         default: {
             std::cerr << "Invalid field type" << std::endl;
             exit(1);
@@ -104,6 +114,10 @@ void Node::set_previous_timestep_field_value(const Field field, const double val
             m_previous_timestep_pressure_correction = value;
             break;
         }
+        case Field::Phi: {
+            m_previous_timestep_phi = value;
+            break;
+        }
         default: {
             std::cerr << "Invalid field type" << std::endl;
             exit(1);
@@ -127,6 +141,9 @@ double Node::get_field_value(const Field field) const {
         }
         case Field::Dye: {
             return m_dye;
+        }
+        case Field::Phi: {
+            return m_phi;
         }
         default: {
             std::cerr << "Invalid field type" << std::endl;
@@ -155,6 +172,10 @@ void Node::set_field_value(const Field field, const double value) {
         }
         case Field::Dye: {
             m_dye = value;
+            break;
+        }
+        case Field::Phi: {
+            m_phi = value;
             break;
         }
         default: {

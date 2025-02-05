@@ -1,11 +1,12 @@
 #pragma once
 
-#include <iostream>
 #include <ncurses.h>
 
-enum class Field { VelocityX = 0, VelocityY = 1, Pressure = 2, PressureCorrection = 3, Dye = 4 };
+#include <iostream>
+
+enum class Field { VelocityX = 0, VelocityY = 1, Pressure = 2, PressureCorrection = 3, Dye = 4, Phi = 5 };
 inline extern const int field_start = 0;
-inline extern const int field_end = static_cast<int>(Field::Dye) + 1;
+inline extern const int field_end = static_cast<int>(Field::Phi) + 1;
 
 enum class Direction {
     West = 0,

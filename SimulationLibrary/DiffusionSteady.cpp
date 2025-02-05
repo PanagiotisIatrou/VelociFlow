@@ -28,6 +28,6 @@ void DiffusionSteady::solve() {
     m_saver->write_viscosity(m_viscosity);
     m_saver->write_execution_time(m_time_taken);
 
-    m_saver->write_field(Field::VelocityX);
+    m_saver->write_field(Field::Phi);
     m_saver->close_file();
 }
