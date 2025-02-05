@@ -1,5 +1,7 @@
 import json
 
+from matplotlib import pyplot as plt
+
 from Visualization.plotters.plotter import VectorFields, ScalarFields
 
 
@@ -35,8 +37,10 @@ class PlotSettings:
             # Required fields
             self.state = data["state"]
             self.filename = data["filename"]
-            self.color_map = data["colorMap"]
             self.field = data["field"]
+            self.color_map = data["colorMap"]
+            if self.color_map not in plt.colormaps():
+                raise Exception("Invalid color map")
 
             if self.field == "velocity_magnitude":
                 self.field = VectorFields.VELOCITY_MAGNITUDE
