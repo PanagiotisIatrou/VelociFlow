@@ -227,42 +227,42 @@ void Node::set_neighbouring_node(Node *node, Direction direction) {
     m_neighbouring_nodes[static_cast<int>(direction)] = node;
 }
 
-void Node::add_equation_coefficient(const EquationType equation_type, Field variable_field, const double relaxation,
+void Node::add_equation_coefficient(const EquationType equation_type, const double relaxation,
                                     const bool include_time) {
     switch (equation_type) {
         case EquationType::MomentumX: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<MomentumXCoefficients>(this, variable_field, relaxation, include_time);
+                std::make_unique<MomentumXCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::MomentumY: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<MomentumYCoefficients>(this, variable_field, relaxation, include_time);
+                std::make_unique<MomentumYCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::PressureCorrection: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<PressureCorrectionCoefficients>(this, variable_field, relaxation);
+                std::make_unique<PressureCorrectionCoefficients>(this, relaxation);
             break;
         }
         case EquationType::Dye: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<DyeCoefficients>(this, variable_field, relaxation, include_time);
+                std::make_unique<DyeCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::ConvectionDiffusionX: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<ConvectionDiffusionXCoefficients>(this, variable_field, relaxation, include_time);
+                std::make_unique<ConvectionDiffusionXCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::ConvectionDiffusionY: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<ConvectionDiffusionYCoefficients>(this, variable_field, relaxation, include_time);
+                std::make_unique<ConvectionDiffusionYCoefficients>(this, relaxation, include_time);
             break;
         }
         case EquationType::DiffusionX: {
             m_equation_coefficients[equation_type] =
-                std::make_unique<DiffusionEquationCoefficients>(this, variable_field, relaxation, include_time);
+                std::make_unique<DiffusionEquationCoefficients>(this, relaxation, include_time);
             break;
         }
         default: {

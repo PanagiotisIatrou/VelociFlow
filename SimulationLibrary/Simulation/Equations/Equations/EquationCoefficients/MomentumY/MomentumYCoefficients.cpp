@@ -5,9 +5,8 @@
 #include "../../TermDiscretizations/Pressure/Pressure.hpp"
 #include "../../TermDiscretizations/Time/Time.hpp"
 
-MomentumYCoefficients::MomentumYCoefficients(Node *node, const Field variable_field, const double relaxation,
-                                             const bool include_time)
-    : EquationCoefficients(node, variable_field, relaxation) {
+MomentumYCoefficients::MomentumYCoefficients(Node *node, const double relaxation, const bool include_time)
+    : EquationCoefficients(node, Field::VelocityY, relaxation) {
     // Diffusion
     std::unique_ptr<Diffusion> diffusion_equation =
         std::make_unique<Diffusion>(node, Field::VelocityY, DiffusionSchemes::CentralDifferencing);

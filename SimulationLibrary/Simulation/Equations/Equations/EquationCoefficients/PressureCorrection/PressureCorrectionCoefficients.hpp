@@ -4,5 +4,5 @@
 
 class PressureCorrectionCoefficients : public EquationCoefficients {
 public:
-    PressureCorrectionCoefficients(Node *node, Field variable_field, double relaxation);
+    PressureCorrectionCoefficients(Node *node, double relaxation);
 };

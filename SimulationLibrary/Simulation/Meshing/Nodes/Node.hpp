@@ -87,8 +87,7 @@ public:
 
     void set_neighbouring_node(Node *node, Direction direction);
 
-    void add_equation_coefficient(EquationType equation_type, Field variable_field, double relaxation,
-                                  bool include_time);
+    void add_equation_coefficient(EquationType equation_type, double relaxation, bool include_time);
 
     double get_equation_coefficient(EquationType equation_type, CoefficientType coefficient_type) const;
 

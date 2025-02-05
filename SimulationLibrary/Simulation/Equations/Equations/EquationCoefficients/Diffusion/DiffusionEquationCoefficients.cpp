@@ -3,9 +3,9 @@
 #include "../../TermDiscretizations/Diffusion/Diffusion.hpp"
 #include "../../TermDiscretizations/Time/Time.hpp"
 
-DiffusionEquationCoefficients::DiffusionEquationCoefficients(Node *node, const Field variable_field, const double relaxation,
-                                               const bool include_time)
-    : EquationCoefficients(node, variable_field, relaxation) {
+DiffusionEquationCoefficients::DiffusionEquationCoefficients(Node *node, const double relaxation,
+                                                             const bool include_time)
+    : EquationCoefficients(node, Field::Phi, relaxation) {
     // Diffusion
     std::unique_ptr<Diffusion> diffusion_equation =
         std::make_unique<Diffusion>(node, Field::Phi, DiffusionSchemes::CentralDifferencing);

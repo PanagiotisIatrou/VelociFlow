@@ -4,9 +4,8 @@
 #include "../../TermDiscretizations/Diffusion/Diffusion.hpp"
 #include "../../TermDiscretizations/Time/Time.hpp"
 
-DyeCoefficients::DyeCoefficients(Node *node, const Field variable_field, const double relaxation,
-                                 const bool include_time)
-    : EquationCoefficients(node, variable_field, relaxation) {
+DyeCoefficients::DyeCoefficients(Node *node, const double relaxation, const bool include_time)
+    : EquationCoefficients(node, Field::Dye, relaxation) {
     // Diffusion
     std::unique_ptr<Diffusion> diffusion_equation =
         std::make_unique<Diffusion>(node, Field::Dye, DiffusionSchemes::CentralDifferencing);

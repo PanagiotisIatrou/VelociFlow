@@ -4,5 +4,5 @@
 
 class ConvectionDiffusionXCoefficients : public EquationCoefficients {
 public:
-    ConvectionDiffusionXCoefficients(Node *node, Field variable_field, double relaxation, bool include_time);
+    ConvectionDiffusionXCoefficients(Node *node, double relaxation, bool include_time);
 };

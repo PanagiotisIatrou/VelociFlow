@@ -23,7 +23,8 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            const FieldValues field_values{.velocity_x = 0.0, .velocity_y = 0.0, .pressure = 0.0, .dye = 0.0};
+            mesh->set_node(i, j, field_values);
         }
     }
 

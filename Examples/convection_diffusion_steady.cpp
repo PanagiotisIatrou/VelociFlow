@@ -9,7 +9,7 @@ const int grid_size_x = 100;
 const int grid_size_y = 100;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
-const double velocity = 1.0;
+const double phi = 1.0;
 const double viscosity = 1.0;
 
 int main() {
@@ -23,7 +23,8 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            const FieldValues field_values{.phi = 0.0};
+            mesh->set_node(i, j, field_values);
         }
     }
 
@@ -31,10 +32,10 @@ int main() {
     for (int i = 0; i < grid_size_x; i++) {
         for (int j = 0; j < grid_size_y + 1; j++) {
             if (j == 0) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, -velocity, -velocity, 0.0);
+                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, -phi, -phi, 0.0);
             }
             if (j == grid_size_y) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, velocity, -velocity, 0.0);
+                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, phi, -phi, 0.0);
             }
         }
     }

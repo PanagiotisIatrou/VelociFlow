@@ -32,7 +32,7 @@ void Equation::populate_mesh() const {
                 continue;
             }
 
-            node_P->add_equation_coefficient(m_equation_type, m_variable_field, m_relaxation_factor, m_include_time);
+            node_P->add_equation_coefficient(m_equation_type, m_relaxation_factor, m_include_time);
         }
     }
 }

@@ -4,9 +4,9 @@
 #include "../../TermDiscretizations/Diffusion/Diffusion.hpp"
 #include "../../TermDiscretizations/Time/Time.hpp"
 
-ConvectionDiffusionYCoefficients::ConvectionDiffusionYCoefficients(Node *node, const Field variable_field,
-                                                                   const double relaxation, const bool include_time)
-    : EquationCoefficients(node, variable_field, relaxation) {
+ConvectionDiffusionYCoefficients::ConvectionDiffusionYCoefficients(Node *node, const double relaxation,
+                                                                   const bool include_time)
+    : EquationCoefficients(node, Field::VelocityY, relaxation) {
     // Diffusion
     std::unique_ptr<Diffusion> diffusion_equation =
         std::make_unique<Diffusion>(node, Field::VelocityY, DiffusionSchemes::CentralDifferencing);
