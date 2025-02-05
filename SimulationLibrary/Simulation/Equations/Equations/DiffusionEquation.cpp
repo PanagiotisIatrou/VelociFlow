@@ -1,6 +1,6 @@
-#include "DiffusionX.hpp"
+#include "DiffusionEquation.hpp"
 
-DiffusionX::DiffusionX(Mesh *mesh, const Field variable_field, const double relaxation_factor,
+DiffusionEquation::DiffusionEquation(Mesh *mesh, const Field variable_field, const double relaxation_factor,
                        const ResidualType residual_type, const StoppingRule stopping_rule, const NormType norm_type,
                        const double stopping_tolerance, const bool include_time)
     : Equation(mesh, EquationType::DiffusionX, variable_field, relaxation_factor, residual_type, stopping_rule,

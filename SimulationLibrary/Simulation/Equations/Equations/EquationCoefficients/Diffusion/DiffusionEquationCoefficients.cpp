@@ -1,9 +1,9 @@
-#include "DiffusionXCoefficients.hpp"
+#include "DiffusionEquationCoefficients.hpp"
 
 #include "../../TermDiscretizations/Diffusion/Diffusion.hpp"
 #include "../../TermDiscretizations/Time/Time.hpp"
 
-DiffusionXCoefficients::DiffusionXCoefficients(Node *node, const Field variable_field, const double relaxation,
+DiffusionEquationCoefficients::DiffusionEquationCoefficients(Node *node, const Field variable_field, const double relaxation,
                                                const bool include_time)
     : EquationCoefficients(node, variable_field, relaxation) {
     // Diffusion

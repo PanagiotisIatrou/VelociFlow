@@ -8,7 +8,7 @@ DiffusionSimulation::DiffusionSimulation(Mesh* mesh, const double viscosity, con
     bool include_time = simulation_type == SimulationType::Unsteady;
 
     // Create the equations
-    m_equation_diffusion = std::make_unique<DiffusionX>(mesh, Field::Phi, 1.0, ResidualType::Unscaled,
+    m_equation_diffusion = std::make_unique<DiffusionEquation>(mesh, Field::Phi, 1.0, ResidualType::Unscaled,
                                                         StoppingRule::Absolute, NormType::L1, tolerance, include_time);
 
     // Populate all the nodes with the equation coefficients
