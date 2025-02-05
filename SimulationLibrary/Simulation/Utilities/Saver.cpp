@@ -1,6 +1,6 @@
 #include "Saver.hpp"
 
-#include "Simulation/Equations/Equations/PressureCorrection.hpp"
+#include "Simulation/Discretization/Equations/PressureCorrection.hpp"
 
 Saver::Saver(Mesh *mesh, const std::string path) {
     m_mesh = mesh;

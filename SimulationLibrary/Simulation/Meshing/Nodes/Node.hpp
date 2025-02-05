@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "../../../common.hpp"
-#include "../../Equations/Equations/EquationCoefficients/EquationCoefficients.hpp"
+#include "../../Discretization/Equations/EquationCoefficients/EquationCoefficients.hpp"
 #include "../Faces/Face.hpp"
 
 struct FieldValues {

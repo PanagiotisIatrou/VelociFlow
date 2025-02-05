@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Equations/Equations/ConvectionDiffusionX.hpp"
-#include "Equations/Equations/ConvectionDiffusionY.hpp"
+#include "Discretization/Equations/ConvectionDiffusionX.hpp"
+#include "Discretization/Equations/ConvectionDiffusionY.hpp"
 #include "Simulation.hpp"
 
 class ConvectionDiffusionSimulation : public Simulation {

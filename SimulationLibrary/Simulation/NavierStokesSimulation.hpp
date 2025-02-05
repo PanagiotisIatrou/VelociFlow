@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Equations/Equations/Dye.hpp"
-#include "Equations/Equations/MomentumX.hpp"
-#include "Equations/Equations/MomentumY.hpp"
-#include "Equations/Equations/PressureCorrection.hpp"
+#include "Discretization/Equations/Dye.hpp"
+#include "Discretization/Equations/MomentumX.hpp"
+#include "Discretization/Equations/MomentumY.hpp"
+#include "Discretization/Equations/PressureCorrection.hpp"
 #include "Simulation.hpp"
 
 class NavierStokesSimulation : public Simulation {

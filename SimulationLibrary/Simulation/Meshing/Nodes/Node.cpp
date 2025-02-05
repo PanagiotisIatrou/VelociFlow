@@ -4,13 +4,13 @@
 #include <memory>
 
 #include "../../../common.hpp"
-#include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionX/ConvectionDiffusionXEquationCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/ConvectionDiffusionY/ConvectionDiffusionYEquationCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/Diffusion/DiffusionEquationCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/Dye/DyeEquationCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/MomentumX/MomentumXEquationCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/MomentumY/MomentumYEquationCoefficients.hpp"
-#include "../../Equations/Equations/EquationCoefficients/PressureCorrection/PressureCorrectionEquationCoefficients.hpp"
+#include "../../Discretization/Equations/EquationCoefficients/ConvectionDiffusionX/ConvectionDiffusionXEquationCoefficients.hpp"
+#include "../../Discretization/Equations/EquationCoefficients/ConvectionDiffusionY/ConvectionDiffusionYEquationCoefficients.hpp"
+#include "../../Discretization/Equations/EquationCoefficients/Diffusion/DiffusionEquationCoefficients.hpp"
+#include "../../Discretization/Equations/EquationCoefficients/Dye/DyeEquationCoefficients.hpp"
+#include "../../Discretization/Equations/EquationCoefficients/MomentumX/MomentumXEquationCoefficients.hpp"
+#include "../../Discretization/Equations/EquationCoefficients/MomentumY/MomentumYEquationCoefficients.hpp"
+#include "../../Discretization/Equations/EquationCoefficients/PressureCorrection/PressureCorrectionEquationCoefficients.hpp"
 
 Node::Node(const double dx, const double dy, const FieldValues field_values) {
     m_dx = dx;

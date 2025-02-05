@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Equations/Equations/DiffusionEquation.hpp"
+#include "Discretization/Equations/DiffusionEquation.hpp"
 #include "Simulation.hpp"
 
 class DiffusionSimulation : public Simulation {

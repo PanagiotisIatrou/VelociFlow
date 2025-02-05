@@ -3,7 +3,7 @@
 #include <string>
 
 #include "../Meshing/Mesh.hpp"
-#include "Simulation/Equations/Equation.hpp"
+#include "Simulation/Discretization/Equation.hpp"
 
 class Saver {
 public:
