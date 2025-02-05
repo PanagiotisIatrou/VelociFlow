@@ -1,6 +1,6 @@
 #include "Saver.hpp"
 
-#include "Simulation/Discretization/Equations/PressureCorrection.hpp"
+#include "Simulation/Discretization/Equations/PressureCorrectionEquation.hpp"
 
 Saver::Saver(Mesh *mesh, const std::string path) {
     m_mesh = mesh;
@@ -120,7 +120,7 @@ void Saver::write_normalization_values(const EquationType equation_type, Equatio
     // (mass imbalance)
     if (equation_type == EquationType::PressureCorrection) {
         fprintf(m_file, ",%.15f",
-                static_cast<PressureCorrection *>(equation)->get_mass_imbalance_normalization_factor());
+                static_cast<PressureCorrectionEquation *>(equation)->get_mass_imbalance_normalization_factor());
     }
 
     fprintf(m_file, "\n");

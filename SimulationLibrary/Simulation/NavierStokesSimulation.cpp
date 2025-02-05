@@ -16,14 +16,14 @@ NavierStokesSimulation::NavierStokesSimulation(Mesh *mesh, const double density,
 
     // Create the equations
     m_equation_momentum_x =
-        std::make_unique<MomentumX>(mesh, Field::VelocityX, relaxation_velocity_x, ResidualType::Scaled,
+        std::make_unique<MomentumXEquation>(mesh, Field::VelocityX, relaxation_velocity_x, ResidualType::Scaled,
                                     StoppingRule::Relative, NormType::L1, 1e-3, include_time);
     m_equation_momentum_y =
-        std::make_unique<MomentumY>(mesh, Field::VelocityY, relaxation_velocity_y, ResidualType::Scaled,
+        std::make_unique<MomentumYEquation>(mesh, Field::VelocityY, relaxation_velocity_y, ResidualType::Scaled,
                                     StoppingRule::Relative, NormType::L1, 1e-3, include_time);
-    m_equation_pressure_correction = std::make_unique<PressureCorrection>(
+    m_equation_pressure_correction = std::make_unique<PressureCorrectionEquation>(
         mesh, Field::PressureCorrection, 1.0, ResidualType::Scaled, StoppingRule::Absolute, NormType::L2, 1e-4);
-    m_equation_dye = std::make_unique<Dye>(mesh, Field::Dye, 1.0, ResidualType::Scaled, StoppingRule::Absolute,
+    m_equation_dye = std::make_unique<DyeEquation>(mesh, Field::Dye, 1.0, ResidualType::Scaled, StoppingRule::Absolute,
                                            NormType::L1, 1e-3, include_time);
 
     // Populate the mesh

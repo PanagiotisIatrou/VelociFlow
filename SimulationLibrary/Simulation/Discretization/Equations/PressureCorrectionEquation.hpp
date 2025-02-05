@@ -4,7 +4,7 @@
 
 #include "../Equation.hpp"
 
-class PressureCorrection : public Equation {
+class PressureCorrectionEquation : public Equation {
 private:
     double m_mass_imbalance = std::numeric_limits<double>::infinity();
 
@@ -13,7 +13,7 @@ private:
     double m_mass_imbalance_normalization_factor;
 
 public:
-    PressureCorrection(Mesh *mesh, Field variable_field, double relaxation_factor, ResidualType residual_type,
+    PressureCorrectionEquation(Mesh *mesh, Field variable_field, double relaxation_factor, ResidualType residual_type,
                        StoppingRule stopping_rule, NormType norm_type, double stopping_tolerance);
 
     void calculate_mass_imbalance();

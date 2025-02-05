@@ -13,9 +13,9 @@ ConvectionDiffusionSimulation::ConvectionDiffusionSimulation(Mesh* mesh, const d
     bool include_time = simulation_type == SimulationType::Unsteady;
 
     // Create the equations
-    m_equation_convection_diffusion_x = std::make_unique<ConvectionDiffusionX>(
+    m_equation_convection_diffusion_x = std::make_unique<ConvectionDiffusionXEquation>(
         mesh, Field::VelocityX, 1.0, ResidualType::Scaled, StoppingRule::Relative, NormType::L1, 1e-1, include_time);
-    m_equation_convection_diffusion_y = std::make_unique<ConvectionDiffusionY>(
+    m_equation_convection_diffusion_y = std::make_unique<ConvectionDiffusionYEquation>(
         mesh, Field::VelocityY, 1.0, ResidualType::Scaled, StoppingRule::Relative, NormType::L1, 1e-1, include_time);
 
     // Populate all the nodes with the equation coefficients
