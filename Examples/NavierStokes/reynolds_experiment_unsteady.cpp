@@ -5,12 +5,12 @@
 
 #include <NavierStokesUnsteady.hpp>
 
-const int grid_size_x = 300;
+const int grid_size_x = 200;
 const int grid_size_y = 50;
 const double domain_size_x = 6.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
-const double viscosity = 1.0 / 3000.0;
+const double viscosity = 1.0 / 100000.0;
 const double density = 1.0;
 const double dt = 0.01;
 const int timesteps = 100;
@@ -26,7 +26,9 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            const double noise_x = 0.02 * (rand() % 1000 / 1000.0) - 0.01;
+            const double noise_y = 0.02 * (rand() % 1000 / 1000.0) - 0.01;
+            mesh->set_node(i, j, noise_x, noise_y, 0.0, 0.0);
         }
     }
 
@@ -57,10 +59,14 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
+    int extra_timesteps = 500;
+    const std::string file = "../Results/Unsteady/out-1738169391.txt";
+    SimulatorContinuation simulation_continuation(file);
+    NavierStokesUnsteady simulation(mesh, &simulation_continuation, extra_timesteps, VerbosityType::Percentages);
+    // NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
     simulation.solve();
 
-    std::cout << "Reached " << simulation.get_reached_timesteps() << " / " << timesteps << " timesteps" << std::endl;
+    std::cout << "Reached timestep " << simulation.get_reached_timesteps() << std::endl;
     std::cout << "Finished in " << simulation.get_time_taken() << " s" << std::endl;
     std::cout << "Saved output to file " << filename << std::endl;
 
