@@ -13,6 +13,7 @@ protected:
     double m_pressure = 0.0;
     double m_pressure_correction = 0.0;
     double m_dye = 0.0;
+    double m_phi = 0.0;
     double m_dx;
     double m_dy;
     std::array<Node *, 2> m_node_neighbours = {nullptr, nullptr};
@@ -37,6 +38,8 @@ public:
     double get_normal_velocity() override;
 
     void update_dye();
+
+    void update_phi();
 
     void update_pressure_correction();
 

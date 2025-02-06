@@ -90,6 +90,9 @@ double InteriorFace::get_field_value(const Field field) const {
         case Field::Dye: {
             return m_dye;
         }
+        case Field::Phi: {
+            return m_phi;
+        }
         default: {
             std::cerr << "Field not recognised" << std::endl;
             exit(1);
@@ -108,6 +111,11 @@ double InteriorFace::get_normal_velocity() {
 void InteriorFace::update_dye() {
     m_dye =
         0.5 * (m_node_neighbours[0]->get_field_value(Field::Dye) + m_node_neighbours[1]->get_field_value(Field::Dye));
+}
+
+void InteriorFace::update_phi() {
+    m_phi =
+        0.5 * (m_node_neighbours[0]->get_field_value(Field::Phi) + m_node_neighbours[1]->get_field_value(Field::Phi));
 }
 
 void InteriorFace::update_pressure_correction() {

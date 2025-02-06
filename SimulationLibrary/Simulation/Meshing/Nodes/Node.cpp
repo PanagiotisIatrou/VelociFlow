@@ -11,6 +11,7 @@
 #include "../../Discretization/Equations/EquationCoefficients/MomentumX/MomentumXEquationCoefficients.hpp"
 #include "../../Discretization/Equations/EquationCoefficients/MomentumY/MomentumYEquationCoefficients.hpp"
 #include "../../Discretization/Equations/EquationCoefficients/PressureCorrection/PressureCorrectionEquationCoefficients.hpp"
+#include "Simulation/Discretization/Equations/EquationCoefficients/SingleConvectionDiffusion/SingleConvectionDiffusionEquationCoefficients.hpp"
 
 Node::Node(const double dx, const double dy, const FieldValues field_values) {
     m_dx = dx;
@@ -263,6 +264,11 @@ void Node::add_equation_coefficient(const EquationType equation_type, const doub
         case EquationType::DiffusionX: {
             m_equation_coefficients[equation_type] =
                 std::make_unique<DiffusionEquationCoefficients>(this, relaxation, include_time);
+            break;
+        }
+        case EquationType::SingleConvectionDiffusion: {
+            m_equation_coefficients[equation_type] =
+                std::make_unique<SingleConvectionDiffusionEquationCoefficients>(this, relaxation, include_time);
             break;
         }
         default: {

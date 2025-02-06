@@ -30,7 +30,8 @@ enum class SimulationName {
     ConvectionDiffusionSteady = 2,
     ConvectionDiffusionUnsteady = 3,
     DiffusionSteady = 4,
-    DiffusionUnsteady = 5
+    DiffusionUnsteady = 5,
+    SingleConvectionDiffusionSteady = 6
 };
 
 inline SimulationName str_to_simulation_name(const std::string simulation_name) {
@@ -46,6 +47,8 @@ inline SimulationName str_to_simulation_name(const std::string simulation_name) 
         return SimulationName::DiffusionSteady;
     } else if (simulation_name == "diffusion_unsteady") {
         return SimulationName::DiffusionUnsteady;
+    } else if (simulation_name == "single_convection_diffusion_steady") {
+        return SimulationName::SingleConvectionDiffusionSteady;
     } else {
         std::cerr << "Simulation name not found" << std::endl;
         exit(1);
@@ -72,6 +75,9 @@ inline std::string simulation_name_to_str(const SimulationName simulation_name) 
         case SimulationName::DiffusionUnsteady: {
             return "diffusion_unsteady";
         }
+        case SimulationName::SingleConvectionDiffusionSteady: {
+            return "single_convection_diffusion_steady";
+        }
         default: {
             std::cerr << "Simulation name not found" << std::endl;
             exit(1);
@@ -86,7 +92,8 @@ enum class EquationType {
     Dye = 3,
     ConvectionDiffusionX = 4,
     ConvectionDiffusionY = 5,
-    DiffusionX = 6
+    DiffusionX = 6,
+    SingleConvectionDiffusion = 7
 };
 
 inline std::string equation_type_to_str(const EquationType equation_type) {
@@ -112,6 +119,9 @@ inline std::string equation_type_to_str(const EquationType equation_type) {
         case EquationType::DiffusionX: {
             return "diffusion_x";
         }
+        case EquationType::SingleConvectionDiffusion: {
+            return "single_convection_diffusion";
+        }
         default: {
             std::cerr << "Invalid equation type" << std::endl;
             exit(1);
@@ -134,6 +144,8 @@ inline EquationType str_to_equation_type(const std::string equation_type) {
         return EquationType::ConvectionDiffusionY;
     } else if (equation_type == "diffusion_x") {
         return EquationType::DiffusionX;
+    } else if (equation_type == "single_convection_diffusion") {
+        return EquationType::SingleConvectionDiffusion;
     } else {
         std::cerr << "Equation type not found" << std::endl;
         exit(1);

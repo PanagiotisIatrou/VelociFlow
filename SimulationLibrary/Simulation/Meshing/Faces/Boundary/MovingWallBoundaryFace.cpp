@@ -21,7 +21,7 @@ double MovingWallBoundaryFace::get_field_value(const Field field) const {
                 return 0.0;
             } else {
                 return m_velocity;
-            };
+            }
         }
         case Field::Pressure: {
             return m_node_neighbour->get_field_value(Field::Pressure);
@@ -31,6 +31,9 @@ double MovingWallBoundaryFace::get_field_value(const Field field) const {
         }
         case Field::Dye: {
             return m_node_neighbour->get_field_value(Field::Dye);
+        }
+        case Field::Phi: {
+            return m_node_neighbour->get_field_value(Field::Phi);
         }
         default: {
             std::cerr << std::endl << "Field not recognised" << std::endl;

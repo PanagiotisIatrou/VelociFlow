@@ -70,6 +70,10 @@ void DiffusionUnsteady::solve() {
         // Save current field values as previous
         m_bulk_node_operations->update_node_previous_timestep_fields();
 
+        // Update the face values
+        m_bulk_face_operations->update_face_x_phi();
+        m_bulk_face_operations->update_face_y_phi();
+
         // Reset the residuals
         m_equation_diffusion->reset_imbalance();
     }

@@ -29,6 +29,9 @@ double InletBoundaryFace::get_field_value(const Field field) const {
         case Field::Dye: {
             return m_dye;
         }
+        case Field::Phi: {
+            return m_node_neighbour->get_field_value(Field::Phi);
+        }
         default: {
             std::cerr << std::endl << "Field not recognised" << std::endl;
             exit(1);

@@ -35,11 +35,17 @@ public:
 
     void update_face_y_dye() const;
 
-    // Face pressure corrections
+    // Pressure corrections
 
     void update_face_x_pressure_corrections() const;
 
     void update_face_y_pressure_corrections() const;
+
+    // Phi
+
+    void update_face_x_phi() const;
+
+    void update_face_y_phi() const;
 
     // Time
 
