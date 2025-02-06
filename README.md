@@ -32,11 +32,19 @@ $$
 \end{aligned}
 $$
 
+- Single Convection - Diffusion
+
+$$
+\begin{aligned}
+\large \dfrac{\partial \phi}{\partial t} + (\vec{v} \cdot \nabla)\phi = \mu \nabla^2\phi
+\end{aligned}
+$$
+
 - Diffusion
 
 $$
 \begin{aligned}
-    \large \mu \nabla^2\vec{v} = 0
+    \large \mu \nabla^2 \phi = 0
 \end{aligned}
 $$
 
@@ -47,6 +55,7 @@ $$
 - 2D Simulations (both steady and unsteady)
     - Incompressible Navier Stokes (using the SIMPLE algorithm)
     - Convection - Diffusion
+    - Single Convection - Diffusion
     - Diffusion
 - Boundary conditions
     - Velocity inlet
