@@ -10,7 +10,7 @@ const int grid_size_y = 100;
 const double domain_size_x = 2.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
-const double viscosity = 0.05;
+const double viscosity = 0.1;
 const double density = 1.0;
 
 int main() {
@@ -29,7 +29,8 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            const FieldValues values = {.velocity_x = 0.0, .velocity_y = 0.0, .pressure = 0.0};
+            mesh->set_node(i, j, values);
         }
     }
 
