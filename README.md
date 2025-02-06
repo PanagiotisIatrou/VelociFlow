@@ -11,7 +11,7 @@ C++, while the visualizations are written in Python.
 
 ## Equations
 
-Equations being discretized and solved using the finite volume method (FVM):
+Equations being discretized and solved using the Finite Volume Method (FVM) in 2D:
 
 - Incompressible Navier Stokes
 
