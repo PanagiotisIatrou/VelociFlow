@@ -31,7 +31,8 @@ enum class SimulationName {
     ConvectionDiffusionUnsteady = 3,
     DiffusionSteady = 4,
     DiffusionUnsteady = 5,
-    SingleConvectionDiffusionSteady = 6
+    SingleConvectionDiffusionSteady = 6,
+    SingleConvectionDiffusionUnsteady = 7
 };
 
 inline SimulationName str_to_simulation_name(const std::string simulation_name) {
@@ -49,6 +50,8 @@ inline SimulationName str_to_simulation_name(const std::string simulation_name) 
         return SimulationName::DiffusionUnsteady;
     } else if (simulation_name == "single_convection_diffusion_steady") {
         return SimulationName::SingleConvectionDiffusionSteady;
+    } else if (simulation_name == "single_convection_diffusion_unsteady") {
+        return SimulationName::SingleConvectionDiffusionUnsteady;
     } else {
         std::cerr << "Simulation name not found" << std::endl;
         exit(1);
@@ -77,6 +80,9 @@ inline std::string simulation_name_to_str(const SimulationName simulation_name) 
         }
         case SimulationName::SingleConvectionDiffusionSteady: {
             return "single_convection_diffusion_steady";
+        }
+        case SimulationName::SingleConvectionDiffusionUnsteady: {
+            return "single_convection_diffusion_unsteady";
         }
         default: {
             std::cerr << "Simulation name not found" << std::endl;
