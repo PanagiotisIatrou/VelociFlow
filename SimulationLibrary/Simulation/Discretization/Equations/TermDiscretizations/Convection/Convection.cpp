@@ -80,7 +80,7 @@ Coefficients Convection::get_central_differencing_effects(const Direction direct
     } else {
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
         const double face_value = boundary_face->get_field_value(m_field);
-        coefficients.source += -dir_sign * flow_rate * face_value;
+        coefficients.source += dir_sign * flow_rate * face_value;
     }
 
     return coefficients;
