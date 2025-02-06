@@ -44,7 +44,7 @@ $$
 
 $$
 \begin{aligned}
-    \large \dfrac{\partial \phi}{\partial t} + \mu \nabla^2 \phi = 0
+    \large \dfrac{\partial \phi}{\partial t} = \mu \nabla^2 \phi
 \end{aligned}
 $$
 
