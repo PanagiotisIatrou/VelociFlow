@@ -52,6 +52,8 @@ $$
 
 ## Features
 
+### Creating simulations
+
 - 2D Simulations (both steady and unsteady)
     - Incompressible Navier Stokes (using the SIMPLE algorithm)
     - Convection - Diffusion
@@ -65,15 +67,6 @@ $$
     - Moving wall
     - Periodic
     - Free
-- Plots
-    - Velocity Magnitude
-    - Velocity X
-    - Velocity Y
-    - Pressure
-    - Vorticity
-    - Dye
-    - Streamlines
-    - Quivers
 - Grid types
     - Orthogonal cartesian colocated
 - Diffusion schemes
@@ -97,3 +90,28 @@ $$
 - Stopping rules (based on tolerance)
     - Absolute
     - Relative
+
+### Visualizing the results
+
+- Create single images for steady simulations
+- Create video animations for unsteady simulations
+- Selecting a field to plot
+    - Velocity Magnitude
+    - Velocity X
+    - Velocity Y
+    - Pressure
+    - Dye
+    - Phi
+    - Vorticity
+    - Streamlines
+    - Quivers
+- Setting min and max values
+- Selecting a color map
+- Select a specific frame of an unsteady simulation
+- Ability to blur and smooth out the result
+- Produce real time animations based on $\Delta t$
+- Set the frames per second (FPS) of an animation
+- Include streamlines (only on velocity magnitude)
+- Include quivers (only on velocity magnitude)
+- Set density of streamlines and quivers
+- Set color of streamlines and quivers
