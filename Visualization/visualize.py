@@ -23,7 +23,7 @@ data_file = os.path.join(root_path, f"../Results/{folder}/{plot_settings.filenam
 simulation_data = SimulationData()
 simulation_data.import_file(data_file)
 
-if plot_settings.state == "unsteady" and not plot_settings.only_last_frame:
+if plot_settings.state == "unsteady" and not plot_settings.only_last_frame and plot_settings.only_specific_frame is None:
     plotter = UnsteadyPlotter(simulation_data, plot_settings)
     plotter.save_field(plot_settings.field)
 else:

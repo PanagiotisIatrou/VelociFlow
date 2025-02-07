@@ -9,6 +9,37 @@ class SteadyPlotter(Plotter):
     def __init__(self, data, settings):
         super().__init__(data, settings)
 
+        index = 0
+        if settings.only_last_frame:
+            index = -1
+        elif settings.only_specific_frame is not None:
+            index = settings.only_specific_frame
+
+        # Velocity x
+        self.velocity_x = None
+        if len(self.data.timesteps_velocity_x) > 0:
+            self.velocity_x = np.array(self.data.timesteps_velocity_x[index])
+
+        # Velocity y
+        self.velocity_y = None
+        if len(self.data.timesteps_velocity_y) > 0:
+            self.velocity_y = np.array(self.data.timesteps_velocity_y[index])
+
+        # Pressure
+        self.pressure = None
+        if len(self.data.pressure_timesteps) > 0:
+            self.pressure = np.array(self.data.pressure_timesteps[index])
+
+        # Dye
+        self.dye = None
+        if len(self.data.dye_timesteps) > 0:
+            self.dye = np.array(self.data.dye_timesteps[index])
+
+        # Phi
+        self.phi = None
+        if len(self.data.phi_timesteps) > 0:
+            self.phi = np.array(self.data.phi_timesteps[index])
+
     def __scalar_field(self, field):
         # Initialize the plot
         self.create_plot()
@@ -40,29 +71,22 @@ class SteadyPlotter(Plotter):
 
     def __apply_scalar_field(self, field):
         if field == ScalarFields.VELOCITY_X:
-            self.velocity_x = np.array(self.data.timesteps_velocity_x[-1])
             self.__scalar_field(self.velocity_x)
         elif field == ScalarFields.VELOCITY_Y:
-            self.velocity_y = np.array(self.data.timesteps_velocity_y[-1])
             self.__scalar_field(self.velocity_y)
         elif field == ScalarFields.PRESSURE:
-            self.pressure = np.array(self.data.pressure_timesteps[-1])
             self.__scalar_field(self.pressure)
         elif field == ScalarFields.DYE:
-            self.dye = np.array(self.data.dye_timesteps[-1])
             self.__scalar_field(self.dye)
         elif field == ScalarFields.PHI:
-            self.phi = np.array(self.data.phi_timesteps[-1])
             self.__scalar_field(self.phi)
         elif field == ScalarFields.VORTICITY:
-            self.vorticity = np.gradient(self.data.timesteps_velocity_x[-1], axis=0) - np.gradient(
-                self.data.timesteps_velocity_y[-1], axis=1)
+            self.vorticity = np.gradient(self.velocity_x, axis=0) - np.gradient(
+                self.velocity_y, axis=1)
             self.__scalar_field(self.vorticity)
 
     def __apply_vector_field(self, field):
         if field == VectorFields.VELOCITY_MAGNITUDE:
-            self.velocity_x = np.array(self.data.timesteps_velocity_x[-1])
-            self.velocity_y = np.array(self.data.timesteps_velocity_y[-1])
             self.__vector_field(self.velocity_x, self.velocity_y)
 
     def __apply_plot(self, field):

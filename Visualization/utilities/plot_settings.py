@@ -17,6 +17,7 @@ class PlotSettings:
         self.blur = False
         self.real_time = False
         self.only_last_frame = False
+        self.only_specific_frame = None
         self.fps = None
         self.show_quiver = False
         self.quiver_density_factor = 1.0
@@ -66,6 +67,8 @@ class PlotSettings:
                 self.real_time = data["realTime"]
             if "onlyLastFrame" in data:
                 self.only_last_frame = data["onlyLastFrame"]
+            if "onlySpecificFrame" in data:
+                self.only_specific_frame = data["onlySpecificFrame"]
             if "fps" in data:
                 self.fps = data["fps"]
             if "showQuiver" in data:
@@ -84,5 +87,10 @@ class PlotSettings:
                 self.streamline_color = data["streamlineColor"]
 
             # Constraints
-            if self.state == "unsteady" and ((self.fps is None and not self.real_time) or (self.fps is not None and self.real_time)):
+
+            if (self.fps is None and not self.real_time) or (self.fps is not None and self.real_time):
                 raise Exception("You must ether specify the frames per second or enable real_time (not both")
+
+            if self.only_last_frame and self.only_specific_frame is not None:
+                raise Exception("You must either specify onlyLastFrame or onlySpecifyFrame (not both)")
+

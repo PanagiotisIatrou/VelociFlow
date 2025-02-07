@@ -35,7 +35,6 @@ class Plotter(ABC):
         plt.ylabel("y")
 
     def set_title(self):
-        field_name = None
         field = self.settings.field
         if field == VectorFields.VELOCITY_MAGNITUDE:
             field_name = "Velocity Magnitude"
