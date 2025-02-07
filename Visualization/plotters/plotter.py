@@ -74,9 +74,20 @@ class Plotter(ABC):
         color_mesh.set_array(np.array(field).T.ravel())
 
     def set_min_max_values(self, field):
-        # Find the min and max velocity (from all the timesteps)
-        self.min_value = np.nanmin(field)
-        self.max_value = np.nanmax(field)
+        # Set the min and max value from the settings
+        # Otherwise, find the min and max values (from all the timesteps)
+
+        # Min
+        if self.settings.min_value is not None:
+            self.min_value = self.settings.min_value
+        else:
+            self.min_value = np.nanmin(field)
+
+        # Max
+        if self.settings.max_value is not None:
+            self.max_value = self.settings.max_value
+        else:
+            self.max_value = np.nanmax(field)
 
     def create_quiver(self, field1, field2):
         # Normalize the quiver if specified

@@ -14,6 +14,8 @@ class PlotSettings:
         self.field = None
 
         # Optional fields
+        self.min_value = None
+        self.max_value = None
         self.blur = False
         self.real_time = False
         self.only_last_frame = False
@@ -61,6 +63,10 @@ class PlotSettings:
                 raise Exception("Invalid field")
 
             # Optional fields
+            if "minValue" in data:
+                self.min_value = data["minValue"]
+            if "maxValue" in data:
+                self.max_value = data["maxValue"]
             if "blur" in data:
                 self.blur = data["blur"]
             if "realTime" in data:
