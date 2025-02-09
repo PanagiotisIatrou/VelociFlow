@@ -36,7 +36,7 @@ $$
 
 $$
 \begin{aligned}
-    \large \dfrac{\partial \phi}{\partial t} + (\vec{v} \cdot \nabla)\phi = \mu \nabla^2\phi
+    \large \dfrac{\partial \phi}{\partial t} + (\vec{v} \cdot \nabla)\phi = \Gamma \nabla^2\phi
 \end{aligned}
 $$
 
@@ -44,7 +44,7 @@ $$
 
 $$
 \begin{aligned}
-    \large \dfrac{\partial \phi}{\partial t} = \mu \nabla^2 \phi
+    \large \dfrac{\partial \phi}{\partial t} = \Gamma \nabla^2 \phi
 \end{aligned}
 $$
 
