@@ -94,7 +94,7 @@ class PlotSettings:
 
             # Constraints
 
-            if (self.fps is None and not self.real_time) or (self.fps is not None and self.real_time):
+            if self.fps is not None and self.real_time:
                 raise Exception("You must ether specify the frames per second or enable real_time (not both")
 
             if self.only_last_frame and self.only_specific_frame is not None:
