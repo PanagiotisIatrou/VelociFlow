@@ -1,4 +1,5 @@
 from copy import copy
+from email.quoprimime import header_length
 
 import matplotlib
 import numpy as np
@@ -107,7 +108,10 @@ class Plotter(ABC):
             self.y[::step],
             quiver_field1.T[::step, ::step],
             quiver_field2.T[::step, ::step],
-            scale=175,
+            scale=175.0 * (1.0 / self.settings.quiver_magnitude_factor),
+            headwidth=2.5,
+            headlength=2.5,
+            headaxislength=2.25,
             color=self.settings.quiver_color
         )
 

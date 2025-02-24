@@ -25,6 +25,7 @@ class PlotSettings:
         self.quiver_density_factor = 1.0
         self.quiver_color = "black"
         self.normalize_quiver = None
+        self.quiver_magnitude_factor = 1.0
         self.show_streamlines = False
         self.streamline_density_factor = 1.0
         self.streamline_color = "black"
@@ -85,6 +86,8 @@ class PlotSettings:
                 self.quiver_color = data["quiverColor"]
             if "normalizeQuiver" in data:
                 self.normalize_quiver = data["normalizeQuiver"]
+            if "quiverMagnitudeFactor" in data:
+                self.quiver_magnitude_factor = data["quiverMagnitudeFactor"]
             if "showStreamlines" in data:
                 self.show_streamlines = data["showStreamlines"]
             if "streamlineDensityFactor" in data:
