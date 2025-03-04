@@ -53,9 +53,8 @@ Coefficients Convection::get_upwind_effects(const Direction direction) const {
 
     const int dir_sign = direction == Direction::West || direction == Direction::South ? 1 : -1;
     if (face->get_face_type() != FaceType::Boundary) {
-        const double extra = std::max(dir_sign * flow_rate, 0.0);
-        coefficients.add_to_coefficient(direction, extra);
-        coefficients.center += extra - dir_sign * flow_rate;
+        coefficients.add_to_coefficient(direction, std::max(dir_sign * flow_rate, 0.0));
+        coefficients.center += std::max(-dir_sign * flow_rate, 0.0);
     } else {
         const BoundaryFace *boundary_face = static_cast<BoundaryFace *>(face);
         const double face_value = boundary_face->get_field_value(m_field);
