@@ -87,6 +87,13 @@ void NavierStokesSimulation::simple_iterate() {
     m_bulk_face_operations->update_face_x_pressure_corrections();
     m_bulk_face_operations->update_face_y_pressure_corrections();
 
+    // Correct the pressure on the nodes
+    m_bulk_node_operations->correct_node_pressure();
+
+    // Update the pressure on the faces
+    m_bulk_face_operations->update_face_x_pressures();
+    m_bulk_face_operations->update_face_y_pressures();
+
     // Correct the x and y node velocities
     m_bulk_node_operations->correct_node_velocity_x();
     m_bulk_node_operations->correct_node_velocity_y();
@@ -94,13 +101,6 @@ void NavierStokesSimulation::simple_iterate() {
     // Correct the face x and y velocities
     m_bulk_face_operations->correct_face_x_velocity();
     m_bulk_face_operations->correct_face_y_velocity();
-
-    // Correct the pressure on the nodes
-    m_bulk_node_operations->correct_node_pressure();
-
-    // Update the pressure on the faces
-    m_bulk_face_operations->update_face_x_pressures();
-    m_bulk_face_operations->update_face_y_pressures();
 
     m_outer_iterations_count++;
 }
