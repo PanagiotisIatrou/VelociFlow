@@ -4,12 +4,12 @@
 #include <iostream>
 #include <string>
 
-const int grid_size_x = 100;
-const int grid_size_y = 100;
+const int grid_size_x = 30;
+const int grid_size_y = 30;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double phi = 1.0;
-const double viscosity = 1.0;
+const double viscosity = 0.01;
 
 int main() {
     // Create the mesh

@@ -5,14 +5,13 @@
 
 #include <ConvectionDiffusionUnsteady.hpp>
 
-const int grid_size_x = 100;
-const int grid_size_y = 100;
+const int grid_size_x = 30;
+const int grid_size_y = 30;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
-const double velocity = 1.0;
 const double viscosity = 1.0;
-const double dt = 0.01;
-const int timesteps = 100;
+const double dt = 0.0001;
+const int timesteps = 1000;
 
 int main() {
     // Create the mesh
@@ -25,20 +24,19 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            const FieldValues field_values{.velocity_x = 0.0, .velocity_y = 0.0};
+            mesh->set_node(i, j, field_values);
         }
     }
 
-    // Add the moving lid
     for (int i = 0; i < grid_size_x; i++) {
-        for (int j = 0; j < grid_size_y + 1; j++) {
-            if (j == 0) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, -velocity, -velocity, 0.0);
-            }
-            if (j == grid_size_y) {
-                mesh->set_boundary_inlet_face(FaceSide::Y, i, j, velocity, -velocity, 0.0);
-            }
-        }
+        mesh->set_boundary_inlet_face(FaceSide::Y, i, 0, -1.0, 0.0, 0.0);
+        mesh->set_boundary_inlet_face(FaceSide::Y, i, grid_size_y, 1.0, 0.0, 0.0);
+    }
+
+    for (int j = 0; j < grid_size_y; j++) {
+        mesh->set_boundary_inlet_face(FaceSide::X, 0, j, 0.0, 1.0, 0.0);
+        mesh->set_boundary_inlet_face(FaceSide::X, grid_size_x, j, 0.0, -1.0, 0.0);
     }
 
     // Link the nodes to their neighbouring nodes

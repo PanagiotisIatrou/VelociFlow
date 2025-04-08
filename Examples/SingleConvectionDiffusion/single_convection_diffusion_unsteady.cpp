@@ -5,13 +5,13 @@
 
 #include <SingleConvectionDiffusionUnsteady.hpp>
 
-const int grid_size_x = 100;
-const int grid_size_y = 100;
+const int grid_size_x = 30;
+const int grid_size_y = 30;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
-const double viscosity = 1.0;
+const double viscosity = 0.01;
 const double dt = 0.01;
-const int timesteps = 100;
+const int timesteps = 1000;
 
 int main() {
     // Create the mesh
@@ -24,7 +24,7 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            const FieldValues field_values{.velocity_x = -10.0, .velocity_y = -10.0, .phi = 0.0};
+            const FieldValues field_values{.velocity_x = 0.1, .velocity_y = -0.1, .phi = 0.0};
             mesh->set_node(i, j, field_values);
         }
     }
