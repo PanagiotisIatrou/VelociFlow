@@ -26,21 +26,14 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            if (j == grid_size_y - 1 || j == grid_size_y - 2) {
-                mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
-            } else {
-                mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
-            }
+            const FieldValues field_values{.velocity_x = 0.0, .velocity_y = 0.0, .pressure = 0.0, .dye = 0.0};
+            mesh->set_node(i, j, field_values);
         }
     }
 
     // Add the moving lid
     for (int i = 0; i < grid_size_x; i++) {
-        for (int j = 0; j < grid_size_y + 1; j++) {
-            if (j == grid_size_y) {
-                mesh->set_boundary_moving_wall_face(FaceSide::Y, i, j, velocity);
-            }
-        }
+        mesh->set_boundary_moving_wall_face(FaceSide::Y, i, grid_size_y, velocity);
     }
 
     // Link the nodes to their neighbouring nodes

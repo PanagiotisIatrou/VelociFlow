@@ -28,13 +28,8 @@ int main() {
         }
     }
 
-    // Add the moving lid
     for (int i = 0; i < grid_size_x; i++) {
-        for (int j = 0; j < grid_size_y + 1; j++) {
-            if (j == grid_size_y) {
-                mesh->set_boundary_moving_wall_face(FaceSide::Y, i, j, velocity);
-            }
-        }
+        mesh->set_boundary_moving_wall_face(FaceSide::Y, i, grid_size_y, velocity);
     }
 
     // Link the nodes to their neighbouring nodes
