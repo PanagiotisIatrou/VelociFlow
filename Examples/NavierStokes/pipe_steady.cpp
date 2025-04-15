@@ -24,19 +24,15 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            const FieldValues field_values{.velocity_x = 0.0, .velocity_y = 0.0, .pressure = 0.0};
+            mesh->set_node(i, j, field_values);
         }
     }
 
     // Add the left and right boundaries
-    for (int i = 0; i < grid_size_x + 1; i++) {
-        for (int j = 0; j < grid_size_y; j++) {
-            if (i == 0) {
-                mesh->set_boundary_inlet_face(FaceSide::X, i, j, velocity, 0.0, 0.0);
-            } else if (i == grid_size_y) {
-                mesh->set_boundary_fixed_pressure_face(FaceSide::X, i, j, 0.0);
-            }
-        }
+    for (int j = 0; j < grid_size_y; j++) {
+        mesh->set_boundary_inlet_face(FaceSide::X, 0, j, velocity, 0.0, 0.0);
+        mesh->set_boundary_fixed_pressure_face(FaceSide::X, grid_size_x, j, 0.0);
     }
 
     // Link the nodes to their neighbouring nodes
