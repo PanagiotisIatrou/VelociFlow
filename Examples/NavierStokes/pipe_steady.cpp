@@ -5,12 +5,12 @@
 
 #include <NavierStokesSteady.hpp>
 
-const int grid_size_x = 150;
-const int grid_size_y = 50;
-const double domain_size_x = 3.0;
+const int grid_size_x = 400;
+const int grid_size_y = 100;
+const double domain_size_x = 4.0;
 const double domain_size_y = 1.0;
-const double velocity = 0.5;
-const double viscosity = 0.05;
+const double velocity = 1.0;
+const double viscosity = 0.001;
 const double density = 1.0;
 
 int main() {
