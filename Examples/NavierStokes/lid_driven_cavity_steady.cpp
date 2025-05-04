@@ -4,8 +4,8 @@
 #include <iostream>
 #include <string>
 
-const int grid_size_x = 100;
-const int grid_size_y = 100;
+const int grid_size_x = 150;
+const int grid_size_y = 150;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;

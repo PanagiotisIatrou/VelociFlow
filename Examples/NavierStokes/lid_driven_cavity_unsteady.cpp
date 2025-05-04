@@ -5,15 +5,15 @@
 
 #include <NavierStokesUnsteady.hpp>
 
-const int grid_size_x = 100;
-const int grid_size_y = 100;
+const int grid_size_x = 150;
+const int grid_size_y = 150;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
 const double viscosity = 1.0 / 1000.0;
 const double density = 1.0;
 const double dt = 0.01;
-const int timesteps = 100;
+const int timesteps = 1000;
 
 int main() {
     // Create the mesh
@@ -47,7 +47,12 @@ int main() {
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 
-    // Run the simulation
+    // // Run the simulation
+    // const int extra_timesteps = 1000;
+    // const std::string file = "../Results/Unsteady/out-1744278270.txt";
+    // SimulatorContinuation simulation_continuation(file);
+    // NavierStokesUnsteady simulation(mesh, &simulation_continuation, extra_timesteps, VerbosityType::Percentages);
+    // simulation.solve();
     NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
     simulation.solve();
 
