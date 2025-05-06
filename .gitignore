@@ -5,8 +5,5 @@ cmake-build-debug
 cmake-build-release
 Results/Steady/*
 Results/Unsteady/*
-*.mp4
-*.gif
-*.png
-**/__pycache__/ 
+**/__pycache__/
 *.pyc

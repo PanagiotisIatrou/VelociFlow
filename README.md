@@ -50,6 +50,19 @@ $$
 
 ## Gallery
 
+- Lid-driven cavity  
+  ![Lid-driven cavity image](Gallery/lid-driven-cavity.png "Title")
+- Pipe  
+  ![Pipe image](Gallery/pipe.png "Title")
+- Backward-facing step  
+  ![Backward-facing step image](Gallery/backward-facing-step.png "Title")
+- Pipe with obstacles  
+  ![Pipe with obstacles image](Gallery/pipe-with-obstacles.png "Title")
+- Von Karman  
+  ![Von Karman video](Gallery/von-karman.mp4)
+- Kelvin-Helmholtz  
+  ![Kelvin-Helmholtz video](Gallery/kelvin-helmholtz.mp4)
+
 ## Features
 
 ### Creating simulations
@@ -79,7 +92,7 @@ $$
     - Implicit Euler
 - Dye injection (for tracing the flow)
 - Ability for early stopping and restarting of the Incompressible Navier Stokes simulations
-- Residual types
+- Residual types (by pressing `q`)
     - Unscaled
     - Scaled
     - Normalized
