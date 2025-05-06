@@ -51,17 +51,15 @@ $$
 ## Gallery
 
 - Lid-driven cavity  
-  ![Lid-driven cavity image](Gallery/lid-driven-cavity.png "Title")
+  <img src="Gallery/lid-driven-cavity.png" width="300">
 - Pipe  
-  ![Pipe image](Gallery/pipe.png "Title")
+  <img src="Gallery/pipe.png" width="300">
 - Backward-facing step  
-  ![Backward-facing step image](Gallery/backward-facing-step.png "Title")
+  <img src="Gallery/backward-facing-step.png" width="300">
 - Pipe with obstacles  
-  ![Pipe with obstacles image](Gallery/pipe-with-obstacles.png "Title")
+  <img src="Gallery/pipe-with-obstacles.png" width="300">
 - Von Karman  
-  ![Von Karman video](Gallery/von-karman.mp4)
 - Kelvin-Helmholtz  
-  ![Kelvin-Helmholtz video](Gallery/kelvin-helmholtz.mp4)
 
 ## Features
 
