@@ -13,7 +13,7 @@ const double velocity = 1.0;
 const double viscosity = 0.0005;
 const double density = 1.0;
 const double dt = 0.01;
-const int timesteps = 100;
+const int timesteps = 1000;
 
 int main() {
     // Create the mesh
@@ -36,7 +36,8 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            const FieldValues field_values{.velocity_x = 0.0, .velocity_y = 0.0, .pressure = 0.0, .dye = 0.0};
+            mesh->set_node(i, j, field_values);
         }
     }
 

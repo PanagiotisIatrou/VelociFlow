@@ -7,8 +7,8 @@
 #include <NavierStokesUnsteady.hpp>
 #include <Simulation/Meshing/Faces/Interior/InteriorFace.hpp>
 
-const int grid_size_x = 300;
-const int grid_size_y = 300;
+const int grid_size_x = 200;
+const int grid_size_y = 200;
 const double domain_size_x = 1.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
@@ -30,14 +30,15 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            double velocity_x;
+            FieldValues values = {.velocity_y = 0.0, .pressure = 0.0};
             if (std::abs(j - grid_size_y / 2.0) / (grid_size_y / 2.0) < height + 0.01 * std::sin(2.0 * M_PI * (static_cast<double>(i) / grid_size_x) * domain_size_x * 10.0)) {
-                velocity_x = velocity;
-                mesh->set_node(i, j, velocity_x, 0.0, 0.0, 1.0);
+                values.velocity_x = velocity;
+                values.dye = 1.0;
             } else {
-                velocity_x = -velocity / 2.0;
-                mesh->set_node(i, j, velocity_x, 0.0, 0.0, 0.0);
+                values.velocity_x = -velocity / 2.0;
+                values.dye = 0.0;
             }
+            mesh->set_node(i, j, values);
         }
     }
 
@@ -56,10 +57,10 @@ int main() {
     const std::string path = folder + filename;
 
     // Run the simulation
-    const std::string file = "../Results/Unsteady/out-1737469287.txt";
-    SimulatorContinuation simulation_continuation(file);
-    NavierStokesUnsteady simulation(mesh, &simulation_continuation, timesteps, VerbosityType::Percentages);
-    // NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
+    // const std::string file = "../Results/Unsteady/out-1746543265.txt";
+    // SimulatorContinuation simulation_continuation(file);
+    // NavierStokesUnsteady simulation(mesh, &simulation_continuation, timesteps, VerbosityType::Percentages);
+    NavierStokesUnsteady simulation(mesh, density, viscosity, dt, timesteps, 1e-4, 1e-4, 1e-4, path, VerbosityType::Percentages);
     simulation.solve();
 
     std::cout << "Reached timestep " << simulation.get_reached_timesteps() << std::endl;

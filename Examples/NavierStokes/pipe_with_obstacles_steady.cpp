@@ -5,12 +5,12 @@
 
 #include <NavierStokesSteady.hpp>
 
-const int grid_size_x = 160;
-const int grid_size_y = 40;
+const int grid_size_x = 400;
+const int grid_size_y = 100;
 const double domain_size_x = 4.0;
 const double domain_size_y = 1.0;
-const double velocity = 0.5;
-const double viscosity = 0.05;
+const double velocity = 1.0;
+const double viscosity = 0.025;
 const double density = 1.0;
 
 int main() {
@@ -20,10 +20,10 @@ int main() {
     // Add the nodes (and the obstacles)
     for (int i = 0; i < grid_size_x; i++) {
         for (int j = 0; j < grid_size_y; j++) {
-            if (i > grid_size_x / 4 - 3 && i < grid_size_x / 4 + 3 && j > grid_size_y / 3) {
+            if (i > grid_size_x / 4 - 7 && i < grid_size_x / 4 + 7 && j > grid_size_y / 3) {
                 continue;
             }
-            if (i > 2 * grid_size_x / 4 - 3 && i < 2 * grid_size_x / 4 + 3 && j < 2 * grid_size_y / 3) {
+            if (i > 2 * grid_size_x / 4 - 7 && i < 2 * grid_size_x / 4 + 7 && j < 2 * grid_size_y / 3) {
                 continue;
             }
 
@@ -31,7 +31,8 @@ int main() {
                 std::cout << "! Reallocation !" << std::endl;
             }
 
-            mesh->set_node(i, j, 0.0, 0.0, 0.0, 0.0);
+            const FieldValues values = {.velocity_x = 0.0, .velocity_y = 0.0, .pressure = 0.0};
+            mesh->set_node(i, j, values);
         }
     }
 
