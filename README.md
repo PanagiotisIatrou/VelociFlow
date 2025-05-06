@@ -50,14 +50,47 @@ $$
 
 ## Gallery
 
-- Lid-driven cavity  
-  <img src="Gallery/lid-driven-cavity.png" width="300">
-- Pipe  
-  <img src="Gallery/pipe.png" width="300">
-- Backward-facing step  
-  <img src="Gallery/backward-facing-step.png" width="300">
-- Pipe with obstacles  
-  <img src="Gallery/pipe-with-obstacles.png" width="300">
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <figure>
+          <p align="center" width="100%">
+            <figcaption><p align="center">Lid-driven cavity</p></figcaption>
+            <img src="Gallery/lid-driven-cavity.png">
+          </p>
+        </figure>
+      </td>
+      <td>
+        <figure>
+          <p align="center" width="100%">
+            <figcaption><p align="center">Lid-driven cavity</p></figcaption>
+            <img src="Gallery/pipe.png">
+          </p>
+        </figure>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <figure>
+          <p align="center" width="100%">
+            <figcaption><p align="center">Backward-facing step</p></figcaption>
+            <img src="Gallery/backward-facing-step.png">
+          </p>
+        </figure>
+      </td>
+      <td>
+        <figure>
+          <p align="center" width="100%">
+            <figcaption><p align="center">Pipe with obstacles</p></figcaption>
+            <img src="Gallery/pipe-with-obstacles.png">
+          </p>
+        </figure>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 - Von Karman  
 - Kelvin-Helmholtz  
 
