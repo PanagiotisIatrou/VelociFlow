@@ -31,9 +31,15 @@ class Plotter(ABC):
     def create_plot(self):
         plt.figure(figsize=(16, 9))
         plt.gca().set_aspect('equal', adjustable='box')
-        self.set_title()
-        plt.xlabel("x")
-        plt.ylabel("y")
+
+        if not self.settings.only_graphics:
+            self.set_title()
+            plt.xlabel("x")
+            plt.ylabel("y")
+        else:
+            plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+            plt.axis("off")
+
 
     def set_title(self):
         field = self.settings.field
@@ -67,7 +73,9 @@ class Plotter(ABC):
             shading="gouraud" if self.settings.blur else "auto",
             clim=(self.min_value, self.max_value),
         )
-        plt.colorbar(label="Value")
+
+        if not self.settings.only_graphics:
+            plt.colorbar(label="Value")
 
         return color_mesh
 

@@ -98,12 +98,20 @@ class SteadyPlotter(Plotter):
     def save_field(self, field, filename="steady.png"):
         self.__apply_plot(field)
         print("Saving...")
-        plt.savefig(filename)
+        if self.settings.only_graphics:
+            plt.gcf().set_size_inches(self.data.grid_size_x / 20, self.data.grid_size_y / 20)
+            plt.savefig(filename, pad_inches=0.0)
+        else:
+            plt.savefig(filename)
         plt.close()
 
     def plot_and_save_field(self, field, filename="steady.png"):
         self.__apply_plot(field)
         print("Saving...")
-        plt.savefig(filename)
+        if self.settings.only_graphics:
+            plt.gcf().set_size_inches(self.data.grid_size_x / 20, self.data.grid_size_y / 20)
+            plt.savefig(filename, pad_inches=0.0)
+        else:
+            plt.savefig(filename)
         print("Plotting...")
         plt.show()

@@ -51,8 +51,9 @@ class UnsteadyPlotter(Plotter):
                 self.update_streamlines(field1_timestep, field2_timestep)
 
             # Update the time
-            decimals_count = str(self.data.dt)[::-1].find('.')
-            plt.suptitle(f"Time: {k * self.data.dt:.{decimals_count}f}")
+            if not self.settings.only_graphics:
+                decimals_count = str(self.data.dt)[::-1].find('.')
+                plt.suptitle(f"Time: {k * self.data.dt:.{decimals_count}f}")
 
         # Calculate the frame rate
         anim = animation.FuncAnimation(plt.gcf(), animate, frames=self.data.timesteps, repeat=False)
@@ -69,7 +70,12 @@ class UnsteadyPlotter(Plotter):
             def progress_callback(i, n):
                 progress_bar.update(1)
 
-            anim.save("unsteady.mp4", fps=animation_fps, progress_callback=progress_callback)
+            if self.settings.only_graphics:
+                plt.gcf().set_size_inches(self.data.grid_size_x / 20, self.data.grid_size_y / 20)
+                kwargs = {'pad_inches': 0.0}
+            else:
+                kwargs = {}
+            anim.save("unsteady.mp4", fps=animation_fps, progress_callback=progress_callback, savefig_kwargs=kwargs)
         plt.close()
 
     def __save_scalar_field(self, field, filename="unsteady.mp4"):
@@ -103,8 +109,9 @@ class UnsteadyPlotter(Plotter):
             self.update_color_mesh(color_mesh, scalar_field_timestep)
 
             # Update the time
-            decimals_count = str(self.data.dt)[::-1].find('.')
-            plt.suptitle(f"Time: {k * self.data.dt:.{decimals_count}f}")
+            if not self.settings.only_graphics:
+                decimals_count = str(self.data.dt)[::-1].find('.')
+                plt.suptitle(f"Time: {k * self.data.dt:.{decimals_count}f}")
 
         # Calculate the frame rate
         anim = animation.FuncAnimation(plt.gcf(), animate, frames=self.data.timesteps, repeat=False)
@@ -121,7 +128,12 @@ class UnsteadyPlotter(Plotter):
             def progress_callback(i, n):
                 progress_bar.update(1)
 
-            anim.save(filename, fps=animation_fps, progress_callback=progress_callback)
+            if self.settings.only_graphics:
+                plt.gcf().set_size_inches(self.data.grid_size_x / 20, self.data.grid_size_y / 20)
+                kwargs = {'pad_inches': 0.0}
+            else:
+                kwargs = {}
+            anim.save(filename, fps=animation_fps, progress_callback=progress_callback, savefig_kwargs=kwargs)
         plt.close()
 
     def save_field(self, field):

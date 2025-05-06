@@ -29,6 +29,7 @@ class PlotSettings:
         self.show_streamlines = False
         self.streamline_density_factor = 1.0
         self.streamline_color = "black"
+        self.only_graphics = False
 
     def import_file(self, file):
         # Clear the data
@@ -94,6 +95,8 @@ class PlotSettings:
                 self.streamline_density_factor = data["streamlineDensityFactor"]
             if "streamlineColor" in data:
                 self.streamline_color = data["streamlineColor"]
+            if "onlyGraphics" in data:
+                self.only_graphics = data["onlyGraphics"]
 
             # Constraints
 

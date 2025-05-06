@@ -159,3 +159,4 @@ $$
 - Include quivers (only on velocity magnitude)
 - Set density of streamlines and quivers
 - Set color of streamlines and quivers
+- Option to only show the graphics without the grid
