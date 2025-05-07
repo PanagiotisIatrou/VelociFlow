@@ -55,17 +55,17 @@ $$
     <tr>
       <td>
         <figure>
-          <p align="center" width="100%">
+          <p align="center" width="300px">
             <figcaption><p align="center">Lid-driven cavity</p></figcaption>
-            <img src="Gallery/lid-driven-cavity.png">
+            <img src="Gallery/lid-driven-cavity.png" width="300px">
           </p>
         </figure>
       </td>
       <td>
         <figure>
-          <p align="center" width="100%">
+          <p align="center" width="300px">
             <figcaption><p align="center">Kelvin-Helmholtz</p></figcaption>
-            <img src="Gallery/kelvin-helmholtz.gif">
+            <img src="Gallery/kelvin-helmholtz.gif" width="300px">
           </p>
         </figure>
       </td>
@@ -73,17 +73,17 @@ $$
     <tr>
       <td>
         <figure>
-          <p align="center" width="100%">
+          <p align="center" width="300px">
             <figcaption><p align="center">Pipe</p></figcaption>
-            <img src="Gallery/pipe.png">
+            <img src="Gallery/pipe.png" width="300px">
           </p>
         </figure>
       </td>
       <td>
         <figure>
-          <p align="center" width="100%">
+          <p align="center" width="300px">
             <figcaption><p align="center">Backward-facing step</p></figcaption>
-            <img src="Gallery/backward-facing-step.png">
+            <img src="Gallery/backward-facing-step.png" width="300px">
           </p>
         </figure>
       </td>
@@ -91,26 +91,23 @@ $$
     <tr>
       <td>
         <figure>
-          <p align="center" width="100%">
+          <p align="center" width="300px">
             <figcaption><p align="center">Pipe with obstacles</p></figcaption>
-            <img src="Gallery/pipe-with-obstacles.png">
+            <img src="Gallery/pipe-with-obstacles.png" width="300px">
           </p>
         </figure>
       </td>
       <td>
         <figure>
-          <p align="center" width="100%">
+          <p align="center" width="300px">
             <figcaption><p align="center">Von Karman</p></figcaption>
-            <img src="Gallery/von-karman.gif">
+            <img src="Gallery/von-karman.gif" width="300px">
           </p>
         </figure>
       </td>
     </tr>
   </tbody>
 </table>
-
-- Von Karman  
-- Kelvin-Helmholtz  
 
 ## Features
 
