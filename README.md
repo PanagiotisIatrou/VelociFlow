@@ -64,8 +64,8 @@ $$
       <td>
         <figure>
           <p align="center" width="100%">
-            <figcaption><p align="center">Lid-driven cavity</p></figcaption>
-            <img src="Gallery/pipe.png">
+            <figcaption><p align="center">Kelvin-Helmholtz</p></figcaption>
+            <img src="Gallery/kelvin-helmholtz.gif">
           </p>
         </figure>
       </td>
@@ -74,16 +74,34 @@ $$
       <td>
         <figure>
           <p align="center" width="100%">
-            <figcaption><p align="center">Backward-facing step</p></figcaption>
-            <img src="Gallery/backward-facing-step.png">
+            <figcaption><p align="center">Pipe</p></figcaption>
+            <img src="Gallery/pipe.png">
           </p>
         </figure>
       </td>
       <td>
         <figure>
           <p align="center" width="100%">
+            <figcaption><p align="center">Backward-facing step</p></figcaption>
+            <img src="Gallery/backward-facing-step.png">
+          </p>
+        </figure>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <figure>
+          <p align="center" width="100%">
             <figcaption><p align="center">Pipe with obstacles</p></figcaption>
             <img src="Gallery/pipe-with-obstacles.png">
+          </p>
+        </figure>
+      </td>
+      <td>
+        <figure>
+          <p align="center" width="100%">
+            <figcaption><p align="center">Von Karman</p></figcaption>
+            <img src="Gallery/von-karman.gif">
           </p>
         </figure>
       </td>
