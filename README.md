@@ -4,6 +4,8 @@
   <img src="https://img.shields.io/badge/Donate-PayPal-green.svg">
 </a>
 
+<img src="logo.png" width="auto">
+
 This project serves as part of my BSc thesis in Computer Science. It is a CFD (Computational Fluid Dynamics) solver for
 the 2D incompressible Navier-Stokes equations. The solver is based on the SIMPLE
 algorithm for pressure-velocity coupling, solved in an orthogonal cartesian colocated grid. The simulation is written in
