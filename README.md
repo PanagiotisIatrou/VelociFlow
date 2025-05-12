@@ -11,15 +11,20 @@ the 2D incompressible Navier-Stokes equations. The solver is based on the SIMPLE
 algorithm for pressure-velocity coupling, solved in an orthogonal cartesian colocated grid. The simulation library is written in
 C++, while the visualizations are written in Python.
 
-## How to install
+## How to run
 
 1. Clone the repository
-2. `cd VelociFlow-main`
-3. `mkdir build`
-4. `cd build`
-5. `cmake ..`
-6. `make`
-7. `./Simulation`
+2. Select an example to run
+   - Open `VelociFlow-main\CMakeLists.txt`
+   - Change the name of the `.cpp` file in the `add_executable` line to the `.cpp` file you want to run
+3. Compile
+   - `cd VelociFlow-main`
+   - `mkdir build`
+   - `cd build`
+   - `cmake ..`
+   - `make`
+4. Run
+   - `./Simulation`
 
 ## Equations
 
