@@ -12,7 +12,7 @@ include_directories(${SIMULATION_PATH})
 add_subdirectory(${SIMULATION_PATH})
 
 # Create the executable
-add_executable(Simulation ${EXAMPLES_PATH}/vorticy_ball_unsteady.cpp)
+add_executable(Simulation ${EXAMPLES_PATH}/NavierStokes/lid_driven_cavity_steady.cpp)
 
 # Include the SimulationLibrary
 target_link_libraries(Simulation SimulationLibrary)
