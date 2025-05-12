@@ -11,6 +11,16 @@ the 2D incompressible Navier-Stokes equations. The solver is based on the SIMPLE
 algorithm for pressure-velocity coupling, solved in an orthogonal cartesian colocated grid. The simulation library is written in
 C++, while the visualizations are written in Python.
 
+## How to install
+
+1. Clone the repository
+2. `cd VelociFlow-main`
+3. `mkdir build`
+4. `cd build`
+5. `cmake ..`
+6. `make`
+7. `./Simulation`
+
 ## Equations
 
 Equations being discretized and solved using the Finite Volume Method (FVM) in 2D:
