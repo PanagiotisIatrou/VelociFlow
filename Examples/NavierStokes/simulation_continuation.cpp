@@ -48,7 +48,7 @@ int main() {
 
 
     // Run the simulation
-    const std::string file = "../Results/Unsteady/out-1736787333.txt";
+    const std::string file = "../Results/Unsteady/existing-sim.txt";
     SimulatorContinuation simulation_continuation(file);
     NavierStokesUnsteady simulation(mesh, &simulation_continuation, extra_timesteps, VerbosityType::Percentages);
     simulation.solve();

@@ -44,7 +44,7 @@ int main() {
     mesh->link_nodes_faces();
 
     // Create the path for the output file
-    const std::string folder = "../Results/Steady/";
+    const std::string folder = "";
     const std::string filename = "out-" + std::to_string(time(nullptr)) + ".txt";
     const std::string path = folder + filename;
 
