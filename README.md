@@ -26,15 +26,14 @@ C++, while the visualizations are written in Python.
 4. Run
    - `./Simulation`
    - Wait for the simulation to finish (or press `q` to stop it earlier)
-5. Vizualize
+5. Visualize
    - `cd VelociFlow-main/Visualization`
-   - Create a Virtual Environment
-     - `python3 -m venv venv`
-     - `venv/bin/pip3 install -r requirements.txt`
+   - `python3 -m venv venv`
+   - `venv/bin/pip3 install -r requirements.txt`
    - Create a `settings.json` file (look at `settings-steady.json` and `settings-steady.json` examples)
    - Open `visualize.py`
    - Change the name of the `.json` file in the `settings_file` variable to the name of your `settings.json` file
-   - venv/bin/python3 visualize.py
+   - `venv/bin/python3 visualize.py`
 
 ## Equations
 
