@@ -203,8 +203,10 @@ $$
 - Set color of streamlines and quivers
 - Option to only show the graphics without the grid
 
-## Ideas to implement in the future
+## Things to implement in the future
 
+- Code documentation
+- Features usage documentation
 - Parallelizing code execution (CPU or GPU)
 - Simulate real dye color mixing
 - Time dependent boundary conditions
