@@ -10,7 +10,7 @@ const int grid_size_y = 100;
 const double domain_size_x = 4.0;
 const double domain_size_y = 1.0;
 const double velocity = 1.0;
-const double viscosity = 0.001;
+const double viscosity = 0.005;
 const double density = 1.0;
 
 int main() {
