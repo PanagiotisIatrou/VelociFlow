@@ -8,7 +8,7 @@ $${\color{red}[WORK \space IN \space PROGRESS]}$$
 
 <img src="logo.png" width="auto">
 
-This project serves as part of my BSc thesis in Computer Science. It is a CFD (Computational Fluid Dynamics) solver for
+This project serves as part of my [BSc thesis](thesis.pdf) in Computer Science. It is a CFD (Computational Fluid Dynamics) solver for
 the 2D incompressible Navier-Stokes equations. The solver is based on the SIMPLE
 algorithm for pressure-velocity coupling, solved in an orthogonal cartesian colocated grid. The simulation library is written in
 C++, while the visualizations are written in Python.
