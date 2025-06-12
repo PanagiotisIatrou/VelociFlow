@@ -165,8 +165,8 @@ $$
 - Time schemes
     - Implicit Euler
 - Dye injection (for tracing the flow)
-- Ability for early stopping and restarting of the Incompressible Navier Stokes simulations
-- Residual types (by pressing `q`)
+- Ability for early stopping and restarting of the Incompressible Navier-Stokes simulations (by pressing `q`)
+- Residual types
     - Unscaled
     - Scaled
     - Normalized
